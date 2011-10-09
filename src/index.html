@@ -1,4 +1,34 @@
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.6.4.min.js'></script>
-<script type='text/javascript' src='mustache.js'></script>
-<script type='text/javascript' src='http://api.yeda.us/data/static/hasadna-api.js'></script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+    <link href="gov-watch.css" rel="stylesheet" type="text/css"></link>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.6.4.min.js'></script>
+    <script type='text/javascript' src='mustache.js'></script>
+    <script type='text/javascript' src='http://api.yeda.us/data/static/hasadna-api.js'></script>
+    <script type='text/javascript' src='gov-watch.js'></script>
 
+	<script type="text/html" name="item">
+{{#items}}
+<li class="item">
+  <span class="description">
+     <span class="chapter">{{chapter}}</span> &gt; <span class="title">{{title}}</span><br/>
+     <span class="subject">{{subject}}</span><br/>
+     <span class="result_metric">תוצאה רצויה: {{result_metric}}</span>
+  </span>
+  <span class="status">
+     <span class="schedule">לוז לביצוע: <b>{{schedule}}</b></span><br/>
+     <span class="recommendation">פעולות לביצוע: <b>{{recommendation}}</b></span></br>
+     <span class="execution_metric">תוצרים רצויים: <b>{{execution_metric}}</b></span>
+  </span>
+  <span class="interaction">
+  </span>
+</li>
+{{/items}}
+	</script>
+</head>
+<body>
+    <ul id='container'>
+    </ul>
+</body>
+</html>

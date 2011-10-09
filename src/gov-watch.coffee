@@ -1,8 +1,8 @@
 data_callback = (data) ->
-    template = $("script[name=item-template]").html()
-    html = Mustache.to_html(template, data)
+    template = $("script[name=item]").html()
+    html = Mustache.to_html(template, items: data)
     $("#container").html(html)
 
 $ -> 
-   bla
+   H.findRecords('data/gov/decisions/', data_callback)
    

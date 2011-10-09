@@ -1,0 +1,45 @@
+body {
+	direction: rtl;
+}
+
+#container {
+	list-style: none;
+}
+
+.item {
+	clear: both;
+    display: inline-block;
+    width:95%;
+    background:#f8f8f8;
+    margin:10px;
+    padding:10px;
+    border:solid 1px #f0f0f0;
+}
+
+.description {
+    float:right;
+    width:50%;
+}
+
+.chapter, .title {
+	font-size: 0.8em;
+}
+
+.subject {
+	font-size: 1.2em;
+	color:#006;
+}
+
+.result-metric {
+	font-style: italic;
+}
+
+.status {
+	float:left;
+	width:45%;
+}
+
+.interaction {
+	float:left;
+	width:45%;
+}
