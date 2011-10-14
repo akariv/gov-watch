@@ -10,25 +10,37 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<li class="item">
+<li class="item shown" rel="{{_srcslug}}">
   <span class="description">
      <span class="chapter">{{chapter}}</span> &gt; <span class="title">{{title}}</span><br/>
      <span class="subject">{{subject}}</span><br/>
-     <span class="result_metric">תוצאה רצויה: {{result_metric}}</span>
+     {{#result_metric}}
+        <span class="result_metric">תוצאה רצויה: {{result_metric}}</span>
+     {{/result_metric}}
   </span>
-  <span class="status">
-     <span class="schedule">לוז לביצוע: <b>{{schedule}}</b></span><br/>
-     <span class="recommendation">פעולות לביצוע: <b>{{recommendation}}</b></span></br>
-     <span class="execution_metric">תוצרים רצויים: <b>{{execution_metric}}</b></span>
+  <span class="status_interaction">
+     <span class="status">
+        <span class="schedule">לוז לביצוע: <b>{{schedule}}</b></span><br/>
+        <span class="recommendation">פעולות לביצוע: <b>{{recommendation}}</b></span></br>
+        <span class="execution_metric">תוצרים רצויים: <b>{{execution_metric}}</b></span>
+     </span>
+     <span class="interaction">
   </span>
-  <span class="interaction">
   </span>
 </li>
 {{/items}}
 	</script>
 </head>
 <body>
-    <ul id='container'>
-    </ul>
+    <span id='header'>
+        <img src='logo.png' width='100%'></img>
+    </span>
+    <span id='search'>
+        <input type='text' id="searchbox"></input>
+    </span>
+    <div id='container'>
+        <ul id='items'>
+        </ul>
+    </div>
 </body>
 </html>
