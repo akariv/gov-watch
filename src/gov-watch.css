@@ -29,7 +29,8 @@ body {
  */}
 
 #search {
-    height:15%;
+    height:auto;
+    padding-bottom:1em;
     width:70%;
     left:0;
     z-index:2;
@@ -41,12 +42,32 @@ body {
         margin-top:25px;
         margin-right:5%;
         padding:3px;
-        -webkit-border-radius: 7px;
-        -moz-border-radius: 7px;
-        border-radius: 7px;
+        -webkit-border-radius: 0.4em;
+        -moz-border-radius: 0.4em;
+        border-radius: 0.4em;
 		-webkit-box-shadow: inset 1px 1px 1px 1px rgba(128, 128, 128, 1);
 		-moz-box-shadow: inset 1px 1px 1px 1px rgba(128, 128, 128, 1);
 		box-shadow: inset 1px 1px 1px 1px rgba(128, 128, 128, 1);
+		text-indent:0.4em;
+    }
+    
+        #searchbox.watermark {
+            background:white url('data:image/png;base64,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') no-repeat right center;
+            background-size:30px 30px;
+ 	    color:#ccc;
+            font-style: italic;
+            text-indent:35px;
+        }
+
+    #filter {
+        margin-top:0.5em;
+        margin-right:5%;
+        display:block;
+        font-size:1.2em;
+    }
+
+    #filter select {
+        margin-left:2em;
     }
 
 #container {
@@ -77,37 +98,57 @@ body {
         display:inline-block;
      }
 
-	.description {
+	.righty {
 	    float:right;
 	    width:50%;
-	    height:100%;
 	}
 	
-		.chapter, .title {
+		.chapter, .title, .subject {
 			font-size: 0.8em;
 		}
 		
-		.subject {
+		.recommendation {
 			font-size: 1.2em;
+			font-weight:bold;
 			color:#006;
 		}
 		
-		.result-metric {
+		.result_metric {
 			font-style: italic;
 		}
-	
-	.status_interaction {
+
+           .result_metric-text {
+                font-weight: bold;
+                display:block;
+                padding-right:3em;
+                padding-bottom:0.4em;
+           }
+
+	    .interaction {
+	        display:block;
+	        width:100%;
+            padding-top: 1em;
+            margin-top: 2em;
+            border-top: solid 1px #ccc;
+	    }
+
+	.lefty {
         float:left;
         width:45%;
         padding-right: 5%;
         border-right: solid 1px #ccc;
 	}
-	
+		
 		.status {
 		}
-		
-		.interaction {
-		}
+
+	       .execution_metric-text,
+	       .schedule-text {
+	            font-weight: bold;
+                display:block;
+                padding-right:3em;
+                padding-bottom:0.4em;
+	       }
 	
 	.highlight {
 	   background-color: yellow;

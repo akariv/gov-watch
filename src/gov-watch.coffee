@@ -1,43 +1,149 @@
 loaded_data = null
+all_books = []
+all_chapters = {}
+
+selected_book = ""
+selected_chapter = ""
+
+update_history = ->
+    hash = "#{selected_book}//#{selected_chapter}"
+    window.location.hash = hash
+
+onhashchange = ->
+   hash = window.location.hash
+   hash = hash[1...hash.length]
+   splits = hash.split('//')
+   if splits.length == 2
+       [ selected_book, selected_chapter ] = splits
+       $("#books option[value='#{selected_book}']").attr('selected', 'selected')
+       
+       $("#chapters").html("<option value=''>כל הפרקים</option>")   
+       for chapter in all_chapters[selected_book]
+           $("#chapters").append("<option value='#{chapter}'>#{chapter}</option>")
+       $("#chapters option[value='#{selected_chapter}']").attr('selected', 'selected')
+       
+       do_search()
+   else
+       selected_book = ""
+       selected_chapter = ""
+       update_history()
+
+wm_shown = false
+show_watermark = (show) ->
+    if show
+       $("#searchbox").val("חיפוש חופשי בתוך ההמלצות")
+    else
+        if wm_shown
+            $("#searchbox").val("")
+    wm_shown = show
+    $("#searchbox").toggleClass('watermark',show)
+
 
 data_callback = (data) ->
-    loaded_data = data
-    template = $("script[name=item]").html()
-    html = Mustache.to_html(template, items: data)
-    $("#items").html(html)
-    $("#searchbox").keyup -> do_search()
+    get_slug = (x) -> parseInt(x._src.split('/')[3])
+    data = data.sort( (a,b) -> get_slug(a) - get_slug(b) )
 
+    loaded_data = data
+
+    all_books = {}
+    for rec in data
+        if not all_books[rec.book]
+            all_books[rec.book] = {}
+        all_books[rec.book][rec.chapter] = true
+    
+    all_chapters = {}
+    for book, chapters of all_books
+        all_chapters[book] = Object.keys(chapters)
+
+    all_books = Object.keys(all_books)
+
+    if localStorage
+        localStorage.data = JSON.stringify(data)
+        localStorage.all_books = JSON.stringify(all_books)
+        localStorage.all_chapter = JSON.stringify(all_chapters)
+
+    process_data()
+
+process_data = ->
+ 
+    $("#books").html("<option value=''>הכל</option>")   
+    for book in all_books
+        $("#books").append("<option value='#{book}'>#{book}</option>")
+    
+    template = $("script[name=item]").html()
+    html = Mustache.to_html(template, 
+                            items: loaded_data,
+                            none_val: -> 
+                                (text,render) ->
+                                    text = render(text)  
+                                    if text == ""
+                                        "אין"
+                                    else
+                                        text 
+                            )
+    $("#items").html(html)
+    show_watermark(true)        
+    $("#searchbox").keyup -> do_search()
+    $("#searchbox").focus ->
+        show_watermark(false)
+    $("#searchbox").blur ->
+        if $(this).val() == ""
+            show_watermark(true)
+    $("#books").change ->
+        selected_book = $("#books").val()
+        selected_chapter = ""
+        update_history()
+    $("#chapters").change ->
+        selected_chapter = $("#chapters").val()
+        update_history()
+
+    window.onhashchange = onhashchange
+    onhashchange()
+    
 do_search = ->
-    search_term = $("#searchbox").val()
+    if wm_shown
+        search_term = ""
+    else
+        search_term = $("#searchbox").val()
     re = RegExp(search_term,"ig")
     for rec in loaded_data
         slug = rec._srcslug
-        recm = rec.recommendation
-        subject = rec.subject
-
-        if search_term == ""
-            found_recm = false
-            found_subject = false
-        else
-            found_recm = recm.search(search_term) != -1
-            found_subject = subject.search(search_term) != -1
-
-        should_show = found_recm or found_subject or (search_term == "")
+        
+        should_show = search_term == ""
+        new_fields = {}
+        
+        for field in [ "recommendation", "subject", "result_metric", "title" ]
+            if search_term == ""
+                found = false
+            else
+                found = rec[field].search(search_term) != -1
+                new_fields[field] = rec[field].replace(search_term,"<span class='highlight'>#{search_term}</span>")
+                
+            should_show = should_show or found
+                    
+        should_show = should_show and ((selected_book == "") or (rec.book == selected_book)) and ((selected_chapter == "") or (rec.chapter == selected_chapter)) 
+                    
         $(".item[rel=#{slug}]").toggleClass("shown",should_show)
         
-        if found_recm
-            recm = recm.replace(search_term,"<span class='highlight'>#{search_term}</span>")
-        $(".item[rel=#{slug}] .recommendation").html(recm)
+        $(".item[rel=#{slug}] .recommendation-text").html(new_fields["recommendation"])
+        $(".item[rel=#{slug}] .subject").html(new_fields["subject"])
+        $(".item[rel=#{slug}] .result_metric-text").html(new_fields["result_metric-text"])
+        $(".item[rel=#{slug}] .title").html(new_fields["title"])
         
-        if found_subject
-            subject = subject.replace(search_term,"<span class='highlight'>#{search_term}</span>")
-        $(".item[rel=#{slug}] .subject").html(subject)
         
     window.setTimeout( -> 
                             $(".highlight").toggleClass('highlight-off',true)
                        10 )
 
 $ -> 
-   H.findRecords('data/gov/decisions/', data_callback)
-   
+   json_data = localStorage?.data
+   json_all_books = localStorage?.all_books
+   json_all_chapters = localStorage?.all_chapters
+   if json_data and json_all_books and json_all_chapters
+        loaded_data = JSON.parse(json_data)
+        all_books = JSON.parse(json_all_books)
+        all_chapters = JSON.parse(json_all_chapters)
+        process_data()
+   else
+        H.findRecords('data/gov/decisions/', data_callback)
         

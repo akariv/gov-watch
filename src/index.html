@@ -1,35 +1,47 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html manifest="gov-watch.appcache">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
     <link href="gov-watch.css" rel="stylesheet" type="text/css"></link>
-    <script type='text/javascript' src='http://code.jquery.com/jquery-1.6.4.min.js'></script>
+    <script type='text/javascript' src='jslib/jquery-1.6.4.min.js'></script>
     <script type='text/javascript' src='jslib/mustache.js'></script>
-    <script type='text/javascript' src='http://api.yeda.us/data/static/hasadna-api.js'></script>
+    <script type='text/javascript' src='jslib/hasadna-api.js'></script>
     <script type='text/javascript' src='gov-watch.js'></script>
 
 	<script type="text/html" name="item">
 {{#items}}
 <li class="item shown" rel="{{_srcslug}}">
-  <span class="description">
-     <span class="chapter">{{chapter}}</span> &gt; <span class="title">{{title}}</span><br/>
-     <span class="subject">{{subject}}</span><br/>
-     {{#result_metric}}
-        <span class="result_metric">תוצאה רצויה: {{result_metric}}</span>
-     {{/result_metric}}
-  </span>
-  <span class="status_interaction">
-     <span class="status">
-        <span class="schedule">לוז לביצוע: <b>{{schedule}}</b></span><br/>
-        <span class="recommendation">פעולות לביצוע: <b>{{recommendation}}</b></span></br>
-        <span class="execution_metric">תוצרים רצויים: <b>{{execution_metric}}</b></span>
-     </span>
+  <span class="righty">
+     <span class="chapter">{{chapter}}</span>
+     {{#title}}
+       &gt; <span class="title">{{title}}</span>
+     {{/title}}
+     {{#subject}}
+       &gt; <span class="subject">{{subject}}</span>
+     {{/subject}}
+     <br/>
+     <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
      <span class="interaction">
+        bla
+     </span>
   </span>
+  <span class="lefty">
+     <span class="status">
+        {{#result_metric}}
+           <span class="result_metric">מה המטרה? 
+                <span class="result_metric-text">
+                    {{result_metric}}
+                </span>
+           </span>
+        {{/result_metric}}
+        <span class="execution_metric">מה התוצרים? <span class="execution_metric-text">{{#none_val}}{{execution_metric}}{{/none_val}}</span></span>
+        <span class="schedule">מתי זה אמור להסתיים? <span class="schedule-text">{{schedule}}</span></span><br/>
+        <span class="current_status">מה קורה עם זה? <span class="current_status-text">{{current_status}}</span></span><br/>
+     </span>
   </span>
 </li>
 {{/items}}
-	</script>
+    </script>
 </head>
 <body>
     <span id='header'>
@@ -37,6 +49,10 @@
     </span>
     <span id='search'>
         <input type='text' id="searchbox"></input>
+        <span id="filter">
+        דו&quot;ח: <select id="books"></select>
+        פרק: <select id="chapters"></select>
+        </span>
     </span>
     <div id='container'>
         <ul id='items'>
