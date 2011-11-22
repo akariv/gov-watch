@@ -18,11 +18,15 @@
     if (splits.length === 2) {
       selected_book = splits[0], selected_chapter = splits[1];
       $("#books option[value='" + selected_book + "']").attr('selected', 'selected');
-      $("#chapters").html("<option value=''>כל הפרקים</option>");
-      _ref = all_chapters[selected_book];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        chapter = _ref[_i];
-        $("#chapters").append("<option value='" + chapter + "'>" + chapter + "</option>");
+      if (all_chapters[selected_book]) {
+        $("#chapters").html("<option value=''>כל הפרקים</option>");
+        _ref = all_chapters[selected_book];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          chapter = _ref[_i];
+          $("#chapters").append("<option value='" + chapter + "'>" + chapter + "</option>");
+        }
+      } else {
+        $("#chapters").html("<option value=''>-</option>");
       }
       $("#chapters option[value='" + selected_chapter + "']").attr('selected', 'selected');
       return do_search();
@@ -70,7 +74,7 @@
     if (localStorage) {
       localStorage.data = JSON.stringify(data);
       localStorage.all_books = JSON.stringify(all_books);
-      localStorage.all_chapter = JSON.stringify(all_chapters);
+      localStorage.all_chapters = JSON.stringify(all_chapters);
     }
     return process_data();
   };
@@ -148,7 +152,7 @@
       $(".item[rel=" + slug + "]").toggleClass("shown", should_show);
       $(".item[rel=" + slug + "] .recommendation-text").html(new_fields["recommendation"]);
       $(".item[rel=" + slug + "] .subject").html(new_fields["subject"]);
-      $(".item[rel=" + slug + "] .result_metric-text").html(new_fields["result_metric-text"]);
+      $(".item[rel=" + slug + "] .result_metric-text").html(new_fields["result_metric"]);
       $(".item[rel=" + slug + "] .title").html(new_fields["title"]);
     }
     return window.setTimeout(function() {

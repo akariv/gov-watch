@@ -17,9 +17,13 @@ onhashchange = ->
        [ selected_book, selected_chapter ] = splits
        $("#books option[value='#{selected_book}']").attr('selected', 'selected')
        
-       $("#chapters").html("<option value=''>כל הפרקים</option>")   
-       for chapter in all_chapters[selected_book]
-           $("#chapters").append("<option value='#{chapter}'>#{chapter}</option>")
+       if all_chapters[selected_book]   
+           $("#chapters").html("<option value=''>כל הפרקים</option>")
+           for chapter in all_chapters[selected_book]
+               $("#chapters").append("<option value='#{chapter}'>#{chapter}</option>")
+       else
+           $("#chapters").html("<option value=''>-</option>")
+
        $("#chapters option[value='#{selected_chapter}']").attr('selected', 'selected')
        
        do_search()
@@ -60,7 +64,7 @@ data_callback = (data) ->
     if localStorage
         localStorage.data = JSON.stringify(data)
         localStorage.all_books = JSON.stringify(all_books)
-        localStorage.all_chapter = JSON.stringify(all_chapters)
+        localStorage.all_chapters = JSON.stringify(all_chapters)
 
     process_data()
 
@@ -127,7 +131,7 @@ do_search = ->
         
         $(".item[rel=#{slug}] .recommendation-text").html(new_fields["recommendation"])
         $(".item[rel=#{slug}] .subject").html(new_fields["subject"])
-        $(".item[rel=#{slug}] .result_metric-text").html(new_fields["result_metric-text"])
+        $(".item[rel=#{slug}] .result_metric-text").html(new_fields["result_metric"])
         $(".item[rel=#{slug}] .title").html(new_fields["title"])
         
         

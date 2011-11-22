@@ -22,7 +22,7 @@
      <br/>
      <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
      <span class="interaction">
-        bla
+        [[ 1+ ]]&nbsp;&nbsp;[[ Like ]]&nbsp;&nbsp;<a href="#">דברו על זה</a>
      </span>
   </span>
   <span class="lefty">
@@ -35,8 +35,15 @@
            </span>
         {{/result_metric}}
         <span class="execution_metric">מה התוצרים? <span class="execution_metric-text">{{#none_val}}{{execution_metric}}{{/none_val}}</span></span>
+        {{#budget_costs}}
+           <span class="budget_costs">כמה זה יעלה לנו?<span class="budget_costs-text">{{budget_costs}}</span></span>
+        {{/budget_costs}}
         <span class="schedule">מתי זה אמור להסתיים? <span class="schedule-text">{{schedule}}</span></span><br/>
-        <span class="current_status">מה קורה עם זה? <span class="current_status-text">{{current_status}}</span></span><br/>
+        <span class="current_status">מה קורה עם זה? 
+		<span class="current_status-text">
+			{{current_status}}
+		</span>
+	</span>
      </span>
   </span>
 </li>
