@@ -16,8 +16,8 @@ onhashchange = ->
    if splits.length == 2
        [ selected_book, selected_chapter ] = splits
        $("#books option[value='#{selected_book}']").attr('selected', 'selected')
-       
-       if all_chapters[selected_book]   
+
+       if all_chapters[selected_book]
            $("#chapters").html("<option value=''>כל הפרקים</option>")
            for chapter in all_chapters[selected_book]
                $("#chapters").append("<option value='#{chapter}'>#{chapter}</option>")
@@ -25,7 +25,7 @@ onhashchange = ->
            $("#chapters").html("<option value=''>-</option>")
 
        $("#chapters option[value='#{selected_chapter}']").attr('selected', 'selected')
-       
+
        do_search()
    else
        selected_book = ""
@@ -54,7 +54,7 @@ data_callback = (data) ->
         if not all_books[rec.book]
             all_books[rec.book] = {}
         all_books[rec.book][rec.chapter] = true
-    
+
     all_chapters = {}
     for book, chapters of all_books
         all_chapters[book] = Object.keys(chapters)
@@ -69,24 +69,30 @@ data_callback = (data) ->
     process_data()
 
 process_data = ->
- 
-    $("#books").html("<option value=''>הכל</option>")   
+
+    $("#books").html("<option value=''>הכל</option>")
     for book in all_books
         $("#books").append("<option value='#{book}'>#{book}</option>")
-    
+
     template = $("script[name=item]").html()
-    html = Mustache.to_html(template, 
+    list_template = $("script[name=list").html()
+    html = Mustache.to_html(template,
                             items: loaded_data,
-                            none_val: -> 
+                            none_val: ->
                                 (text,render) ->
-                                    text = render(text)  
+                                    text = render(text)
                                     if text == ""
                                         "אין"
                                     else
-                                        text 
+                                        text
+                            semicolon_list: ->
+                                (text,render) ->
+                                    text = Mustache.to_html(list_template,items:text)
+                                    render(text)
+
                             )
     $("#items").html(html)
-    show_watermark(true)        
+    show_watermark(true)
     $("#searchbox").keyup -> do_search()
     $("#searchbox").focus ->
         show_watermark(false)
@@ -103,7 +109,7 @@ process_data = ->
 
     window.onhashchange = onhashchange
     onhashchange()
-    
+
 do_search = ->
     if wm_shown
         search_term = ""
@@ -112,34 +118,34 @@ do_search = ->
     re = RegExp(search_term,"ig")
     for rec in loaded_data
         slug = rec._srcslug
-        
+
         should_show = search_term == ""
         new_fields = {}
-        
+
         for field in [ "recommendation", "subject", "result_metric", "title" ]
             if search_term == ""
                 found = false
             else
                 found = rec[field].search(search_term) != -1
                 new_fields[field] = rec[field].replace(search_term,"<span class='highlight'>#{search_term}</span>")
-                
+
             should_show = should_show or found
-                    
-        should_show = should_show and ((selected_book == "") or (rec.book == selected_book)) and ((selected_chapter == "") or (rec.chapter == selected_chapter)) 
-                    
+
+        should_show = should_show and ((selected_book == "") or (rec.book == selected_book)) and ((selected_chapter == "") or (rec.chapter == selected_chapter))
+
         $(".item[rel=#{slug}]").toggleClass("shown",should_show)
-        
+
         $(".item[rel=#{slug}] .recommendation-text").html(new_fields["recommendation"])
         $(".item[rel=#{slug}] .subject").html(new_fields["subject"])
         $(".item[rel=#{slug}] .result_metric-text").html(new_fields["result_metric"])
         $(".item[rel=#{slug}] .title").html(new_fields["title"])
-        
-        
-    window.setTimeout( -> 
+
+
+    window.setTimeout( ->
                             $(".highlight").toggleClass('highlight-off',true)
                        10 )
 
-$ -> 
+$ ->
    json_data = localStorage?.data
    json_all_books = localStorage?.all_books
    json_all_chapters = localStorage?.all_chapters
@@ -150,4 +156,4 @@ $ ->
         process_data()
    else
         H.findRecords('data/gov/decisions/', data_callback)
-        
+
