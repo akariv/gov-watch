@@ -126,8 +126,12 @@ do_search = ->
             if search_term == ""
                 found = false
             else
-                found = rec[field].search(search_term) != -1
-                new_fields[field] = rec[field].replace(search_term,"<span class='highlight'>#{search_term}</span>")
+                if rec[field]
+                        found = rec[field].search(search_term) != -1
+                        new_fields[field] = rec[field].replace(search_term,"<span class='highlight'>#{search_term}</span>")
+                else
+                        found = false
+                        new_fields[field] = null
 
             should_show = should_show or found
 

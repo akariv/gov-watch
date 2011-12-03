@@ -79,13 +79,14 @@
     return process_data();
   };
   process_data = function() {
-    var book, html, template, _i, _len;
+    var book, html, list_template, template, _i, _len;
     $("#books").html("<option value=''>הכל</option>");
     for (_i = 0, _len = all_books.length; _i < _len; _i++) {
       book = all_books[_i];
       $("#books").append("<option value='" + book + "'>" + book + "</option>");
     }
     template = $("script[name=item]").html();
+    list_template = $("script[name=list").html();
     html = Mustache.to_html(template, {
       items: loaded_data,
       none_val: function() {
@@ -96,6 +97,14 @@
           } else {
             return text;
           }
+        };
+      },
+      semicolon_list: function() {
+        return function(text, render) {
+          text = Mustache.to_html(list_template, {
+            items: text
+          });
+          return render(text);
         };
       }
     });
@@ -143,8 +152,13 @@
         if (search_term === "") {
           found = false;
         } else {
-          found = rec[field].search(search_term) !== -1;
-          new_fields[field] = rec[field].replace(search_term, "<span class='highlight'>" + search_term + "</span>");
+          if (rec[field]) {
+            found = rec[field].search(search_term) !== -1;
+            new_fields[field] = rec[field].replace(search_term, "<span class='highlight'>" + search_term + "</span>");
+          } else {
+            found = false;
+            new_fields[field] = null;
+          }
         }
         should_show = should_show || found;
       }
