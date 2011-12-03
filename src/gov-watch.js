@@ -1,5 +1,5 @@
 (function() {
-  var all_books, all_chapters, data_callback, do_search, loaded_data, onhashchange, process_data, selected_book, selected_chapter, show_watermark, update_history, wm_shown;
+  var all_books, all_chapters, data_callback, do_search, loaded_data, onhashchange, process_data, selected_book, selected_chapter, show_watermark, update_history, version_callback, wm_shown;
   loaded_data = null;
   all_books = [];
   all_chapters = {};
@@ -173,18 +173,30 @@
       return $(".highlight").toggleClass('highlight-off', true);
     }, 10);
   };
+  version_callback = function(data) {
+    var current_version, _ref;
+    if (localStorage) {
+      current_version = (_ref = localStorage.version) != null ? _ref : null;
+      localStorage.version = data.update_date;
+      if (data.update_date !== current_version) {
+        return H.findRecords('data/gov/decisions/', data_callback);
+      }
+    }
+  };
   $(function() {
-    var json_all_books, json_all_chapters, json_data;
+    var json_all_books, json_all_chapters, json_data, json_version;
     json_data = typeof localStorage !== "undefined" && localStorage !== null ? localStorage.data : void 0;
     json_all_books = typeof localStorage !== "undefined" && localStorage !== null ? localStorage.all_books : void 0;
     json_all_chapters = typeof localStorage !== "undefined" && localStorage !== null ? localStorage.all_chapters : void 0;
-    if (json_data && json_all_books && json_all_chapters) {
+    json_version = typeof localStorage !== "undefined" && localStorage !== null ? localStorage.version : void 0;
+    if (json_data && json_all_books && json_all_chapters && json_version) {
       loaded_data = JSON.parse(json_data);
       all_books = JSON.parse(json_all_books);
       all_chapters = JSON.parse(json_all_chapters);
-      return process_data();
+      process_data();
     } else {
-      return H.findRecords('data/gov/decisions/', data_callback);
+      H.findRecords('data/gov/decisions/', data_callback);
     }
+    return H.getRecord('data/gov/decisions', version_callback);
   });
 }).call(this);

@@ -149,15 +149,24 @@ do_search = ->
                             $(".highlight").toggleClass('highlight-off',true)
                        10 )
 
+version_callback = (data) ->
+   if localStorage
+       current_version = localStorage.version ? null
+       localStorage.version = data.update_date
+       if data.update_date != current_version
+           H.findRecords('data/gov/decisions/', data_callback)
+
 $ ->
    json_data = localStorage?.data
    json_all_books = localStorage?.all_books
    json_all_chapters = localStorage?.all_chapters
-   if json_data and json_all_books and json_all_chapters
+   json_version = localStorage?.version
+   if json_data and json_all_books and json_all_chapters and json_version
         loaded_data = JSON.parse(json_data)
         all_books = JSON.parse(json_all_books)
         all_chapters = JSON.parse(json_all_chapters)
         process_data()
    else
         H.findRecords('data/gov/decisions/', data_callback)
+   H.getRecord('data/gov/decisions', version_callback)
 
