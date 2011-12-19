@@ -149,7 +149,7 @@
     };
     item_hoveron = function() {
       var disqus_params;
-      html = "<div id='disqus_threaddsad' style='height:300px'></div><a href='http://disqus.com' class='dsq-brlink'>blog comments powered by <span class='logo-disqus'>Disqus</span></a>";
+      html = "<div id='disqus_thread' style='height:300px'></div><a href='http://disqus.com' class='dsq-brlink'>blog comments powered by <span class='logo-disqus'>Disqus</span></a>";
       if (!window.DISQUS) {
         html += "<script type='text/javascript' async='true' src='http://govwatch.disqus.com/embed.js'/>";
       }
