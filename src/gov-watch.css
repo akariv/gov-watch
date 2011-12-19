@@ -74,14 +74,14 @@ body {
 	display:block;
     position:fixed;
     top:15%;
-    overflow: auto;
+    overflow-x: hidden;
     height:85%;
 }
 
 .item {
     clear: both;
     display: none;
-    width:95%;
+    width:145%;
     background:#f8f8f8;
     margin:10px;
     padding:10px;
@@ -92,11 +92,90 @@ body {
     -webkit-box-shadow: 0px 3px 5px 2px rgba(192, 192, 192, 0.5);
     -moz-box-shadow: 0px 3px 5px 2px rgba(192, 192, 192, 0.5);
     box-shadow: 0px 3px 5px 2px rgba(192, 192, 192, 0.5);
+    position:relative;
+    right:0;
+    transition: right 1s;
+    -webkit-transition: right 1s;
+    -moz-transition: right 1s;
 }
 
     .item.shown {
         display:inline-block;
      }
+
+    .item:hover {
+        right:-50%;
+        transition: right 1s;
+        -webkit-transition: right 1s;
+        -moz-transition: right 1s;
+    }
+
+    .buxa {
+        float:right;
+        width:33%;
+    }
+    
+    .buxa-header, .buxa-footer {
+        //float:right;
+        display:block;
+        clear:both;
+        padding-right:33%;
+        width:66%;
+        height:0px;
+        font-size: 1.2em;
+        font-weight:bold;
+        color:#006;
+        overflow-y:hidden;
+        overflow-x:auto;
+        opacity:0;
+        -moz-transition-property: height,opacity;
+        -webkit-transition-property: height,opacity;
+        transition-property: height,opacity;
+        -webkit-transition-duration: 1s;
+        -moz-transition-duration: 1s;
+        transition-duration: 1s;
+    }
+    
+        .item:hover .buxa-header,
+        .item:hover .buxa-footer {
+            opacity:1;
+            -moz-transition-property: height,opacity;
+            -webkit-transition-property: height,opacity;
+            transition-property: height,opacity;
+            -moz-transition-duration: 1s;
+            -webkit-transition-duration: 1s;
+            transition-duration: 1s;
+        } 
+
+        .item:hover .buxa-footer {
+            height:10em;
+        }
+
+        .item:hover .buxa-header {
+            height:3em;
+        }
+
+        .buxa.last {
+            opacity:0;
+            transition: opacity 1s;
+            -webkit-transition: opacity 1s;
+            -moz-transition: opacity 1s;
+        }
+
+        .item:hover .buxa {
+            opacity:1;
+            transition: opacity 1s;
+            -webkit-transition: opacity 1s;
+            -moz-transition: opacity 1s;
+        }
+
+        .item:hover .buxa.first {
+            opacity:0;
+            transition: opacity 1s;
+            -webkit-transition: opacity 1s;
+            -moz-transition: opacity 1s;
+        }
+        
 
 	.righty {
 	    float:right;
@@ -116,9 +195,9 @@ body {
 	    .interaction {
 	        display:block;
 	        width:100%;
-		padding-top: 1em;
-		margin-top: 2em;
-		border-top: solid 1px #ccc;
+			padding-top: 1em;
+			margin-top: 2em;
+			border-top: solid 1px #ccc;
 	    }
 
 	.lefty {
@@ -140,11 +219,12 @@ body {
 		.budget_cost-text,
 		.responsible_authority-text,
 		.challenges-text,
-		.schedule-text {
+		.schedule-text,
+		.current_status-text {
 	            font-weight: bold;
-                    display:block;
-                    padding-right:3em;
-                    padding-bottom:0.4em;
+                display:block;
+                padding-right:3em;
+                padding-bottom:0.4em;
 		}
 	       
 .highlight {
@@ -153,8 +233,7 @@ body {
 
 .highlight-off {
     background-color: transparent;
-    transition-property: background-color;
-    transition-timing: 3s;
-    -webkit-transition-property: background-color;
-    -webkit-transition-duration: 3s;
+    transition: background-color 3s;
+    -webkit-transition: background-color 3s;
+    -moz-transition: background-color 3s;
 }

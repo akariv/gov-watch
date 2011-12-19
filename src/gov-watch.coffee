@@ -42,13 +42,37 @@ show_watermark = (show) ->
     wm_shown = show
     $("#searchbox").toggleClass('watermark',show)
 
+gs_data_callback = (data) ->
+    entries = data.feed.entry
+    field_titles = {}
+    loaded_data=[]
+    for entry in entries
+        cell = entry.gs$cell
+        row = parseInt(cell.row)
+        col = parseInt(cell.col)
+        contents = cell.$t
+        if not contents
+            contents = ""
+        if row == 1
+            field_titles[col] = contents
+        else
+            idx = row-2
+            field = field_titles[col]
+            if col == 1
+                loaded_data[idx] = { '_srcslug':"#{row}"}
+            loaded_data[idx][field] = contents
 
-data_callback = (data) ->
+    data_callback(loaded_data)
+window.gs_data_callback = gs_data_callback
+
+h_data_callback = (data) ->
     get_slug = (x) -> parseInt(x._src.split('/')[3])
     data = data.sort( (a,b) -> get_slug(a) - get_slug(b) )
 
     loaded_data = data
+    data_callback(loaded_data)
 
+data_callback = (data) ->
     all_books = {}
     for rec in data
         if not all_books[rec.book]
@@ -75,7 +99,7 @@ process_data = ->
         $("#books").append("<option value='#{book}'>#{book}</option>")
 
     template = $("script[name=item]").html()
-    list_template = $("script[name=list").html()
+    list_template = $("script[name=list]").html()
     html = Mustache.to_html(template,
                             items: loaded_data,
                             none_val: ->
@@ -87,13 +111,34 @@ process_data = ->
                                         text
                             semicolon_list: ->
                                 (text,render) ->
-                                    text = Mustache.to_html(list_template,items:text)
-                                    render(text)
+                                    text = render(text)
+                                    text = text.split('; ')
+                                    text = Mustache.to_html(list_template,"items":text)
 
                             )
     $("#items").html(html)
+    item_hoveroff = () ->
+                      $(this).find(".buxa-footer").html("")
+    item_hoveron = () ->
+                      html = "<div id='disqus_threaddsad' style='height:300px'></div><a href='http://disqus.com' class='dsq-brlink'>blog comments powered by <span class='logo-disqus'>Disqus</span></a>"
+                      if not window.DISQUS
+                            html += "<script type='text/javascript' async='true' src='http://govwatch.disqus.com/embed.js'/>"
+                      window.disqus_identifier = 'recommendation'+$(this).attr('rel')
+                      window.disqus_title = $(this).attr('title')
+                      window.disqus_url = "http://gov-watch.org.il/#!"+window.disqus_identifier
+                      $(this).find(".buxa-footer").html(html)
+                      disqus_params = 
+                            reload: true
+                            config: () ->  
+                               @page.identifier = window.disqus_identifier
+                               @page.title = window.disqus_title
+                               @page.url = window.disqus_url
+                      if window.DISQUS
+                            window.DISQUS.reset( disqus_params ) 
+    $(".item").hover( item_hoveron, item_hoveroff )
+    
     show_watermark(true)
-    $("#searchbox").keyup -> do_search()
+    $("#searchbox").change -> do_search()
     $("#searchbox").focus ->
         show_watermark(false)
     $("#searchbox").blur ->
@@ -166,7 +211,11 @@ $ ->
         all_books = JSON.parse(json_all_books)
         all_chapters = JSON.parse(json_all_chapters)
         process_data()
-   else
-        H.findRecords('data/gov/decisions/', data_callback)
-   H.getRecord('data/gov/decisions', version_callback)
+#   H.getRecord('data/gov/decisions', version_callback)
+   $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script",gs_data_callback,"jsonp");
+#   $.get("/Users/adam/workspace/gov-watch/src/values.json",gs_data_callback,"jsonp");
+
+   window.disqus_shortname = 'govwatch';
+   window.disqus_url = 'gov-watch.org.il'
+   window.disqus_developer = 1
 

@@ -1,5 +1,5 @@
 (function() {
-  var all_books, all_chapters, data_callback, do_search, loaded_data, onhashchange, process_data, selected_book, selected_chapter, show_watermark, update_history, version_callback, wm_shown;
+  var all_books, all_chapters, data_callback, do_search, gs_data_callback, h_data_callback, loaded_data, onhashchange, process_data, selected_book, selected_chapter, show_watermark, update_history, version_callback, wm_shown;
   loaded_data = null;
   all_books = [];
   all_chapters = {};
@@ -48,8 +48,38 @@
     wm_shown = show;
     return $("#searchbox").toggleClass('watermark', show);
   };
-  data_callback = function(data) {
-    var book, chapters, get_slug, rec, _i, _len;
+  gs_data_callback = function(data) {
+    var cell, col, contents, entries, entry, field, field_titles, idx, row, _i, _len;
+    entries = data.feed.entry;
+    field_titles = {};
+    loaded_data = [];
+    for (_i = 0, _len = entries.length; _i < _len; _i++) {
+      entry = entries[_i];
+      cell = entry.gs$cell;
+      row = parseInt(cell.row);
+      col = parseInt(cell.col);
+      contents = cell.$t;
+      if (!contents) {
+        contents = "";
+      }
+      if (row === 1) {
+        field_titles[col] = contents;
+      } else {
+        idx = row - 2;
+        field = field_titles[col];
+        if (col === 1) {
+          loaded_data[idx] = {
+            '_srcslug': "" + row
+          };
+        }
+        loaded_data[idx][field] = contents;
+      }
+    }
+    return data_callback(loaded_data);
+  };
+  window.gs_data_callback = gs_data_callback;
+  h_data_callback = function(data) {
+    var get_slug;
     get_slug = function(x) {
       return parseInt(x._src.split('/')[3]);
     };
@@ -57,6 +87,10 @@
       return get_slug(a) - get_slug(b);
     });
     loaded_data = data;
+    return data_callback(loaded_data);
+  };
+  data_callback = function(data) {
+    var book, chapters, rec, _i, _len;
     all_books = {};
     for (_i = 0, _len = data.length; _i < _len; _i++) {
       rec = data[_i];
@@ -79,14 +113,14 @@
     return process_data();
   };
   process_data = function() {
-    var book, html, list_template, template, _i, _len;
+    var book, html, item_hoveroff, item_hoveron, list_template, template, _i, _len;
     $("#books").html("<option value=''>הכל</option>");
     for (_i = 0, _len = all_books.length; _i < _len; _i++) {
       book = all_books[_i];
       $("#books").append("<option value='" + book + "'>" + book + "</option>");
     }
     template = $("script[name=item]").html();
-    list_template = $("script[name=list").html();
+    list_template = $("script[name=list]").html();
     html = Mustache.to_html(template, {
       items: loaded_data,
       none_val: function() {
@@ -101,16 +135,43 @@
       },
       semicolon_list: function() {
         return function(text, render) {
-          text = Mustache.to_html(list_template, {
-            items: text
+          text = render(text);
+          text = text.split('; ');
+          return text = Mustache.to_html(list_template, {
+            "items": text
           });
-          return render(text);
         };
       }
     });
     $("#items").html(html);
+    item_hoveroff = function() {
+      return $(this).find(".buxa-footer").html("");
+    };
+    item_hoveron = function() {
+      var disqus_params;
+      html = "<div id='disqus_threaddsad' style='height:300px'></div><a href='http://disqus.com' class='dsq-brlink'>blog comments powered by <span class='logo-disqus'>Disqus</span></a>";
+      if (!window.DISQUS) {
+        html += "<script type='text/javascript' async='true' src='http://govwatch.disqus.com/embed.js'/>";
+      }
+      window.disqus_identifier = 'recommendation' + $(this).attr('rel');
+      window.disqus_title = $(this).attr('title');
+      window.disqus_url = "http://gov-watch.org.il/#!" + window.disqus_identifier;
+      $(this).find(".buxa-footer").html(html);
+      disqus_params = {
+        reload: true,
+        config: function() {
+          this.page.identifier = window.disqus_identifier;
+          this.page.title = window.disqus_title;
+          return this.page.url = window.disqus_url;
+        }
+      };
+      if (window.DISQUS) {
+        return window.DISQUS.reset(disqus_params);
+      }
+    };
+    $(".item").hover(item_hoveron, item_hoveroff);
     show_watermark(true);
-    $("#searchbox").keyup(function() {
+    $("#searchbox").change(function() {
       return do_search();
     });
     $("#searchbox").focus(function() {
@@ -194,9 +255,10 @@
       all_books = JSON.parse(json_all_books);
       all_chapters = JSON.parse(json_all_chapters);
       process_data();
-    } else {
-      H.findRecords('data/gov/decisions/', data_callback);
     }
-    return H.getRecord('data/gov/decisions', version_callback);
+    $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script", gs_data_callback, "jsonp");
+    window.disqus_shortname = 'govwatch';
+    window.disqus_url = 'gov-watch.org.il';
+    return window.disqus_developer = 1;
   });
 }).call(this);
