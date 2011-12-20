@@ -150,7 +150,7 @@
     item_hoveron = function(item) {
       var disqus_params;
       window.disqus_identifier = 'recommendation' + item.attr('rel');
-      window.disqus_url = "http://gov-watch.org.il/#!" + window.disqus_identifier;
+      window.disqus_url = "http://watch.yeda.us/#!" + window.disqus_identifier;
       item.find(".buxa-footer").append($("#disqus").detach());
       disqus_params = {
         reload: true,
@@ -253,9 +253,6 @@
     }
   };
   $(function() {
-    $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script", gs_data_callback, "jsonp");
-    window.disqus_shortname = 'govwatch';
-    window.disqus_url = 'gov-watch.org.il';
-    return window.disqus_developer = 1;
+    return $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script", gs_data_callback, "jsonp");
   });
 }).call(this);
