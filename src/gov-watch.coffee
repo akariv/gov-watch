@@ -122,6 +122,7 @@ process_data = ->
                       item.find(".buxa-footer").html("")
     item_hoveron = (item) ->
                       window.disqus_identifier = 'recommendation'+item.attr('rel')
+                      window.disqus_title = item.attr('title')
                       window.disqus_url = "http://watch.yeda.us/#!"+window.disqus_identifier
                       item.find(".buxa-footer").append( $("#disqus").detach() )
                       disqus_params = 
