@@ -144,19 +144,14 @@
       }
     });
     $("#items").html(html);
-    item_hoveroff = function() {
-      return $(this).find(".buxa-footer").html("");
+    item_hoveroff = function(item) {
+      return item.find(".buxa-footer").html("");
     };
-    item_hoveron = function() {
+    item_hoveron = function(item) {
       var disqus_params;
-      html = "<div id='disqus_thread' style='height:300px'></div><a href='http://disqus.com' class='dsq-brlink'>blog comments powered by <span class='logo-disqus'>Disqus</span></a>";
-      if (!window.DISQUS) {
-        html += "<script type='text/javascript' async='true' src='http://govwatch.disqus.com/embed.js'/>";
-      }
-      window.disqus_identifier = 'recommendation' + $(this).attr('rel');
-      window.disqus_title = $(this).attr('title');
+      window.disqus_identifier = 'recommendation' + item.attr('rel');
       window.disqus_url = "http://gov-watch.org.il/#!" + window.disqus_identifier;
-      $(this).find(".buxa-footer").html(html);
+      item.find(".buxa-footer").append($("#disqus").detach());
       disqus_params = {
         reload: true,
         config: function() {
@@ -165,11 +160,24 @@
           return this.page.url = window.disqus_url;
         }
       };
-      if (window.DISQUS) {
-        return window.DISQUS.reset(disqus_params);
-      }
+      return window.DISQUS.reset(disqus_params);
     };
-    $(".item").hover(item_hoveron, item_hoveroff);
+    $(".hover-toggle").click(function() {
+      var e;
+      e = $(this).parents(".item").first();
+      if (e.hasClass('hover')) {
+        window.setTimeout(function() {
+          return item_hoveroff(e);
+        }, 1000);
+        return e.removeClass('hover');
+      } else {
+        window.setTimeout(function() {
+          return item_hoveron(e);
+        }, 1000);
+        $(".item.hover").toggleClass('hover', false);
+        return e.addClass('hover');
+      }
+    });
     show_watermark(true);
     $("#searchbox").change(function() {
       return do_search();
@@ -245,17 +253,6 @@
     }
   };
   $(function() {
-    var json_all_books, json_all_chapters, json_data, json_version;
-    json_data = typeof localStorage !== "undefined" && localStorage !== null ? localStorage.data : void 0;
-    json_all_books = typeof localStorage !== "undefined" && localStorage !== null ? localStorage.all_books : void 0;
-    json_all_chapters = typeof localStorage !== "undefined" && localStorage !== null ? localStorage.all_chapters : void 0;
-    json_version = typeof localStorage !== "undefined" && localStorage !== null ? localStorage.version : void 0;
-    if (json_data && json_all_books && json_all_chapters && json_version) {
-      loaded_data = JSON.parse(json_data);
-      all_books = JSON.parse(json_all_books);
-      all_chapters = JSON.parse(json_all_chapters);
-      process_data();
-    }
     $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script", gs_data_callback, "jsonp");
     window.disqus_shortname = 'govwatch';
     window.disqus_url = 'gov-watch.org.il';

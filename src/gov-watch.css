@@ -103,7 +103,7 @@ body {
         display:inline-block;
      }
 
-    .item:hover {
+    .item.hover {
         right:-50%;
         transition: right 1s;
         -webkit-transition: right 1s;
@@ -136,8 +136,8 @@ body {
         transition-duration: 1s;
     }
     
-        .item:hover .buxa-header,
-        .item:hover .buxa-footer {
+        .item.hover .buxa-header,
+        .item.hover .buxa-footer {
             opacity:1;
             -moz-transition-property: height,opacity;
             -webkit-transition-property: height,opacity;
@@ -147,11 +147,11 @@ body {
             transition-duration: 1s;
         } 
 
-        .item:hover .buxa-footer {
+        .item.hover .buxa-footer {
             height:10em;
         }
 
-        .item:hover .buxa-header {
+        .item.hover .buxa-header {
             height:3em;
         }
 
@@ -162,14 +162,14 @@ body {
             -moz-transition: opacity 1s;
         }
 
-        .item:hover .buxa {
+        .item.hover .buxa {
             opacity:1;
             transition: opacity 1s;
             -webkit-transition: opacity 1s;
             -moz-transition: opacity 1s;
         }
 
-        .item:hover .buxa.first {
+        .item.hover .buxa.first {
             opacity:0;
             transition: opacity 1s;
             -webkit-transition: opacity 1s;

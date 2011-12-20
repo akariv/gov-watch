@@ -117,26 +117,36 @@ process_data = ->
 
                             )
     $("#items").html(html)
-    item_hoveroff = () ->
-                      $(this).find(".buxa-footer").html("")
-    item_hoveron = () ->
-                      html = "<div id='disqus_thread' style='height:300px'></div><a href='http://disqus.com' class='dsq-brlink'>blog comments powered by <span class='logo-disqus'>Disqus</span></a>"
-                      if not window.DISQUS
-                            html += "<script type='text/javascript' async='true' src='http://govwatch.disqus.com/embed.js'/>"
-                      window.disqus_identifier = 'recommendation'+$(this).attr('rel')
-                      window.disqus_title = $(this).attr('title')
+    
+    item_hoveroff = (item) ->
+                      item.find(".buxa-footer").html("")
+    item_hoveron = (item) ->
+                      window.disqus_identifier = 'recommendation'+item.attr('rel')
                       window.disqus_url = "http://gov-watch.org.il/#!"+window.disqus_identifier
-                      $(this).find(".buxa-footer").html(html)
+                      item.find(".buxa-footer").append( $("#disqus").detach() )
                       disqus_params = 
                             reload: true
                             config: () ->  
                                @page.identifier = window.disqus_identifier
                                @page.title = window.disqus_title
                                @page.url = window.disqus_url
-                      if window.DISQUS
-                            window.DISQUS.reset( disqus_params ) 
-    $(".item").hover( item_hoveron, item_hoveroff )
-    
+                      window.DISQUS.reset( disqus_params )
+    $(".hover-toggle").click(
+                        ->
+                           e = $(this).parents(".item").first()
+                           if e.hasClass('hover')
+                             window.setTimeout( () -> item_hoveroff(e)
+                                                , 
+                                                1000 )
+                             e.removeClass('hover')
+                           else
+                             window.setTimeout( () -> item_hoveron(e)
+                                                , 
+                                                1000 )
+                             $(".item.hover").toggleClass('hover',false)
+                             e.addClass('hover')
+                        )
+                                
     show_watermark(true)
     $("#searchbox").change -> do_search()
     $("#searchbox").focus ->
@@ -202,19 +212,7 @@ version_callback = (data) ->
            H.findRecords('data/gov/decisions/', data_callback)
 
 $ ->
-   json_data = localStorage?.data
-   json_all_books = localStorage?.all_books
-   json_all_chapters = localStorage?.all_chapters
-   json_version = localStorage?.version
-   if json_data and json_all_books and json_all_chapters and json_version
-        loaded_data = JSON.parse(json_data)
-        all_books = JSON.parse(json_all_books)
-        all_chapters = JSON.parse(json_all_chapters)
-        process_data()
-#   H.getRecord('data/gov/decisions', version_callback)
    $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script",gs_data_callback,"jsonp");
-#   $.get("/Users/adam/workspace/gov-watch/src/values.json",gs_data_callback,"jsonp");
-
    window.disqus_shortname = 'govwatch';
    window.disqus_url = 'gov-watch.org.il'
    window.disqus_developer = 1
