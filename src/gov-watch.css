@@ -148,7 +148,8 @@ body {
         } 
 
         .item.hover .buxa-footer {
-            height:10em;
+            height:500px;
+            overflow-y:scroll;
         }
 
         .item.hover .buxa-header {
