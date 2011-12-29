@@ -162,7 +162,7 @@
           return this.page.url = window.disqus_url;
         }
       };
-      return window.setTimer(1000, function() {
+      return window.setTimeout(1000, function() {
         return window.DISQUS.reset(disqus_params);
       });
     };

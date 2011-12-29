@@ -132,7 +132,7 @@ process_data = ->
                                @page.identifier = window.disqus_identifier
                                @page.title = window.disqus_title
                                @page.url = window.disqus_url
-                      window.setTimer(1000, () -> window.DISQUS.reset( disqus_params ) )
+                      window.setTimeout(1000, () -> window.DISQUS.reset( disqus_params ) )
     $(".hover-toggle").click(
                         ->
                            e = $(this).parents(".item").first()
