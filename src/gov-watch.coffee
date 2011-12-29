@@ -132,20 +132,20 @@ process_data = ->
                                @page.identifier = window.disqus_identifier
                                @page.title = window.disqus_title
                                @page.url = window.disqus_url
-                      window.setTimeout(1000, () -> window.DISQUS.reset( disqus_params ) )
+                      window.DISQUS.reset( disqus_params )
     $(".hover-toggle").click(
                         ->
                            e = $(this).parents(".item").first()
                            if e.hasClass('hover')
                              window.setTimeout( () -> item_hoveroff(e)
                                                 ,
-                                                1000 )
+                                                2000 )
                              e.removeClass('hover')
                            else
                              window.setTimeout( () -> item_hoveron(e)
                                                 ,
-                                                1000 )
-                             $(".item.hover").toggleClass('hover',false)
+                                                2000 )
+                             $(".item.hover").removeClass('hover')
                              e.addClass('hover')
                         )
 

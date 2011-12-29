@@ -162,9 +162,7 @@
           return this.page.url = window.disqus_url;
         }
       };
-      return window.setTimeout(1000, function() {
-        return window.DISQUS.reset(disqus_params);
-      });
+      return window.DISQUS.reset(disqus_params);
     };
     $(".hover-toggle").click(function() {
       var e;
@@ -172,13 +170,13 @@
       if (e.hasClass('hover')) {
         window.setTimeout(function() {
           return item_hoveroff(e);
-        }, 1000);
+        }, 2000);
         return e.removeClass('hover');
       } else {
         window.setTimeout(function() {
           return item_hoveron(e);
-        }, 1000);
-        $(".item.hover").toggleClass('hover', false);
+        }, 2000);
+        $(".item.hover").removeClass('hover');
         return e.addClass('hover');
       }
     });
