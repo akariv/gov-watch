@@ -117,37 +117,38 @@ process_data = ->
 
                             )
     $("#items").html(html)
-    
+
     item_hoveroff = (item) ->
+                      $("#disqus_store").append( $("#disqus").detach() )
                       item.find(".buxa-footer").html("")
     item_hoveron = (item) ->
                       window.disqus_identifier = 'recommendation'+item.attr('rel')
                       window.disqus_title = item.attr('title')
                       window.disqus_url = "http://watch.yeda.us/#!"+window.disqus_identifier
                       item.find(".buxa-footer").append( $("#disqus").detach() )
-                      disqus_params = 
+                      disqus_params =
                             reload: true
-                            config: () ->  
+                            config: () ->
                                @page.identifier = window.disqus_identifier
                                @page.title = window.disqus_title
                                @page.url = window.disqus_url
-                      window.DISQUS.reset( disqus_params )
+                      window.setTimer(1000, () -> window.DISQUS.reset( disqus_params ) )
     $(".hover-toggle").click(
                         ->
                            e = $(this).parents(".item").first()
                            if e.hasClass('hover')
                              window.setTimeout( () -> item_hoveroff(e)
-                                                , 
+                                                ,
                                                 1000 )
                              e.removeClass('hover')
                            else
                              window.setTimeout( () -> item_hoveron(e)
-                                                , 
+                                                ,
                                                 1000 )
                              $(".item.hover").toggleClass('hover',false)
                              e.addClass('hover')
                         )
-                                
+
     show_watermark(true)
     $("#searchbox").change -> do_search()
     $("#searchbox").focus ->
@@ -214,4 +215,4 @@ version_callback = (data) ->
 
 $ ->
    $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script",gs_data_callback,"jsonp");
-   
+

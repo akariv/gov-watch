@@ -145,6 +145,7 @@
     });
     $("#items").html(html);
     item_hoveroff = function(item) {
+      $("#disqus_store").append($("#disqus").detach());
       return item.find(".buxa-footer").html("");
     };
     item_hoveron = function(item) {
@@ -161,7 +162,9 @@
           return this.page.url = window.disqus_url;
         }
       };
-      return window.DISQUS.reset(disqus_params);
+      return window.setTimer(1000, function() {
+        return window.DISQUS.reset(disqus_params);
+      });
     };
     $(".hover-toggle").click(function() {
       var e;
