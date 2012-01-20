@@ -5,7 +5,8 @@
     <link href="gov-watch.css" rel="stylesheet" type="text/css"></link>
     <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
     <script type='text/javascript' src='jslib/mustache.js'></script>
-    <script type='text/javascript' src='jslib/hasadna-api.js'></script>
+    <script type='text/javascript' src='jslib/jquery.isotope.min.js'></script>
+    <!--script type='text/javascript' src='jslib/hasadna-api.js'></script-->
     <script type='text/javascript' src='gov-watch.js'></script>
 
     <script type="text/html" name="list">
@@ -16,99 +17,76 @@
     </ul>
     </script>
 
-    <script type="text/html" name="discussion">
-<div id="disqus_thread"></div>
-    </script>
-
-	<script type="text/html" name="item">
+    <script type="text/html" name="item">
 {{#items}}
-<li class="item shown" rel="{{_srcslug}}" title="{{recommendation}}">
-   <p class="buxa-header">
-     {{recommendation}}
-     &nbsp;<a class="hover-toggle" href="#">סגור</a>
-   </p>
-   <div style="clear:both;"></div>
-   <span class="buxa first">
-     <span class="chapter">{{chapter}}</span>
-     {{#title}}
-       &gt; <span class="title">{{title}}</span>
-     {{/title}}
-     {{#subject}}
-       &gt; <span class="subject">{{subject}}</span>
-     {{/subject}}
-     <br/>
-     <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
-     <span class="interaction">
-        <a class="hover-toggle" href="#">עוד...</a>
+<div class="item" rel="{{_srcslug}}" title="{{recommendation}}">
+  <span class="chapter">{{chapter}}</span>
+  {{#title}}
+  &gt; <span class="title">{{title}}</span>
+  {{/title}}
+  {{#subject}}
+  &gt; <span class="subject">{{subject}}</span>
+  {{/subject}}
+  <br/>
+  <span class="recommendation">
+    <span class="recommendation-text">{{recommendation}}</span>
+  </span>
+  {{#result_metric}}
+     <span class="result_metric">מה המטרה? 
+       <span class="result_metric-text">
+         {{result_metric}}
+       </span>
      </span>
+  {{/result_metric}}
+  <span class="execution_metric">מה התוצרים?
+    <span class="execution_metric-text">{{#none_val}}{{execution_metric}}{{/none_val}}</span>
   </span>
-  <span class="buxa">
-     <span class="status">
-        {{#result_metric}}
-           <span class="result_metric">מה המטרה? 
-                <span class="result_metric-text">
-                    {{result_metric}}
-                </span>
-           </span>
-        {{/result_metric}}
-        <span class="execution_metric">מה התוצרים? <span class="execution_metric-text">{{#none_val}}{{execution_metric}}{{/none_val}}</span></span>
-        <span class="schedule">מתי זה אמור להסתיים? <span class="schedule-text">{{schedule}}</span></span><br/>
-        <span class="current_status">מה קורה עם זה עכשיו? 
-            <span class="current_status-text">
-                 {{#gov_current_status}}מטעם הממשלה: {{gov_current_status}}<br/>{{/gov_current_status}}
-                 {{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}
-            </span>
-        </span>
-     </span>
+  <span class="schedule">מתי זה אמור להסתיים?
+    <span class="schedule-text">{{schedule}}</span>
   </span>
-  <span class="buxa last">
-        {{#budget_cost}}
-           <span class="budget_cost">כמה זה יעלה לנו?<span class="budget_cost-text">{{budget_cost}}</span></span>
-        {{/budget_cost}}
-        {{#responsible_authority}}
-           <span class="responsible_authority">מי אחראי על היישום?<span class="responsible_authority-text">{{responsible_authority}}</span></span>
-        {{/responsible_authority}}
-        {{#challenges}}
-           <span class="challenges">מה האתגרים בדרך?<span class="challenges-text">{{#semicolon_list}}{{challenges}}{{/semicolon_list}}</span></span>
-        {{/challenges}}
+  <br/>
+  <span class="current_status">מה קורה עם זה עכשיו? 
+    <span class="current_status-text">
+      {{#gov_current_status}}מטעם הממשלה: {{gov_current_status}}<br/>{{/gov_current_status}}
+      {{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}
+    </span>
   </span>
-  <span class="buxa-footer"></span>
-</li>
+  {{#budget_cost}}
+  <span class="budget_cost">כמה זה יעלה לנו?
+    <span class="budget_cost-text">{{budget_cost}}</span>
+  </span>
+  {{/budget_cost}}
+  {{#responsible_authority}}
+  <span class="responsible_authority">מי אחראי על היישום?
+    <span class="responsible_authority-text">{{responsible_authority}}</span>
+  </span>
+  {{/responsible_authority}}
+  {{#challenges}}
+  <span class="challenges">מה האתגרים בדרך?
+    <span class="challenges-text">{{#semicolon_list}}{{challenges}}{{/semicolon_list}}</span>
+  </span>
+  {{/challenges}}
+</div>
 {{/items}}
     </script>
 </head>
 <body>
     <span id='header'>
-        <img src='logo.png' width='100%'></img>
-    </span>
-    <span id='search'>
-        <input type='text' id="searchbox"></input>
-        <span id="filter">
-        דו&quot;ח: <select id="books"></select>
-        פרק: <select id="chapters"></select>
-        </span>        
+        <div id='logo'>
+          <img src='logo.png' width='100%'></img>
+	</div>
+	<div id='search'>
+          <input type='text' id="searchbox"></input>
+          <span id="filter">
+            דו&quot;ח: <select id="books"></select>
+            פרק: <select id="chapters"></select>
+          </span>
+	</div>
     </span>
     
     <div id='container'>
         <ul id='items'>
         </ul>
     </div>
-<div id="disqus_store" style="display:none">
-<div id="disqus">
-<div id="disqus_thread"></div>
-</div>
-</div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'govwatch'; // required: replace example with your forum shortname
-    var disqus_identifier = 'dummy1';
-    var disqus_url = 'http://watch.yeda.us/';
-    
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script></body>
+</body>
 </html>

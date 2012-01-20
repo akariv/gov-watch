@@ -65,13 +65,6 @@ gs_data_callback = (data) ->
     data_callback(loaded_data)
 window.gs_data_callback = gs_data_callback
 
-h_data_callback = (data) ->
-    get_slug = (x) -> parseInt(x._src.split('/')[3])
-    data = data.sort( (a,b) -> get_slug(a) - get_slug(b) )
-
-    loaded_data = data
-    data_callback(loaded_data)
-
 data_callback = (data) ->
     all_books = {}
     for rec in data
@@ -117,37 +110,10 @@ process_data = ->
 
                             )
     $("#items").html(html)
-
-    item_hoveroff = (item) ->
-                      $("#disqus_store").append( $("#disqus").detach() )
-                      item.find(".buxa-footer").html("")
-    item_hoveron = (item) ->
-                      window.disqus_identifier = 'recommendation'+item.attr('rel')
-                      window.disqus_title = item.attr('title')
-                      window.disqus_url = "http://watch.yeda.us/#!"+window.disqus_identifier
-                      item.find(".buxa-footer").append( $("#disqus").detach() )
-                      disqus_params =
-                            reload: true
-                            config: () ->
-                               @page.identifier = window.disqus_identifier
-                               @page.title = window.disqus_title
-                               @page.url = window.disqus_url
-                      window.DISQUS.reset( disqus_params )
-    $(".hover-toggle").click(
-                        ->
-                           e = $(this).parents(".item").first()
-                           if e.hasClass('hover')
-                             window.setTimeout( () -> item_hoveroff(e)
-                                                ,
-                                                2000 )
-                             e.removeClass('hover')
-                           else
-                             window.setTimeout( () -> item_hoveron(e)
-                                                ,
-                                                2000 )
-                             $(".item.hover").removeClass('hover')
-                             e.addClass('hover')
-                        )
+    $('#items').isotope(
+          itemSelector : '.item'
+          layoutMode : 'fitRows'
+    );
 
     show_watermark(true)
     $("#searchbox").change -> do_search()
@@ -201,17 +167,11 @@ do_search = ->
         $(".item[rel=#{slug}] .result_metric-text").html(new_fields["result_metric"])
         $(".item[rel=#{slug}] .title").html(new_fields["title"])
 
+    $("#items").isotope({filter: ".shown"});
 
     window.setTimeout( ->
                             $(".highlight").toggleClass('highlight-off',true)
                        10 )
-
-version_callback = (data) ->
-   if localStorage
-       current_version = localStorage.version ? null
-       localStorage.version = data.update_date
-       if data.update_date != current_version
-           H.findRecords('data/gov/decisions/', data_callback)
 
 $ ->
    $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script",gs_data_callback,"jsonp");
