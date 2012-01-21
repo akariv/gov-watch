@@ -126,11 +126,15 @@ body {
 
 #container {
     width:100%;
+    margin:0;
+    padding:0;
 }
 
 .item {
-    width:150px;
-    height:200px;
+    width:300px;
+    height:400px;
+    margin-right:10px;
+    margin-bottom:10px;
     border:1px solid black;
     overflow-y:hidden;
 }

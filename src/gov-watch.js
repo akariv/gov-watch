@@ -174,7 +174,7 @@
       slug = rec._srcslug;
       should_show = search_term === "";
       new_fields = {};
-      _ref = ["recommendation", "subject", "result_metric", "title"];
+      _ref = ["recommendation", "subject", "result_metric", "title", "execution_metric", "chapter", "responsible_authority"];
       for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
         field = _ref[_j];
         if (search_term === "") {
@@ -192,7 +192,10 @@
       }
       should_show = should_show && ((selected_book === "") || (rec.book === selected_book)) && ((selected_chapter === "") || (rec.chapter === selected_chapter));
       $(".item[rel=" + slug + "]").toggleClass("shown", should_show);
+      $(".item[rel=" + slug + "] .chapter").html(new_fields["chapter"]);
       $(".item[rel=" + slug + "] .recommendation-text").html(new_fields["recommendation"]);
+      $(".item[rel=" + slug + "] .execution_metric-text").html(new_fields["execution_metric"]);
+      $(".item[rel=" + slug + "] .responsible_authority-text").html(new_fields["responsible_authority"]);
       $(".item[rel=" + slug + "] .subject").html(new_fields["subject"]);
       $(".item[rel=" + slug + "] .result_metric-text").html(new_fields["result_metric"]);
       $(".item[rel=" + slug + "] .title").html(new_fields["title"]);
