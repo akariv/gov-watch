@@ -6,7 +6,8 @@ body{direction:rtl;}
 #search input{width:170px;}
 #search select{width:180px;}
 .item{width:300px;padding:19px;margin:5px;border:1px solid #dddddd;}
-.breadcrumb{border:0;border-bottom:1px solid #dddddd;background:none;padding:0 0 10px;border-radius:0;line-height:1.5em;}.breadcrumb li a{padding:5px 0 5px 15px;}
+.breadcrumb{border:0;border-bottom:1px solid #dddddd;background:none;padding:0 0 10px;border-radius:0;line-height:1.5em;}.breadcrumb li:after{content:"\2190";margin-right:0px;}
+.breadcrumb li a{padding:5px 0 5px 5px;}
 .status .schedule,.status .updated{width:140px;padding:5px;float:right;}
 .status .schedule{border-left:1px solid #dddddd;width:139px;}
 .status .current_status{clear:both;}
