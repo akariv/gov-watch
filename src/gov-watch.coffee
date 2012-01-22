@@ -110,9 +110,12 @@ process_data = ->
 
                             )
     $("#items").html(html)
+    # modify Isotope's absolute position method
+    $.Isotope.prototype._positionAbs = ( x, y ) -> { right: x, top: y }
     $('#items').isotope(
           itemSelector : '.item'
-          layoutMode : 'fitRows'
+          layoutMode : 'masonry'
+          transformsEnabled: false
     );
 
     show_watermark(true)

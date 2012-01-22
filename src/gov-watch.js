@@ -133,9 +133,16 @@
       }
     });
     $("#items").html(html);
+    $.Isotope.prototype._positionAbs = function(x, y) {
+      return {
+        right: x,
+        top: y
+      };
+    };
     $('#items').isotope({
       itemSelector: '.item',
-      layoutMode: 'fitRows'
+      layoutMode: 'masonry',
+      transformsEnabled: false
     });
     show_watermark(true);
     $("#searchbox").change(function() {
