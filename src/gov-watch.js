@@ -1,5 +1,5 @@
 (function() {
-  var all_books, all_chapters, data_callback, do_search, gs_data_callback, h_data_callback, loaded_data, onhashchange, process_data, selected_book, selected_chapter, show_watermark, update_history, version_callback, wm_shown;
+  var all_books, all_chapters, data_callback, do_search, gs_data_callback, loaded_data, onhashchange, process_data, selected_book, selected_chapter, show_watermark, update_history, wm_shown;
   loaded_data = null;
   all_books = [];
   all_chapters = {};
@@ -78,17 +78,6 @@
     return data_callback(loaded_data);
   };
   window.gs_data_callback = gs_data_callback;
-  h_data_callback = function(data) {
-    var get_slug;
-    get_slug = function(x) {
-      return parseInt(x._src.split('/')[3]);
-    };
-    data = data.sort(function(a, b) {
-      return get_slug(a) - get_slug(b);
-    });
-    loaded_data = data;
-    return data_callback(loaded_data);
-  };
   data_callback = function(data) {
     var book, chapters, rec, _i, _len;
     all_books = {};
@@ -113,7 +102,7 @@
     return process_data();
   };
   process_data = function() {
-    var book, html, item_hoveroff, item_hoveron, list_template, template, _i, _len;
+    var book, html, list_template, template, _i, _len;
     $("#books").html("<option value=''>הכל</option>");
     for (_i = 0, _len = all_books.length; _i < _len; _i++) {
       book = all_books[_i];
@@ -144,41 +133,9 @@
       }
     });
     $("#items").html(html);
-    item_hoveroff = function(item) {
-      $("#disqus_store").append($("#disqus").detach());
-      return item.find(".buxa-footer").html("");
-    };
-    item_hoveron = function(item) {
-      var disqus_params;
-      window.disqus_identifier = 'recommendation' + item.attr('rel');
-      window.disqus_title = item.attr('title');
-      window.disqus_url = "http://watch.yeda.us/#!" + window.disqus_identifier;
-      item.find(".buxa-footer").append($("#disqus").detach());
-      disqus_params = {
-        reload: true,
-        config: function() {
-          this.page.identifier = window.disqus_identifier;
-          this.page.title = window.disqus_title;
-          return this.page.url = window.disqus_url;
-        }
-      };
-      return window.DISQUS.reset(disqus_params);
-    };
-    $(".hover-toggle").click(function() {
-      var e;
-      e = $(this).parents(".item").first();
-      if (e.hasClass('hover')) {
-        window.setTimeout(function() {
-          return item_hoveroff(e);
-        }, 2000);
-        return e.removeClass('hover');
-      } else {
-        window.setTimeout(function() {
-          return item_hoveron(e);
-        }, 2000);
-        $(".item.hover").removeClass('hover');
-        return e.addClass('hover');
-      }
+    $('#items').isotope({
+      itemSelector: '.item',
+      layoutMode: 'masonry'
     });
     show_watermark(true);
     $("#searchbox").change(function() {
@@ -217,7 +174,7 @@
       slug = rec._srcslug;
       should_show = search_term === "";
       new_fields = {};
-      _ref = ["recommendation", "subject", "result_metric", "title"];
+      _ref = ["recommendation", "subject", "result_metric", "title", "execution_metric", "chapter", "responsible_authority"];
       for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
         field = _ref[_j];
         if (search_term === "") {
@@ -235,24 +192,20 @@
       }
       should_show = should_show && ((selected_book === "") || (rec.book === selected_book)) && ((selected_chapter === "") || (rec.chapter === selected_chapter));
       $(".item[rel=" + slug + "]").toggleClass("shown", should_show);
+      $(".item[rel=" + slug + "] .chapter").html(new_fields["chapter"]);
       $(".item[rel=" + slug + "] .recommendation-text").html(new_fields["recommendation"]);
+      $(".item[rel=" + slug + "] .execution_metric-text").html(new_fields["execution_metric"]);
+      $(".item[rel=" + slug + "] .responsible_authority-text").html(new_fields["responsible_authority"]);
       $(".item[rel=" + slug + "] .subject").html(new_fields["subject"]);
       $(".item[rel=" + slug + "] .result_metric-text").html(new_fields["result_metric"]);
       $(".item[rel=" + slug + "] .title").html(new_fields["title"]);
     }
+    $("#items").isotope({
+      filter: ".shown"
+    });
     return window.setTimeout(function() {
       return $(".highlight").toggleClass('highlight-off', true);
     }, 10);
-  };
-  version_callback = function(data) {
-    var current_version, _ref;
-    if (localStorage) {
-      current_version = (_ref = localStorage.version) != null ? _ref : null;
-      localStorage.version = data.update_date;
-      if (data.update_date !== current_version) {
-        return H.findRecords('data/gov/decisions/', data_callback);
-      }
-    }
   };
   $(function() {
     return $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script", gs_data_callback, "jsonp");
