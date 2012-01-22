@@ -180,5 +180,12 @@ do_search = ->
                        10 )
 
 $ ->
-   $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script",gs_data_callback,"jsonp");
+   try
+        loaded_data = JSON.parse(localStorage.data)
+        all_books = JSON.parse(localStorage.all_books)
+        all_chapters = JSON.parse(localStorage.all_chapters)
+        process_data()
+   catch error
+        alert(error)
+        $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script",gs_data_callback,"jsonp");
 
