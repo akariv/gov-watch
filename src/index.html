@@ -38,12 +38,12 @@
 <div class="item span6- shown" rel="{{_srcslug}}" title="{{recommendation}}">
     
     <ul class="breadcrumb">
-      <li class="chapter"><a href="#">{{chapter}}</a></li>
+      <li class="chapter"><a href="#">{{chapter}}</a> <span>&larr;</span></li>
       {{#title}}
-      <li class="title"><a href="#">{{title}}</a></li>
+      <li class="title"><a href="#">{{title}}</a> <span>&larr;</span></li>
       {{/title}}
       {{#subject}}
-      <li class="subject"><a href="#">{{subject}}</a></li>
+      <li class="subject"><a href="#">{{subject}}</a> <span>&larr;</span></li>
       {{/subject}}
     </ul>
     
@@ -89,18 +89,18 @@
      </div>
   </div>
   
-  <span class="buxa last">
+  <div class="buxa last">
         {{#budget_cost}}
-           <span class="budget_cost">כמה זה יעלה לנו?<span class="budget_cost-text">{{budget_cost}}</span></span>
+           <div class="budget_cost"><strong>עלות:</strong> <span class="budget_cost-text">{{budget_cost}}</span></div>
         {{/budget_cost}}
         {{#responsible_authority}}
-           <span class="responsible_authority">מי אחראי על היישום?<span class="responsible_authority-text">{{responsible_authority}}</span></span>
+           <div class="responsible_authority"><strong>אחראי:</strong> <span class="responsible_authority-text">{{responsible_authority}}</span></div>
         {{/responsible_authority}}
         {{#challenges}}
-           <span class="challenges">מה האתגרים בדרך?<span class="challenges-text">{{#semicolon_list}}{{challenges}}{{/semicolon_list}}</span></span>
+           <div class="challenges"><strong>אתגרים:</strong> <span class="challenges-text">{{#semicolon_list}}{{challenges}}{{/semicolon_list}}</span></div>
         {{/challenges}}
-  </span>
-  <span class="buxa-footer"></span>
+  </div>
+  <div class="buxa-footer"></div>
 </div>
 {{/items}}
     </script>
@@ -133,13 +133,9 @@
 						<input id="searchbox" class="xlarge" type="text" size="30" name="xlInput">
 					</div>
 					<div id="filters">
-						<div class="clearfix">
-							<select id="books" name="normalSelect"></select>
-						</div>
-						<div class="clearfix">
-							<select id="chapters" name="normalSelect"></select>
-						</div>
-			         </div>
+						<select id="books" name="normalSelect"></select>
+						<select id="chapters" name="normalSelect"></select>
+			        </div>
 				</fieldset>
 			</form>
           <h5>סרגל צד</h5>
@@ -156,8 +152,8 @@
       
         <!-- Main hero unit for a primary marketing message or call to action -->
         <div class="hero-unit">
-          <h1>המפקח</h1>
-          <h2>דו"ח טרכטנברכ</h2>
+          <h2><a href="#">המפקח</a>	&larr;</h2>
+          <h1>דו"ח טרכטנברג</h1>
           <p>מעקב וביקורת אחרי ישום המלצות דו"ח שטרכטנברג בשיתוף המשרד לשיתוף הציבור, הסדנא לידע ציבורי והתאחדות הסטודנטים הארצית</p>
           <p><a class="btn primary large">למדו עוד &raquo;</a></p>
         </div>

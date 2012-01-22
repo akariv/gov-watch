@@ -36,7 +36,13 @@ body {
       width: 170px;
     }
     select{
-      width: 180px;
+      width: 85px;
+      float: right; 
+      margin-left: 10px;
+      
+      &:last-child{
+        margin-left:0;
+      }
     }
   }
 
@@ -59,21 +65,19 @@ body {
     line-height: 1.5em;
     
     li{
-      
-      &:after {
-        content: "\2190";
-        margin-right:0px;
-      }
-
     
       a{
-        padding: 5px 0 5px 5px;
+        padding: 5px 0;
       }
     }
     
   }
   
   .status{
+    
+    border:1px solid @lightgray;
+    border-width: 1px 0;
+    margin: 5px 0;
     
     .schedule, .updated{
       width: @itemwidth/2-10px;
@@ -87,6 +91,8 @@ body {
     }
     
     .current_status{
+      border-top:1px solid @lightgray;
+      padding: 5px 0;
       clear:both;
     }
   }

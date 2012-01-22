@@ -4,13 +4,12 @@ body{direction:rtl;}
 .container-fluid>.sidebar{position:fixed;top:60px;}
 #search legend{padding-left:0;}
 #search input{width:170px;}
-#search select{width:180px;}
+#search select{width:85px;float:right;margin-left:10px;}#search select:last-child{margin-left:0;}
 .item{width:300px;padding:19px;margin:5px;border:1px solid #dddddd;}
-.breadcrumb{border:0;border-bottom:1px solid #dddddd;background:none;padding:0 0 10px;border-radius:0;line-height:1.5em;}.breadcrumb li:after{content:"\2190";margin-right:0px;}
-.breadcrumb li a{padding:5px 0 5px 5px;}
-.status .schedule,.status .updated{width:140px;padding:5px;float:right;}
+.breadcrumb{border:0;border-bottom:1px solid #dddddd;background:none;padding:0 0 10px;border-radius:0;line-height:1.5em;}.breadcrumb li a{padding:5px 0;}
+.status{border:1px solid #dddddd;border-width:1px 0;margin:5px 0;}.status .schedule,.status .updated{width:140px;padding:5px;float:right;}
 .status .schedule{border-left:1px solid #dddddd;width:139px;}
-.status .current_status{clear:both;}
+.status .current_status{border-top:1px solid #dddddd;padding:5px 0;clear:both;}
 .isotope-item{z-index:2;}
 .isotope-hidden.isotope-item{pointer-events:none;z-index:1;}
 .isotope,.isotope .isotope-item{-webkit-transition-duration:0.8s;-moz-transition-duration:0.8s;-o-transition-duration:0.8s;transition-duration:0.8s;}
