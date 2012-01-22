@@ -1,5 +1,8 @@
 /**** Vars ****/
+@gray: #bbb;
 @lightgray: #ddd;
+@background: #f5f5f5;
+@lightshade: #efefef;
 @itemwidth: 300px;
 
 
@@ -7,6 +10,15 @@
 
 body {
 	direction: rtl;
+	background: @background; 
+}
+
+.container-fluid{
+  min-width:570px;
+}
+
+.hero-unit, .well{
+  background: @lightshade;
 }
 
 .highlight {
@@ -20,7 +32,7 @@ body {
     -moz-transition: background-color 3s;
 }
 
-/**** Item ****/
+/**** Sidebar ****/
 .container-fluid > .sidebar{
   position: fixed;
   top: 60px;
@@ -52,8 +64,10 @@ body {
 .item{
   width: @itemwidth;
   padding: 19px;
-  margin: 5px;
+  margin: 0 0 20px 20px;
   border: 1px solid @lightgray;
+  background: #ffffff;
+  box-shadow: 0px 5px 5px rgba(50, 50, 50, 0.10);
 }
 
   .breadcrumb{

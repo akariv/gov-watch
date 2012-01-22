@@ -1,11 +1,13 @@
-body{direction:rtl;}
+body{direction:rtl;background:#f5f5f5;}
+.container-fluid{min-width:570px;}
+.hero-unit,.well{background:#efefef;}
 .highlight{background-color:yellow;}
 .highlight-off{background-color:transparent;transition:background-color 3s;-webkit-transition:background-color 3s;-moz-transition:background-color 3s;}
 .container-fluid>.sidebar{position:fixed;top:60px;}
 #search legend{padding-left:0;}
 #search input{width:170px;}
 #search select{width:85px;float:right;margin-left:10px;}#search select:last-child{margin-left:0;}
-.item{width:300px;padding:19px;margin:5px;border:1px solid #dddddd;}
+.item{width:300px;padding:19px;margin:0 0 20px 20px;border:1px solid #dddddd;background:#ffffff;box-shadow:0px 5px 5px rgba(50, 50, 50, 0.1);}
 .breadcrumb{border:0;border-bottom:1px solid #dddddd;background:none;padding:0 0 10px;border-radius:0;line-height:1.5em;}.breadcrumb li a{padding:5px 0;}
 .status{border:1px solid #dddddd;border-width:1px 0;margin:5px 0;}.status .schedule,.status .updated{width:140px;padding:5px;float:right;}
 .status .schedule{border-left:1px solid #dddddd;width:139px;}
