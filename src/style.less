@@ -1,5 +1,6 @@
 /**** Vars ****/
-
+@lightgray: #ddd;
+@itemwidth: 300px;
 
 
 /**** Basic Styles ****/
@@ -19,22 +20,69 @@ body {
     -moz-transition: background-color 3s;
 }
 
+/**** Item ****/
+.container-fluid > .sidebar{
+  position: fixed;
+  top: 60px;
+}
+
+  #search{
+    
+    legend{
+      padding-left:0;
+    }
+    
+    input{
+      width: 170px;
+    }
+    select{
+      width: 180px;
+    }
+  }
+
 
 /**** Item ****/
 
 .item{
-  width: 300px;
+  width: @itemwidth;
   padding: 19px;
   margin: 5px;
-  border: 1px solid #eee;
+  border: 1px solid @lightgray;
 }
 
   .breadcrumb{
+    border: 0;
+    border-bottom: 1px solid @lightgray;
+    background: none;
+    padding: 0 0 10px;
+    border-radius:0;
+    line-height: 1.5em;
     
     li{
-      margin-left: 10px;
+    
+      a{
+        padding: 5px 0 5px 15px;
+      }
     }
     
+  }
+  
+  .status{
+    
+    .schedule, .updated{
+      width: @itemwidth/2-10px;
+      padding: 5px;
+      float: right;
+    }
+    
+    .schedule{
+      border-left: 1px solid @lightgray;
+      width: @itemwidth/2-11px;
+    }
+    
+    .current_status{
+      clear:both;
+    }
   }
 
 /**** Isotope Filtering ****/

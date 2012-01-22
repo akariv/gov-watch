@@ -36,6 +36,7 @@
 	<script type="text/html" name="item">
 {{#items}}
 <div class="item span6- shown" rel="{{_srcslug}}" title="{{recommendation}}">
+    
     <ul class="breadcrumb">
       <li class="chapter"><a href="#">{{chapter}}</a></li>
       {{#title}}
@@ -45,11 +46,11 @@
       <li class="subject"><a href="#">{{subject}}</a></li>
       {{/subject}}
     </ul>
+    
     <h2 class="buxa-header">
       {{recommendation}}
       &nbsp;<a class="hover-toggle" href="#">סגור</a>
     </h2>
-   <div style="clear:both;"></div>
   <!--
   <div class="buxa first">
     <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
@@ -58,8 +59,23 @@
     </span>
   </div>
   -->
-  <div class="buxa">
-     <div class="status">
+	<div class="buxa">
+		<div class="status">
+	        <div class="schedule">
+	        	<h5>מתי זה אמור להסתיים?</h5>
+				<span class="schedule-text">{{schedule}}</span>
+			</div>
+	        <div class="updated">
+	        	<h5>עדכון אחרון</h5>
+				<span class="schedule-text">{{updated}}</span>
+			</div>
+	        <div class="current_status">
+	        	<h5>מה קורה עם זה עכשיו?</h5> 
+	            <div class="current_status-text">
+	              <div class="current_status-gov">{{#gov_current_status}}מטעם הממשלה: {{gov_current_status}}{{/gov_current_status}}</div>
+	              <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
+	            </div>
+	        </div>
 <!--
         {{#result_metric}}
            <div class="result_metric">מה המטרה? 
@@ -70,16 +86,9 @@
         {{/result_metric}}
         <div class="execution_metric">מה התוצרים? <span class="execution_metric-text">{{#none_val}}{{execution_metric}}{{/none_val}}</span></div>
 -->
-        <div class="schedule">
-          מתי זה אמור להסתיים? <span class="schedule-text">{{schedule}}</span></div>
-        <div class="current_status">מה קורה עם זה עכשיו? 
-            <div class="current_status-text">
-              <div class="current_status-gov">{{#gov_current_status}}מטעם הממשלה: {{gov_current_status}}{{/gov_current_status}}</div>
-              <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
-            </div>
-        </div>
      </div>
   </div>
+  
   <span class="buxa last">
         {{#budget_cost}}
            <span class="budget_cost">כמה זה יעלה לנו?<span class="budget_cost-text">{{budget_cost}}</span></span>
@@ -114,16 +123,25 @@
     </div>
     
     
-        <div class="container-fluid">
+    <div class="container-fluid">
       <div class="sidebar">
         <div class="well">
-          <div id='search'>
-            <input type='text' id="searchbox"></input>
-            <span id="filter">
-          דו&quot;ח: <select id="books"></select> 
-        פרק: <select id="chapters"></select>  
-            </span>        
-          </div>
+        	<form>
+        		<fieldset id='search'>
+        			<legend>חפשו בדו"ח:</legend>
+        			<div class="clearfix">
+						<input id="searchbox" class="xlarge" type="text" size="30" name="xlInput">
+					</div>
+					<div id="filters">
+						<div class="clearfix">
+							<select id="books" name="normalSelect"></select>
+						</div>
+						<div class="clearfix">
+							<select id="chapters" name="normalSelect"></select>
+						</div>
+			         </div>
+				</fieldset>
+			</form>
           <h5>סרגל צד</h5>
           <ul>
             <li><a href="#">לינק</a></li>
