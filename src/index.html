@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he-IL">
   <head>
     <meta charset="utf-8">
-    <title>בוטסטראפ, מאת טוויטר</title>
+    <title>דו"ח טרכטנברג | המפקח: מעקב אחר ישום המלצות הועדה</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -40,44 +40,50 @@
 	<script type="text/html" name="item">
 {{#items}}
 <div class="item span6- shown" rel="{{_srcslug}}" title="{{recommendation}}">
-   <h2 class="buxa-header">
-     {{recommendation}}
-     &nbsp;<a class="hover-toggle" href="#">סגור</a>
-   </h2>
+    <ul class="breadcrumb">
+      <li class="chapter"><a href="#">{{chapter}}</a></li>
+      {{#title}}
+      <li class="title"><a href="#">{{title}}</a></li>
+      {{/title}}
+      {{#subject}}
+      <li class="subject"><a href="#">{{subject}}</a></li>
+      {{/subject}}
+    </ul>
+    <h2 class="buxa-header">
+      {{recommendation}}
+      &nbsp;<a class="hover-toggle" href="#">סגור</a>
+    </h2>
    <div style="clear:both;"></div>
-   <span class="buxa first">
-     <span class="chapter">{{chapter}}</span>
-     {{#title}}
-       &gt; <span class="title">{{title}}</span>
-     {{/title}}
-     {{#subject}}
-       &gt; <span class="subject">{{subject}}</span>
-     {{/subject}}
-     <br/>
-     <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
-     <span class="interaction">
-        <a class="hover-toggle" href="#">עוד...</a>
-     </span>
-  </span>
-  <span class="buxa">
-     <span class="status">
+  <!--
+  <div class="buxa first">
+    <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
+    <span class="interaction">
+       <a class="hover-toggle" href="#">עוד...</a>
+    </span>
+  </div>
+  -->
+  <div class="buxa">
+     <div class="status">
+<!--
         {{#result_metric}}
-           <span class="result_metric">מה המטרה? 
+           <div class="result_metric">מה המטרה? 
                 <span class="result_metric-text">
                     {{result_metric}}
                 </span>
-           </span>
+           </div>
         {{/result_metric}}
-        <span class="execution_metric">מה התוצרים? <span class="execution_metric-text">{{#none_val}}{{execution_metric}}{{/none_val}}</span></span>
-        <span class="schedule">מתי זה אמור להסתיים? <span class="schedule-text">{{schedule}}</span></span><br/>
-        <span class="current_status">מה קורה עם זה עכשיו? 
-            <span class="current_status-text">
-                 {{#gov_current_status}}מטעם הממשלה: {{gov_current_status}}<br/>{{/gov_current_status}}
-                 {{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}
-            </span>
-        </span>
-     </span>
-  </span>
+        <div class="execution_metric">מה התוצרים? <span class="execution_metric-text">{{#none_val}}{{execution_metric}}{{/none_val}}</span></div>
+-->
+        <div class="schedule">
+          מתי זה אמור להסתיים? <span class="schedule-text">{{schedule}}</span></div>
+        <div class="current_status">מה קורה עם זה עכשיו? 
+            <div class="current_status-text">
+              <div class="current_status-gov">{{#gov_current_status}}מטעם הממשלה: {{gov_current_status}}{{/gov_current_status}}</div>
+              <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
+            </div>
+        </div>
+     </div>
+  </div>
   <span class="buxa last">
         {{#budget_cost}}
            <span class="budget_cost">כמה זה יעלה לנו?<span class="budget_cost-text">{{budget_cost}}</span></span>
