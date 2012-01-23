@@ -6,12 +6,29 @@
 @itemwidth: 290px;
 @itempadding: 15px;
 
+@linkMuted: @gray;
+
+/**** Fonts ****/
+@font-face {
+    font-family: 'MiriamGRegular';
+    src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot');
+    src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.woff') format('woff'),
+         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.ttf') format('truetype'),
+         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svgz#MiriamGRegular') format('svg'),
+         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svg#MiriamGRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 
 /**** Basic Styles ****/
 
 body {
 	direction: rtl;
 	background: @background; 
+	padding-top:60px;
 }
 
 .container-fluid{
@@ -73,7 +90,7 @@ body {
 .item{
   width: @itemwidth;
   padding: @itempadding - 1px;
-  margin: 0 0 10px;
+  margin: 0 0 20px;
   border: 1px solid @lightgray;
   background: #ffffff;
   box-shadow: 0px 5px 5px rgba(50, 50, 50, 0.10);
@@ -81,19 +98,39 @@ body {
 
   .breadcrumb{
     border: 0;
-    border-bottom: 1px solid @lightgray;
+    //border-bottom: 1px solid @lightgray;
     background: none;
-    padding: 0 0 10px;
+    padding: 0;
     border-radius:0;
     line-height: 1.5em;
+    margin-bottom:0;
     
     li{
     
       a{
         padding: 5px 0;
+        color: @linkMuted;
       }
     }
     
+    &:hover li a{
+      color: @linkColor;
+    }
+    
+  }
+  
+// Test Fonts:
+  h2{
+    font-family: "PauzaBook",Arial,Sans;
+    //font-family: "PauzaLi",Arial,Sans;
+    //font-family: "PauszaML",Arial,Sans;
+    //font-family: 'MiriamGRegular',Arial,Sans;
+    font-weight:400;
+    font-size:28px;
+  }
+  
+  h2 a.hover-toggle{
+    display: none;
   }
   
   .status{
