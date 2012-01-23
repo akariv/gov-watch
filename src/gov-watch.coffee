@@ -116,6 +116,10 @@ process_data = ->
           itemSelector : '.item'
           layoutMode : 'masonry'
           transformsEnabled: false
+          getSortData :
+            chapter :  ( e ) -> e.find('.chapter-text').text()
+            recommendation :  ( e ) -> e.find('.recommendation-text').text()
+            budget :  ( e ) -> e.find('.budget_cost-text').text()
     );
 
     show_watermark(true)
@@ -132,6 +136,10 @@ process_data = ->
     $("#chapters").change ->
         selected_chapter = $("#chapters").val()
         update_history()
+    $("#sort").change ->
+        sort_measure = $("#sort").val()
+        $("#items").isotope({ sortBy: sort_measure })
+    $("#searchbar").submit -> false
 
     window.onhashchange = onhashchange
     onhashchange()
@@ -165,13 +173,13 @@ do_search = ->
 
         $(".item[rel=#{slug}]").toggleClass("shown",should_show)
 
-        $(".item[rel=#{slug}] .chapter").html(new_fields["chapter"])
+        $(".item[rel=#{slug}] .chapter-text").html(new_fields["chapter"])
         $(".item[rel=#{slug}] .recommendation-text").html(new_fields["recommendation"])
         $(".item[rel=#{slug}] .execution_metric-text").html(new_fields["execution_metric"])
         $(".item[rel=#{slug}] .responsible_authority-text").html(new_fields["responsible_authority"])
-        $(".item[rel=#{slug}] .subject").html(new_fields["subject"])
+        $(".item[rel=#{slug}] .subject-text").html(new_fields["subject"])
         $(".item[rel=#{slug}] .result_metric-text").html(new_fields["result_metric"])
-        $(".item[rel=#{slug}] .title").html(new_fields["title"])
+        $(".item[rel=#{slug}] .title-text").html(new_fields["title"])
 
     $("#items").isotope({filter: ".shown"});
 
