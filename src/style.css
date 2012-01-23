@@ -1,4 +1,4 @@
-body{direction:rtl;background:#f5f5f5;}
+@font-face{font-family:'MiriamGRegular';src:url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot');src:url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot?#iefix') format('embedded-opentype'),url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.woff') format('woff'),url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.ttf') format('truetype'),url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svgz#MiriamGRegular') format('svg'),url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svg#MiriamGRegular') format('svg');font-weight:normal;font-style:normal;}body{direction:rtl;background:#f5f5f5;}
 .container-fluid{min-width:570px;}
 .hero-unit,.well{background:#efefef;}
 .highlight{background-color:yellow;}
@@ -11,6 +11,7 @@ body{direction:rtl;background:#f5f5f5;}
 .row{margin-right:-10px;}
 .item{width:290px;padding:14px;margin:0 0 10px;border:1px solid #dddddd;background:#ffffff;box-shadow:0px 5px 5px rgba(50, 50, 50, 0.1);}
 .breadcrumb{border:0;border-bottom:1px solid #dddddd;background:none;padding:0 0 10px;border-radius:0;line-height:1.5em;}.breadcrumb li a{padding:5px 0;}
+h2{font-family:"PauzaBook",Arial,Sans;font-weight:400;font-size:28px;}
 .status{border:1px solid #dddddd;border-width:1px 0;margin:5px 0;}.status .schedule,.status .updated{width:130px;padding:5px;float:right;}
 .status .schedule{border-left:1px solid #dddddd;width:128px;}
 .status .current_status{border-top:1px solid #dddddd;padding:5px 0;clear:both;}

@@ -10,20 +10,17 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <!-- Le styles -->
-    <link href="bootstrap.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-      }
-    </style>
+    
+    <!-- JS -->
     <script type='text/javascript' src='jslib/jquery.min.js'></script>
     <script type='text/javascript' src='jslib/mustache.js'></script>
     <!--script type='text/javascript' src='jslib/hasadna-api.js'></script-->
     <script type='text/javascript' src='jslib/jquery.isotope.min.js'></script>
     <script type='text/javascript' src='gov-watch.js'></script>
+
+    <!-- Less -->
+    <link rel="stylesheet/less" href="bootstrap/bootstrap.less" media="all" />
+    <script src="jslib/less-1.2.1.min.js"></script>
 
     <script type="text/html" name="list">
     <ul>
@@ -113,7 +110,14 @@
         <div class="container-fluid">
           <a class="brand" href="#">המפקח</a>
           <ul class="nav">
-            <li class="active"><a href="#">הביתה</a></li>
+            <li class="active"><a href="#">דו"ח טרכטנברג</a></li>
+            <li class="dropdown">
+            	<a href="#" class="dropdown-toggle">דו"חות מבקר המדינה</a>
+            	<ul class="dropdown-menu">
+                	<li><a href="#">2012</a></li>
+                	<li><a href="#">2011</a></li>
+              </ul>
+            </li>
             <li><a href="#about">אודות</a></li>
             <li><a href="#contact">צרו קשר</a></li>
           </ul>
