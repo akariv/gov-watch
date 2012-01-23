@@ -38,17 +38,19 @@
 <div class="item span6- shown" rel="{{_srcslug}}" title="{{recommendation}}">
     
     <ul class="breadcrumb">
-      <li class="chapter"><a href="#">{{chapter}}</a> <span>&larr;</span></li>
+      <li class="chapter"><a href="#"><span class="chapter-text">{{chapter}}</span></a> <span>&larr;</span></li>
       {{#title}}
-      <li class="title"><a href="#">{{title}}</a> <span>&larr;</span></li>
+      <li class="title"><a href="#"><span class="title-text">{{title}}</span></a> <span>&larr;</span></li>
       {{/title}}
       {{#subject}}
-      <li class="subject"><a href="#">{{subject}}</a> <span>&larr;</span></li>
+      <li class="subject"><a href="#"><span class="subject-text">{{subject}}</span></a> <span>&larr;</span></li>
       {{/subject}}
     </ul>
     
     <h2 class="buxa-header">
+      <span class="recommendation-text">
       {{recommendation}}
+      </span>
       &nbsp;<a class="hover-toggle" href="#">סגור</a>
     </h2>
   <!--
@@ -126,7 +128,7 @@
     <div class="container-fluid">
       <div class="sidebar">
         <div class="well">
-        	<form>
+        	<form id="searchbar" action="#">
         		<fieldset id='search'>
         			<legend>חפשו בדו"ח:</legend>
         			<div class="clearfix">
@@ -139,6 +141,11 @@
 				</fieldset>
 			</form>
           <h5>סרגל צד</h5>
+	  <select id="sort" name="normalSelect">
+	    <option value="chapter">פרק</option>
+	    <option value="budget">עלות תקציבית</option>
+	    <option value="recommendation">שם</option>
+	  </select>
           <ul>
             <li><a href="#">לינק</a></li>
             <li><a href="#">לינק</a></li>
