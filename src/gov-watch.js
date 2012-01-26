@@ -103,25 +103,36 @@
   };
   initialized = false;
   process_data = function() {
-    var book, html, list_template, template, _i, _len;
+    var book, do_list, html, list_template, template, _i, _len;
     if (initialized) {
       return;
     }
     initialized = true;
-    $("#books").html("<option value=''>הכל</option>");
+    $("#books").html("<option value=''>\u05d4\u05db\u05dc</option>");
     for (_i = 0, _len = all_books.length; _i < _len; _i++) {
       book = all_books[_i];
       $("#books").append("<option value='" + book + "'>" + book + "</option>");
     }
     template = $("script[name=item]").html();
     list_template = $("script[name=list]").html();
+    do_list = function(text) {
+      return Mustache.to_html(list_template, {
+        items: text,
+        linkify: function() {
+          return function(text, render) {
+            text = render(text);
+            return text = text.replace(/\[(.+)\]/, "<a href='$1'>\u05e7\u05d9\u05e9\u05d5\u05e8</a>");
+          };
+        }
+      });
+    };
     html = Mustache.to_html(template, {
       items: loaded_data,
       none_val: function() {
         return function(text, render) {
           text = render(text);
           if (text === "") {
-            return "אין";
+            return "\u05d0\u05d9\u05df";
           } else {
             return text;
           }
@@ -130,10 +141,8 @@
       semicolon_list: function() {
         return function(text, render) {
           text = render(text);
-          text = text.split('; ');
-          return text = Mustache.to_html(list_template, {
-            "items": text
-          });
+          text = text.split(';');
+          return text = do_list(text);
         };
       }
     });
@@ -190,6 +199,10 @@
     });
     $("#searchbar").submit(function() {
       return false;
+    });
+    $(".item").click(function() {
+      $(this).toggleClass("bigger");
+      return $("#items").isotope('reLayout', function() {});
     });
     window.onhashchange = onhashchange;
     return onhashchange();

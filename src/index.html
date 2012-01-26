@@ -25,7 +25,7 @@
     <script type="text/html" name="list">
     <ul>
     {{#items}}
-       <li>{{.}}</li>
+       - {{#linkify}}{{.}}{{/linkify}}<br/>
     {{/items}}
     </ul>
     </script>
@@ -71,7 +71,7 @@
 	        <div class="current_status">
 	        	<h5>מה קורה עם זה עכשיו?</h5> 
 	            <div class="current_status-text">
-	              <div class="current_status-gov">{{#gov_current_status}}מטעם הממשלה: {{gov_current_status}}{{/gov_current_status}}</div>
+	              <div class="current_status-gov">{{#gov_current_status}}מטעם הממשלה: {{#semicolon_list}}{{gov_current_status}}{{/semicolon_list}}{{/gov_current_status}}</div>
 	              <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
 	            </div>
 	        </div>

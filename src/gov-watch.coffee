@@ -93,27 +93,35 @@ process_data = ->
        return
     initialized = true
 
-    $("#books").html("<option value=''>הכל</option>")
+    $("#books").html("<option value=''>\u05d4\u05db\u05dc</option>")
     for book in all_books
         $("#books").append("<option value='#{book}'>#{book}</option>")
 
     template = $("script[name=item]").html()
     list_template = $("script[name=list]").html()
+    do_list = (text) ->
+        Mustache.to_html( list_template,
+                          items:text
+                          linkify: ->
+                            (text,render) ->
+                               text = render(text)
+                               text = text.replace( /\[(.+)\]/, "<a href='$1'>\u05e7\u05d9\u05e9\u05d5\u05e8</a>" )
+                        )
+
     html = Mustache.to_html(template,
-                            items: loaded_data,
+                            items: loaded_data
                             none_val: ->
                                 (text,render) ->
                                     text = render(text)
                                     if text == ""
-                                        "אין"
+                                        "\u05d0\u05d9\u05df"
                                     else
                                         text
                             semicolon_list: ->
                                 (text,render) ->
                                     text = render(text)
-                                    text = text.split('; ')
-                                    text = Mustache.to_html(list_template,"items":text)
-
+                                    text = text.split(';')
+                                    text = do_list(text)
                             )
     $("#items").html(html)
     # modify Isotope's absolute position method
@@ -146,6 +154,9 @@ process_data = ->
         sort_measure = $("#sort").val()
         $("#items").isotope({ sortBy: sort_measure })
     $("#searchbar").submit -> false
+    $(".item").click ->
+        $(this).toggleClass("bigger")
+        $("#items").isotope( 'reLayout', -> )
 
     window.onhashchange = onhashchange
     onhashchange()
@@ -200,6 +211,6 @@ $ ->
         all_chapters = JSON.parse(localStorage.all_chapters)
         process_data()
    catch error
-        #alert(error)
+        #        console.log(error)
         $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script",gs_data_callback,"jsonp");
 
