@@ -85,7 +85,13 @@ data_callback = (data) ->
 
     process_data()
 
+initialized = false
+
 process_data = ->
+
+    if initialized
+       return
+    initialized = true
 
     $("#books").html("<option value=''>הכל</option>")
     for book in all_books
@@ -195,5 +201,5 @@ $ ->
         process_data()
    catch error
         #alert(error)
-   $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script",gs_data_callback,"jsonp");
+        $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script",gs_data_callback,"jsonp");
 

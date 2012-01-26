@@ -1,5 +1,5 @@
 (function() {
-  var all_books, all_chapters, data_callback, do_search, gs_data_callback, loaded_data, onhashchange, process_data, selected_book, selected_chapter, show_watermark, update_history, wm_shown;
+  var all_books, all_chapters, data_callback, do_search, gs_data_callback, initialized, loaded_data, onhashchange, process_data, selected_book, selected_chapter, show_watermark, update_history, wm_shown;
   loaded_data = null;
   all_books = [];
   all_chapters = {};
@@ -101,8 +101,13 @@
     }
     return process_data();
   };
+  initialized = false;
   process_data = function() {
     var book, html, list_template, template, _i, _len;
+    if (initialized) {
+      return;
+    }
+    initialized = true;
     $("#books").html("<option value=''>הכל</option>");
     for (_i = 0, _len = all_books.length; _i < _len; _i++) {
       book = all_books[_i];
@@ -240,10 +245,9 @@
       loaded_data = JSON.parse(localStorage.data);
       all_books = JSON.parse(localStorage.all_books);
       all_chapters = JSON.parse(localStorage.all_chapters);
-      process_data();
+      return process_data();
     } catch (error) {
-
+      return $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script", gs_data_callback, "jsonp");
     }
-    return $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script", gs_data_callback, "jsonp");
   });
 }).call(this);
