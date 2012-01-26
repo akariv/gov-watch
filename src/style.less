@@ -27,7 +27,7 @@
 
 body {
 	direction: rtl;
-	background: @background; 
+	background: url('assets/background-grid.png'); 
 	padding-top:60px;
 }
 
@@ -36,7 +36,7 @@ body {
 }
 
 .hero-unit, .well{
-  background: @lightshade;
+  background: @background;
 }
 
 .highlight {
@@ -74,9 +74,13 @@ body {
         margin-left:0;
       }
     }
+    
   }
 
-
+  #sort{
+    width:180px;
+  }
+  
 /**** Item ****/
 
 .row > [class*="span"] {
