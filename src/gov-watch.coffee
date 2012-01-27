@@ -216,6 +216,14 @@ start_handlers = ->
             $(this).addClass("bigger")
         $("#items").isotope( 'reLayout', -> )
 
+    # create overview modal
+    modal_options = 
+       backdrop: true
+       keyboard: true
+       show: true
+    $("#overview").modal( modal_options )
+    $("#overview-close").click -> $("#overview").modal('hide')
+    
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
     onhashchange()

@@ -155,6 +155,7 @@
     return setTimeout(start_handlers, 0);
   };
   start_handlers = function() {
+    var modal_options;
     $.Isotope.prototype._positionAbs = function(x, y) {
       return {
         right: x,
@@ -221,6 +222,15 @@
         $(this).addClass("bigger");
       }
       return $("#items").isotope('reLayout', function() {});
+    });
+    modal_options = {
+      backdrop: true,
+      keyboard: true,
+      show: true
+    };
+    $("#overview").modal(modal_options);
+    $("#overview-close").click(function() {
+      return $("#overview").modal('hide');
     });
     window.onhashchange = onhashchange;
     return onhashchange();
