@@ -1,13 +1,14 @@
 (function() {
-  var all_books, all_chapters, data_callback, do_search, gs_data_callback, initialized, loaded_data, onhashchange, process_data, selected_book, selected_chapter, show_watermark, update_history, wm_shown;
+  var all_books, all_chapters, data_callback, do_search, gs_data_callback, initialized, load_from_gdocs, loaded_data, onhashchange, process_data, search_term, selected_book, selected_chapter, show_watermark, start_handlers, update_history, wm_shown;
   loaded_data = null;
   all_books = [];
   all_chapters = {};
   selected_book = "";
   selected_chapter = "";
+  search_term = "";
   update_history = function() {
     var hash;
-    hash = "" + selected_book + "//" + selected_chapter;
+    hash = "" + selected_book + "//" + selected_chapter + "//" + search_term;
     return window.location.hash = hash;
   };
   onhashchange = function() {
@@ -15,8 +16,8 @@
     hash = window.location.hash;
     hash = hash.slice(1, hash.length);
     splits = hash.split('//');
-    if (splits.length === 2) {
-      selected_book = splits[0], selected_chapter = splits[1];
+    if (splits.length === 3) {
+      selected_book = splits[0], selected_chapter = splits[1], search_term = splits[2];
       $("#books option[value='" + selected_book + "']").attr('selected', 'selected');
       if (all_chapters[selected_book]) {
         $("#chapters").html("<option value=''>כל הפרקים</option>");
@@ -29,9 +30,13 @@
         $("#chapters").html("<option value=''>-</option>");
       }
       $("#chapters option[value='" + selected_chapter + "']").attr('selected', 'selected');
+      if (search_term !== "") {
+        show_watermark(false);
+        $("#searchbox").val(search_term);
+      }
       return do_search();
     } else {
-      selected_book = "";
+      selected_book = all_books[0];
       selected_chapter = "";
       return update_history();
     }
@@ -147,13 +152,16 @@
       }
     });
     $("#items").html(html);
+    return setTimeout(start_handlers, 0);
+  };
+  start_handlers = function() {
     $.Isotope.prototype._positionAbs = function(x, y) {
       return {
         right: x,
         top: y
       };
     };
-    $('#items').isotope({
+    $("#items").isotope({
       itemSelector: '.item',
       layoutMode: 'masonry',
       transformsEnabled: false,
@@ -165,13 +173,18 @@
           return e.find('.recommendation-text').text();
         },
         budget: function(e) {
-          return e.find('.budget_cost-text').text();
+          return -parseInt("0" + e.attr('cost'), 10);
         }
       }
     });
     show_watermark(true);
     $("#searchbox").change(function() {
-      return do_search();
+      if (wm_shown) {
+        search_term = "";
+      } else {
+        search_term = $("#searchbox").val();
+      }
+      return update_history();
     });
     $("#searchbox").focus(function() {
       return show_watermark(false);
@@ -180,6 +193,9 @@
       if ($(this).val() === "") {
         return show_watermark(true);
       }
+    });
+    $("#searchbar").submit(function() {
+      return false;
     });
     $("#books").change(function() {
       selected_book = $("#books").val();
@@ -197,23 +213,20 @@
         sortBy: sort_measure
       });
     });
-    $("#searchbar").submit(function() {
-      return false;
-    });
     $(".item").click(function() {
-      $(this).toggleClass("bigger");
+      if ($(this).hasClass("bigger")) {
+        $(this).removeClass("bigger");
+      } else {
+        $(".item").removeClass("bigger");
+        $(this).addClass("bigger");
+      }
       return $("#items").isotope('reLayout', function() {});
     });
     window.onhashchange = onhashchange;
     return onhashchange();
   };
   do_search = function() {
-    var field, found, new_fields, re, rec, search_term, should_show, slug, _i, _j, _len, _len2, _ref;
-    if (wm_shown) {
-      search_term = "";
-    } else {
-      search_term = $("#searchbox").val();
-    }
+    var field, found, new_fields, re, rec, should_show, slug, _i, _j, _len, _len2, _ref;
     re = RegExp(search_term, "ig");
     for (_i = 0, _len = loaded_data.length; _i < _len; _i++) {
       rec = loaded_data[_i];
@@ -253,14 +266,18 @@
       return $(".highlight").toggleClass('highlight-off', true);
     }, 10);
   };
+  load_from_gdocs = function() {
+    return $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script", gs_data_callback, "jsonp");
+  };
   $(function() {
     try {
       loaded_data = JSON.parse(localStorage.data);
       all_books = JSON.parse(localStorage.all_books);
       all_chapters = JSON.parse(localStorage.all_chapters);
-      return process_data();
+      process_data();
+      return setTimeout(load_from_gdocs, 10000);
     } catch (error) {
-      return $.get("https://spreadsheets.google.com/feeds/cells/0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E/od6/public/values?alt=json-in-script", gs_data_callback, "jsonp");
+      return load_from_gdocs();
     }
   });
 }).call(this);
