@@ -5,11 +5,22 @@ all_chapters = {}
 selected_book = ""
 selected_chapter = ""
 search_term = ""
+selected_slug = ""
+
+## Generate hash for current state
+generate_hash = ( selected_book, selected_chapter, search_term, slug ) ->
+   if slug
+      "#{selected_book}//#{selected_chapter}//#{search_term}//#{slug}"
+   else
+      "#{selected_book}//#{selected_chapter}//#{search_term}//"
+
+## Generate a fully qualified url for a given slug
+generate_url = (slug) ->
+    "http://#{window.location.host}/##{generate_hash( "", "", "", slug )}"
 
 ## Change page's hash - this is the way we keep (and update) our current state
 update_history = ->
-    hash = "#{selected_book}//#{selected_chapter}//#{search_term}"
-    window.location.hash = hash
+    window.location.hash = generate_hash( selected_book, selected_chapter, search_term )
 
 ## Process page hash changes
 onhashchange = ->
@@ -20,35 +31,46 @@ onhashchange = ->
    
    # hash is separated to 'selected_book', 'selected_chapter'
    splits = hash.split('//')
-   if splits.length == 3
-       [ selected_book, selected_chapter, search_term ] = splits
-       
-       # select the selected book
-       $("#books option[value='#{selected_book}']").attr('selected', 'selected')
-
-       if all_chapters[selected_book]
-           # fill values in the chapters listbox
-           $("#chapters").html("<option value=''>כל הפרקים</option>")
-           for chapter in all_chapters[selected_book]
-               $("#chapters").append("<option value='#{chapter}'>#{chapter}</option>")
-       else
-           # no values there
-           $("#chapters").html("<option value=''>-</option>")
-
-       # select the selected chapter
-       $("#chapters option[value='#{selected_chapter}']").attr('selected', 'selected')
-
-       if search_term != ""
-          show_watermark(false)
-          $("#searchbox").val(search_term)
-
-       # apply these filters
-       do_search()
-   else
+   if splits.length > 4 or splits.length < 3
        # fix hash to be of the correct form
        selected_book = all_books[0]
        selected_chapter = ""
        update_history()
+       return
+   
+   slug = null
+   if splits.length == 3
+       [ selected_book, selected_chapter, search_term ] = splits
+
+   if splits.length == 4
+       [ selected_book, selected_chapter, search_term, slug ] = splits
+       
+   # select the selected book
+   $("#books option[value='#{selected_book}']").attr('selected', 'selected')
+
+   if all_chapters[selected_book]
+       # fill values in the chapters listbox
+       $("#chapters").html("<option value=''>כל הפרקים</option>")
+       for chapter in all_chapters[selected_book]
+           $("#chapters").append("<option value='#{chapter}'>#{chapter}</option>")
+   else
+       # no values there
+       $("#chapters").html("<option value=''>-</option>")
+
+   # select the selected chapter
+   $("#chapters option[value='#{selected_chapter}']").attr('selected', 'selected')
+
+   if search_term != ""
+      show_watermark(false)
+      $("#searchbox").val(search_term)
+
+   # apply these filters
+   do_search()
+   
+   if slug
+      selected_slug = slug
+      select_item( $(".item[rel=#{slug}]") )
+      $("#items").isotope( sortBy : "slug" )
 
 ## Watermark handling
 wm_shown = false
@@ -176,6 +198,11 @@ start_handlers = ->
            recommendation :  ( e ) -> e.find('.recommendation-text').text()
            budget :  ( e ) -> 
                         -parseInt( "0"+e.attr('cost'), 10 )
+           slug : ( e ) -> 
+                    if e.attr("rel") == selected_slug
+                       0
+                    else
+                       1
     )
     # Searchbox init
     show_watermark(true)
@@ -208,13 +235,7 @@ start_handlers = ->
         $("#items").isotope({ sortBy: sort_measure })
     
     # item click handler
-    $(".item").click ->
-        if $(this).hasClass("bigger")
-            $(this).removeClass("bigger")
-        else
-            $(".item").removeClass("bigger")
-            $(this).addClass("bigger")
-        $("#items").isotope( 'reLayout', -> )
+    $(".item").click -> select_item( $(this) )
 
     # create overview modal
     modal_options = 
@@ -227,6 +248,23 @@ start_handlers = ->
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
     onhashchange()
+
+## Item selection
+select_item = (item) ->
+    $('fb\\:comments').remove()
+    if item.hasClass("bigger")
+        item.removeClass("bigger")
+    else
+        $(".item").removeClass("bigger")
+        item.addClass("bigger")
+        slug = item.attr("rel")
+        url = generate_url(slug)
+        item.append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
+        FB.XFBML.parse( item.get(0), 
+                        () -> setTimeout( () -> $("#items").isotope( 'reLayout', -> )
+                                          , 
+                                          3000 ) )
+    $("#items").isotope( 'reLayout', -> )
 
 ## Perform search on the site's data
 do_search = ->

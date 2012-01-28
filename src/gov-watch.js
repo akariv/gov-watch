@@ -1,44 +1,66 @@
 (function() {
-  var all_books, all_chapters, data_callback, do_search, gs_data_callback, initialized, load_from_gdocs, loaded_data, onhashchange, process_data, search_term, selected_book, selected_chapter, show_watermark, start_handlers, update_history, wm_shown;
+  var all_books, all_chapters, data_callback, do_search, generate_hash, generate_url, gs_data_callback, initialized, load_from_gdocs, loaded_data, onhashchange, process_data, search_term, select_item, selected_book, selected_chapter, selected_slug, show_watermark, start_handlers, update_history, wm_shown;
   loaded_data = null;
   all_books = [];
   all_chapters = {};
   selected_book = "";
   selected_chapter = "";
   search_term = "";
+  selected_slug = "";
+  generate_hash = function(selected_book, selected_chapter, search_term, slug) {
+    if (slug) {
+      return "" + selected_book + "//" + selected_chapter + "//" + search_term + "//" + slug;
+    } else {
+      return "" + selected_book + "//" + selected_chapter + "//" + search_term + "//";
+    }
+  };
+  generate_url = function(slug) {
+    return "http://" + window.location.host + "/#" + (generate_hash("", "", "", slug));
+  };
   update_history = function() {
-    var hash;
-    hash = "" + selected_book + "//" + selected_chapter + "//" + search_term;
-    return window.location.hash = hash;
+    return window.location.hash = generate_hash(selected_book, selected_chapter, search_term);
   };
   onhashchange = function() {
-    var chapter, hash, splits, _i, _len, _ref;
+    var chapter, hash, slug, splits, _i, _len, _ref;
     hash = window.location.hash;
     hash = hash.slice(1, hash.length);
     splits = hash.split('//');
-    if (splits.length === 3) {
-      selected_book = splits[0], selected_chapter = splits[1], search_term = splits[2];
-      $("#books option[value='" + selected_book + "']").attr('selected', 'selected');
-      if (all_chapters[selected_book]) {
-        $("#chapters").html("<option value=''>כל הפרקים</option>");
-        _ref = all_chapters[selected_book];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          chapter = _ref[_i];
-          $("#chapters").append("<option value='" + chapter + "'>" + chapter + "</option>");
-        }
-      } else {
-        $("#chapters").html("<option value=''>-</option>");
-      }
-      $("#chapters option[value='" + selected_chapter + "']").attr('selected', 'selected');
-      if (search_term !== "") {
-        show_watermark(false);
-        $("#searchbox").val(search_term);
-      }
-      return do_search();
-    } else {
+    if (splits.length > 4 || splits.length < 3) {
       selected_book = all_books[0];
       selected_chapter = "";
-      return update_history();
+      update_history();
+      return;
+    }
+    slug = null;
+    if (splits.length === 3) {
+      selected_book = splits[0], selected_chapter = splits[1], search_term = splits[2];
+    }
+    if (splits.length === 4) {
+      selected_book = splits[0], selected_chapter = splits[1], search_term = splits[2], slug = splits[3];
+    }
+    $("#books option[value='" + selected_book + "']").attr('selected', 'selected');
+    if (all_chapters[selected_book]) {
+      $("#chapters").html("<option value=''>כל הפרקים</option>");
+      _ref = all_chapters[selected_book];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        chapter = _ref[_i];
+        $("#chapters").append("<option value='" + chapter + "'>" + chapter + "</option>");
+      }
+    } else {
+      $("#chapters").html("<option value=''>-</option>");
+    }
+    $("#chapters option[value='" + selected_chapter + "']").attr('selected', 'selected');
+    if (search_term !== "") {
+      show_watermark(false);
+      $("#searchbox").val(search_term);
+    }
+    do_search();
+    if (slug) {
+      selected_slug = slug;
+      select_item($(".item[rel=" + slug + "]"));
+      return $("#items").isotope({
+        sortBy: "slug"
+      });
     }
   };
   wm_shown = false;
@@ -175,6 +197,13 @@
         },
         budget: function(e) {
           return -parseInt("0" + e.attr('cost'), 10);
+        },
+        slug: function(e) {
+          if (e.attr("rel") === selected_slug) {
+            return 0;
+          } else {
+            return 1;
+          }
         }
       }
     });
@@ -215,13 +244,7 @@
       });
     });
     $(".item").click(function() {
-      if ($(this).hasClass("bigger")) {
-        $(this).removeClass("bigger");
-      } else {
-        $(".item").removeClass("bigger");
-        $(this).addClass("bigger");
-      }
-      return $("#items").isotope('reLayout', function() {});
+      return select_item($(this));
     });
     modal_options = {
       backdrop: true,
@@ -234,6 +257,25 @@
     });
     window.onhashchange = onhashchange;
     return onhashchange();
+  };
+  select_item = function(item) {
+    var slug, url;
+    $('fb\\:comments').remove();
+    if (item.hasClass("bigger")) {
+      item.removeClass("bigger");
+    } else {
+      $(".item").removeClass("bigger");
+      item.addClass("bigger");
+      slug = item.attr("rel");
+      url = generate_url(slug);
+      item.append("<fb:comments href='" + url + "' num_posts='2' width='590'></fb:comments>");
+      FB.XFBML.parse(item.get(0), function() {
+        return setTimeout(function() {
+          return $("#items").isotope('reLayout', function() {});
+        }, 3000);
+      });
+    }
+    return $("#items").isotope('reLayout', function() {});
   };
   do_search = function() {
     var field, found, new_fields, re, rec, should_show, slug, _i, _j, _len, _len2, _ref;
