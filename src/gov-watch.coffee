@@ -7,14 +7,17 @@ selected_chapter = ""
 search_term = ""
 selected_slug = ""
 skip_overview = false
-HASH_SEP = '&'
+BOOK = 'b'
+CHAPTER = 'c'
+SLUG = 's'
+SEARCHTERM = 't'
 
 ## Generate hash for current state
 generate_hash = ( selected_book, selected_chapter, search_term, slug ) ->
    if slug
-      "#{selected_book}#{HASH_SEP}#{selected_chapter}#{HASH_SEP}#{search_term}#{HASH_SEP}#{slug}"
+      "!z=#{BOOK}:#{selected_book}|#{CHAPTER}:#{selected_chapter}|#{SEARCHTERM}:#{search_term}|#{SLUG}:#{slug}"
    else
-      "#{selected_book}#{HASH_SEP}#{selected_chapter}#{HASH_SEP}#{search_term}#{HASH_SEP}"
+      "!z=#{BOOK}:#{selected_book}|#{CHAPTER}:#{selected_chapter}|#{SEARCHTERM}:#{search_term}"
 
 ## Generate a fully qualified url for a given slug
 generate_url = (slug) ->
@@ -32,25 +35,35 @@ update_history = ->
 ## Process page hash changes
 onhashchange = ->
 
-   # read the hash, discard first '#'
+   # read the hash, discard first '#!z='
    hash = window.location.hash
-   hash = hash[1...hash.length]
+   hash = hash[4...hash.length]
    
-   # hash is separated to 'selected_book', 'selected_chapter'
-   splits = hash.split(HASH_SEP)
-   if splits.length > 4 or splits.length < 3
+   # hash is separated to key=value parts
+   splits = hash.split("|")
+
+   slug = null
+   selected_book = null
+   selected_chapter = null
+   search_term = ""
+       
+   for part in splits
+       [ key, value ] = part.split(":")
+       if key == BOOK
+          selected_book = value
+       if key == SLUG
+          slug = value
+       if key == CHAPTER
+          selected_chapter = value
+       if key == SEARCHTERM
+          search_term = value
+
+   if not selected_book
        # fix hash to be of the correct form
        selected_book = all_books[0]
        selected_chapter = ""
        update_history()
        return
-   
-   slug = null
-   if splits.length == 3
-       [ selected_book, selected_chapter, search_term ] = splits
-
-   if splits.length == 4
-       [ selected_book, selected_chapter, search_term, slug ] = splits
        
    # select the selected book
    $("#books option[value='#{selected_book}']").attr('selected', 'selected')
@@ -263,14 +276,17 @@ start_handlers = ->
 ## Item selection
 select_item = (item) ->
     $('fb\\:comments').remove()
+    $('fb\\:like').remove()
     if item.hasClass("bigger")
         item.removeClass("bigger")
         $("#items").isotope( 'reLayout', -> )        
     else
         $(".item").removeClass("bigger")
         item.addClass("bigger")
+        $("#items").isotope( 'reLayout', -> )        
         selected_slug = item.attr("rel")
         url = generate_url(selected_slug)
+        item.append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
         item.append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
         FB.XFBML.parse( item.get(0), 
                         () -> 

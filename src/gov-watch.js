@@ -1,5 +1,5 @@
 (function() {
-  var HASH_SEP, all_books, all_chapters, data_callback, do_search, generate_hash, generate_url, gs_data_callback, initialized, load_from_gdocs, loaded_data, onhashchange, process_data, search_term, select_item, selected_book, selected_chapter, selected_slug, show_watermark, skip_overview, start_handlers, update_history, wm_shown;
+  var BOOK, CHAPTER, SEARCHTERM, SLUG, all_books, all_chapters, data_callback, do_search, generate_hash, generate_url, gs_data_callback, initialized, load_from_gdocs, loaded_data, onhashchange, process_data, search_term, select_item, selected_book, selected_chapter, selected_slug, show_watermark, skip_overview, start_handlers, update_history, wm_shown;
   loaded_data = null;
   all_books = [];
   all_chapters = {};
@@ -8,12 +8,15 @@
   search_term = "";
   selected_slug = "";
   skip_overview = false;
-  HASH_SEP = '&';
+  BOOK = 'b';
+  CHAPTER = 'c';
+  SLUG = 's';
+  SEARCHTERM = 't';
   generate_hash = function(selected_book, selected_chapter, search_term, slug) {
     if (slug) {
-      return "" + selected_book + HASH_SEP + selected_chapter + HASH_SEP + search_term + HASH_SEP + slug;
+      return "!z=" + BOOK + ":" + selected_book + "|" + CHAPTER + ":" + selected_chapter + "|" + SEARCHTERM + ":" + search_term + "|" + SLUG + ":" + slug;
     } else {
-      return "" + selected_book + HASH_SEP + selected_chapter + HASH_SEP + search_term + HASH_SEP;
+      return "!z=" + BOOK + ":" + selected_book + "|" + CHAPTER + ":" + selected_chapter + "|" + SEARCHTERM + ":" + search_term;
     }
   };
   generate_url = function(slug) {
@@ -25,29 +28,42 @@
     }, 0);
   };
   onhashchange = function() {
-    var chapter, hash, slug, splits, _i, _len, _ref;
+    var chapter, hash, key, part, slug, splits, value, _i, _j, _len, _len2, _ref, _ref2;
     hash = window.location.hash;
-    hash = hash.slice(1, hash.length);
-    splits = hash.split(HASH_SEP);
-    if (splits.length > 4 || splits.length < 3) {
+    hash = hash.slice(4, hash.length);
+    splits = hash.split("|");
+    slug = null;
+    selected_book = null;
+    selected_chapter = null;
+    search_term = "";
+    for (_i = 0, _len = splits.length; _i < _len; _i++) {
+      part = splits[_i];
+      _ref = part.split(":"), key = _ref[0], value = _ref[1];
+      if (key === BOOK) {
+        selected_book = value;
+      }
+      if (key === SLUG) {
+        slug = value;
+      }
+      if (key === CHAPTER) {
+        selected_chapter = value;
+      }
+      if (key === SEARCHTERM) {
+        search_term = value;
+      }
+    }
+    if (!selected_book) {
       selected_book = all_books[0];
       selected_chapter = "";
       update_history();
       return;
     }
-    slug = null;
-    if (splits.length === 3) {
-      selected_book = splits[0], selected_chapter = splits[1], search_term = splits[2];
-    }
-    if (splits.length === 4) {
-      selected_book = splits[0], selected_chapter = splits[1], search_term = splits[2], slug = splits[3];
-    }
     $("#books option[value='" + selected_book + "']").attr('selected', 'selected');
     if (all_chapters[selected_book]) {
       $("#chapters").html("<option value=''>כל הפרקים</option>");
-      _ref = all_chapters[selected_book];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        chapter = _ref[_i];
+      _ref2 = all_chapters[selected_book];
+      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+        chapter = _ref2[_j];
         $("#chapters").append("<option value='" + chapter + "'>" + chapter + "</option>");
       }
     } else {
@@ -267,14 +283,17 @@
   select_item = function(item) {
     var url;
     $('fb\\:comments').remove();
+    $('fb\\:like').remove();
     if (item.hasClass("bigger")) {
       item.removeClass("bigger");
       return $("#items").isotope('reLayout', function() {});
     } else {
       $(".item").removeClass("bigger");
       item.addClass("bigger");
+      $("#items").isotope('reLayout', function() {});
       selected_slug = item.attr("rel");
       url = generate_url(selected_slug);
+      item.append("<fb:like href='" + url + "' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>");
       item.append("<fb:comments href='" + url + "' num_posts='2' width='590'></fb:comments>");
       return FB.XFBML.parse(item.get(0), function() {
         return setTimeout(function() {
