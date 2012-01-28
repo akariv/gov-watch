@@ -6,13 +6,15 @@ selected_book = ""
 selected_chapter = ""
 search_term = ""
 selected_slug = ""
+skip_overview = false
+HASH_SEP = '&'
 
 ## Generate hash for current state
 generate_hash = ( selected_book, selected_chapter, search_term, slug ) ->
    if slug
-      "#{selected_book}//#{selected_chapter}//#{search_term}//#{slug}"
+      "#{selected_book}#{HASH_SEP}#{selected_chapter}#{HASH_SEP}#{search_term}#{HASH_SEP}#{slug}"
    else
-      "#{selected_book}//#{selected_chapter}//#{search_term}//"
+      "#{selected_book}#{HASH_SEP}#{selected_chapter}#{HASH_SEP}#{search_term}#{HASH_SEP}"
 
 ## Generate a fully qualified url for a given slug
 generate_url = (slug) ->
@@ -20,7 +22,12 @@ generate_url = (slug) ->
 
 ## Change page's hash - this is the way we keep (and update) our current state
 update_history = ->
-    window.location.hash = generate_hash( selected_book, selected_chapter, search_term )
+    setTimeout( 
+                () -> 
+                    window.location.hash = generate_hash( selected_book, selected_chapter, search_term )
+               ,
+                0 
+              )
 
 ## Process page hash changes
 onhashchange = ->
@@ -30,7 +37,7 @@ onhashchange = ->
    hash = hash[1...hash.length]
    
    # hash is separated to 'selected_book', 'selected_chapter'
-   splits = hash.split('//')
+   splits = hash.split(HASH_SEP)
    if splits.length > 4 or splits.length < 3
        # fix hash to be of the correct form
        selected_book = all_books[0]
@@ -69,8 +76,7 @@ onhashchange = ->
    
    if slug
       selected_slug = slug
-      select_item( $(".item[rel=#{slug}]") )
-      $("#items").isotope( sortBy : "slug" )
+      skip_overview = true
 
 ## Watermark handling
 wm_shown = false
@@ -198,7 +204,7 @@ start_handlers = ->
            recommendation :  ( e ) -> e.find('.recommendation-text').text()
            budget :  ( e ) -> 
                         -parseInt( "0"+e.attr('cost'), 10 )
-           slug : ( e ) -> 
+           oneitem : ( e ) -> 
                     if e.attr("rel") == selected_slug
                        0
                     else
@@ -237,34 +243,47 @@ start_handlers = ->
     # item click handler
     $(".item").click -> select_item( $(this) )
 
+    # handle hash change events, and process current (initial) hash
+    window.onhashchange = onhashchange
+    onhashchange()
+
     # create overview modal
     modal_options = 
        backdrop: true
        keyboard: true
-       show: true
+       show: false
     $("#overview").modal( modal_options )
     $("#overview-close").click -> $("#overview").modal('hide')
     
-    # handle hash change events, and process current (initial) hash
-    window.onhashchange = onhashchange
-    onhashchange()
+    if skip_overview
+        select_item( $(".item[rel=#{selected_slug}]") )
+    else
+        $("#overview").modal('show')
 
 ## Item selection
 select_item = (item) ->
     $('fb\\:comments').remove()
     if item.hasClass("bigger")
         item.removeClass("bigger")
+        $("#items").isotope( 'reLayout', -> )        
     else
         $(".item").removeClass("bigger")
         item.addClass("bigger")
-        slug = item.attr("rel")
-        url = generate_url(slug)
+        selected_slug = item.attr("rel")
+        url = generate_url(selected_slug)
         item.append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
         FB.XFBML.parse( item.get(0), 
-                        () -> setTimeout( () -> $("#items").isotope( 'reLayout', -> )
-                                          , 
-                                          3000 ) )
-    $("#items").isotope( 'reLayout', -> )
+                        () -> 
+                            setTimeout( () -> 
+                                             $("#items").isotope( 'reLayout' )
+                                             setTimeout( 
+                                                         () ->
+                                                             $(".item[rel=#{selected_slug}]").scrollintoview()
+                                                         , 
+                                                         1000 )
+                                       , 1000  )
+                       )
+    $("#items").isotope( 'reLayout' )
 
 ## Perform search on the site's data
 do_search = ->

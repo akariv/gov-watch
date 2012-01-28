@@ -1,5 +1,5 @@
 (function() {
-  var all_books, all_chapters, data_callback, do_search, generate_hash, generate_url, gs_data_callback, initialized, load_from_gdocs, loaded_data, onhashchange, process_data, search_term, select_item, selected_book, selected_chapter, selected_slug, show_watermark, start_handlers, update_history, wm_shown;
+  var HASH_SEP, all_books, all_chapters, data_callback, do_search, generate_hash, generate_url, gs_data_callback, initialized, load_from_gdocs, loaded_data, onhashchange, process_data, search_term, select_item, selected_book, selected_chapter, selected_slug, show_watermark, skip_overview, start_handlers, update_history, wm_shown;
   loaded_data = null;
   all_books = [];
   all_chapters = {};
@@ -7,24 +7,28 @@
   selected_chapter = "";
   search_term = "";
   selected_slug = "";
+  skip_overview = false;
+  HASH_SEP = '&';
   generate_hash = function(selected_book, selected_chapter, search_term, slug) {
     if (slug) {
-      return "" + selected_book + "//" + selected_chapter + "//" + search_term + "//" + slug;
+      return "" + selected_book + HASH_SEP + selected_chapter + HASH_SEP + search_term + HASH_SEP + slug;
     } else {
-      return "" + selected_book + "//" + selected_chapter + "//" + search_term + "//";
+      return "" + selected_book + HASH_SEP + selected_chapter + HASH_SEP + search_term + HASH_SEP;
     }
   };
   generate_url = function(slug) {
     return "http://" + window.location.host + "/#" + (generate_hash("", "", "", slug));
   };
   update_history = function() {
-    return window.location.hash = generate_hash(selected_book, selected_chapter, search_term);
+    return setTimeout(function() {
+      return window.location.hash = generate_hash(selected_book, selected_chapter, search_term);
+    }, 0);
   };
   onhashchange = function() {
     var chapter, hash, slug, splits, _i, _len, _ref;
     hash = window.location.hash;
     hash = hash.slice(1, hash.length);
-    splits = hash.split('//');
+    splits = hash.split(HASH_SEP);
     if (splits.length > 4 || splits.length < 3) {
       selected_book = all_books[0];
       selected_chapter = "";
@@ -57,10 +61,7 @@
     do_search();
     if (slug) {
       selected_slug = slug;
-      select_item($(".item[rel=" + slug + "]"));
-      return $("#items").isotope({
-        sortBy: "slug"
-      });
+      return skip_overview = true;
     }
   };
   wm_shown = false;
@@ -198,7 +199,7 @@
         budget: function(e) {
           return -parseInt("0" + e.attr('cost'), 10);
         },
-        slug: function(e) {
+        oneitem: function(e) {
           if (e.attr("rel") === selected_slug) {
             return 0;
           } else {
@@ -246,37 +247,46 @@
     $(".item").click(function() {
       return select_item($(this));
     });
+    window.onhashchange = onhashchange;
+    onhashchange();
     modal_options = {
       backdrop: true,
       keyboard: true,
-      show: true
+      show: false
     };
     $("#overview").modal(modal_options);
     $("#overview-close").click(function() {
       return $("#overview").modal('hide');
     });
-    window.onhashchange = onhashchange;
-    return onhashchange();
+    if (skip_overview) {
+      return select_item($(".item[rel=" + selected_slug + "]"));
+    } else {
+      return $("#overview").modal('show');
+    }
   };
   select_item = function(item) {
-    var slug, url;
+    var url;
     $('fb\\:comments').remove();
     if (item.hasClass("bigger")) {
       item.removeClass("bigger");
+      return $("#items").isotope('reLayout', function() {});
     } else {
       $(".item").removeClass("bigger");
       item.addClass("bigger");
-      slug = item.attr("rel");
-      url = generate_url(slug);
+      selected_slug = item.attr("rel");
+      url = generate_url(selected_slug);
       item.append("<fb:comments href='" + url + "' num_posts='2' width='590'></fb:comments>");
-      FB.XFBML.parse(item.get(0), function() {
+      return FB.XFBML.parse(item.get(0), function() {
         return setTimeout(function() {
-          return $("#items").isotope('reLayout', function() {});
-        }, 3000);
+          $("#items").isotope('reLayout');
+          return setTimeout(function() {
+            return $(".item[rel=" + selected_slug + "]").scrollintoview();
+          }, 1000);
+        }, 1000);
       });
     }
-    return $("#items").isotope('reLayout', function() {});
   };
+  $("#items").isotope('reLayout');
   do_search = function() {
     var field, found, new_fields, re, rec, should_show, slug, _i, _j, _len, _len2, _ref;
     re = RegExp(search_term, "ig");
