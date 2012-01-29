@@ -188,10 +188,16 @@
           text = text.split(';');
           return text = do_list(text);
         };
+      },
+      urlforslug: function() {
+        return function(text, render) {
+          text = render(text);
+          return generate_url(text);
+        };
       }
     });
     $("#items").html(html);
-    return setTimeout(start_handlers, 0);
+    return setTimeout(start_handlers, 50);
   };
   start_handlers = function() {
     var modal_options;
@@ -214,6 +220,9 @@
         },
         budget: function(e) {
           return -parseInt("0" + e.attr('cost'), 10);
+        },
+        comments: function(e) {
+          return -parseInt("0" + e.find('.fb_comments_count').text(), 10);
         },
         oneitem: function(e) {
           if (e.attr("rel") === selected_slug) {
@@ -274,12 +283,15 @@
     $("#overview-close").click(function() {
       return $("#overview").modal('hide');
     });
-    if (skip_overview) {
-      return select_item($(".item[rel=" + selected_slug + "]"));
-    } else {
-      return $("#overview").modal('show');
-    }
+    return FB.XFBML.parse($("#items").get(0), function() {
+      return $("#items").isotope('updateSortData', $items);
+    });
   };
+  if (skip_overview) {
+    select_item($(".item[rel=" + selected_slug + "]"));
+  } else {
+    $("#overview").modal('show');
+  }
   select_item = function(item) {
     var url;
     $('fb\\:comments').remove();

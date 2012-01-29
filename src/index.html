@@ -109,6 +109,9 @@
         {{/challenges}}
   </div>
   <div class="buxa-footer"></div>
+  <div class="facebook-comment-count">
+    <fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count> תגובות
+  </div>
 </div>
 {{/items}}
     </script>
@@ -157,7 +160,8 @@
 	  <select id="sort" name="normalSelect">
 	    <option value="chapter">פרק</option>
 	    <option value="budget">עלות תקציבית</option>
-	    <option value="recommendation">שם</option>
+        <option value="recommendation">שם</option>
+        <option value="comments">מספר תגובות</option>
 	  </select>
           <ul>
             <li><a href="#">לינק</a></li>

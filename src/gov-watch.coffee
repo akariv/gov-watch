@@ -197,11 +197,15 @@ process_data = ->
                                     text = render(text)
                                     text = text.split(';')
                                     text = do_list(text)
+                            urlforslug: ->
+                                (text,render) ->
+                                    text = render(text)
+                                    generate_url( text )
                             )
     # Update the document with rendered HTML
     $("#items").html(html)
     # Allow the DOM to sync
-    setTimeout( start_handlers, 0 )
+    setTimeout( start_handlers, 50 )
 
 ## Apply event handlers on the DOM, Isotope initialization    
 start_handlers = ->
@@ -217,6 +221,8 @@ start_handlers = ->
            recommendation :  ( e ) -> e.find('.recommendation-text').text()
            budget :  ( e ) -> 
                         -parseInt( "0"+e.attr('cost'), 10 )
+           comments :  ( e ) -> 
+                        -parseInt( "0"+e.find('.fb_comments_count').text(), 10 )
            oneitem : ( e ) -> 
                     if e.attr("rel") == selected_slug
                        0
@@ -267,6 +273,10 @@ start_handlers = ->
        show: false
     $("#overview").modal( modal_options )
     $("#overview-close").click -> $("#overview").modal('hide')
+    
+    FB.XFBML.parse( $("#items").get(0),
+                    () -> $("#items").isotope( 'updateSortData', $items )
+                  )
     
     if skip_overview
         select_item( $(".item[rel=#{selected_slug}]") )
