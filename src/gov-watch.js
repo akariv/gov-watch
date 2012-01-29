@@ -284,7 +284,7 @@
       return $("#overview").modal('hide');
     });
     return FB.XFBML.parse($("#items").get(0), function() {
-      return $("#items").isotope('updateSortData', $items);
+      return $("#items").isotope('updateSortData', $("#items"));
     });
   };
   if (skip_overview) {

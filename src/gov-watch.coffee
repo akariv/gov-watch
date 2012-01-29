@@ -275,7 +275,7 @@ start_handlers = ->
     $("#overview-close").click -> $("#overview").modal('hide')
     
     FB.XFBML.parse( $("#items").get(0),
-                    () -> $("#items").isotope( 'updateSortData', $items )
+                    () -> $("#items").isotope( 'updateSortData', $("#items") )
                   )
     
     if skip_overview
