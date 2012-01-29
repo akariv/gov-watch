@@ -273,13 +273,13 @@ start_handlers = ->
        show: false
     $("#overview").modal( modal_options )
     $("#overview-close").click -> $("#overview").modal('hide')
-    
-    FB.XFBML.parse( $("#items").get(0),
-                    () -> $("#items").isotope( 'updateSortData', $("#items") )
-                  )
-    
+    #update_sort_data = () -> $("#items").isotope( 'updateSortData', $("#items") )
+    #FB.XFBML.parse( $("#items").get(0), update_sort_data )
     if skip_overview
         select_item( $(".item[rel=#{selected_slug}]") )
+        $(".item").removeClass("shown")
+        $(".item[rel=#{selected_slug}]").addClass("shown")
+        $("#items").isotope({filter: ".shown"});
     else
         $("#overview").modal('show')
 
@@ -298,18 +298,16 @@ select_item = (item) ->
         url = generate_url(selected_slug)
         item.append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
         item.append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
-        FB.XFBML.parse( item.get(0), 
-                        () -> 
-                            setTimeout( () -> 
-                                             $("#items").isotope( 'reLayout' )
-                                             setTimeout( 
-                                                         () ->
-                                                             $(".item[rel=#{selected_slug}]").scrollintoview()
-                                                         , 
-                                                         1000 )
-                                       , 1000  )
-                       )
-    $("#items").isotope( 'reLayout' )
+        scroll_selected_item_into_view = () -> $(".item[rel=#{selected_slug}]").scrollintoview()
+        relayout_and_scroll = () ->
+             $("#items").isotope( 'reLayout' )
+             setTimeout( scroll_selected_item_into_view, 1000 )
+        FB.XFBML.parse( 
+                        item.get(0) 
+                        , 
+                        () -> setTimeout( relayout_and_scroll, 1000 )
+                      )
+        $("#items").isotope( 'reLayout' )
 
 ## Perform search on the site's data
 do_search = ->

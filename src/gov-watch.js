@@ -283,22 +283,24 @@
     $("#overview-close").click(function() {
       return $("#overview").modal('hide');
     });
-    return FB.XFBML.parse($("#items").get(0), function() {
-      return $("#items").isotope('updateSortData', $("#items"));
-    });
+    if (skip_overview) {
+      select_item($(".item[rel=" + selected_slug + "]"));
+      $(".item").removeClass("shown");
+      $(".item[rel=" + selected_slug + "]").addClass("shown");
+      return $("#items").isotope({
+        filter: ".shown"
+      });
+    } else {
+      return $("#overview").modal('show');
+    }
   };
-  if (skip_overview) {
-    select_item($(".item[rel=" + selected_slug + "]"));
-  } else {
-    $("#overview").modal('show');
-  }
   select_item = function(item) {
-    var url;
+    var relayout_and_scroll, scroll_selected_item_into_view, url;
     $('fb\\:comments').remove();
     $('fb\\:like').remove();
     if (item.hasClass("bigger")) {
       item.removeClass("bigger");
-      return $("#items").isotope('reLayout', function() {});
+      $("#items").isotope('reLayout', function() {});
     } else {
       $(".item").removeClass("bigger");
       item.addClass("bigger");
@@ -307,17 +309,19 @@
       url = generate_url(selected_slug);
       item.append("<fb:like href='" + url + "' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>");
       item.append("<fb:comments href='" + url + "' num_posts='2' width='590'></fb:comments>");
-      return FB.XFBML.parse(item.get(0), function() {
-        return setTimeout(function() {
-          $("#items").isotope('reLayout');
-          return setTimeout(function() {
-            return $(".item[rel=" + selected_slug + "]").scrollintoview();
-          }, 1000);
-        }, 1000);
+      scroll_selected_item_into_view = function() {
+        return $(".item[rel=" + selected_slug + "]").scrollintoview();
+      };
+      relayout_and_scroll = function() {
+        $("#items").isotope('reLayout');
+        return setTimeout(scroll_selected_item_into_view, 1000);
+      };
+      FB.XFBML.parse(item.get(0), function() {
+        return setTimeout(relayout_and_scroll, 1000);
       });
     }
+    return $("#items").isotope('reLayout');
   };
-  $("#items").isotope('reLayout');
   do_search = function() {
     var field, found, new_fields, re, rec, should_show, slug, _i, _j, _len, _len2, _ref;
     re = RegExp(search_term, "ig");
