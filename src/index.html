@@ -84,16 +84,22 @@
 	              <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
 	            </div>
 	        </div>
-<!--
+
         {{#result_metric}}
-           <div class="result_metric">מה המטרה? 
+           <div class="result_metric">
+	        	<h5>מה המטרה?</h5> 
                 <span class="result_metric-text">
                     {{result_metric}}
                 </span>
            </div>
         {{/result_metric}}
-        <div class="execution_metric">מה התוצרים? <span class="execution_metric-text">{{#none_val}}{{execution_metric}}{{/none_val}}</span></div>
--->
+        	<div class="execution_metric">
+	        	<h5>מה התוצרים?</h5>
+				<span class="execution_metric-text">
+					{{#none_val}}{{execution_metric}}{{/none_val}}
+				</span>
+			</div>
+
      </div>
   </div>
   
