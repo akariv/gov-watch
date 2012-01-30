@@ -25,12 +25,8 @@ generate_url = (slug) ->
 
 ## Change page's hash - this is the way we keep (and update) our current state
 update_history = ->
-    setTimeout( 
-                () -> 
-                    window.location.hash = generate_hash( selected_book, selected_chapter, search_term )
-               ,
-                0 
-              )
+    await setTimeout((defer _),0)
+    window.location.hash = generate_hash( selected_book, selected_chapter, search_term )
 
 ## Process page hash changes
 onhashchange = ->
@@ -83,13 +79,13 @@ onhashchange = ->
    if search_term != ""
       show_watermark(false)
       $("#searchbox").val(search_term)
-
-   # apply these filters
-   do_search()
    
    if slug
       selected_slug = slug
       skip_overview = true
+   else
+      # apply these filters
+      do_search()
 
 ## Watermark handling
 wm_shown = false
@@ -204,11 +200,11 @@ process_data = ->
                             )
     # Update the document with rendered HTML
     $("#items").html(html)
+    
     # Allow the DOM to sync
-    setTimeout( start_handlers, 50 )
+    await setTimeout((defer _),50)
 
-## Apply event handlers on the DOM, Isotope initialization    
-start_handlers = ->
+    # Apply event handlers on the DOM, Isotope initialization    
     # modify Isotope's absolute position method (for RTL)
     $.Isotope.prototype._positionAbs = ( x, y ) -> { right: x, top: y }
     # initialize Isotope
@@ -298,15 +294,12 @@ select_item = (item) ->
         url = generate_url(selected_slug)
         item.append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
         item.append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
-        scroll_selected_item_into_view = () -> $(".item[rel=#{selected_slug}]").scrollintoview()
-        relayout_and_scroll = () ->
-             $("#items").isotope( 'reLayout' )
-             setTimeout( scroll_selected_item_into_view, 1000 )
-        FB.XFBML.parse( 
-                        item.get(0) 
-                        , 
-                        () -> setTimeout( relayout_and_scroll, 1000 )
-                      )
+        await FB.XFBML.parse( item.get(0), (defer _) )
+        await setTimeout( (defer _),1000 ) 
+        $(".item[rel=#{selected_slug}]").scrollintoview()
+        $("#items").isotope( 'reLayout' )
+        await setTimeout( (defer _),1000 ) 
+        $(".item[rel=#{selected_slug}]").scrollintoview()
         $("#items").isotope( 'reLayout' )
 
 ## Perform search on the site's data
@@ -320,22 +313,19 @@ do_search = ->
         slug = rec._srcslug
 
         should_show = search_term == ""
-        new_fields = {}
-
+        #new_fields = {}
         # search the term in prespecified fields
-        for field in [ "recommendation", "subject", "result_metric", "title", "execution_metric", "chapter", "responsible_authority"]
-            if search_term == ""
-                found = false
-            else
+        if search_term != ""
+            for field in [ "recommendation", "subject", "result_metric", "title", "execution_metric", "chapter", "responsible_authority"]
                 if rec[field]
-                        found = rec[field].search(search_term) != -1
-                        # we replace the text of the item with the highlight span
-                        new_fields[field] = rec[field].replace(search_term,"<span class='highlight'>#{search_term}</span>")
+                    found = rec[field].search(search_term) != -1
+                    # we replace the text of the item with the highlight span
+                    #new_fields[field] = rec[field].replace(search_term,"<span class='highlight'>#{search_term}</span>")
                 else
-                        found = false
-                        new_fields[field] = null
+                    found = false
+                    # new_fields[field] = null
 
-            should_show = should_show or found
+                should_show = should_show or found
 
         # should_show determines if the item should be shown in the search
         should_show = should_show and ((selected_book == "") or (rec.book == selected_book)) and ((selected_chapter == "") or (rec.chapter == selected_chapter))
@@ -344,21 +334,20 @@ do_search = ->
         $(".item[rel=#{slug}]").toggleClass("shown",should_show)
 
         # replace the items text with the new text (incl. highlight span)
-        $(".item[rel=#{slug}] .chapter-text").html(new_fields["chapter"])
-        $(".item[rel=#{slug}] .recommendation-text").html(new_fields["recommendation"])
-        $(".item[rel=#{slug}] .execution_metric-text").html(new_fields["execution_metric"])
-        $(".item[rel=#{slug}] .responsible_authority-text").html(new_fields["responsible_authority"])
-        $(".item[rel=#{slug}] .subject-text").html(new_fields["subject"])
-        $(".item[rel=#{slug}] .result_metric-text").html(new_fields["result_metric"])
-        $(".item[rel=#{slug}] .title-text").html(new_fields["title"])
+        # $(".item[rel=#{slug}] .chapter-text").html(new_fields["chapter"])
+        # $(".item[rel=#{slug}] .recommendation-text").html(new_fields["recommendation"])
+        # $(".item[rel=#{slug}] .execution_metric-text").html(new_fields["execution_metric"])
+        # $(".item[rel=#{slug}] .responsible_authority-text").html(new_fields["responsible_authority"])
+        # $(".item[rel=#{slug}] .subject-text").html(new_fields["subject"])
+        # $(".item[rel=#{slug}] .result_metric-text").html(new_fields["result_metric"])
+        # $(".item[rel=#{slug}] .title-text").html(new_fields["title"])
 
     # apply the filtering using Isotope
     $("#items").isotope({filter: ".shown"});
 
     # start the fading of the highlight spans
-    window.setTimeout( ->
-                            $(".highlight").toggleClass('highlight-off',true)
-                       10 )
+    await setTimeout((defer _),10)
+    $(".highlight").toggleClass('highlight-off',true)
 
 ## Load the current data for the site from google docs
 load_from_gdocs = ->

@@ -161,6 +161,10 @@ body {
     }
   }
   
+  .for-bigger {
+    display:none;
+  }
+  
 /**** Item.BIGGER
 *******************************************************/  
   
@@ -169,7 +173,11 @@ body {
     max-width: 950px; //3*@itemwidth + 4*@itempadding + 2*@gutter; 
     max-height: 500px;
     overflow-y: scroll;
-  }
+    
+    .for-bigger {
+      display:inherit;
+    }
+  }  
   
 } // End .item
 
@@ -223,4 +231,15 @@ body {
      -moz-transition-duration: 0s;
        -o-transition-duration: 0s;
           transition-duration: 0s;
+}
+
+/**** Isotope filtering ****/
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
 }

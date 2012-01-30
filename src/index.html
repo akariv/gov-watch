@@ -33,7 +33,7 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item span6- shown" rel="{{_srcslug}}" title="{{recommendation}}" cost="{{budget_cost_millions}}">
+<div class="item span6- " rel="{{_srcslug}}" title="{{recommendation}}" cost="{{budget_cost_millions}}">
     
     <ul class="breadcrumb">
       <li class="chapter"><a href="#"><span class="chapter-text">{{chapter}}</span></a> <span>&larr;</span></li>
@@ -65,6 +65,18 @@
 	        	<h5>מיועד להסתיים</h5>
 				<span class="schedule-text">{{schedule}}</span>
 			</div>
+            {{#result_metric}}
+                <div class="for-bigger result_metric">מה המטרה? 
+                    <span class="result_metric-text">
+                        {{result_metric}}
+                    </span>
+                </div>
+            {{/result_metric}}
+            <div class="for-bigger execution_metric">מה התוצרים? 
+                <span class="execution_metric-text">
+                    {{#none_val}}{{execution_metric}}{{/none_val}}
+                </span>
+            </div>
 	        <div class="updated">
 	        	<h5>עדכון אחרון</h5>
 				<span class="schedule-text">{{updated}}</span>
@@ -76,16 +88,6 @@
 	              <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
 	            </div>
 	        </div>
-<!--
-        {{#result_metric}}
-           <div class="result_metric">מה המטרה? 
-                <span class="result_metric-text">
-                    {{result_metric}}
-                </span>
-           </div>
-        {{/result_metric}}
-        <div class="execution_metric">מה התוצרים? <span class="execution_metric-text">{{#none_val}}{{execution_metric}}{{/none_val}}</span></div>
--->
      </div>
   </div>
   
