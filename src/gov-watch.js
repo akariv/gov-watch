@@ -76,7 +76,7 @@
     return "http://" + window.location.host + "/#" + (generate_hash("", "", "", slug));
   };
 
-  update_history = function() {
+  update_history = function(slug) {
     var ___iced_passed_deferral, __iced_deferrals,
       _this = this;
     ___iced_passed_deferral = iced.findDeferral(arguments);
@@ -96,7 +96,7 @@
       })), 0);
       __iced_deferrals._fulfill();
     })(function() {
-      return window.location.hash = generate_hash(selected_book, selected_chapter, search_term);
+      return window.location.hash = generate_hash(selected_book, selected_chapter, search_term, slug);
     });
   };
 
@@ -117,7 +117,7 @@
       if (key === CHAPTER) selected_chapter = value;
       if (key === SEARCHTERM) search_term = value;
     }
-    if (!selected_book) {
+    if (!selected_book && !slug) {
       selected_book = all_books[0];
       selected_chapter = "";
       update_history();
@@ -139,10 +139,22 @@
       show_watermark(false);
       $("#searchbox").val(search_term);
     }
+    $(".item").removeClass("bigger");
     if (slug) {
       selected_slug = slug;
-      return skip_overview = true;
+      $("body").addClass("detail-view");
+      $("body").removeClass("list-view");
+      select_item($(".item[rel=" + selected_slug + "]"));
+      $(".item").removeClass("shown");
+      $(".item[rel=" + selected_slug + "]").addClass("shown");
+      $(".item[rel=" + selected_slug + "]").addClass("bigger");
+      return $("#items").isotope({
+        filter: ".shown"
+      });
     } else {
+      select_item(null);
+      $("body").addClass("list-view");
+      $("body").removeClass("detail-view");
       return do_search();
     }
   };
@@ -276,7 +288,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 204
+        lineno: 214
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -290,6 +302,7 @@
         itemSelector: '.item',
         layoutMode: 'masonry',
         transformsEnabled: false,
+        filter: ".shown",
         getSortData: {
           chapter: function(e) {
             return e.find('.chapter-text').text();
@@ -347,7 +360,7 @@
         });
       });
       $(".item").click(function() {
-        return select_item($(this));
+        return update_history($(this).attr('rel'));
       });
       window.onhashchange = onhashchange;
       onhashchange();
@@ -357,19 +370,9 @@
         show: false
       };
       $("#overview").modal(modal_options);
-      $("#overview-close").click(function() {
+      return $("#overview-close").click(function() {
         return $("#overview").modal('hide');
       });
-      if (skip_overview) {
-        select_item($(".item[rel=" + selected_slug + "]"));
-        $(".item").removeClass("shown");
-        $(".item[rel=" + selected_slug + "]").addClass("shown");
-        return $("#items").isotope({
-          filter: ".shown"
-        });
-      } else {
-        return $("#overview").modal('show');
-      }
     });
   };
 
@@ -379,51 +382,42 @@
     ___iced_passed_deferral = iced.findDeferral(arguments);
     $('fb\\:comments').remove();
     $('fb\\:like').remove();
-    if (item.hasClass("bigger")) {
-      item.removeClass("bigger");
-      return __iced_k($("#items").isotope('reLayout', function() {}));
-    } else {
-      $(".item").removeClass("bigger");
-      item.addClass("bigger");
-      $("#items").isotope('reLayout', function() {});
-      selected_slug = item.attr("rel");
-      url = generate_url(selected_slug);
-      item.append("<fb:like href='" + url + "' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>");
-      item.append("<fb:comments href='" + url + "' num_posts='2' width='590'></fb:comments>");
-      (function(__iced_k) {
-        __iced_deferrals = new iced.Deferrals(__iced_k, {
-          parent: ___iced_passed_deferral,
-          filename: 'gov-watch.coffee',
-          funcname: 'select_item'
-        });
-        FB.XFBML.parse(item.get(0), (__iced_deferrals.defer({
-          assign_fn: (function() {
-            return function() {
-              return __iced_deferrals.ret = arguments[0];
-            };
-          })(),
-          lineno: 296
-        })));
-        __iced_deferrals._fulfill();
-      })(function() {
+    $(".item").removeClass("bigger");
+    (function(__iced_k) {
+      if (item) {
+        item.addClass("bigger");
+        $("#items").isotope('reLayout', function() {});
+        selected_slug = item.attr("rel");
+        url = generate_url(selected_slug);
+        item.append("<fb:like href='" + url + "' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>");
+        item.append("<fb:comments href='" + url + "' num_posts='2' width='590'></fb:comments>");
         (function(__iced_k) {
           __iced_deferrals = new iced.Deferrals(__iced_k, {
             parent: ___iced_passed_deferral,
             filename: 'gov-watch.coffee',
             funcname: 'select_item'
           });
-          setTimeout((__iced_deferrals.defer({
-            assign_fn: (function() {
-              return function() {
-                return __iced_deferrals.ret = arguments[0];
-              };
-            })(),
-            lineno: 297
-          })), 1000);
+          if (window.FB) {
+            FB.XFBML.parse(item.get(0), (__iced_deferrals.defer({
+              assign_fn: (function() {
+                return function() {
+                  return __iced_deferrals.ret = arguments[0];
+                };
+              })(),
+              lineno: 299
+            })));
+          } else {
+            __iced_deferrals.defer({
+              assign_fn: (function() {
+                return function() {
+                  return __iced_deferrals.ret = arguments[0];
+                };
+              })(),
+              lineno: 302
+            });
+          }
           __iced_deferrals._fulfill();
         })(function() {
-          $(".item[rel=" + selected_slug + "]").scrollintoview();
-          $("#items").isotope('reLayout');
           (function(__iced_k) {
             __iced_deferrals = new iced.Deferrals(__iced_k, {
               parent: ___iced_passed_deferral,
@@ -436,16 +430,38 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 300
+              lineno: 302
             })), 1000);
             __iced_deferrals._fulfill();
           })(function() {
             $(".item[rel=" + selected_slug + "]").scrollintoview();
-            return __iced_k($("#items").isotope('reLayout'));
+            $("#items").isotope('reLayout');
+            (function(__iced_k) {
+              __iced_deferrals = new iced.Deferrals(__iced_k, {
+                parent: ___iced_passed_deferral,
+                filename: 'gov-watch.coffee',
+                funcname: 'select_item'
+              });
+              setTimeout((__iced_deferrals.defer({
+                assign_fn: (function() {
+                  return function() {
+                    return __iced_deferrals.ret = arguments[0];
+                  };
+                })(),
+                lineno: 305
+              })), 1000);
+              __iced_deferrals._fulfill();
+            })(function() {
+              return __iced_k($(".item[rel=" + selected_slug + "]").scrollintoview());
+            });
           });
         });
-      });
-    }
+      } else {
+        return __iced_k();
+      }
+    })(function() {
+      return $("#items").isotope('reLayout');
+    });
   };
 
   do_search = function() {
@@ -487,11 +503,11 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 348
-      })), 10);
+        lineno: 352
+      })), 1000);
       __iced_deferrals._fulfill();
     })(function() {
-      return $(".highlight").toggleClass('highlight-off', true);
+      return $(".item[rel=" + selected_slug + "]").scrollintoview();
     });
   };
 

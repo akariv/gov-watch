@@ -24,9 +24,9 @@ generate_url = (slug) ->
     "http://#{window.location.host}/##{generate_hash( "", "", "", slug )}"
 
 ## Change page's hash - this is the way we keep (and update) our current state
-update_history = ->
+update_history = (slug) ->
     await setTimeout((defer _),0)
-    window.location.hash = generate_hash( selected_book, selected_chapter, search_term )
+    window.location.hash = generate_hash( selected_book, selected_chapter, search_term, slug )
 
 ## Process page hash changes
 onhashchange = ->
@@ -54,7 +54,7 @@ onhashchange = ->
        if key == SEARCHTERM
           search_term = value
 
-   if not selected_book
+   if not selected_book and not slug
        # fix hash to be of the correct form
        selected_book = all_books[0]
        selected_chapter = ""
@@ -80,11 +80,21 @@ onhashchange = ->
       show_watermark(false)
       $("#searchbox").val(search_term)
    
+   $(".item").removeClass("bigger")
    if slug
       selected_slug = slug
-      skip_overview = true
+      $("body").addClass("detail-view")
+      $("body").removeClass("list-view")
+      select_item( $(".item[rel=#{selected_slug}]") )
+      $(".item").removeClass("shown")
+      $(".item[rel=#{selected_slug}]").addClass("shown")
+      $(".item[rel=#{selected_slug}]").addClass("bigger")
+      $("#items").isotope({filter: ".shown"})
    else
       # apply these filters
+      select_item(null)
+      $("body").addClass("list-view")
+      $("body").removeClass("detail-view")
       do_search()
 
 ## Watermark handling
@@ -212,6 +222,7 @@ process_data = ->
         itemSelector : '.item'
         layoutMode : 'masonry'
         transformsEnabled: false
+        filter: ".shown"
         getSortData :
            chapter :  ( e ) -> e.find('.chapter-text').text()
            recommendation :  ( e ) -> e.find('.recommendation-text').text()
@@ -256,7 +267,7 @@ process_data = ->
         $("#items").isotope({ sortBy: sort_measure })
     
     # item click handler
-    $(".item").click -> select_item( $(this) )
+    $(".item").click -> update_history($(this).attr('rel'))
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
@@ -271,36 +282,30 @@ process_data = ->
     $("#overview-close").click -> $("#overview").modal('hide')
     #update_sort_data = () -> $("#items").isotope( 'updateSortData', $("#items") )
     #FB.XFBML.parse( $("#items").get(0), update_sort_data )
-    if skip_overview
-        select_item( $(".item[rel=#{selected_slug}]") )
-        $(".item").removeClass("shown")
-        $(".item[rel=#{selected_slug}]").addClass("shown")
-        $("#items").isotope({filter: ".shown"});
-    else
-        $("#overview").modal('show')
 
 ## Item selection
 select_item = (item) ->
     $('fb\\:comments').remove()
     $('fb\\:like').remove()
-    if item.hasClass("bigger")
-        item.removeClass("bigger")
-        $("#items").isotope( 'reLayout', -> )        
-    else
-        $(".item").removeClass("bigger")
-        item.addClass("bigger")
-        $("#items").isotope( 'reLayout', -> )        
-        selected_slug = item.attr("rel")
-        url = generate_url(selected_slug)
-        item.append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
-        item.append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
-        await FB.XFBML.parse( item.get(0), (defer _) )
-        await setTimeout( (defer _),1000 ) 
-        $(".item[rel=#{selected_slug}]").scrollintoview()
-        $("#items").isotope( 'reLayout' )
-        await setTimeout( (defer _),1000 ) 
-        $(".item[rel=#{selected_slug}]").scrollintoview()
-        $("#items").isotope( 'reLayout' )
+    $(".item").removeClass("bigger")
+    if item
+      item.addClass("bigger")
+      $("#items").isotope( 'reLayout', -> )        
+      selected_slug = item.attr("rel")
+      url = generate_url(selected_slug)
+      item.append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
+      item.append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
+      await
+        if window.FB
+            FB.XFBML.parse( item.get(0), (defer _) )
+        else
+            defer _
+      await setTimeout( (defer _),1000 ) 
+      $(".item[rel=#{selected_slug}]").scrollintoview()
+      $("#items").isotope( 'reLayout' )
+      await setTimeout( (defer _),1000 ) 
+      $(".item[rel=#{selected_slug}]").scrollintoview()
+    $("#items").isotope( 'reLayout' )
 
 ## Perform search on the site's data
 do_search = ->
@@ -345,9 +350,12 @@ do_search = ->
     # apply the filtering using Isotope
     $("#items").isotope({filter: ".shown"});
 
+    await setTimeout (defer _),1000
+    $(".item[rel=#{selected_slug}]").scrollintoview()
+
     # start the fading of the highlight spans
-    await setTimeout((defer _),10)
-    $(".highlight").toggleClass('highlight-off',true)
+    #await setTimeout((defer _),10)
+    #$(".highlight").toggleClass('highlight-off',true)
 
 ## Load the current data for the site from google docs
 load_from_gdocs = ->

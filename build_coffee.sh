@@ -1,3 +1,3 @@
 #!/bin/bash
 
-coffee -c .
+iced -I inline -c .
