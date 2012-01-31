@@ -93,7 +93,7 @@ body {
 }
 
 .item{
-  width: @itemwidth;
+  max-width: @itemwidth;
   padding: @itempadding - 1px ;
   margin: 0 0 20px;
   border: 1px solid @lightgray;
@@ -179,8 +179,7 @@ body {
 *******************************************************/  
   
   &.bigger{
-    width: 100%;
-    max-width: 2*@itemwidth + 2*@itempadding + @gutter; 
+    max-width: 700px; 
     //max-height: 500px;
     //overflow-y: scroll;
     
