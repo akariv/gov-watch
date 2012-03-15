@@ -5,7 +5,9 @@ A project that helps us track our government.
 Usage
 -----
 Currently working with the tracthenberg committee report, the code includes everything you need to get going. Just:
-
+   
+    $ git submodule init
+    $ git submoodule update
     $ cd src
     $ python -m SimpleHTTPServer
 
