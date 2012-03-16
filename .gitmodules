@@ -1,3 +1,6 @@
 [submodule "src/bootstrap"]
 	path = src/bootstrap
 	url = https://github.com/mushon/bootstrap
+[submodule "src/jse"]
+	path = src/jse
+	url = git@github.com:akariv/json-structured-editor.git
