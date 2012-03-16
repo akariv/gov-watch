@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="he-IL" xmlns:fb="http://ogp.me/ns/fb#">
+  <head>
+    <meta charset="utf-8">
+    <title>דו"ח טרכטנברג | המפקח: מעקב אחר ישום המלצות הועדה</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta property="og:title" content="מעקב יישום מסקנות וועדת טרכטנברג" />
+    <meta property="og:type" content="government" />
+    <meta property="og:url" content="http://watch.yeda.us/#" />
+    <meta property="og:image" content="http://m4.licdn.com/media/p/2/000/01e/2a0/34e6593.jpg" />
+    <meta property="og:site_name" content="מעקב יישום מסקנות וועדת טרכטנברג" />
+    <meta property="fb:admins" content="100000025217694" />
+
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <!-- Less -->
+    <link rel="stylesheet" href="static/css/style.css"/>
+    <!--script src="static/js/less-1.3.0.min.js"></script-->
+
+    <script type="text/html" name="list">
+    <ul>
+    {{#items}}
+       - {{#linkify}}{{.}}{{/linkify}}<br/>
+    {{/items}}
+    </ul>
+    </script>
+
+	<script type="text/html" name="item">
+{{#items}}
+<div class="item span6- " rel="{{slug}}" title="{{recommendation}}" cost="{{budget_cost_millions}}">
+    
+    <ul class="breadcrumb">
+      <li class="chapter"><a href="#"><span class="chapter-text">{{chapter}}</span></a> <span>&larr;</span></li>
+      {{#title}}
+      <li class="title"><a href="#"><span class="title-text">{{title}}</span></a> <span>&larr;</span></li>
+      {{/title}}
+      {{#subject}}
+      <li class="subject"><a href="#"><span class="subject-text">{{subject}}</span></a> <span>&larr;</span></li>
+      {{/subject}}
+    </ul>
+    
+    <h2 class="buxa-header">
+      <a href="#" class="recommendation-text">
+      {{recommendation}}
+      </a>
+      &nbsp;<a class="hover-toggle" href="#">סגור</a>
+    </h2>
+  <!--
+  <div class="buxa first">
+    <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
+    <span class="interaction">
+      <a class="hover-toggle" href="#">עוד...</a>
+    </span>
+  </div>
+  -->
+  <div class="buxa">
+    <div class="status">
+      <div class="schedule">
+	<h5>מיועד להסתיים</h5>
+	<span class="schedule-text">{{schedule}}</span>
+      </div>
+      <div class="updated">
+	<h5>עדכון אחרון</h5>
+	<span class="schedule-text">{{updated}}</span>
+      </div>
+      <div class="current_status">
+	<h5>מה קורה עם זה עכשיו?</h5> 
+	<div class="current_status-text">
+	  <div class="current_status-gov">{{#gov_current_status}}מטעם הממשלה: {{#semicolon_list}}{{gov_current_status}}{{/semicolon_list}}{{/gov_current_status}}</div>
+	  <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
+	</div>
+      </div>
+      
+      {{#result_metric}}
+      <div class="result_metric">
+	<h5>מה המטרה?</h5> 
+        <span class="result_metric-text">
+          {{result_metric}}
+        </span>
+      </div>
+      {{/result_metric}}
+      {{#execution_metric}}
+      <div class="execution_metric">
+	<h5>מה התוצרים?</h5>
+	<span class="execution_metric-text">
+	  {{#none_val}}{{execution_metric}}{{/none_val}}
+	</span>
+      </div>
+      {{/execution_metric}}
+      
+    </div>
+  </div>
+  
+  <div class="buxa last">
+        {{#budget_cost}}
+           <div class="budget_cost"><strong>עלות:</strong> <span class="budget_cost-text">{{budget_cost}}</span></div>
+        {{/budget_cost}}
+        {{#responsible_authority}}
+           <div class="responsible_authority"><strong>אחראי:</strong> <span class="responsible_authority-text">{{responsible_authority}}</span></div>
+        {{/responsible_authority}}
+        {{#challenges}}
+           <div class="challenges"><strong>אתגרים:</strong> <span class="challenges-text">{{#semicolon_list}}{{challenges}}{{/semicolon_list}}</span></div>
+        {{/challenges}}
+  </div>
+  <div class="buxa-footer"></div>
+  <div class="facebook-comment-count">
+  -->
+    <!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count--> 
+    תגובות
+  </div>
+</div>
+{{/items}}
+    </script>
+    
+</head>
+<body>
+
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">המפקח</a>
+          <ul class="nav">
+            <li class="active"><a href="#">דו"ח טרכטנברג</a></li>
+            <li class="dropdown">
+            	<a href="#" class="dropdown-toggle">דו"חות מבקר המדינה</a>
+            	<ul class="dropdown-menu">
+                	<li><a href="#">2012</a></li>
+                	<li><a href="#">2011</a></li>
+              </ul>
+            </li>
+            <li><a href="#about">אודות</a></li>
+            <li><a href="#contact">צרו קשר</a></li>
+          </ul>
+          <p class="pull-left">מחובר כ- <a href="#">שם משתמש</a></p>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="container-fluid">
+      <div class="sidebar">
+        <div class="well">
+        	<form id="searchbar" action="#">
+        		<fieldset id='search'>
+        			<legend>חפשו בדו"ח:</legend>
+        			<div class="clearfix">
+						<input id="searchbox" class="xlarge" type="text" size="30" name="xlInput">
+					</div>
+					<div id="filters">
+						<select id="books" name="normalSelect"></select>
+						<select id="chapters" name="normalSelect"></select>
+			        </div>
+				</fieldset>
+			</form>
+          <h5>סרגל צד</h5>
+	  <select id="sort" name="normalSelect">
+	    <option value="chapter">פרק</option>
+	    <option value="budget">עלות תקציבית</option>
+        <option value="recommendation">שם</option>
+        <option value="comments">מספר תגובות</option>
+	  </select>
+          <ul>
+            <li><a href="#">לינק</a></li>
+            <li><a href="#">לינק</a></li>
+            <li><a href="#">לינק</a></li>
+            <li><a href="#">לינק</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="content">
+      
+      
+        <!-- Main hero unit for a primary marketing message or call to action -->
+        <div class="hero-unit">
+          <h2><a href="#">המפקח</a>	&larr;</h2>
+          <h1>דו"ח טרכטנברג</h1>
+          <p>מעקב וביקורת אחרי ישום המלצות דו"ח שטרכטנברג בשיתוף המשרד לשיתוף הציבור, הסדנא לידע ציבורי והתאחדות הסטודנטים הארצית</p>
+          <p><a class="btn primary large">למדו עוד &raquo;</a></p>
+        </div>
+        
+        
+        <div id='container'>
+            <div id='items' class="row">
+            </div>
+        </div>
+        
+        <footer>
+          <p>חלק מהזכויות שמורות | הסדנא לידע ציבורי 2012</p>
+        </footer>
+        
+      </div>
+    </div>
+    
+    <div id="fb-root"></div>
+    <!-- JS -->
+    <script type='text/javascript' src='//connect.facebook.net/he_IL/all.js#xfbml=1&appId=161102067336024'></script>
+    <script type='text/javascript' src='static/js/jquery.min.js'></script>
+    <script type='text/javascript' src='static/bootstrap/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='static/js/mustache.js'></script>
+    <script type='text/javascript' src='static/js/jquery.isotope.min.js'></script>
+    <script type='text/javascript' src='static/js/jquery.scrollintoview.min.js'></script>
+    <script type='text/javascript' src='static/js/gov-watch.js'></script>
+    
+</body>
+</html>

@@ -6,13 +6,31 @@ Usage
 -----
 Currently working with the tracthenberg committee report, the code includes everything you need to get going. Just:
    
+    # Installations
+    $ npm install -g iced-coffee-script
+    $ npm install -g less
+    $ npm install -g uglify-js
+
+    ### Linux:
+    $ sudo apt-get install redis-server
+    
+    ### Mac:
+    $ brew install redis
+
+    $ easy_install redis    
+
     $ git submodule init
-    $ git submoodule update
-    $ cd src
-    $ python -m SimpleHTTPServer
+    $ git submodule update
 
-And then pointing your browser to http://127.0.0.1:8000
+    # Build 
+    $ cd ~/gov-watch/src/
+    $ ./build.sh
 
-The source data comes for a google docs spreadsheet_. 
+Then, at will, just run:
+    
+    # Run server
+    $ cd ~/gov-watch/server/
+    $ python dbserver.py
 
-.. _spreadsheet: https://docs.google.com/spreadsheet/ccc?key=0AurnydTPSIgUdE5DN2J5Y1c0UGZYbnZzT2dKOFgzV0E&hl=en_US
+And then pointing your browser to http://127.0.0.1:5000
+
