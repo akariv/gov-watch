@@ -5,18 +5,19 @@ import json
 from redis import Redis
 
 app = Flask(__name__)
+app.debug = True
 
 @app.route('/')
-def edit():
-    return render_template('index.html')
+def idx():
+    return Response(file('static/html/index.html').read())
 
 @app.route('/edit')
 def edit():
-    return render_template('edit_one.html')
+    return Response(file('static/html/edit_one.html').read())
 
 @app.route('/list')
 def list():
-    return render_template('edit_list.html')
+    return Response(file('static/html/edit_list.html').read())
 
 @app.route('/api')
 def listall():
