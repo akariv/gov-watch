@@ -63,7 +63,7 @@
       _results = [];
       for (_i = 0, _len = data.length; _i < _len; _i++) {
         item = data[_i];
-        _results.push($("#list").append("<div class='row'>                                         <div class='span7'>" + item.gov.subject + "</div>                                         <a href='/edit#" + item.slug + "' class='span1 btn btn-small btn-primary'>Edit</a>                                   </div>"));
+        _results.push($("#list").append("<div class='row'>                                         <div class='span7'>" + item['gov']['subject'] + "</div>                                         <a href='/edit#" + item.slug + "' class='span1 btn btn-small btn-primary'>Edit</a>                                   </div>"));
       }
       return _results;
     });

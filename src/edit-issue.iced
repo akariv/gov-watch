@@ -9,7 +9,7 @@ $( () ->
                 try
                         J.setvalue(newval)
                         $("#errors").html("&nbsp;")
-                        $("#saver input").val(JSON.stringify(newval))
+                        $("#saver input[name='data']").val(JSON.stringify(newval))
                         $("#saver").submit()
                 catch e
                         $("#errors").html(e)
