@@ -31,9 +31,9 @@ def getitem(slug):
 
 @app.route("/api/<slug>", methods=['POST'])
 def setitem(slug):
-    username = request.form["user"]
-    authkey = request.form["auth"]
-    assert( username == authkey )
+    user = request.form["user"]
+    auth = request.form["auth"]
+    assert( user == auth )
 
     newitem = request.form["data"]
     newitem = json.loads(newitem) 
