@@ -177,8 +177,8 @@
     all_books = {};
     for (_i = 0, _len = data.length; _i < _len; _i++) {
       rec = data[_i];
-      if (!all_books[rec.book]) all_books[rec.book] = {};
-      all_books[rec.book][rec.chapter] = true;
+      if (!all_books[rec.gov.book]) all_books[rec.gov.book] = {};
+      all_books[rec.gov.book][rec.gov.chapter] = true;
     }
     all_chapters = {};
     for (book in all_books) {
@@ -443,6 +443,7 @@
     for (_i = 0, _len = loaded_data.length; _i < _len; _i++) {
       rec = loaded_data[_i];
       slug = rec.slug;
+      rec = rec.gov;
       should_show = search_term === "";
       if (search_term !== "") {
         _ref = ["recommendation", "subject", "result_metric", "title", "chapter", "responsible_authority"];
@@ -474,7 +475,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 318
+        lineno: 319
       })), 1000);
       __iced_deferrals._fulfill();
     })(function() {
