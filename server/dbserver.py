@@ -42,16 +42,21 @@ def setitem(slug):
     currentrec = json.loads(currentrec)
     currentrec[user] = newitem
 
-    currentrec = json.dumps(currentrec,indent=0)
-    r.set(slug,currentrec)
-
     all_recs = r.get("all_recs")
     all_recs = json.loads(all_recs)
     all_recs = [ d for d in all_recs if d["slug"] != slug ]
     all_recs.append(currentrec)
-    all_recs = json.dumps(data,indent=0)
+
+    currentrec = json.dumps(currentrec,indent=0)
+    r.set(slug,currentrec)
+
+    all_recs = json.dumps(all_recs,indent=0)
     r.set("all_recs",all_recs)
-    file('data.json','wb').write(all_recs)
+
+    f = file('data.json','wb')
+    f.write(all_recs)
+    f.flush()
+    f.close()
     return redirect('/list')
 
 if __name__=="__main__":
