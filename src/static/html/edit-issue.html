@@ -3,15 +3,19 @@
 <head>
 <meta charset="utf-8">
 <script src="/static/js/jquery.min.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css" type="text/css" />
-<link rel="stylesheet" href="/static/jse/datepicker/css/datepicker.css" type="text/css" />
+<script src="/static/bootstrap/js/bootstrap.js" type="text/javascript"></script>
 <script src="/static/jse/datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
 <script src="/static/jse/jse.js" type="text/javascript"></script>
+<script src="/static/js/edit-issue.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/static/jse/datepicker/css/datepicker.css" type="text/css" />
+
 </head>
 <body>
   <div class="container">
     <div class="row">
-      <a class="span1 btn btn-primary" id="results-button">Save</a>
+      <a class="span1 btn btn-primary" id="results-button" data-toggle="modal" href="#savedialog">Save</a>
       <div class="span7" id="errors"><pre>&nbsp;</pre></div>
     </div>
     <div class="row">
@@ -19,8 +23,32 @@
       </div>
     </div>
   </div>
-  <form method="post" action="/api/1" id="saver">
-    <input type="hidden" name="data"></input>
-  </form>
+  <div class="modal" id="savedialog">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Modal header</h3>
+    </div>
+    <div class="modal-body">
+      <form method="post" action="/api/1" id="saver">
+	<div class='control-group'>
+          <label class='control-label'>שם משתמש:</label>
+          <div class='controls'>
+	    <input type='text' class='input-xlarge' name='user' id='userinput' placeholder='Username'></input>
+          </div>
+        </div>
+	<div class='control-group'>
+          <label class='control-label'>מפתח זיהוי:</label>
+          <div class='controls'>
+	    <input type='text' class='input-xlarge' name='auth' id='authinput' placeholder='Key'></input>
+	  </div>
+	</div>
+	<input type='hidden' class='input-xlarge' name='data' id='datainput'></input>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <a class="btn" data-toggle="modal" href="#savedialog">Close</a>
+      <a class="btn btn-primary" id="submit">Save changes</a>
+    </div>
+  </div>
 </body>
 </html>

@@ -44,13 +44,6 @@
     "type": "obj",
     "children": [
       {
-        "name": "slug",
-        "props": {
-          "type": "str",
-          "fixed": true,
-          "title": "\u05de\u05d6\u05d4\u05d4"
-        }
-      }, {
         "name": "book",
         "props": {
           "type": "str",
@@ -221,8 +214,10 @@
 
   $(function() {
     var J;
+    $('#savedialog').modal();
+    $('#savedialog').modal('hide');
     J = new JSE($("#body"), issue_scheme);
-    $("#results-button").click(function() {
+    $("#submit").click(function() {
       var newval;
       newval = J.getvalue();
       try {
@@ -234,7 +229,8 @@
         $("#errors").html(e);
       }
       $("#body").html("");
-      return J.render();
+      J.render();
+      return $('#savedialog').modal('hide');
     });
     window.onhashchange = function(e) {
       var data, hash, ___iced_passed_deferral, __iced_deferrals,
@@ -255,11 +251,11 @@
               return data = arguments[0];
             };
           })(),
-          lineno: 21
+          lineno: 23
         })));
         __iced_deferrals._fulfill();
       })(function() {
-        J.setvalue(data);
+        J.setvalue(data['gov']);
         $("#body").html("");
         return J.render();
       });
