@@ -116,9 +116,9 @@ data_callback = (data) ->
 
     # Collect all available books
     for rec in data
-        if not all_books[rec.book]
-            all_books[rec.book] = {}
-        all_books[rec.book][rec.chapter] = true
+        if not all_books[rec.gov.book]
+            all_books[rec.gov.book] = {}
+        all_books[rec.gov.book][rec.gov.chapter] = true
 
     # Collect all chapters for every book
     all_chapters = {}

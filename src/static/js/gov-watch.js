@@ -177,8 +177,8 @@
     all_books = {};
     for (_i = 0, _len = data.length; _i < _len; _i++) {
       rec = data[_i];
-      if (!all_books[rec.book]) all_books[rec.book] = {};
-      all_books[rec.book][rec.chapter] = true;
+      if (!all_books[rec.gov.book]) all_books[rec.gov.book] = {};
+      all_books[rec.gov.book][rec.gov.chapter] = true;
     }
     all_chapters = {};
     for (book in all_books) {
