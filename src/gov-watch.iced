@@ -293,6 +293,7 @@ do_search = ->
     # search on the loaded_data veriable
     for rec in loaded_data
         slug = rec.slug
+        rec = rec.gov
 
         should_show = search_term == ""
         # search the term in prespecified fields

@@ -33,7 +33,7 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item span6- " rel="{{slug}}" title="{{recommendation}}" cost="{{budget_cost_millions}}">
+<div class="item span6- " rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget_cost_millions}}">
     
     <ul class="breadcrumb">
       <li class="chapter"><a href="#"><span class="chapter-text">{{chapter}}</span></a> <span>&larr;</span></li>
@@ -115,6 +115,7 @@
     תגובות
   </div>
 </div>
+{{/gov}}
 {{/items}}
     </script>
     
