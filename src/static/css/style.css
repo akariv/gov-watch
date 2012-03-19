@@ -3698,6 +3698,192 @@ blockquote.pull-left small {
 /* --- utilities.less ------------------------------------- */
 /* --- variables.less ------------------------------------- */
 /* --- wells.less ------------------------------------- */
+/**** Vars ****/
+/**** Fonts ****/
+@font-face {
+  font-family: 'MiriamGRegular';
+  src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot');
+  src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot?#iefix') format('embedded-opentype'), url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.woff') format('woff'), url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.ttf') format('truetype'), url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svgz#MiriamGRegular') format('svg'), url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svg#MiriamGRegular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/**** Basic Styles ****/
+body {
+  direction: rtl;
+  background: url('/static/img/background-grid.png') top right;
+  padding-top: 60px;
+}
+.container-fluid {
+  min-width: 570px;
+}
+.hero-unit,
+.well {
+  background: #f5f5f5;
+}
+.highlight {
+  background-color: yellow;
+}
+.highlight-off {
+  background-color: transparent;
+  transition: background-color 3s;
+  -webkit-transition: background-color 3s;
+  -moz-transition: background-color 3s;
+}
+/**** Sidebar ****/
+.container-fluid > .sidebar {
+  position: fixed;
+  top: 60px;
+}
+#search legend {
+  padding-left: 0;
+}
+#search input {
+  width: 170px;
+}
+#search select {
+  width: 85px;
+  float: right;
+  margin-left: 10px;
+}
+#search select:last-child {
+  margin-left: 0;
+}
+#sort {
+  width: 180px;
+}
+/**** Item ****/
+.row > [class*="span"] {
+  margin-right: 10px;
+}
+.row {
+  margin-right: -10px;
+}
+.item {
+  width: 290px;
+  padding: 14px;
+  margin: 0 0 20px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  box-shadow: 0px 5px 5px rgba(50, 50, 50, 0.1);
+  display: none !important;
+  /**** Item.BIGGER
+*******************************************************/
+}
+.item.shown {
+  display: inherit !important;
+}
+.item .breadcrumb {
+  border: 0;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  line-height: 1.5em;
+  margin-bottom: 0;
+}
+.item .breadcrumb li a {
+  padding: 5px 0;
+  color: #bbbbbb;
+}
+.item .breadcrumb:hover li a {
+  color: #0088cc;
+}
+.item h2 {
+  font-family: "PauzaBook", Arial, Sans;
+  font-weight: 400;
+  font-size: 28px;
+}
+.item h2 a.hover-toggle {
+  display: none;
+}
+.item .status {
+  border: 1px solid #dddddd;
+  border-width: 1px 0;
+  margin: 5px 0;
+}
+.item .status .schedule,
+.item .status .updated {
+  width: 130px;
+  padding: 5px;
+  float: right;
+}
+.item .status .schedule {
+  border-left: 1px solid #dddddd;
+  width: 128px;
+}
+.item .status .current_status {
+  border-top: 1px solid #dddddd;
+  padding: 5px 0;
+  clear: both;
+}
+.item .status .result_metric,
+.item .status .execution_metric {
+  display: none;
+}
+.item .for-bigger {
+  display: none;
+}
+.item.bigger {
+  width: 100%;
+  max-width: 620px;
+}
+.item.bigger .result_metric,
+.item.bigger .execution_metric {
+  display: block;
+}
+.item.bigger .current_status-text {
+  border-bottom: 1px solid #dddddd;
+}
+/**** Isotope Filtering ****/
+.isotope-item {
+  z-index: 2;
+}
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
+/**** Isotope CSS3 transitions ****/
+.isotope,
+.isotope .isotope-item {
+  -webkit-transition-duration: 0.8s;
+  -moz-transition-duration: 0.8s;
+  -o-transition-duration: 0.8s;
+  transition-duration: 0.8s;
+}
+.isotope {
+  -webkit-transition-property: height, width;
+  -moz-transition-property: height, width;
+  -o-transition-property: height, width;
+  transition-property: height, width;
+}
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+  -moz-transition-property: -moz-transform, opacity;
+  -o-transition-property: top, left, opacity;
+  transition-property: transform, opacity;
+}
+.isotope .isotope-item {
+  -webkit-transition-property: right, top, -webkit-transform, opacity;
+  -moz-transition-property: right, top, -moz-transform, opacity;
+  -o-transition-property: right, top, -o-transform, opacity;
+  transition-property: right, top, transform, opacity;
+}
+/**** disabling Isotope CSS3 transitions ****/
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
+  -moz-transition-duration: 0s;
+  -o-transition-duration: 0s;
+  transition-duration: 0s;
+}
+/**** Isotope filtering ****/
+.isotope-item {
+  z-index: 2;
+}
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
 .pull-right {
   float: right;
 }
