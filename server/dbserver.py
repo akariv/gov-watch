@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from flask import Flask, g, request, Response, redirect, render_template, session
 from flask.helpers import url_for
 import urllib
@@ -21,7 +23,7 @@ def list():
 
 @app.route('/api')
 def listall():
-    return Response(response=r.get("jsondata"), content_type="application/json")
+    return Response(response=r.get("all_recs"), content_type="application/json")
 
 @app.route("/api/<slug>", methods=['GET'])
 def getitem(slug):
@@ -29,23 +31,34 @@ def getitem(slug):
 
 @app.route("/api/<slug>", methods=['POST'])
 def setitem(slug):
+    username = request.form["user"]
+    authkey = request.form["auth"]
+    assert( user == auth )
+
     newitem = request.form["data"]
-    r.set(slug,newitem)
-    newitem = json.loads(newitem)
-    jsondata = r.get("jsondata")
-    data = json.loads(jsondata)
+    newitem = json.loads(newitem) 
+
+    currentrec = r.get(slug)
+    currentrec = json.loads(currentrec)
+    currentrec[user] = newitem
+
+    currentrec = json.dumps(currentrec,indent=0)
+    r.set(slug,currentrec)
+
+    all_recs = r.get("all_recs")
+    all_recs = json.loads(all_recs)
     data = [ d for d in data if d["slug"] != slug ]
     data.append(newitem)
-    jsondata = json.dumps(data,indent=0)
-    r.set("jsondata",jsondata)
-    file('data.json','wb').write(jsondata)
+    all_recs = json.dumps(data,indent=0)
+    r.set("all_recs",all_recs)
+    file('data.json','wb').write(all_recs)
     return redirect('/list')
 
 if __name__=="__main__":
     r = Redis()
-    jsondata = file('data.json').read()
-    r.set("jsondata",jsondata)
-    data = json.loads(jsondata)
+    all_recs = file('data.json').read()
+    r.set("all_recs",all_recs)
+    data = json.loads(all_recs)
     for x in data:
         r.set(x["slug"],json.dumps(x))
     app.run()
