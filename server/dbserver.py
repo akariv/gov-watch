@@ -47,8 +47,8 @@ def setitem(slug):
 
     all_recs = r.get("all_recs")
     all_recs = json.loads(all_recs)
-    data = [ d for d in data if d["slug"] != slug ]
-    data.append(newitem)
+    all_recs = [ d for d in all_recs if d["slug"] != slug ]
+    all_recs.append(currentrec)
     all_recs = json.dumps(data,indent=0)
     r.set("all_recs",all_recs)
     file('data.json','wb').write(all_recs)
