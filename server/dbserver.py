@@ -33,7 +33,7 @@ def getitem(slug):
 def setitem(slug):
     username = request.form["user"]
     authkey = request.form["auth"]
-    assert( user == auth )
+    assert( username == authkey )
 
     newitem = request.form["data"]
     newitem = json.loads(newitem) 
