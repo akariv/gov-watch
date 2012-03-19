@@ -1,0 +1,9 @@
+[submodule "src/bootstrap"]
+	path = src/bootstrap
+	url = git@github.com:akariv/bootstrap.git
+[submodule "src/jse"]
+	path = src/jse
+	url = git@github.com:akariv/json-structured-editor.git
+[submodule "wiki"]
+	path = wiki
+	url = git@github.com:akariv/gov-watch.wiki.git
