@@ -11,18 +11,26 @@ Currently working with the tracthenberg committee report, the code includes ever
     $ npm install -g less
     $ npm install -g uglify-js
 
-    $ git submodule init
-    $ git submoodule update
+    ### Linux:
+    $ sudo apt-get install redis-server
+    
+    ### Mac:
+    $ brew install redis
 
-    # Build styles
-    $ cd src/bootstrap
-    $ make bootstrap
-    $ cd ../..
+    $ easy_install redis    
+
+    $ git submodule init
+    $ git submodule update
+
+    # Build 
+    $ cd ~/gov-watch/src/
+    $ ./build.sh
 
 Then, at will, just run:
     
-    $ cd server/
-    $ python -m SimpleHTTPServer
+    # Run server
+    $ cd ~/gov-watch/server/
+    $ python dbserver.py
 
 And then pointing your browser to http://127.0.0.1:5000
 

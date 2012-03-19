@@ -1,0 +1,263 @@
+@import "../bootstrap/less/bootstrap-rtl.less";
+
+/**** Vars ****/
+@gray: #bbb;
+@lightgray: #ddd;
+@background: #f5f5f5;
+@lightshade: #efefef;
+@itemwidth: 290px;
+@itempadding: 15px;
+@gutter: 10px;
+
+@linkMuted: @gray;
+
+/**** Fonts ****/
+@font-face {
+    font-family: 'MiriamGRegular';
+    src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot');
+    src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.woff') format('woff'),
+         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.ttf') format('truetype'),
+         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svgz#MiriamGRegular') format('svg'),
+         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svg#MiriamGRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+/**** Basic Styles ****/
+
+body {
+	direction: rtl;
+	background: url('/static/img/background-grid.png') top right; 
+	padding-top:60px;
+}
+
+.container-fluid{
+  min-width:570px;
+}
+
+.hero-unit, .well{
+  background: @background;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.highlight-off {
+    background-color: transparent;
+    transition: background-color 3s;
+    -webkit-transition: background-color 3s;
+    -moz-transition: background-color 3s;
+}
+
+/**** Sidebar ****/
+.container-fluid > .sidebar{
+  position: fixed;
+  top: 60px;
+}
+
+  #search{
+    
+    legend{
+      padding-left:0;
+    }
+    
+    input{
+      width: 170px;
+    }
+    select{
+      width: 85px;
+      float: right; 
+      margin-left: 10px;
+      
+      &:last-child{
+        margin-left:0;
+      }
+    }
+    
+  }
+
+  #sort{
+    width:180px;
+  }
+  
+/**** Item ****/
+
+.row > [class*="span"] {
+  margin-right: @gutter;
+}
+
+.row{
+  margin-right: -@gutter;
+}
+
+.item{
+  width: @itemwidth;
+  padding: @itempadding - 1px ;
+  margin: 0 0 20px;
+  border: 1px solid @lightgray;
+  background: #ffffff;
+  box-shadow: 0px 5px 5px rgba(50, 50, 50, 0.10);
+  display:none !important;
+  
+  &.shown {
+    display:inherit !important;
+  }
+  
+  .breadcrumb{
+    border: 0;
+    //border-bottom: 1px solid @lightgray;
+    background: none;
+    padding: 0;
+    border-radius:0;
+    line-height: 1.5em;
+    margin-bottom:0;
+    
+    li{
+    
+      a{
+        padding: 5px 0;
+        color: @linkMuted;
+      }
+    }
+    
+    &:hover li a{
+      color: @linkColor;
+    }
+    
+  }
+  
+  // Test Fonts:
+  h2{
+    font-family: "PauzaBook",Arial,Sans;
+    //font-family: "PauzaLi",Arial,Sans;
+    //font-family: "PauszaML",Arial,Sans;
+    //font-family: 'MiriamGRegular',Arial,Sans;
+    font-weight:400;
+    font-size:28px;
+  }
+  
+  h2 a.hover-toggle{
+    display: none;
+  }
+  
+  .status{
+    
+    border:1px solid @lightgray;
+    border-width: 1px 0;
+    margin: 5px 0;
+    
+    .schedule, .updated{
+      width: @itemwidth/2-@itempadding;
+      padding: 5px;
+      float: right;
+    }
+    
+    .schedule{
+      border-left: 1px solid @lightgray;
+      width: @itemwidth/2-@itempadding - 2px;
+    }
+    
+    .current_status{
+      border-top:1px solid @lightgray;
+      padding: 5px 0;
+      clear:both;
+    }
+    
+    .result_metric,
+    .execution_metric{
+      display: none;
+    }
+  }
+  
+  .for-bigger {
+    display:none;
+  }
+  
+/**** Item.BIGGER
+*******************************************************/  
+  
+  &.bigger{
+    width: 100%;
+    max-width: 2*@itemwidth + 2*@itempadding + @gutter; 
+    //max-height: 500px;
+    //overflow-y: scroll;
+    
+    .result_metric,
+    .execution_metric{
+      display: block;
+    }
+    
+    .current_status-text{
+      border-bottom: 1px solid @lightgray;
+      
+    }
+  }
+  
+} // End .item
+
+/**** Isotope Filtering ****/
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
+
+/**** Isotope CSS3 transitions ****/
+
+.isotope,
+.isotope .isotope-item {
+  -webkit-transition-duration: 0.8s;
+     -moz-transition-duration: 0.8s;
+       -o-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.isotope {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+     -moz-transition-property: -moz-transform, opacity;
+       -o-transition-property: top, left, opacity;
+          transition-property: transform, opacity;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: right, top, -webkit-transform, opacity;
+     -moz-transition-property: right, top, -moz-transform, opacity;
+       -o-transition-property: right, top, -o-transform, opacity;
+          transition-property: right, top, transform, opacity;
+}
+/**** disabling Isotope CSS3 transitions ****/
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
+     -moz-transition-duration: 0s;
+       -o-transition-duration: 0s;
+          transition-duration: 0s;
+}
+
+/**** Isotope filtering ****/
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}

@@ -20,7 +20,7 @@
     <![endif]-->
     
     <!-- Less -->
-    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="static/css/style.css"/>
     <!--script src="static/js/less-1.3.0.min.js"></script-->
 
     <script type="text/html" name="list">
@@ -33,7 +33,7 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item span6- " rel="{{_srcslug}}" title="{{recommendation}}" cost="{{budget_cost_millions}}">
+<div class="item span6- " rel="{{slug}}" title="{{recommendation}}" cost="{{budget_cost_millions}}">
     
     <ul class="breadcrumb">
       <li class="chapter"><a href="#"><span class="chapter-text">{{chapter}}</span></a> <span>&larr;</span></li>
@@ -55,44 +55,46 @@
   <div class="buxa first">
     <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
     <span class="interaction">
-       <a class="hover-toggle" href="#">עוד...</a>
+      <a class="hover-toggle" href="#">עוד...</a>
     </span>
   </div>
   -->
-	<div class="buxa">
-		<div class="status">
-	        <div class="schedule">
-	        	<h5>מיועד להסתיים</h5>
-				<span class="schedule-text">{{schedule}}</span>
-			</div>
-	        <div class="updated">
-	        	<h5>עדכון אחרון</h5>
-				<span class="schedule-text">{{updated}}</span>
-			</div>
-	        <div class="current_status">
-	        	<h5>מה קורה עם זה עכשיו?</h5> 
-	            <div class="current_status-text">
-	              <div class="current_status-gov">{{#gov_current_status}}מטעם הממשלה: {{#semicolon_list}}{{gov_current_status}}{{/semicolon_list}}{{/gov_current_status}}</div>
-	              <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
-	            </div>
-	        </div>
-
-        {{#result_metric}}
-           <div class="result_metric">
-	        	<h5>מה המטרה?</h5> 
-                <span class="result_metric-text">
-                    {{result_metric}}
-                </span>
-           </div>
-        {{/result_metric}}
-        	<div class="execution_metric">
-	        	<h5>מה התוצרים?</h5>
-				<span class="execution_metric-text">
-					{{#none_val}}{{execution_metric}}{{/none_val}}
-				</span>
-			</div>
-
-     </div>
+  <div class="buxa">
+    <div class="status">
+      <div class="schedule">
+	<h5>מיועד להסתיים</h5>
+	<span class="schedule-text">{{schedule}}</span>
+      </div>
+      <div class="updated">
+	<h5>עדכון אחרון</h5>
+	<span class="schedule-text">{{updated}}</span>
+      </div>
+      <div class="current_status">
+	<h5>מה קורה עם זה עכשיו?</h5> 
+	<div class="current_status-text">
+	  <div class="current_status-gov">{{#gov_current_status}}מטעם הממשלה: {{#semicolon_list}}{{gov_current_status}}{{/semicolon_list}}{{/gov_current_status}}</div>
+	  <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
+	</div>
+      </div>
+      
+      {{#result_metric}}
+      <div class="result_metric">
+	<h5>מה המטרה?</h5> 
+        <span class="result_metric-text">
+          {{result_metric}}
+        </span>
+      </div>
+      {{/result_metric}}
+      {{#execution_metric}}
+      <div class="execution_metric">
+	<h5>מה התוצרים?</h5>
+	<span class="execution_metric-text">
+	  {{#none_val}}{{execution_metric}}{{/none_val}}
+	</span>
+      </div>
+      {{/execution_metric}}
+      
+    </div>
   </div>
   
   <div class="buxa last">
@@ -108,8 +110,9 @@
   </div>
   <div class="buxa-footer"></div>
   <div class="facebook-comment-count">
+  -->
     <!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count--> 
-תגובות
+    תגובות
   </div>
 </div>
 {{/items}}
