@@ -3759,7 +3759,7 @@ body {
   margin-right: -10px;
 }
 .item {
-  width: 290px;
+  max-width: 290px;
   padding: 14px;
   margin: 0 0 20px;
   border: 1px solid #dddddd;
@@ -3823,8 +3823,7 @@ body {
   display: none;
 }
 .item.bigger {
-  width: 100%;
-  max-width: 620px;
+  max-width: 700px;
 }
 .item.bigger .result_metric,
 .item.bigger .execution_metric {
