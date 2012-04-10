@@ -33,87 +33,73 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item span6- " rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget_cost_millions}}">
-    
+<div class="item" style="width:360px;margin:5px;" rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget_cost_millions}}">
+  <div style="display:inline-block;width:300px">
     <ul class="breadcrumb">
       <li class="chapter"><a href="#"><span class="chapter-text">{{chapter}}</span></a> <span>&larr;</span></li>
-      {{#title}}
-      <li class="title"><a href="#"><span class="title-text">{{title}}</span></a> <span>&larr;</span></li>
-      {{/title}}
-      {{#subject}}
-      <li class="subject"><a href="#"><span class="subject-text">{{subject}}</span></a> <span>&larr;</span></li>
-      {{/subject}}
+      {{#subchapter}}
+      <li class="title"><a href="#"><span class="title-text">{{subchapter}}</span></a> <span>&larr;</span></li>
+      {{/subchapter}}
     </ul>
     
     <h2 class="buxa-header">
       <a href="#" class="recommendation-text">
-      {{recommendation}}
+        {{subject}}
       </a>
       &nbsp;<a class="hover-toggle" href="#">סגור</a>
     </h2>
-  <!--
-  <div class="buxa first">
-    <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
-    <span class="interaction">
-      <a class="hover-toggle" href="#">עוד...</a>
-    </span>
-  </div>
-  -->
-  <div class="buxa">
-    <div class="status">
-      <div class="schedule">
-	<h5>מיועד להסתיים</h5>
-	<span class="schedule-text">{{schedule}}</span>
-      </div>
-      <div class="updated">
-	<h5>עדכון אחרון</h5>
-	<span class="schedule-text">{{updated}}</span>
-      </div>
-      <div class="current_status">
-	<h5>מה קורה עם זה עכשיו?</h5> 
-	<div class="current_status-text">
-	  <div class="current_status-gov">{{#gov_current_status}}מטעם הממשלה: {{#semicolon_list}}{{gov_current_status}}{{/semicolon_list}}{{/gov_current_status}}</div>
-	  <div>{{#public_current_status}}קול הציבור: {{public_current_status}}{{/public_current_status}}</div>
-	</div>
-      </div>
-      
-      {{#result_metric}}
-      <div class="result_metric">
-	<h5>מה המטרה?</h5> 
-        <span class="result_metric-text">
-          {{result_metric}}
-        </span>
-      </div>
-      {{/result_metric}}
-      {{#execution_metric}}
-      <div class="execution_metric">
-	<h5>מה התוצרים?</h5>
-	<span class="execution_metric-text">
-	  {{#none_val}}{{execution_metric}}{{/none_val}}
-	</span>
-      </div>
-      {{/execution_metric}}
-      
+    <!--
+       <div class="buxa first">
+         <span class="recommendation"><span class="recommendation-text">{{recommendation}}</span></span>
+         <span class="interaction">
+           <a class="hover-toggle" href="#">עוד...</a>
+         </span>
+       </div>
+       -->
+    {{#budget}}
+    <div><b>עלות:</b></div>
+    <div>{{millions}} מיליון ש"ח, על פני {{year_span}} שנים</div>
+    <div>{{description}}</div>
+    {{/budget}}
+    
+    <div><b>הסבר:</b></div>
+    <div>{{recommendation}}</div>
+    <div><b>מה המטרה?</b></div>
+    <div>{{result_metric}}</div>
+    
+    <div><b>גורם אחראי:</b></div>
+    <div>{{responsible_authority}}</div>
+    
+    <div><b>תגיות:</b></div>
+    <ul>
+      {{#tags}}
+      <li>{{.}}</li>
+      {{/tags}}
+    </ul>
+    
+    <a href="#">watch</a>
+    <a href="#">_num_ links</a>
+    <a href="#"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
+    
+    <div><b>Timeline:</b></div>
+    <div class="facebook-comment-count">
     </div>
   </div>
-  
-  <div class="buxa last">
-        {{#budget_cost}}
-           <div class="budget_cost"><strong>עלות:</strong> <span class="budget_cost-text">{{budget_cost}}</span></div>
-        {{/budget_cost}}
-        {{#responsible_authority}}
-           <div class="responsible_authority"><strong>אחראי:</strong> <span class="responsible_authority-text">{{responsible_authority}}</span></div>
-        {{/responsible_authority}}
-        {{#challenges}}
-           <div class="challenges"><strong>אתגרים:</strong> <span class="challenges-text">{{#semicolon_list}}{{challenges}}{{/semicolon_list}}</span></div>
-        {{/challenges}}
+  <div style="display:inline-block;width:50px;vertical-align:top;overflow:hidden;">
+    <ul>
+      {{#timeline}}
+      <li style="position:absolute;top:0px;">
+        <span data-duedate="{{due_date}}">{{due_date}}: {{milestone_name}}</span>    
+        <ul>
+          {{#links}}
+          <li><a href="{{url}}">{{description}}</a></li>
+          {{/links}}
+        </ul>
+      </li>
+      {{/timeline}}
+    </ul>
   </div>
-  <div class="buxa-footer"></div>
-  <div class="facebook-comment-count">
-  -->
-    <!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count--> 
-    תגובות
-  </div>
+
 </div>
 {{/gov}}
 {{/items}}
