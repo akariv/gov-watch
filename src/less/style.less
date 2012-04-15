@@ -4,6 +4,7 @@
 /**** Vars ****/
 @card: #fffcd9;
 @cardshade: #e4daac;
+@carddark: #c4bb91;
 @text: #3c3c3c;
 @lighttext: #847d6b;
 @background: #f5f5f5;
@@ -44,7 +45,12 @@ body {
 }
 
 .hero-unit, .well{
-  background: @background;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  color: #DDD;
+  
+  h1,h2,h3{color: #DDD;}
+    
 }
 
 .highlight {
@@ -109,6 +115,10 @@ body {
 
 .detail-view .more{
   display: none;
+}
+
+#items{
+  padding:10px;
 }
 
 .item{
@@ -205,28 +215,45 @@ body {
       font-size: 0.8em;
       line-height: 20px;
       list-style: none;
+      height:18px;
       a{
         background: @cardshade;
         .border-radius(3px 0 0 3px);
         padding: 2px 5px 0;
         color: @card;
         font-weight: 700;
-        }
+        text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+        &:hover{text-decoration:none;}
       }
+      &:hover{background-position: right bottom; a{background: @carddark;}}
+    }
   }
   
   h2{
     font-weight:400;
     font-size:1.5em;
     clear: both;
-    background: @good;
-    margin: 1.3em 0 0.5em;
+    margin: 1.3em 10px 0.5em;
     line-height: 1em;
+    background: url("/static/img/hr.png");
+    
+    &.good{
+      background: @good;
+    }
+    
+    &.bad{
+      background: @bad;
+    }
+    
+    &.bad,&.good{
+       a{color: @card;}
+    }
     
     a{
-      color: @card;
+      color: @text;
       padding: 15px;
       display:block;
+      &:hover{text-decoration:none;}
     }
   }
   
@@ -237,6 +264,7 @@ body {
   h3{
     font-family: Arial,Sans;
     font-size: 0.6em;
+    font-weight: normal;
     color: @lighttext;
     padding: 0 5px;
     line-height: 0.5em;
@@ -255,8 +283,36 @@ body {
   .recommendation,
   .tools{
     clear:both;
-    background: url("/static/img/hr.png") repeat-x;
+    background: url("/static/img/hr.png") repeat-x center -2px;
     padding-top: 0.5em;
+  }
+  
+  .tools{
+    a{
+      width: @gridColumnWidth - 37px;
+      padding-right: 30px;
+      margin-left: @gridGutterWidth;
+      display: block;
+      height: 28px;
+      background:  url("/static/img/tools.png") no-repeat right top;
+      float: right;
+      color: @lighttext;
+      line-height: 1.7em;
+      overflow: hidden;
+      
+      &:hover{background-position: right -30px;text-decoration:none;}
+      
+      &.linkcount{
+        background-position: right -60px;
+        &:hover{background-position: right -90px;}
+      }
+      
+      &.commentcount{
+        background-position: right -120px;
+        margin-left:0;
+        &:hover{background-position: right -150px;}
+      }
+    }
   }
   
   .status{

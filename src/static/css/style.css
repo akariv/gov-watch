@@ -3715,7 +3715,17 @@ body {
 }
 .hero-unit,
 .well {
-  background: #f5f5f5;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  color: #DDD;
+}
+.hero-unit h1,
+.well h1,
+.hero-unit h2,
+.well h2,
+.hero-unit h3,
+.well h3 {
+  color: #DDD;
 }
 .highlight {
   background-color: yellow;
@@ -3763,6 +3773,9 @@ body {
 }
 .detail-view .more {
   display: none;
+}
+#items {
+  padding: 10px;
 }
 .item {
   -webkit-box-shadow: 0px 0px 10px rgba(50, 50, 50, 0.2);
@@ -3854,6 +3867,7 @@ body {
   font-size: 0.8em;
   line-height: 20px;
   list-style: none;
+  height: 18px;
 }
 .item .tags li a {
   background: #e4daac;
@@ -3863,19 +3877,42 @@ body {
   padding: 2px 5px 0;
   color: #fffcd9;
   font-weight: 700;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+.item .tags li a:hover {
+  text-decoration: none;
+}
+.item .tags li:hover {
+  background-position: right bottom;
+}
+.item .tags li:hover a {
+  background: #c4bb91;
 }
 .item h2 {
   font-weight: 400;
   font-size: 1.5em;
   clear: both;
-  background: #6ba688;
-  margin: 1.3em 0 0.5em;
+  margin: 1.3em 10px 0.5em;
   line-height: 1em;
+  background: url("/static/img/hr.png");
+}
+.item h2.good {
+  background: #6ba688;
+}
+.item h2.bad {
+  background: #d18273;
+}
+.item h2.bad a,
+.item h2.good a {
+  color: #fffcd9;
 }
 .item h2 a {
-  color: #fffcd9;
+  color: #3c3c3c;
   padding: 15px;
   display: block;
+}
+.item h2 a:hover {
+  text-decoration: none;
 }
 .item h2 a.hover-toggle {
   display: none;
@@ -3883,6 +3920,7 @@ body {
 .item h3 {
   font-family: Arial,Sans;
   font-size: 0.6em;
+  font-weight: normal;
   color: #847d6b;
   padding: 0 5px;
   line-height: 0.5em;
@@ -3898,8 +3936,37 @@ body {
 .item .recommendation,
 .item .tools {
   clear: both;
-  background: url("/static/img/hr.png") repeat-x;
+  background: url("/static/img/hr.png") repeat-x center -2px;
   padding-top: 0.5em;
+}
+.item .tools a {
+  width: 53px;
+  padding-right: 30px;
+  margin-left: 14px;
+  display: block;
+  height: 28px;
+  background: url("/static/img/tools.png") no-repeat right top;
+  float: right;
+  color: #847d6b;
+  line-height: 1.7em;
+  overflow: hidden;
+}
+.item .tools a:hover {
+  background-position: right -30px;
+  text-decoration: none;
+}
+.item .tools a.linkcount {
+  background-position: right -60px;
+}
+.item .tools a.linkcount:hover {
+  background-position: right -90px;
+}
+.item .tools a.commentcount {
+  background-position: right -120px;
+  margin-left: 0;
+}
+.item .tools a.commentcount:hover {
+  background-position: right -150px;
 }
 .item .status {
   border: 1px solid #847d6b;
