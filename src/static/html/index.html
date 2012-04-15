@@ -24,17 +24,17 @@
     <!--script src="static/js/less-1.3.0.min.js"></script-->
 
     <script type="text/html" name="list">
-    <ul>
-    {{#items}}
-       - {{#linkify}}{{.}}{{/linkify}}<br/>
-    {{/items}}
-    </ul>
+	    <ul>
+	    {{#items}}
+	       - {{#linkify}}{{.}}{{/linkify}}<br/>
+	    {{/items}}
+	    </ul>
     </script>
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item" style="width:360px;margin:5px;" rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget_cost_millions}}">
-  <div style="display:inline-block;width:300px">
+<div class="item span" rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget_cost_millions}}">
+  <div class="item-body">
     <ul class="breadcrumb">
       <li class="chapter"><a href="#"><span class="chapter-text">{{chapter}}</span></a> <span>&larr;</span></li>
       {{#subchapter}}
@@ -82,10 +82,10 @@
     <a href="#"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
     
     <div><b>Timeline:</b></div>
-    <div class="facebook-comment-count">
+    	<div class="facebook-comment-count">
     </div>
   </div>
-  <div style="display:inline-block;width:50px;vertical-align:top;overflow:hidden;">
+  <div class="timeline">
     <ul>
       {{#timeline}}
       <li style="position:absolute;top:0px;">
@@ -108,8 +108,8 @@
 </head>
 <body>
 
-    <div class="topbar">
-      <div class="topbar-inner">
+    <div class="navbar">
+      <div class="navbar-inner">
         <div class="container-fluid">
           <a class="brand" href="#">המפקח</a>
           <ul class="nav">
@@ -129,37 +129,6 @@
       </div>
     </div>
     
-    
-    <div class="container-fluid">
-      <div class="sidebar">
-        <div class="well">
-        	<form id="searchbar" action="#">
-        		<fieldset id='search'>
-        			<legend>חפשו בדו"ח:</legend>
-        			<div class="clearfix">
-						<input id="searchbox" class="xlarge" type="text" size="30" name="xlInput">
-					</div>
-					<div id="filters">
-						<select id="books" name="normalSelect"></select>
-						<select id="chapters" name="normalSelect"></select>
-			        </div>
-				</fieldset>
-			</form>
-          <h5>סרגל צד</h5>
-	  <select id="sort" name="normalSelect">
-	    <option value="chapter">פרק</option>
-	    <option value="budget">עלות תקציבית</option>
-        <option value="recommendation">שם</option>
-        <option value="comments">מספר תגובות</option>
-	  </select>
-          <ul>
-            <li><a href="#">לינק</a></li>
-            <li><a href="#">לינק</a></li>
-            <li><a href="#">לינק</a></li>
-            <li><a href="#">לינק</a></li>
-          </ul>
-        </div>
-      </div>
       <div class="content">
       
       
@@ -169,6 +138,21 @@
           <h1>דו"ח טרכטנברג</h1>
           <p>מעקב וביקורת אחרי ישום המלצות דו"ח שטרכטנברג בשיתוף המשרד לשיתוף הציבור, הסדנא לידע ציבורי והתאחדות הסטודנטים הארצית</p>
           <p><a class="btn primary large">למדו עוד &raquo;</a></p>
+          	<form id="searchbar" action="#">
+        		<fieldset id='search'>
+					<input id="searchbox" class="xlarge" type="text" size="30" name="xlInput">
+					<div id="filters">
+						<select id="books" name="normalSelect"></select>
+						<select id="chapters" name="normalSelect"></select>
+			        </div>
+			       	<select id="sort" name="normalSelect">
+					    <option value="chapter">פרק</option>
+					    <option value="budget">עלות תקציבית</option>
+				        <option value="recommendation">שם</option>
+				        <option value="comments">מספר תגובות</option>
+					</select>
+				</fieldset>
+			</form>
         </div>
         
         

@@ -6,16 +6,18 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
-			<triggers>auto,full,incremental,</triggers>
+			<name>org.python.pydev.PyDevBuilder</name>
 			<arguments>
-				<dictionary>
-					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/CoffeeScript Builder.launch</value>
-				</dictionary>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.aptana.ide.core.unifiedBuilder</name>
+			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>com.aptana.projects.webnature</nature>
+		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
 </projectDescription>

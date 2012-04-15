@@ -1,3 +1,5 @@
+@import "../bootstrap/lessrtl/bootstrap.less";
+
 /**** Vars ****/
 @gray: #bbb;
 @lightgray: #ddd;
@@ -27,9 +29,9 @@
 /**** Basic Styles ****/
 
 body {
-	direction: rtl;
-	background: url('/static/img/background-grid.png') top right; 
-	padding-top:60px;
+  direction: rtl;
+  background: url('/static/img/background-grid.png') top right; 
+  padding-top:60px;
 }
 
 .container-fluid{
@@ -93,7 +95,7 @@ body {
 }
 
 .item{
-  max-width: @itemwidth;
+  width: @itemwidth;
   padding: @itempadding - 1px ;
   margin: 0 0 20px;
   border: 1px solid @lightgray;
@@ -179,7 +181,8 @@ body {
 *******************************************************/  
   
   &.bigger{
-    max-width: 700px; 
+    width: 100%;
+    max-width: 2*@itemwidth + 2*@itempadding + @gutter; 
     //max-height: 500px;
     //overflow-y: scroll;
     
