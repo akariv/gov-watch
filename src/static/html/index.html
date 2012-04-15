@@ -35,18 +35,28 @@
 {{#items}}
 <div class="item span" rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget_cost_millions}}">
   <div class="item-body">
-    <ul class="breadcrumb">
+  	
+    <div class="tags">
+    	<h3>תגיות:</h3>
+	    <ul>
+	      {{#tags}}
+	      <li><a href="#">{{.}}</a></li>
+	      {{/tags}}
+	    </ul>
+    </div>
+  	
+    <!-- <ul class="breadcrumb">
       <li class="chapter"><a href="#"><span class="chapter-text">{{chapter}}</span></a> <span>&larr;</span></li>
       {{#subchapter}}
       <li class="title"><a href="#"><span class="title-text">{{subchapter}}</span></a> <span>&larr;</span></li>
       {{/subchapter}}
-    </ul>
+    </ul> -->
     
     <h2 class="buxa-header">
       <a href="#" class="recommendation-text">
         {{subject}}
       </a>
-      &nbsp;<a class="hover-toggle" href="#">סגור</a>
+      <!-- &nbsp;<a class="hover-toggle" href="#">סגור</a> -->
     </h2>
     <!--
        <div class="buxa first">
@@ -56,34 +66,36 @@
          </span>
        </div>
        -->
-    {{#budget}}
-    <div><b>עלות:</b></div>
-    <div>{{millions}} מיליון ש"ח, על פני {{year_span}} שנים</div>
-    <div>{{description}}</div>
+    
+    <div class="budget">
+	{{#budget}}
+    	<h3>עלות:</h3>
+	    <p>{{millions}} מיליון ש"ח, על פני {{year_span}} שנים</p>
+    	<p class="more">{{description}}</p>
     {{/budget}}
-    
-    <div><b>הסבר:</b></div>
-    <div>{{recommendation}}</div>
-    <div><b>מה המטרה?</b></div>
-    <div>{{result_metric}}</div>
-    
-    <div><b>גורם אחראי:</b></div>
-    <div>{{responsible_authority}}</div>
-    
-    <div><b>תגיות:</b></div>
-    <ul>
-      {{#tags}}
-      <li>{{.}}</li>
-      {{/tags}}
-    </ul>
-    
-    <a href="#">watch</a>
-    <a href="#">_num_ links</a>
-    <a href="#"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
-    
-    <div><b>Timeline:</b></div>
-    	<div class="facebook-comment-count">
     </div>
+    
+    <div class="responsible">
+    	<h3>גורם אחראי:</h3>
+    	<p>{{responsible_authority}}</p>
+	</div>
+    
+    <div class="recommendation">
+    	<h3>הסבר:</h3>
+    	<p>{{recommendation}}</p>
+    </div>
+    
+    <div class="purpose">
+    	<h3>מה המטרה?</h3>
+	    <p>{{result_metric}}</p>
+	</div>
+    
+	<div class="tools">
+	    <a href="#" class="watch">watch</a>
+   		<a href="#" class="linkcount">_num_ links</a>
+	    <a href="#" class="commentcount"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
+	</div>
+    
   </div>
   <div class="timeline">
     <ul>

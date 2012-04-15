@@ -1,16 +1,19 @@
 @import "../bootstrap/lessrtl/bootstrap.less";
+@import "fonts.less";
 
 /**** Vars ****/
 @card: #fffcd9;
 @cardshade: #e4daac;
-@gray: #bbb;
-@lightgray: #ddd;
+@text: #3c3c3c;
+@lighttext: #847d6b;
 @background: #f5f5f5;
 @lightshade: #efefef;
 @itemColumns: 4;
 @itemwidth: (@itemColumns * @gridColumnWidth) + (@gridGutterWidth * (@itemColumns - 1));
 @itempadding: 0;
 @gutter: @gridGutterWidth;
+@good: #6ba688;
+@bad: #d18273;
 
 @linkMuted: @gray;
 
@@ -99,6 +102,14 @@ body {
 .row{
   margin-right: -@gutter;
 }
+  
+.more{
+  display: none;
+}
+
+.detail-view .more{
+  display: none;
+}
 
 .item{
   // #gridSystem .span4;
@@ -110,9 +121,58 @@ body {
     display:inherit !important;
   }
   
+  .item-body{
+    width: 2*@gridGutterWidth + 3*@gridColumnWidth;
+    padding-left: @gridGutterWidth + @gridColumnWidth;
+    float: right;
+    background: url("/static/img/card.png") right top no-repeat;
+    margin-bottom:13px;
+    > div {
+      margin: 0 10px; 
+    }
+  }
+  
+  .timeline:after {
+    background: url("/static/img/card.png") no-repeat scroll center bottom transparent;
+    bottom: 0; right: 0;
+    content: "";
+    display: block;
+    height: 13px; width: 402px;
+    position: absolute;
+  }
+  
+  .timeline{
+    width: @gridGutterWidth + @gridColumnWidth;
+    float: right;
+    vertical-align:top;
+    overflow:hidden;
+    margin-right: -@gridGutterWidth - @gridColumnWidth;
+    
+    > ul {
+      height: 100%;
+      list-style: none outside none;
+      margin: 30px 39px;
+      position: relative;
+      
+      > li{
+        width: 13px;
+        height: 13px;
+        border: 5px @card solid;
+        .border-radius(13px);
+        background: @cardshade;
+        
+        > * { display: none;}
+        
+        &:hover{
+          * { display: block;}
+        }
+      }
+    }
+  }
+  
   .breadcrumb{
     border: 0;
-    //border-bottom: 1px solid @lightgray;
+    //border-bottom: 1px solid @lighttext;
     background: none;
     padding: 0;
     border-radius:0;
@@ -134,23 +194,74 @@ body {
     
   }
   
-  // Test Fonts:
+  .tags {
+    h3 {display: none}
+    li{
+      float: right;
+      text-decoration: none;
+      background: url("/static/img/taghead.png") no-repeat right top;
+      padding-right: 13px;
+      margin-left: 5px;
+      font-size: 0.8em;
+      line-height: 20px;
+      list-style: none;
+      a{
+        background: @cardshade;
+        .border-radius(3px 0 0 3px);
+        padding: 2px 5px 0;
+        color: @card;
+        font-weight: 700;
+        }
+      }
+  }
+  
   h2{
-    font-family: "PauzaBook",Arial,Sans;
-    //font-family: "PauzaLi",Arial,Sans;
-    //font-family: "PauszaML",Arial,Sans;
-    //font-family: 'MiriamGRegular',Arial,Sans;
     font-weight:400;
-    font-size:28px;
+    font-size:1.5em;
+    clear: both;
+    background: @good;
+    margin: 1.3em 0 0.5em;
+    line-height: 1em;
+    
+    a{
+      color: @card;
+      padding: 15px;
+      display:block;
+    }
   }
   
   h2 a.hover-toggle{
     display: none;
   }
   
+  h3{
+    font-family: Arial,Sans;
+    font-size: 0.6em;
+    color: @lighttext;
+    padding: 0 5px;
+    line-height: 0.5em;
+  }
+  
+  p{
+    padding:5px;
+  }
+  
+  .budget,
+  .responsible{
+    width: 40%;
+    float: right;
+  }
+  
+  .recommendation,
+  .tools{
+    clear:both;
+    background: url("/static/img/hr.png") repeat-x;
+    padding-top: 0.5em;
+  }
+  
   .status{
     
-    border:1px solid @lightgray;
+    border:1px solid @lighttext;
     border-width: 1px 0;
     margin: 5px 0;
     
@@ -161,12 +272,12 @@ body {
     }
     
     .schedule{
-      border-left: 1px solid @lightgray;
+      border-left: 1px solid @lighttext;
       width: @itemwidth/2-@itempadding - 2px;
     }
     
     .current_status{
-      border-top:1px solid @lightgray;
+      border-top:1px solid @lighttext;
       padding: 5px 0;
       clear:both;
     }
@@ -196,55 +307,8 @@ body {
     }
     
     .current_status-text{
-      border-bottom: 1px solid @lightgray;
+      border-bottom: 1px solid @lighttext;
       
-    }
-  }
-  
-/**** .item .timeline
-*******************************************************/  
-  
-  .item-body{
-    width: 2*@gridGutterWidth + 3*@gridColumnWidth;
-    padding-left: @gridGutterWidth + @gridColumnWidth;
-    float: right;
-    background: url("/static/img/card.png") right top no-repeat;
-    margin-bottom:13px;
-  }
-  
-  .timeline:after {
-    background: url("/static/img/card.png") no-repeat scroll center bottom transparent;
-    bottom: 0; right: 0;
-    content: "";
-    display: block;
-    height: 13px; width: 402px;
-    position: absolute;
-  }
-  
-  .timeline{
-    width: @gridGutterWidth + @gridColumnWidth;
-    background: url("/static/img/card.png") left top no-repeat;
-    float: right;
-    vertical-align:top;
-    overflow:hidden;
-    margin-right: -@gridGutterWidth - @gridColumnWidth;
-    
-    > ul {
-      
-      
-      > li{
-        width: 13px;
-        height: 13px;
-        border: 5px @card solid;
-        .border-radius(13px);
-        background: @cardshade;
-        
-        > * { display: none;}
-        
-        &:hover{
-          * { display: block;}
-        }
-      }
     }
   }
   
