@@ -9,6 +9,7 @@ orig = list(csv.DictReader(file('input.csv')))
 out = []
 
 link = re.compile('(\[(.+des([0-9]+).htm)\])')
+sep = re.compile('[;,]')
 
 for x in orig:
     nnn = {}
@@ -57,7 +58,7 @@ for x in orig:
                 nnn['timeline'].append( { 'due_date' : date, 'links' : links, 'milestone_name' : s } )
             else:
                 nnn['implementation_status_text'] = s       
-    nnn['tags'] = [ t.strip() for t in x.get('tags').split(';') if t.strip() != '' ]
+    nnn['tags'] = [ t.strip() for t in sep.split(x.get('tags')) if t.strip() != '' ]
     nnn['implementation_status'] = {'80':'WORKAROUND','100':'FIXED' }.get(x['gov_current_status_code'],'NEW')
 
     out.append( {'gov' : nnn, 'slug': x['slug'] } )
