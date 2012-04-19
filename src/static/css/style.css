@@ -3761,6 +3761,36 @@ body {
 #sort {
   width: 180px;
 }
+.searchtag {
+  display: inline-block;
+  text-decoration: none;
+  background: url("/static/img/taghead.png") no-repeat right top;
+  font-size: 0.7em;
+  height: 18px;
+  line-height: 19px;
+  list-style: none outside none;
+  margin-left: 5px;
+  padding-right: 13px;
+}
+.searchtag a {
+  background: #e4daac;
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+  padding: 0px 5px 0;
+  color: black;
+  font-weight: 700;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+.searchtag a:hover {
+  text-decoration: none;
+}
+.searchtag:hover {
+  background-position: right bottom;
+}
+.searchtag:hover a {
+  background: #c4bb91;
+}
 /**** Item ****/
 .row > [class*="span"] {
   margin-right: 14px;
@@ -3800,7 +3830,8 @@ body {
   margin: 0 10px;
 }
 .item .timeline:after {
-  background: url("/static/img/card.png") no-repeat scroll center bottom transparent;
+  /*background: url("/static/img/card.png") no-repeat scroll center bottom transparent;*/
+
   bottom: 0;
   right: 0;
   content: "";
@@ -3811,10 +3842,14 @@ body {
 }
 .item .timeline {
   width: 104px;
-  float: right;
+  /*float: right;*/
+
   vertical-align: top;
   overflow: hidden;
   margin-right: -104px;
+  position: absolute;
+  height: 100%;
+  left: 0px;
 }
 .item .timeline > ul {
   height: 100%;

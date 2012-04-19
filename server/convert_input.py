@@ -13,21 +13,31 @@ sep = re.compile('[;,]')
 
 for x in orig:
     nnn = {}
-    nnn['book'] = x['book'].decode('utf8')
-    nnn['chapter'] = x['chapter'].decode('utf8')
-    nnn['subchapter'] = x['title'].decode('utf8')
-    nnn['subject'] = x['subject'].decode('utf8')
-    nnn['recommendation'] = x['recommendation'].decode('utf8')
-    nnn['responsible_authority'] = x['responsible_authority'].decode('utf8')
-    nnn['result_metric'] = x['result_metric'].decode('utf8')
-    nnn['budget'] = { 'description' : x.get('budget_cost').decode('utf8'),
+
+    nnn['tags'] = [ t.strip() for t in sep.split(x.get('tags').decode('utf8')) if t.strip() != '' ]
+
+    nnn['book'] = x['book'].decode('utf8').strip()
+    nnn['chapter'] = x['chapter'].decode('utf8').strip()
+    nnn['tags'].append(nnn['chapter'])
+
+    nnn['subchapter'] = x['title'].decode('utf8').strip()
+    if nnn['subchapter']:
+       nnn['tags'].append(nnn['subchapter'])
+    nnn['tags'] = set(nnn['tags'])
+    nnn['tags'] = list(nnn['tags'])
+
+    nnn['subject'] = x['subject'].decode('utf8').strip()
+    nnn['recommendation'] = x['recommendation'].decode('utf8').strip()
+    nnn['responsible_authority'] = x['responsible_authority'].decode('utf8').strip()
+    nnn['result_metric'] = x['result_metric'].decode('utf8').strip()
+    nnn['budget'] = { 'description' : x.get('budget_cost').decode('utf8').strip(),
                       'millions' : x.get('budget_cost_millions',0),
                       'year_span' : 0  }
-    nnn['timeline'] = [ { 'due_date' : x.get('schedule','').decode('utf8'),
+    nnn['timeline'] = [ { 'due_date' : x.get('schedule','').decode('utf8').strip(),
                           'links' : [],
-                          'milestone_name' : x.get('execution_metric').decode('utf8') } ]
+                          'milestone_name' : x.get('execution_metric').decode('utf8').strip() } ]
     if x['gov_current_status']:
-        for s in x['gov_current_status'].decode('utf8').split(';'):
+        for s in x['gov_current_status'].decode('utf8').strip().split(';'):
             date = None
             links = []
             if '8.1.12' in s:
@@ -52,13 +62,13 @@ for x in orig:
                 date = '18/12/2011'
             m = link.search(s)
             if m != None:
+                s=link.sub('',s)
                 match, url, num = m.groups()
-                links.append( { 'url' : url, 'description' : u'התקבל בהחלטת ממשלה מספר %s' % num} )
+                links.append( { 'url' : url, 'description' : u'החלטת ממשלה מספר %s' % num} )
             if date:
                 nnn['timeline'].append( { 'due_date' : date, 'links' : links, 'milestone_name' : s } )
             else:
                 nnn['implementation_status_text'] = s       
-    nnn['tags'] = [ t.strip() for t in sep.split(x.get('tags')) if t.strip() != '' ]
     nnn['implementation_status'] = {'80':'WORKAROUND','100':'FIXED' }.get(x['gov_current_status_code'],'NEW')
 
     out.append( {'gov' : nnn, 'slug': x['slug'] } )

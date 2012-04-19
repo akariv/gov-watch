@@ -98,6 +98,28 @@ body {
   #sort{
     width:180px;
   }
+
+ .searchtag {
+      display: inline-block;
+      text-decoration: none;
+      background: url("/static/img/taghead.png") no-repeat right top;
+      font-size: 0.7em;
+      height: 18px;
+      line-height: 19px;
+      list-style: none outside none;
+      margin-left: 5px;
+      padding-right: 13px;
+      a{
+        background: @cardshade;
+        .border-radius(3px 0 0 3px);
+        padding: 0px 5px 0;
+        color: black;
+        font-weight: 700;
+        text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+        &:hover{text-decoration:none;}
+      }
+      &:hover{background-position: right bottom; a{background: @carddark;}}
+  }
   
 /**** Item ****/
 

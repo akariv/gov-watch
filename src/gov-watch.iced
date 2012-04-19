@@ -1,6 +1,8 @@
 loaded_data = null
 all_books = []
 all_chapters = {}
+all_tags = []
+all_subjects = []
 
 selected_book = ""
 selected_chapter = ""
@@ -113,12 +115,20 @@ data_callback = (data) ->
     loaded_data = data
 
     all_books = {}
+    all_tags = {}
+    all_subjects = {}
 
     # Collect all available books
     for rec in data
         if not all_books[rec.gov.book]
             all_books[rec.gov.book] = {}
         all_books[rec.gov.book][rec.gov.chapter] = true
+        for tag in rec.gov.tags
+           all_tags[tag]=1
+        all_subjects[rec.gov.subject]=1
+
+    all_tags = Object.keys(all_tags)
+    all_subjects = Object.keys(all_subjects)
 
     # Collect all chapters for every book
     all_chapters = {}
@@ -132,11 +142,51 @@ data_callback = (data) ->
         localStorage.data = JSON.stringify(data)
         localStorage.all_books = JSON.stringify(all_books)
         localStorage.all_chapters = JSON.stringify(all_chapters)
+        localStorage.all_tags = JSON.stringify(all_tags)
+        localStorage.all_subjects=JSON.stringify(all_subjects)
 
     # process loaded data
     process_data()
 
 initialized = false
+
+## Sets up the searchbox with the typeahead lookup
+setup_searchbox = ->
+    show_watermark(true)
+    $("#searchbox").change ->
+       # handle watermark on the search box
+       if wm_shown
+            search_term = ""
+       else
+            search_term = $("#searchbox").val()
+       update_history()
+    $("#searchbox").focus ->
+        show_watermark(false)
+    $("#searchbox").blur ->
+        if $(this).val() == ""
+            show_watermark(true)
+    $("#searchbar").submit -> false
+    
+    source = []
+    for tag in all_tags
+          source.push({type:"tag",title:tag})
+    for subject in all_subjects
+          source.push({type:"subject",title:subject})
+    $("#searchbox").typeahead
+         source: source
+         items: 20
+         matcher: (item) -> ~item.title.indexOf(this.query) 
+         valueof: (item) -> item.title
+         selected: (val) -> 
+                         search_term = val
+                         update_history()
+         highlighter: (item) -> 
+                            highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
+                            if item.type == "subject"
+                                    return highlighted_title
+                            if item.type == "tag"
+                                    "<span class='searchtag'><a href='#'>#{highlighted_title}</a></span>"
+
 
 ## Handles the site's data (could be from local storage or freshly loaded)
 process_data = ->
@@ -213,21 +263,8 @@ process_data = ->
                     else
                        1
     )
-    # Searchbox init
-    show_watermark(true)
-    $("#searchbox").change ->
-       # handle watermark on the search box
-       if wm_shown
-            search_term = ""
-       else
-            search_term = $("#searchbox").val()
-       update_history()
-    $("#searchbox").focus ->
-        show_watermark(false)
-    $("#searchbox").blur ->
-        if $(this).val() == ""
-            show_watermark(true)
-    $("#searchbar").submit -> false
+
+    setup_searchbox()
 
     # sidebox filters init
     $("#books").change ->
@@ -298,15 +335,17 @@ do_search = ->
         should_show = search_term == ""
         # search the term in prespecified fields
         if search_term != ""
-            for field in [ "recommendation", "subject", "result_metric", "title",  "chapter", "responsible_authority"]
+            for field in [ "recommendation", "subject", "result_metric", "title",  "chapter", "subchapter", "responsible_authority"]
                 if rec[field]
-                    found = rec[field].search(search_term) != -1
-                    # we replace the text of the item with the highlight span
+                    found = rec[field].indexOf(search_term) >= 0
                 else
                     found = false
-                    # new_fields[field] = null
 
                 should_show = should_show or found
+
+            for tag in rec.tags
+                if tag == search_term
+                    should_show = true
 
         # should_show determines if the item should be shown in the search
         should_show = should_show and ((selected_book == "") or (rec.book == selected_book)) and ((selected_chapter == "") or (rec.chapter == selected_chapter))
@@ -332,6 +371,8 @@ $ ->
         loaded_data = JSON.parse(localStorage.data)
         all_books = JSON.parse(localStorage.all_books)
         all_chapters = JSON.parse(localStorage.all_chapters)
+        all_tags = JSON.parse(localStorage.all_tags)
+        all_subjects = JSON.parse(localStorage.all_subjects)
         process_data()
         # either way, load the current data to cache after a few seconds
         setTimeout( load_data, 10000 )
