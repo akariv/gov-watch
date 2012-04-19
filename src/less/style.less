@@ -98,6 +98,28 @@ body {
   #sort{
     width:180px;
   }
+
+ .searchtag {
+      display: inline-block;
+      text-decoration: none;
+      background: url("/static/img/taghead.png") no-repeat right top;
+      font-size: 0.7em;
+      height: 18px;
+      line-height: 19px;
+      list-style: none outside none;
+      margin-left: 5px;
+      padding-right: 13px;
+      a{
+        background: @cardshade;
+        .border-radius(3px 0 0 3px);
+        padding: 0px 5px 0;
+        color: black;
+        font-weight: 700;
+        text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+        &:hover{text-decoration:none;}
+      }
+      &:hover{background-position: right bottom; a{background: @carddark;}}
+  }
   
 /**** Item ****/
 
@@ -142,8 +164,8 @@ body {
     }
   }
   
-  .timeline:after {
-    /*background: url("/static/img/card.png") no-repeat scroll center bottom transparent;*/
+  .footer {
+    background: url("/static/img/card.png") no-repeat scroll center bottom transparent;
     bottom: 0; right: 0;
     content: "";
     display: block;
@@ -157,19 +179,21 @@ body {
     vertical-align:top;
     overflow:hidden;
     margin-right: -@gridGutterWidth - @gridColumnWidth;
+    margin-bottom:13px;
     position:absolute;
     height:100%;
     left:0px;
 
     > ul {
-      height: 100%;
+      //height: 100%;
       list-style: none outside none;
       margin: 30px 39px;
-      position: relative;
+      //position: relative;
       
       > li{
         width: 13px;
         height: 13px;
+        position:absolute;
         border: 5px @card solid;
         .border-radius(13px);
         background: @cardshade;
