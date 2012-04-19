@@ -97,10 +97,10 @@
 	</div>
     
   </div>
-  <div class="timeline" style="">
+  <div class="timeline">
     <ul>
       {{#timeline}}
-      <li>
+      <li class="timeline-point">
         <span data-duedate="{{due_date}}">{{due_date}}: {{milestone_name}}</span>    
         <ul>
           {{#links}}
@@ -109,8 +109,12 @@
         </ul>
       </li>
       {{/timeline}}
+      <li class="timeline-point">
+        <span>היום</span>
+      </li>     
     </ul>
   </div>
+  <div class="footer"></div>
 
 </div>
 {{/gov}}
@@ -155,7 +159,7 @@
 					<input id="searchbox" class="xlarge" type="text" size="30" name="xlInput">
 					<div id="filters">
 						<select id="books" name="normalSelect"></select>
-						<select id="chapters" name="normalSelect"></select>
+						<!--select id="chapters" name="normalSelect"></select-->
 			        </div>
 			       	<select id="sort" name="normalSelect">
 					    <option value="chapter">פרק</option>

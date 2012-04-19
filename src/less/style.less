@@ -164,8 +164,8 @@ body {
     }
   }
   
-  .timeline:after {
-    /*background: url("/static/img/card.png") no-repeat scroll center bottom transparent;*/
+  .footer {
+    background: url("/static/img/card.png") no-repeat scroll center bottom transparent;
     bottom: 0; right: 0;
     content: "";
     display: block;
@@ -179,19 +179,21 @@ body {
     vertical-align:top;
     overflow:hidden;
     margin-right: -@gridGutterWidth - @gridColumnWidth;
+    margin-bottom:13px;
     position:absolute;
     height:100%;
     left:0px;
 
     > ul {
-      height: 100%;
+      //height: 100%;
       list-style: none outside none;
       margin: 30px 39px;
-      position: relative;
+      //position: relative;
       
       > li{
         width: 13px;
         height: 13px;
+        position:absolute;
         border: 5px @card solid;
         .border-radius(13px);
         background: @cardshade;

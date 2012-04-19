@@ -3829,9 +3829,8 @@ body {
 .item .item-body > div {
   margin: 0 10px;
 }
-.item .timeline:after {
-  /*background: url("/static/img/card.png") no-repeat scroll center bottom transparent;*/
-
+.item .footer {
+  background: url("/static/img/card.png") no-repeat scroll center bottom transparent;
   bottom: 0;
   right: 0;
   content: "";
@@ -3847,19 +3846,19 @@ body {
   vertical-align: top;
   overflow: hidden;
   margin-right: -104px;
+  margin-bottom: 13px;
   position: absolute;
   height: 100%;
   left: 0px;
 }
 .item .timeline > ul {
-  height: 100%;
   list-style: none outside none;
   margin: 30px 39px;
-  position: relative;
 }
 .item .timeline > ul > li {
   width: 13px;
   height: 13px;
+  position: absolute;
   border: 5px #fffcd9 solid;
   -webkit-border-radius: 13px;
   -moz-border-radius: 13px;
