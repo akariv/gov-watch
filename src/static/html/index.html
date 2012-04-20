@@ -33,7 +33,7 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item span" rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget_cost_millions}}">
+<div class="item span" rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget_cost_millions}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -100,8 +100,8 @@
   <div class="timeline">
     <ul>
       {{#timeline}}
-      <li class="timeline-point">
-        <span data-duedate="{{due_date}}">{{due_date}}: {{milestone_name}}</span>    
+      <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-duedate="{{due_date}}">
+        <span>{{due_date}}: {{milestone_name}}</span>    
         <ul>
           {{#links}}
           <li><a href="{{url}}">{{description}}</a></li>
@@ -109,7 +109,7 @@
         </ul>
       </li>
       {{/timeline}}
-      <li class="timeline-point">
+      <li class="timeline-point today">
         <span>היום</span>
       </li>     
     </ul>
@@ -186,13 +186,14 @@
     
     <div id="fb-root"></div>
     <!-- JS -->
-    <script type='text/javascript' src='//connect.facebook.net/he_IL/all.js#xfbml=1&appId=161102067336024'></script>
     <script type='text/javascript' src='static/js/jquery.min.js'></script>
     <script type='text/javascript' src='static/bootstrap/js/bootstrap.js'></script>
     <script type='text/javascript' src='static/js/mustache.js'></script>
     <script type='text/javascript' src='static/js/jquery.isotope.min.js'></script>
     <script type='text/javascript' src='static/js/jquery.scrollintoview.min.js'></script>
+    <script type='text/javascript' src='static/js/jquery.tinysort.min.js'></script>
     <script type='text/javascript' src='static/js/gov-watch.js'></script>
+    <script type='text/javascript' src='//connect.facebook.net/he_IL/all.js#xfbml=1&appId=161102067336024'></script>
     
 </body>
 </html>

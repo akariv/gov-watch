@@ -298,10 +298,32 @@
       }
     });
     $("#items").html(html);
-    $(".item .timeline").each(function() {
-      var i, items, len, stops, _j, _results;
-      items = $(this).find(".timeline-point");
-      len = items.length;
+    $(".item").each(function() {
+      var i, implementation_status, len, pad, stops, timeline_item, timeline_items, today, _j, _results;
+      implementation_status = $(this).attr('implementation-status');
+      if (implementation_status === 'STUCK' || implementation_status === 'WORKAROUND') {
+        $(this).find('.buxa-header').addClass('bad');
+      }
+      if (implementation_status === 'FIXED') {
+        $(this).find('.buxa-header').addClass('good');
+      }
+      pad = function(n) {
+        if (n < 10) {
+          return '0' + n;
+        } else {
+          return n;
+        }
+      };
+      today = new Date();
+      today = "" + (today.getFullYear()) + "/" + (pad(today.getMonth())) + "/" + (pad(today.getDay()));
+      $(this).find('.timeline .timeline-point:last').attr('data-duedate', today);
+      timeline_items = $(this).find(".timeline .timeline-point");
+      timeline_items.tsort({
+        attr: 'data-duedate',
+        order: 'asc'
+      });
+      timeline_items = $(this).find(".timeline .timeline-point");
+      len = timeline_items.length;
       if (len === 1) {
         stops = 1;
       } else {
@@ -309,7 +331,17 @@
       }
       _results = [];
       for (i = _j = 0; 0 <= len ? _j <= len : _j >= len; i = 0 <= len ? ++_j : --_j) {
-        _results.push($(items[i]).css("top", (10 + i * stops) + "%"));
+        timeline_item = $(timeline_items[i]);
+        timeline_item.css("top", (10 + i * stops) + "%");
+        timeline_item.tooltip({
+          delay: {
+            show: 0,
+            hide: 1000
+          },
+          placement: 'bottom',
+          title: timeline_item.html()
+        });
+        _results.push(timeline_item.html(''));
       }
       return _results;
     });
@@ -325,7 +357,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 255
+        lineno: 272
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -419,7 +451,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 327
+              lineno: 344
             })));
           } else {
             __iced_deferrals.defer({
@@ -428,7 +460,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 330
+              lineno: 347
             });
           }
           __iced_deferrals._fulfill();
@@ -445,7 +477,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 330
+              lineno: 347
             })), 1000);
             __iced_deferrals._fulfill();
           })(function() {
@@ -463,7 +495,7 @@
                     return __iced_deferrals.ret = arguments[0];
                   };
                 })(),
-                lineno: 333
+                lineno: 350
               })), 1000);
               __iced_deferrals._fulfill();
             })(function() {
@@ -524,7 +556,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 372
+        lineno: 389
       })), 1000);
       __iced_deferrals._fulfill();
     })(function() {

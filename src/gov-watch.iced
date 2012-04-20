@@ -242,15 +242,32 @@ process_data = ->
     # Update the document with rendered HTML
     $("#items").html(html)
     
-    $(".item .timeline").each ->
-        items = $(this).find(".timeline-point")
-        len = items.length
+    $(".item").each ->
+        # current status
+        implementation_status = $(this).attr('implementation-status')
+        if implementation_status in [ 'STUCK', 'WORKAROUND' ]
+             $(this).find('.buxa-header').addClass('bad')
+        if implementation_status in [ 'FIXED' ]
+             $(this).find('.buxa-header').addClass('good')
+        # Timeline
+        pad = (n) -> if n<10 then '0'+n else n
+        today = new Date()
+        today = "#{today.getFullYear()}/#{pad(today.getMonth())}/#{pad(today.getDay())}"
+
+        $(this).find('.timeline .timeline-point:last').attr('data-duedate',today)
+        timeline_items = $(this).find(".timeline .timeline-point")
+        timeline_items.tsort({attr:'data-duedate',order:'asc'})
+        timeline_items = $(this).find(".timeline .timeline-point")
+        len = timeline_items.length
         if len == 1
            stops = 1
         else
            stops = 75 / (len-1)
         for i in [0..len]
-            $(items[i]).css("top",(10+i*stops)+"%")
+            timeline_item = $(timeline_items[i])
+            timeline_item.css("top",(10+i*stops)+"%")
+            timeline_item.tooltip({delay: {show:0,hide:1000},placement:'bottom',title:timeline_item.html()})
+            timeline_item.html('')
     
     # Allow the DOM to sync
     await setTimeout((defer _),50)
