@@ -99,7 +99,7 @@ body {
     width:180px;
   }
 
- .searchtag {
+ .searchtag { //TODO: MUSHON
       display: inline-block;
       text-decoration: none;
       background: url("/static/img/taghead.png") no-repeat right top;
@@ -198,6 +198,10 @@ body {
         .border-radius(13px);
         background: @cardshade;
         
+        &.today { background: blue; } //TODO: MUSHON 
+        &.start { background: green; } //TODO: MUSHON 
+        &.completion { background: purple; } //TODO: MUSHON 
+
         > * { display: none;}
         
         &:hover{

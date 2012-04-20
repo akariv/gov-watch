@@ -3865,6 +3865,15 @@ body {
   border-radius: 13px;
   background: #e4daac;
 }
+.item .timeline > ul > li.today {
+  background: blue;
+}
+.item .timeline > ul > li.start {
+  background: green;
+}
+.item .timeline > ul > li.completion {
+  background: purple;
+}
 .item .timeline > ul > li > * {
   display: none;
 }

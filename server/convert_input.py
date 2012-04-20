@@ -10,6 +10,16 @@ out = []
 
 link = re.compile('(\[(.+des([0-9]+).htm)\])')
 sep = re.compile('[;,]')
+dateformat=re.compile("^[0-9/]+$")
+
+def convert_date(date):
+    if date == None: return None
+    if date == '': return None
+    if not dateformat.match(date): return  date
+    date = date.split('/')
+    date = [ int(z) for z in date ]
+    date = "%04d/%02d/%02d" % (date[2],date[1],date[0])
+    return date
 
 for x in orig:
     nnn = {}
@@ -33,9 +43,17 @@ for x in orig:
     nnn['budget'] = { 'description' : x.get('budget_cost').decode('utf8').strip(),
                       'millions' : x.get('budget_cost_millions',0),
                       'year_span' : 0  }
-    nnn['timeline'] = [ { 'due_date' : x.get('schedule','').decode('utf8').strip(),
+    nnn['timeline'] = [ { 'due_date' : convert_date(x.get('schedule','').decode('utf8').strip()),
                           'links' : [],
-                          'milestone_name' : x.get('execution_metric').decode('utf8').strip() } ]
+                          'milestone_name' : x.get('execution_metric').decode('utf8').strip(),
+                          'completion' : True
+                        },
+                        { 'due_date' : '2011/09/26', 
+                          'links' : [ { 'url' : 'http://hidavrut.gov.il/',
+                                        'description' : u'דו"ח טרכטנברג' } ], 
+                          'milestone_name': u'פרסום הדו"ח',
+                          'start' : True }
+                      ]
     if x['gov_current_status']:
         for s in x['gov_current_status'].decode('utf8').strip().split(';'):
             date = None
@@ -43,7 +61,7 @@ for x in orig:
             if '8.1.12' in s:
                 date = "8/1/2012"
             if '29.1.12' in s:
-                data = "29/1/2012"
+                date = "29/1/2012"
             if '18.12.12' in s:
                 date = '18/12/2011'
             if '18.12.11' in s:
@@ -60,6 +78,7 @@ for x in orig:
                 date = '25/12/2011'
             if '18.12.2011' in s:
                 date = '18/12/2011'
+            date=convert_date(date)
             m = link.search(s)
             if m != None:
                 s=link.sub('',s)
