@@ -7,14 +7,19 @@ Usage
 Currently working with the tracthenberg committee report, the code includes everything you need to get going. Just:
    
     # Installations
+
     $ npm install -g iced-coffee-script
+
     $ npm install -g less
+    
     $ npm install -g uglify-js
 
     ### Linux:
+    
     $ sudo apt-get install redis-server
     
     ### Mac:
+    
     $ brew install redis
 
     $ easy_install redis    
@@ -24,6 +29,7 @@ Currently working with the tracthenberg committee report, the code includes ever
     $ git submodule update
 
     # Build 
+    
     $ cd ~/gov-watch/src/
 
     $ ./build.sh
@@ -31,6 +37,7 @@ Currently working with the tracthenberg committee report, the code includes ever
 Then, at will, just run:
     
     # Run server
+    
     $ cd ~/gov-watch/server/
 
     $ python dbserver.py
