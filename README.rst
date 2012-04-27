@@ -20,16 +20,19 @@ Currently working with the tracthenberg committee report, the code includes ever
     $ easy_install redis    
 
     $ git submodule init
+
     $ git submodule update
 
     # Build 
     $ cd ~/gov-watch/src/
+
     $ ./build.sh
 
 Then, at will, just run:
     
     # Run server
     $ cd ~/gov-watch/server/
+
     $ python dbserver.py
 
 And then pointing your browser to http://127.0.0.1:5000
