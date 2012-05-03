@@ -14,7 +14,7 @@
 @itempadding: 0;
 @gutter: @gridGutterWidth;
 @good: #6ba688;
-@bad: #d18273;
+@bad: #f0776d;
 @darkTrans: rgba(0,0,0,0.5);
 
 @linkMuted: @gray;
@@ -350,10 +350,9 @@ body {
     clear: both;
     margin: 1.3em 10px 0.5em;
     line-height: 1em;
-    background: url("/static/img/hr.png");
     
     &.good{
-      background: @good;
+      background: @good url("/static/img/conflict.png") 50% 50%;
     }
     
     &.bad{
