@@ -270,7 +270,7 @@
       (function(__iced_k) {
         __iced_deferrals = new iced.Deferrals(__iced_k, {
           parent: ___iced_passed_deferral,
-          filename: 'edit-issue.iced',
+          filename: 'update-issue.iced',
           funcname: 'onhashchange'
         });
         $.getJSON("/api/" + hash, (__iced_deferrals.defer({

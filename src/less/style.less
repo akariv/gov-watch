@@ -190,9 +190,7 @@ body {
   
   .timeline{
     width: @gridGutterWidth + @gridColumnWidth;
-    //float: right;
     vertical-align:top;
-    //overflow:hidden;
     margin-right: -@gridGutterWidth - @gridColumnWidth;
     margin-bottom:13px;
     position:absolute;
@@ -200,12 +198,10 @@ body {
     left:0px;
 
     > ul {
-      //height: 100%;
       list-style: none outside none;
       margin: 30px 39px;
-      //position: relative;
       
-      > li{
+      > li.timeline-point {
         width: 13px;
         height: 13px;
         position:absolute;
@@ -228,6 +224,7 @@ body {
         }
         
         > div {
+          z-index: 10;
           display: none;
           position: absolute;
           width: 300px;
@@ -259,7 +256,9 @@ body {
             padding: 0 3px;
           }
           
-          .label-bad{
+          .label-STUCK,
+          .label-WORKAROUND,
+          .label-NEW {
             background: @bad;
           }
           
@@ -306,6 +305,24 @@ body {
           display: block;
         }
       }
+      > li.timeline-line {
+        position:absolute;
+        border: 1px red dashed;
+        height:30px;
+
+        &.status-IN_PROGRESS {
+           border-color: green;
+        }       
+
+        &.status-FIXED {
+           border-color: green;
+        }       
+
+        &.status-IRRELEVANT {
+           border-color: green;
+        }       
+
+      } 
     }
   }
   

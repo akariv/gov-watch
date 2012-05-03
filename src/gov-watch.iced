@@ -68,7 +68,8 @@ onhashchange = ->
        return
 
    # select the selected book
-   $("#books option[value='#{selected_book}']").attr('selected', 'selected')
+   $("#books li.book").toggleClass('active', false)
+   $("#books li.book[data-book='#{selected_book}']").toggleClass('active', true)
 
 #   if all_chapters[selected_book]
 #       # fill values in the chapters listbox
@@ -124,12 +125,12 @@ data_callback = (data) ->
 
     # Collect all available books
     for rec in data
-        if not all_books[rec.gov.book]
-            all_books[rec.gov.book] = {}
-        all_books[rec.gov.book][rec.gov.chapter] = true
-        for tag in rec.gov.tags
+        if not all_books[rec.base.book]
+            all_books[rec.base.book] = {}
+        all_books[rec.base.book][rec.base.chapter] = true
+        for tag in rec.base.tags
            all_tags[tag]=1
-        all_subjects[rec.gov.subject]=1
+        all_subjects[rec.base.subject]=1
 
     all_tags = Object.keys(all_tags)
     all_subjects = Object.keys(all_subjects)
@@ -189,7 +190,7 @@ setup_searchbox = ->
                             if item.type == "subject"
                                     return highlighted_title
                             if item.type == "tag"
-                                    "<span class='searchtag'><a href='#'>#{highlighted_title}</a></span>"
+                                    "<span class='searchtag'><span>#{highlighted_title}</span></span>"
 
 
 ## Handles the site's data (could be from local storage or freshly loaded)
@@ -201,9 +202,8 @@ process_data = ->
     initialized = true
 
     # Fill contents to the book selection sidebox
-    $("#books").html("<option value=''>\u05d4\u05db\u05dc</option>")
     for book in all_books
-        $("#books").append("<option value='#{book}'>#{book}</option>")
+        $("#books").prepend("<li data-book='#{book}' class='book'><a href='#'>#{book}</a></li>")
 
     # This is used to process lists in the data's values.
     # Lists are srtings separated with ';'
@@ -243,42 +243,64 @@ process_data = ->
     $("#items").html(html)
 
     $(".item").each ->
-        # current status
-        implementation_status = $(this).attr('implementation-status')
-        if implementation_status in [ 'STUCK', 'WORKAROUND' ]
-             $(this).find('.buxa-header').addClass('bad')
-        if implementation_status in [ 'FIXED' ]
-             $(this).find('.buxa-header').addClass('good')
         # Timeline
         pad = (n) -> if n<10 then '0'+n else n
         today = new Date()
-        today = "#{today.getFullYear()}/#{pad(today.getMonth())}/#{pad(today.getDay())}"
+        today = "#{today.getFullYear()}/#{pad(today.getMonth()+1)}/#{pad(today.getDate()+1)}"
 
-        $(this).find('.timeline .timeline-point:last').attr('data-duedate',today)
+        $(this).find('.timeline .timeline-point.today').attr('data-date',today)
         timeline_items = $(this).find(".timeline .timeline-point")
-        timeline_items.tsort({attr:'data-duedate',order:'asc'})
+        timeline_items.tsort({attr:'data-date',order:'asc'})
         timeline_items = $(this).find(".timeline .timeline-point")
 
         max_numeric_date = 0
         min_numeric_date = 2100 * 372
         timeline_items.each( ->
-                date = $(this).attr('data-duedate')
+                date = $(this).attr('data-date')
                 date = date.split('/')
-                [year,month,day] = (parseInt(d) for d in date)
+                [year,month,day] = (parseInt(d,10) for d in date)
                 numeric_date = (year * 372) + ((month-1) * 31) + (day-1)
-                if numeric_date == NaN
+                if isNaN(numeric_date)
                         numeric_date = 2012 * 372
                 if numeric_date > max_numeric_date
                         max_numeric_date = numeric_date + 1
                 if numeric_date < min_numeric_date
                         min_numeric_date = numeric_date
-                $(this).attr('data-duedate-numeric',numeric_date)
+                $(this).attr('data-date-numeric',numeric_date)
         )
+
+        status_to_hebrew = (status) ->
+                switch status
+                        when "NEW" then "טרם התחיל"
+                        when "STUCK" then "תקוע"
+                        when "IN_PROGRESS" then "בתהליך"
+                        when "FIXED" then "יושם במלואו"
+                        when "WORKAROUND" then "יושם חלקית"
+                        when "IRRELEVANT" then "יישום ההמלצה כבר לא נדרש"
+
+        status = 'NEW'
+        last_percent = 10.0
         timeline_items.each( ->
-                date = parseInt($(this).attr('data-duedate-numeric'))
-                percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10
+                date = parseInt($(this).attr('data-date-numeric'))
+                percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10.0
                 $(this).css("top",percent+"%")
+                if percent != last_percent
+                         $(this).before("<li class='timeline-line status-#{status}'></li>")
+                         $(this).parent().find('.timeline-line:last').css('height',(percent-last_percent)+"%")
+                         $(this).parent().find('.timeline-line:last').css('top',last_percent+"%")
+
+                status = $(this).attr('data-status') ? status
+                $(this).find('.implementation-status').addClass("label-#{status}")
+                $(this).find('.implementation-status').html(status_to_hebrew(status))
+                last_percent = percent
         )
+
+        # current status
+        implementation_status = $(this).find('.gov-update:last').attr('data-status')
+        if implementation_status in [ 'STUCK', 'WORKAROUND' ]
+             $(this).find('.buxa-header').addClass('bad')
+        if implementation_status in [ 'FIXED' ]
+             $(this).find('.buxa-header').addClass('good')
 
     # Allow the DOM to sync
     await setTimeout((defer _),50)
@@ -309,13 +331,9 @@ process_data = ->
     setup_searchbox()
 
     # sidebox filters init
-    $("#books").change ->
-        selected_book = $("#books").val()
-        #selected_chapter = ""
+    $("#books li.book a").click ->
+        selected_book = $(this).html()
         update_history()
-#    $("#chapters").change ->
-#        selected_chapter = $("#chapters").val()
-#        update_history()
 
     # sidebox sort init
     $("#sort").change ->
@@ -323,7 +341,7 @@ process_data = ->
         $("#items").isotope({ sortBy: sort_measure })
 
     # item click handler
-    $(".item").click -> update_history($(this).attr('rel'))
+    # $(".item").click -> update_history($(this).attr('rel'))
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
@@ -372,7 +390,7 @@ do_search = ->
     # search on the loaded_data veriable
     for rec in loaded_data
         slug = rec.slug
-        rec = rec.gov
+        rec = rec.base
 
         should_show = search_term == ""
         # search the term in prespecified fields
