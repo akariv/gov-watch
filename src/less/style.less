@@ -352,7 +352,12 @@ body {
     line-height: 1em;
     
     &.good{
-      background: @good url("/static/img/conflict.png") 50% 50%;
+      background: @good;
+    }
+    
+    &.conflict{
+      background-image: url("/static/img/conflict.png");
+      background-position: 50% 50%;
     }
     
     &.bad{
