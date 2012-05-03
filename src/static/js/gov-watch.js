@@ -299,7 +299,7 @@
     });
     $("#items").html(html);
     $(".item").each(function() {
-      var i, implementation_status, len, pad, stops, timeline_item, timeline_items, today, _j, _results;
+      var implementation_status, max_numeric_date, min_numeric_date, pad, timeline_items, today;
       implementation_status = $(this).attr('implementation-status');
       if (implementation_status === 'STUCK' || implementation_status === 'WORKAROUND') {
         $(this).find('.buxa-header').addClass('bad');
@@ -323,27 +323,33 @@
         order: 'asc'
       });
       timeline_items = $(this).find(".timeline .timeline-point");
-      len = timeline_items.length;
-      if (len === 1) {
-        stops = 1;
-      } else {
-        stops = 75 / (len - 1);
-      }
-      _results = [];
-      for (i = _j = 0; 0 <= len ? _j <= len : _j >= len; i = 0 <= len ? ++_j : --_j) {
-        timeline_item = $(timeline_items[i]);
-        timeline_item.css("top", (10 + i * stops) + "%");
-        timeline_item.tooltip({
-          delay: {
-            show: 0,
-            hide: 1000
-          },
-          placement: 'bottom',
-          title: timeline_item.html()
-        });
-        _results.push(timeline_item.html(''));
-      }
-      return _results;
+      max_numeric_date = 0;
+      min_numeric_date = 2100 * 372;
+      timeline_items.each(function() {
+        var d, date, day, month, numeric_date, year, _ref;
+        date = $(this).attr('data-duedate');
+        date = date.split('/');
+        _ref = (function() {
+          var _j, _len2, _results;
+          _results = [];
+          for (_j = 0, _len2 = date.length; _j < _len2; _j++) {
+            d = date[_j];
+            _results.push(parseInt(d));
+          }
+          return _results;
+        })(), year = _ref[0], month = _ref[1], day = _ref[2];
+        numeric_date = (year * 372) + ((month - 1) * 31) + (day - 1);
+        if (numeric_date === NaN) numeric_date = 2012 * 372;
+        if (numeric_date > max_numeric_date) max_numeric_date = numeric_date + 1;
+        if (numeric_date < min_numeric_date) min_numeric_date = numeric_date;
+        return $(this).attr('data-duedate-numeric', numeric_date);
+      });
+      return timeline_items.each(function() {
+        var date, percent;
+        date = parseInt($(this).attr('data-duedate-numeric'));
+        percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10;
+        return $(this).css("top", percent + "%");
+      });
     });
     (function(__iced_k) {
       __iced_deferrals = new iced.Deferrals(__iced_k, {
@@ -357,7 +363,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 272
+        lineno: 283
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -451,7 +457,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 344
+              lineno: 355
             })));
           } else {
             __iced_deferrals.defer({
@@ -460,7 +466,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 347
+              lineno: 358
             });
           }
           __iced_deferrals._fulfill();
@@ -477,7 +483,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 347
+              lineno: 358
             })), 1000);
             __iced_deferrals._fulfill();
           })(function() {
@@ -495,7 +501,7 @@
                     return __iced_deferrals.ret = arguments[0];
                   };
                 })(),
-                lineno: 350
+                lineno: 361
               })), 1000);
               __iced_deferrals._fulfill();
             })(function() {
@@ -556,7 +562,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 389
+        lineno: 400
       })), 1000);
       __iced_deferrals._fulfill();
     })(function() {

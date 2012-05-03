@@ -33,7 +33,7 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item span" rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget_cost_millions}}" implementation-status="{{implementation_status}}">
+<div class="item span" rel="{{slug}}" {{#gov}} title="{{recommendation}}" cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -156,7 +156,7 @@
           <!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
           	<form id="searchbar" action="#">
         		<fieldset id='search'>
-					<input id="searchbox" class="xlarge" type="text" size="30" name="xlInput">
+					<input id="searchbox" class="xlarge" type="text" size="30" autocomplete="off" name="xlInput">
 					<div id="filters">
 						<select id="books" name="normalSelect"></select>
 						<!--select id="chapters" name="normalSelect"></select-->
