@@ -18,6 +18,7 @@ def convert_date(date):
     if not dateformat.match(date): return  date
     date = date.split('/')
     date = [ int(z) for z in date ]
+    if date[2] in range(10,20): date[2]+=2000
     date = "%04d/%02d/%02d" % (date[2],date[1],date[0])
     return date
 
@@ -45,13 +46,10 @@ for x in orig:
                       'millions' : int("0"+x.get('budget_cost_millions',0)),
                       'year_span' : 0  }
     base['timeline'] = [ { 'due_date' : convert_date(x.get('schedule','').decode('utf8').strip()),
-                          'links' : [],
                           'milestone_name' : x.get('execution_metric').decode('utf8').strip(),
                           'completion' : True
                         },
                         { 'due_date' : '2011/09/26', 
-                          'links' : [ { 'url' : 'http://hidavrut.gov.il/',
-                                        'description' : u'דו"ח טרכטנברג' } ], 
                           'milestone_name': u'פרסום הדו"ח',
                           'start' : True }
                       ]

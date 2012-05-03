@@ -77,9 +77,12 @@
     
     <div class="responsible">
     	<h3>גורם אחראי:</h3>
-    	<p>{{#responsible_authority}}
-        {{main}}{{secondary}}
-        {{/responsible_authority}}</p>
+    	<p>
+          {{#responsible_authority}}
+          <span class="responsible-main">{{main}}</span>
+          <span class="responsible-secondary">{{secondary}}</span>
+          {{/responsible_authority}}
+        </p>
 	</div>
     
     <div class="recommendation">
@@ -104,9 +107,9 @@
       {{#timeline}}
       <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-duedate="{{due_date}}">
         <div>
-        	<h4>{{status}}: {{milestone_name}}</h4>
-			<p>{{due_date}}: {{milestone_description}}</p>
-		</div>    
+          <h4>{{status}}: {{milestone_name}}</h4>
+	  <p>{{due_date}}: {{description}}</p>
+	</div>    
         <!-- <ul>
           {{#links}}
           <li><a href="{{url}}">{{description}}</a></li>

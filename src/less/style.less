@@ -176,9 +176,7 @@ body {
   
   .timeline{
     width: @gridGutterWidth + @gridColumnWidth;
-    //float: right;
     vertical-align:top;
-    //overflow:hidden;
     margin-right: -@gridGutterWidth - @gridColumnWidth;
     margin-bottom:13px;
     position:absolute;
@@ -186,12 +184,10 @@ body {
     left:0px;
 
     > ul {
-      //height: 100%;
       list-style: none outside none;
       margin: 30px 39px;
-      //position: relative;
       
-      > li{
+      > li.timeline-point {
         width: 13px;
         height: 13px;
         position:absolute;
@@ -214,6 +210,7 @@ body {
         }
         
         > div {
+          z-index: 10;
           display: none;
           position: absolute;
           width: 200px;
@@ -266,6 +263,11 @@ body {
           display: block;
         }
       }
+      > li.timeline-line {
+        position:absolute;
+        border: 5px red solid;
+        height:30px;
+      } 
     }
   }
   

@@ -252,9 +252,9 @@ process_data = ->
         # Timeline
         pad = (n) -> if n<10 then '0'+n else n
         today = new Date()
-        today = "#{today.getFullYear()}/#{pad(today.getMonth())}/#{pad(today.getDay())}"
+        today = "#{today.getFullYear()}/#{pad(today.getMonth()+1)}/#{pad(today.getDate()+1)}"
 
-        $(this).find('.timeline .timeline-point:last').attr('data-duedate',today)
+        $(this).find('.timeline .timeline-point.today').attr('data-duedate',today)
         timeline_items = $(this).find(".timeline .timeline-point")
         timeline_items.tsort({attr:'data-duedate',order:'asc'})
         timeline_items = $(this).find(".timeline .timeline-point")
@@ -264,7 +264,7 @@ process_data = ->
         timeline_items.each( ->
                 date = $(this).attr('data-duedate')
                 date = date.split('/')
-                [year,month,day] = (parseInt(d) for d in date)
+                [year,month,day] = (parseInt(d,10) for d in date)
                 numeric_date = (year * 372) + ((month-1) * 31) + (day-1)
                 if numeric_date == NaN
                         numeric_date = 2012 * 372
@@ -274,10 +274,17 @@ process_data = ->
                         min_numeric_date = numeric_date
                 $(this).attr('data-duedate-numeric',numeric_date)
         )
+
+        last_percent = 10.0
         timeline_items.each( ->
                 date = parseInt($(this).attr('data-duedate-numeric'))
-                percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10
+                percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10.0
                 $(this).css("top",percent+"%")
+                if percent != last_percent
+                         $(this).before("<li class='timeline-line'>#{percent}</li>")
+                         $(this).parent().find('.timeline-line:last').css('height',(percent-last_percent)+"%")
+                         $(this).parent().find('.timeline-line:last').css('top',last_percent+"%")
+                last_percent = percent
         )
 
     # Allow the DOM to sync

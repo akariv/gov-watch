@@ -3853,7 +3853,7 @@ body {
   list-style: none outside none;
   margin: 30px 39px;
 }
-.item .timeline > ul > li {
+.item .timeline > ul > li.timeline-point {
   width: 13px;
   height: 13px;
   position: absolute;
@@ -3863,24 +3863,25 @@ body {
   border-radius: 13px;
   background: #e4daac;
 }
-.item .timeline > ul > li.today {
+.item .timeline > ul > li.timeline-point.today {
   background: blue;
 }
-.item .timeline > ul > li.start,
-.item .timeline > ul > li.completion {
+.item .timeline > ul > li.timeline-point.start,
+.item .timeline > ul > li.timeline-point.completion {
   height: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-.item .timeline > ul > li.start > div,
-.item .timeline > ul > li.completion > div {
+.item .timeline > ul > li.timeline-point.start > div,
+.item .timeline > ul > li.timeline-point.completion > div {
   top: -8px;
 }
-.item .timeline > ul > li.start {
+.item .timeline > ul > li.timeline-point.start {
   background: #6ba688;
 }
-.item .timeline > ul > li > div {
+.item .timeline > ul > li.timeline-point > div {
+  z-index: 10;
   display: none;
   position: absolute;
   width: 200px;
@@ -3898,17 +3899,17 @@ body {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-.item .timeline > ul > li > div h4 {
+.item .timeline > ul > li.timeline-point > div h4 {
   background: #538b6f;
   color: #fffcd9;
   margin: 0;
 }
-.item .timeline > ul > li > div h4,
-.item .timeline > ul > li > div p {
+.item .timeline > ul > li.timeline-point > div h4,
+.item .timeline > ul > li.timeline-point > div p {
   padding: 5px;
   font-size: 14px;
 }
-.item .timeline > ul > li > div:after {
+.item .timeline > ul > li.timeline-point > div:after {
   border-bottom: 5px solid transparent;
   border-right: 5px solid #538b6f;
   border-top: 5px solid transparent;
@@ -3920,15 +3921,20 @@ body {
   top: 1px;
   width: 0;
 }
-.item .timeline > ul > li.bad > div {
+.item .timeline > ul > li.timeline-point.bad > div {
   border: 3px solid #538b6f;
   background: #6ba688;
 }
-.item .timeline > ul > li.bad > div:after {
+.item .timeline > ul > li.timeline-point.bad > div:after {
   border-right: 5px solid #538b6f;
 }
-.item .timeline > ul > li:hover > div {
+.item .timeline > ul > li.timeline-point:hover > div {
   display: block;
+}
+.item .timeline > ul > li.timeline-line {
+  position: absolute;
+  border: 5px red solid;
+  height: 30px;
 }
 .item .breadcrumb {
   border: 0;
