@@ -3918,7 +3918,7 @@ body {
 .item .timeline > ul > li.timeline-point > div .label-STUCK,
 .item .timeline > ul > li.timeline-point > div .label-WORKAROUND,
 .item .timeline > ul > li.timeline-point > div .label-NEW {
-  background: #d18273;
+  background: #f0776d;
 }
 .item .timeline > ul > li.timeline-point > div h4 {
   background: #e4daac;
@@ -4026,13 +4026,15 @@ body {
   clear: both;
   margin: 1.3em 10px 0.5em;
   line-height: 1em;
-  background: url("/static/img/hr.png");
 }
 .item h2.good {
   background: #6ba688;
 }
+.item h2.conflict {
+  background: #6ba688 url("/static/img/conflict.png") 50% 50%;
+}
 .item h2.bad {
-  background: #d18273;
+  background: #f0776d;
 }
 .item h2.bad a,
 .item h2.good a {
