@@ -124,12 +124,12 @@ data_callback = (data) ->
 
     # Collect all available books
     for rec in data
-        if not all_books[rec.gov.book]
-            all_books[rec.gov.book] = {}
-        all_books[rec.gov.book][rec.gov.chapter] = true
-        for tag in rec.gov.tags
+        if not all_books[rec.base.book]
+            all_books[rec.base.book] = {}
+        all_books[rec.base.book][rec.base.chapter] = true
+        for tag in rec.base.tags
            all_tags[tag]=1
-        all_subjects[rec.gov.subject]=1
+        all_subjects[rec.base.subject]=1
 
     all_tags = Object.keys(all_tags)
     all_subjects = Object.keys(all_subjects)
@@ -323,7 +323,7 @@ process_data = ->
         $("#items").isotope({ sortBy: sort_measure })
 
     # item click handler
-    $(".item").click -> update_history($(this).attr('rel'))
+    # $(".item").click -> update_history($(this).attr('rel'))
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
@@ -372,7 +372,7 @@ do_search = ->
     # search on the loaded_data veriable
     for rec in loaded_data
         slug = rec.slug
-        rec = rec.gov
+        rec = rec.base
 
         should_show = search_term == ""
         # search the term in prespecified fields

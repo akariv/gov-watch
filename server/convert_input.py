@@ -22,28 +22,29 @@ def convert_date(date):
     return date
 
 for x in orig:
-    nnn = {}
+    base = {}
 
-    nnn['tags'] = [ t.strip() for t in sep.split(x.get('tags').decode('utf8')) if t.strip() != '' ]
+    base['tags'] = [ t.strip() for t in sep.split(x.get('tags').decode('utf8')) if t.strip() != '' ]
 
-    nnn['book'] = x['book'].decode('utf8').strip()
-    nnn['chapter'] = x['chapter'].decode('utf8').strip()
-    nnn['tags'].append(nnn['chapter'])
+    base['book'] = x['book'].decode('utf8').strip()
+    base['chapter'] = x['chapter'].decode('utf8').strip()
+    base['tags'].append(base['chapter'])
 
-    nnn['subchapter'] = x['title'].decode('utf8').strip()
-    if nnn['subchapter']:
-       nnn['tags'].append(nnn['subchapter'])
-    nnn['tags'] = set(nnn['tags'])
-    nnn['tags'] = list(nnn['tags'])
+    base['subchapter'] = x['title'].decode('utf8').strip()
+    if base['subchapter']:
+       base['tags'].append(base['subchapter'])
+    base['tags'] = set(base['tags'])
+    base['tags'] = list(base['tags'])
 
-    nnn['subject'] = x['subject'].decode('utf8').strip()
-    nnn['recommendation'] = x['recommendation'].decode('utf8').strip()
-    nnn['responsible_authority'] = x['responsible_authority'].decode('utf8').strip()
-    nnn['result_metric'] = x['result_metric'].decode('utf8').strip()
-    nnn['budget'] = { 'description' : x.get('budget_cost').decode('utf8').strip(),
-                      'millions' : x.get('budget_cost_millions',0),
+    base['subject'] = x['subject'].decode('utf8').strip()
+    base['recommendation'] = x['recommendation'].decode('utf8').strip()
+    base['responsible_authority'] = { 'main' : x['responsible_authority'].decode('utf8').strip(),
+                                     'secondary' : '' }
+    base['result_metric'] = x['result_metric'].decode('utf8').strip()
+    base['budget'] = { 'description' : x.get('budget_cost').decode('utf8').strip(),
+                      'millions' : int("0"+x.get('budget_cost_millions',0)),
                       'year_span' : 0  }
-    nnn['timeline'] = [ { 'due_date' : convert_date(x.get('schedule','').decode('utf8').strip()),
+    base['timeline'] = [ { 'due_date' : convert_date(x.get('schedule','').decode('utf8').strip()),
                           'links' : [],
                           'milestone_name' : x.get('execution_metric').decode('utf8').strip(),
                           'completion' : True
@@ -54,10 +55,15 @@ for x in orig:
                           'milestone_name': u'פרסום הדו"ח',
                           'start' : True }
                       ]
+    
+    updates = []
     if x['gov_current_status']:
+        implementation_status = 'NEW'
+        description = ''
+        implementation_status_text = ''
+        links = []
         for s in x['gov_current_status'].decode('utf8').strip().split(';'):
             date = None
-            links = []
             if '8.1.12' in s:
                 date = "8/1/2012"
             if '29.1.12' in s:
@@ -84,12 +90,21 @@ for x in orig:
                 s=link.sub('',s)
                 match, url, num = m.groups()
                 links.append( { 'url' : url, 'description' : u'החלטת ממשלה מספר %s' % num} )
-            if date:
-                nnn['timeline'].append( { 'due_date' : date, 'links' : links, 'milestone_name' : s } )
-            else:
-                nnn['implementation_status_text'] = s       
-    nnn['implementation_status'] = {'80':'WORKAROUND','100':'FIXED' }.get(x['gov_current_status_code'],'NEW')
+            if not date:
+                date = '2012/01/01'
+            implementation_status_text = implementation_status_text + "\n" + s
+            implementation_status = 'IN_PROGRESS'
+            updates.insert( 0, { 'update_date' : date, 
+                                 'links' : [l for l in links], 
+                                 'implementation_status' : implementation_status,
+                                 'implementation_status_text' : implementation_status_text } )
+    if len(updates)>0:
+        updates[0]['implementation_status'] = {'80':'WORKAROUND','100':'FIXED' }.get(x['gov_current_status_code'],'IN_PROGRESS')
 
-    out.append( {'gov' : nnn, 'slug': x['slug'] } )
+    out.append( { 'base' : base, 
+                  'slug' : x['slug'],
+                  'updates' : { 'gov' : updates
+                                }
+                  } )
 
 print json.dumps(out,indent=4)

@@ -163,14 +163,14 @@
     all_subjects = {};
     for (_i = 0, _len = data.length; _i < _len; _i++) {
       rec = data[_i];
-      if (!all_books[rec.gov.book]) all_books[rec.gov.book] = {};
-      all_books[rec.gov.book][rec.gov.chapter] = true;
-      _ref = rec.gov.tags;
+      if (!all_books[rec.base.book]) all_books[rec.base.book] = {};
+      all_books[rec.base.book][rec.base.chapter] = true;
+      _ref = rec.base.tags;
       for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
         tag = _ref[_j];
         all_tags[tag] = 1;
       }
-      all_subjects[rec.gov.subject] = 1;
+      all_subjects[rec.base.subject] = 1;
     }
     all_tags = Object.keys(all_tags);
     all_subjects = Object.keys(all_subjects);
@@ -412,9 +412,6 @@
           sortBy: sort_measure
         });
       });
-      $(".item").click(function() {
-        return update_history($(this).attr('rel'));
-      });
       window.onhashchange = onhashchange;
       onhashchange();
       modal_options = {
@@ -525,7 +522,7 @@
     for (_i = 0, _len = loaded_data.length; _i < _len; _i++) {
       rec = loaded_data[_i];
       slug = rec.slug;
-      rec = rec.gov;
+      rec = rec.base;
       should_show = search_term === "";
       if (search_term !== "") {
         _ref = ["recommendation", "subject", "result_metric", "title", "chapter", "subchapter", "responsible_authority"];
