@@ -216,32 +216,58 @@ body {
         > div {
           display: none;
           position: absolute;
-          width: 200px;
-          color: @card;
+          width: 300px;
+          color: @lighttext;
           left: 20px;
           top: -3px;
-          font-size: 14px;
           line-height: 20px;
-          border: 3px solid darken(@good, 10%);
-          .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.2)); 
-          background: @good;
+          border: 3px solid @good;
+          .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 
+          background: @card;
           .border-radius(3px);
           
-          h4{
-            background: darken(@good, 10%);
-            color: @card;
-            margin: 0;
-          }
-          
           h4,
-          p {
-            padding: 5px;
-            font-size: 14px;
+          p,
+          small {
+            padding: 3px;
+            font-size: 16px;
           }
           
+          .label {
+            color: @card;
+            background: @good;
+            display: block;
+            float: left;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.2em;
+            margin: 4px 4px 0px 1px;
+            padding: 0 3px;
+          }
+          
+          .label-bad{
+            background: @bad;
+          }
+          
+          h4{
+            background: @cardshade;
+            //border-bottom: @cardshade 2px solid;
+            color: @text;
+            font-weight: normal;
+            margin: 0;
+            padding: 0 3px;
+          }
+          
+          small{
+            color: fadeout(@good, 20%);
+            &:before {
+              content: "— ";
+            }
+          }
+                    
           &:after{
             border-bottom: 5px solid transparent;
-            border-right: 5px solid darken(@good, 10%);
+            border-right: 5px solid @good;
             border-top: 5px solid transparent;
             content: "";
             display: block;
