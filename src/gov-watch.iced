@@ -190,7 +190,7 @@ setup_searchbox = ->
                             if item.type == "subject"
                                     return highlighted_title
                             if item.type == "tag"
-                                    "<span class='searchtag'><a href='#'>#{highlighted_title}</a></span>"
+                                    "<span class='searchtag'><span>#{highlighted_title}</span></span>"
 
 
 ## Handles the site's data (could be from local storage or freshly loaded)

@@ -242,7 +242,7 @@
         });
         if (item.type === "subject") return highlighted_title;
         if (item.type === "tag") {
-          return "<span class='searchtag'><a href='#'>" + highlighted_title + "</a></span>";
+          return "<span class='searchtag'><span>" + highlighted_title + "</span></span>";
         }
       }
     });
