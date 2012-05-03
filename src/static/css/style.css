@@ -4014,8 +4014,7 @@ body {
   background: #6ba688;
 }
 .item h2.conflict {
-  background-image: url("/static/img/conflict.png");
-  background-position: 50% 50%;
+  background: #6ba688 url("/static/img/conflict.png") 50% 50%;
 }
 .item h2.bad {
   background: #f0776d;
