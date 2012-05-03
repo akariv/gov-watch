@@ -242,7 +242,9 @@ body {
             padding: 0 3px;
           }
           
-          .label-bad{
+          .label-STUCK,
+          .label-WORKAROUND,
+          .label-NEW {
             background: @bad;
           }
           
@@ -291,8 +293,21 @@ body {
       }
       > li.timeline-line {
         position:absolute;
-        border: 5px red solid;
+        border: 1px red dashed;
         height:30px;
+
+        &.status-IN_PROGRESS {
+           border-color: green;
+        }       
+
+        &.status-FIXED {
+           border-color: green;
+        }       
+
+        &.status-IRRELEVANT {
+           border-color: green;
+        }       
+
       } 
     }
   }

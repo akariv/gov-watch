@@ -3915,7 +3915,9 @@ body {
   margin: 4px 4px 0px 1px;
   padding: 0 3px;
 }
-.item .timeline > ul > li.timeline-point > div .label-bad {
+.item .timeline > ul > li.timeline-point > div .label-STUCK,
+.item .timeline > ul > li.timeline-point > div .label-WORKAROUND,
+.item .timeline > ul > li.timeline-point > div .label-NEW {
   background: #d18273;
 }
 .item .timeline > ul > li.timeline-point > div h4 {
@@ -3955,8 +3957,17 @@ body {
 }
 .item .timeline > ul > li.timeline-line {
   position: absolute;
-  border: 5px red solid;
+  border: 1px red dashed;
   height: 30px;
+}
+.item .timeline > ul > li.timeline-line.status-IN_PROGRESS {
+  border-color: green;
+}
+.item .timeline > ul > li.timeline-line.status-FIXED {
+  border-color: green;
+}
+.item .timeline > ul > li.timeline-line.status-IRRELEVANT {
+  border-color: green;
 }
 .item .breadcrumb {
   border: 0;

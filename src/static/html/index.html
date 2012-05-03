@@ -33,7 +33,7 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item span" rel="{{slug}}" {{#base}} title="{{recommendation}}" cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
+<div class="item span" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -105,20 +105,24 @@
   <div class="timeline">
     <ul>
       {{#timeline}}
-      <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-duedate="{{due_date}}">
+      <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
         <div>
-          <h4><span class="label label-good">בעבודה{{status}}</span> {{milestone_name}}</h4>
+          <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
 	  <p>תיאור {{description}}</p>
 	  <small>{{due_date}}: הממשלה</small>
 	</div>    
-        <!-- <ul>
-          {{#links}}
-          <li><a href="{{url}}">{{description}}</a></li>
-          {{/links}}
-        </ul> -->
       </li>
       {{/timeline}}
 {{/base}}
+{{#updates}}{{#gov}}
+      <li class="timeline-point gov-update" data-date="{{update_date}}" data-status="{{implementation_status}}">
+        <div>
+          <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	  <p>תיאור {{implementation_status_text}}</p>
+	  <small>{{update_date}}: הממשלה</small>
+	</div>    
+      </li>
+{{/gov}}{{/updates}}
       <li class="timeline-point today">
         <span>היום</span>
       </li>     
@@ -137,15 +141,7 @@
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="brand" href="#">המפקח</a>
-          <ul class="nav">
-            <li class="active"><a href="#">דו"ח טרכטנברג</a></li>
-            <li class="dropdown">
-            	<a href="#" class="dropdown-toggle">דו"חות מבקר המדינה</a>
-            	<ul class="dropdown-menu">
-                	<li><a href="#">2012</a></li>
-                	<li><a href="#">2011</a></li>
-              </ul>
-            </li>
+          <ul class="nav" id="books">
             <li><a href="#about">אודות</a></li>
             <li><a href="#contact">צרו קשר</a></li>
           </ul>
@@ -165,19 +161,15 @@
           <!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
           	<form id="searchbar" action="#">
         		<fieldset id='search'>
-					<input id="searchbox" class="xlarge" type="text" size="30" autocomplete="off" name="xlInput">
-					<div id="filters">
-						<select id="books" name="normalSelect"></select>
-						<!--select id="chapters" name="normalSelect"></select-->
-			        </div>
-			       	<select id="sort" name="normalSelect">
-					    <option value="chapter">פרק</option>
-					    <option value="budget">עלות תקציבית</option>
-				        <option value="recommendation">שם</option>
-				        <option value="comments">מספר תגובות</option>
-					</select>
-				</fieldset>
-			</form>
+			  <input id="searchbox" class="xlarge" type="text" size="30" autocomplete="off" name="xlInput">
+			  <select id="sort" name="normalSelect">
+			    <option value="chapter">פרק</option>
+			    <option value="budget">עלות תקציבית</option>
+			    <option value="recommendation">שם</option>
+			    <option value="comments">מספר תגובות</option>
+			  </select>
+			</fieldset>
+		</form>
         </div>
         
         

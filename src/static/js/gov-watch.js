@@ -118,7 +118,8 @@
       update_history();
       return;
     }
-    $("#books option[value='" + selected_book + "']").attr('selected', 'selected');
+    $("#books li.book").toggleClass('active', false);
+    $("#books li.book[data-book='" + selected_book + "']").toggleClass('active', true);
     if (search_term !== "") {
       show_watermark(false);
       $("#searchbox").val(search_term);
@@ -253,10 +254,9 @@
     ___iced_passed_deferral = iced.findDeferral(arguments);
     if (initialized) return;
     initialized = true;
-    $("#books").html("<option value=''>\u05d4\u05db\u05dc</option>");
     for (_i = 0, _len = all_books.length; _i < _len; _i++) {
       book = all_books[_i];
-      $("#books").append("<option value='" + book + "'>" + book + "</option>");
+      $("#books").prepend("<li data-book='" + book + "' class='book'><a href='#'>" + book + "</a></li>");
     }
     template = $("script[name=item]").html();
     list_template = $("script[name=list]").html();
@@ -299,14 +299,7 @@
     });
     $("#items").html(html);
     $(".item").each(function() {
-      var implementation_status, last_percent, max_numeric_date, min_numeric_date, pad, timeline_items, today;
-      implementation_status = $(this).attr('implementation-status');
-      if (implementation_status === 'STUCK' || implementation_status === 'WORKAROUND') {
-        $(this).find('.buxa-header').addClass('bad');
-      }
-      if (implementation_status === 'FIXED') {
-        $(this).find('.buxa-header').addClass('good');
-      }
+      var implementation_status, last_percent, max_numeric_date, min_numeric_date, pad, status, status_to_hebrew, timeline_items, today;
       pad = function(n) {
         if (n < 10) {
           return '0' + n;
@@ -316,10 +309,10 @@
       };
       today = new Date();
       today = "" + (today.getFullYear()) + "/" + (pad(today.getMonth() + 1)) + "/" + (pad(today.getDate() + 1));
-      $(this).find('.timeline .timeline-point.today').attr('data-duedate', today);
+      $(this).find('.timeline .timeline-point.today').attr('data-date', today);
       timeline_items = $(this).find(".timeline .timeline-point");
       timeline_items.tsort({
-        attr: 'data-duedate',
+        attr: 'data-date',
         order: 'asc'
       });
       timeline_items = $(this).find(".timeline .timeline-point");
@@ -327,7 +320,7 @@
       min_numeric_date = 2100 * 372;
       timeline_items.each(function() {
         var d, date, day, month, numeric_date, year, _ref;
-        date = $(this).attr('data-duedate');
+        date = $(this).attr('data-date');
         date = date.split('/');
         _ref = (function() {
           var _j, _len2, _results;
@@ -339,24 +332,51 @@
           return _results;
         })(), year = _ref[0], month = _ref[1], day = _ref[2];
         numeric_date = (year * 372) + ((month - 1) * 31) + (day - 1);
-        if (numeric_date === NaN) numeric_date = 2012 * 372;
+        if (isNaN(numeric_date)) numeric_date = 2012 * 372;
         if (numeric_date > max_numeric_date) max_numeric_date = numeric_date + 1;
         if (numeric_date < min_numeric_date) min_numeric_date = numeric_date;
-        return $(this).attr('data-duedate-numeric', numeric_date);
+        return $(this).attr('data-date-numeric', numeric_date);
       });
+      status_to_hebrew = function(status) {
+        switch (status) {
+          case "NEW":
+            return "טרם התחיל";
+          case "STUCK":
+            return "תקוע";
+          case "IN_PROGRESS":
+            return "בתהליך";
+          case "FIXED":
+            return "יושם במלואו";
+          case "WORKAROUND":
+            return "יושם חלקית";
+          case "IRRELEVANT":
+            return "יישום ההמלצה כבר לא נדרש";
+        }
+      };
+      status = 'NEW';
       last_percent = 10.0;
-      return timeline_items.each(function() {
-        var date, percent;
-        date = parseInt($(this).attr('data-duedate-numeric'));
+      timeline_items.each(function() {
+        var date, percent, _ref;
+        date = parseInt($(this).attr('data-date-numeric'));
         percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10.0;
         $(this).css("top", percent + "%");
         if (percent !== last_percent) {
-          $(this).before("<li class='timeline-line'>" + percent + "</li>");
+          $(this).before("<li class='timeline-line status-" + status + "'></li>");
           $(this).parent().find('.timeline-line:last').css('height', (percent - last_percent) + "%");
           $(this).parent().find('.timeline-line:last').css('top', last_percent + "%");
         }
+        status = (_ref = $(this).attr('data-status')) != null ? _ref : status;
+        $(this).find('.implementation-status').addClass("label-" + status);
+        $(this).find('.implementation-status').html(status_to_hebrew(status));
         return last_percent = percent;
       });
+      implementation_status = $(this).find('.gov-update:last').attr('data-status');
+      if (implementation_status === 'STUCK' || implementation_status === 'WORKAROUND') {
+        $(this).find('.buxa-header').addClass('bad');
+      }
+      if (implementation_status === 'FIXED') {
+        return $(this).find('.buxa-header').addClass('good');
+      }
     });
     (function(__iced_k) {
       __iced_deferrals = new iced.Deferrals(__iced_k, {
@@ -370,7 +390,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 290
+        lineno: 305
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -408,8 +428,8 @@
         }
       });
       setup_searchbox();
-      $("#books").change(function() {
-        selected_book = $("#books").val();
+      $("#books li.book a").click(function() {
+        selected_book = $(this).html();
         return update_history();
       });
       $("#sort").change(function() {
@@ -461,7 +481,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 362
+              lineno: 373
             })));
           } else {
             __iced_deferrals.defer({
@@ -470,7 +490,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 365
+              lineno: 376
             });
           }
           __iced_deferrals._fulfill();
@@ -487,7 +507,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 365
+              lineno: 376
             })), 1000);
             __iced_deferrals._fulfill();
           })(function() {
@@ -505,7 +525,7 @@
                     return __iced_deferrals.ret = arguments[0];
                   };
                 })(),
-                lineno: 368
+                lineno: 379
               })), 1000);
               __iced_deferrals._fulfill();
             })(function() {
@@ -566,7 +586,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 407
+        lineno: 418
       })), 1000);
       __iced_deferrals._fulfill();
     })(function() {
