@@ -107,8 +107,9 @@
       {{#timeline}}
       <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-duedate="{{due_date}}">
         <div>
-          <h4>{{status}}: {{milestone_name}}</h4>
-	  <p>{{due_date}}: {{description}}</p>
+          <h4><span class="label label-good">בעבודה{{status}}</span> {{milestone_name}}</h4>
+	  <p>תיאור {{description}}</p>
+	  <small>{{due_date}}: הממשלה</small>
 	</div>    
         <!-- <ul>
           {{#links}}
