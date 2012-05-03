@@ -3762,25 +3762,29 @@ body {
 #sort {
   width: 180px;
 }
+.dropdown-menu a {
+  line-height: 23px;
+  padding: 4px 15px;
+}
 .searchtag {
   display: inline-block;
   text-decoration: none;
-  background: url("/static/img/taghead.png") no-repeat right top;
+  background: url("/static/img/taghead-s.png") no-repeat right top;
   font-size: 0.7em;
-  height: 18px;
+  height: 23px;
   line-height: 19px;
   list-style: none outside none;
   margin-left: 5px;
-  padding-right: 13px;
+  padding-right: 15px;
 }
 .searchtag a {
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   background: #e4daac;
-  -webkit-border-radius: 3px 0 0 3px;
-  -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
-  padding: 0px 5px 0;
-  color: black;
-  font-weight: 700;
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 0 5px 0;
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
 }
 .searchtag a:hover {
@@ -4009,6 +4013,7 @@ body {
   clear: both;
   margin: 1.3em 10px 0.5em;
   line-height: 1em;
+  background: url("/static/img/hr.png");
 }
 .item h2.good {
   background: #6ba688;
