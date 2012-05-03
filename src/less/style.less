@@ -15,10 +15,11 @@
 @gutter: @gridGutterWidth;
 @good: #6ba688;
 @bad: #d18273;
+@darkTrans: rgba(0,0,0,0.5);
 
 @linkMuted: @gray;
 
-/**** Fonts ****/ 
+/**** Fonts ****/
 @font-face { 
     font-family: 'MiriamGRegular';
     src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot');
@@ -175,9 +176,9 @@ body {
   
   .timeline{
     width: @gridGutterWidth + @gridColumnWidth;
-    /*float: right;*/
+    //float: right;
     vertical-align:top;
-    overflow:hidden;
+    //overflow:hidden;
     margin-right: -@gridGutterWidth - @gridColumnWidth;
     margin-bottom:13px;
     position:absolute;
@@ -199,13 +200,70 @@ body {
         background: @cardshade;
         
         &.today { background: blue; } //TODO: MUSHON 
-        &.start { background: green; } //TODO: MUSHON 
-        &.completion { background: purple; } //TODO: MUSHON 
-
-        > * { display: none;}
+        &.start,
+        &.completion {
+          height: 3px;
+          .border-radius(3px);
+          > div {
+            top: -8px;
+          }
+          
+        }
+        &.start {
+          background: @good;
+        }
         
-        &:hover{
-          * { display: block;}
+        > div {
+          display: none;
+          position: absolute;
+          width: 200px;
+          color: @card;
+          left: 20px;
+          top: -3px;
+          font-size: 14px;
+          line-height: 20px;
+          border: 3px solid darken(@good, 10%);
+          .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.2)); 
+          background: @good;
+          .border-radius(3px);
+          
+          h4{
+            background: darken(@good, 10%);
+            color: @card;
+            margin: 0;
+          }
+          
+          h4,
+          p {
+            padding: 5px;
+            font-size: 14px;
+          }
+          
+          &:after{
+            border-bottom: 5px solid transparent;
+            border-right: 5px solid darken(@good, 10%);
+            border-top: 5px solid transparent;
+            content: "";
+            display: block;
+            height: 0;
+            left: -8px;
+            position: absolute;
+            top: 1px;
+            width: 0;
+          }
+        }
+        
+        &.bad > div{
+            border: 3px solid darken(@good, 10%); 
+            background: @good;
+            
+            &:after{
+              border-right: 5px solid darken(@good, 10%);
+            }
+          }
+        
+        &:hover > div{
+          display: block;
         }
       }
     }
@@ -245,7 +303,7 @@ body {
       height: 18px;
       line-height: 19px;
       list-style: none outside none;
-      margin-left: 5px;
+      margin: 0 0 3px 5px;
       padding-right: 13px;
       a{
         background: @cardshade;
