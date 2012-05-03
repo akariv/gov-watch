@@ -170,7 +170,7 @@ setup_searchbox = ->
         if $(this).val() == ""
             show_watermark(true)
     $("#searchbar").submit -> false
-    
+
     source = []
     for tag in all_tags
           source.push({type:"tag",title:tag})
@@ -179,12 +179,12 @@ setup_searchbox = ->
     $("#searchbox").typeahead
          source: source
          items: 20
-         matcher: (item) -> ~item.title.indexOf(this.query) 
+         matcher: (item) -> ~item.title.indexOf(this.query)
          valueof: (item) -> item.title
-         selected: (val) -> 
+         selected: (val) ->
                          search_term = val
                          update_history()
-         highlighter: (item) -> 
+         highlighter: (item) ->
                             highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
                             if item.type == "subject"
                                     return highlighted_title
@@ -241,7 +241,7 @@ process_data = ->
                             )
     # Update the document with rendered HTML
     $("#items").html(html)
-    
+
     $(".item").each ->
         # current status
         implementation_status = $(this).attr('implementation-status')
@@ -258,17 +258,28 @@ process_data = ->
         timeline_items = $(this).find(".timeline .timeline-point")
         timeline_items.tsort({attr:'data-duedate',order:'asc'})
         timeline_items = $(this).find(".timeline .timeline-point")
-        len = timeline_items.length
-        if len == 1
-           stops = 1
-        else
-           stops = 75 / (len-1)
-        for i in [0..len]
-            timeline_item = $(timeline_items[i])
-            timeline_item.css("top",(10+i*stops)+"%")
-            timeline_item.tooltip({delay: {show:0,hide:1000},placement:'bottom',title:timeline_item.html()})
-            timeline_item.html('')
-    
+
+        max_numeric_date = 0
+        min_numeric_date = 2100 * 372
+        timeline_items.each( ->
+                date = $(this).attr('data-duedate')
+                date = date.split('/')
+                [year,month,day] = (parseInt(d) for d in date)
+                numeric_date = (year * 372) + ((month-1) * 31) + (day-1)
+                if numeric_date == NaN
+                        numeric_date = 2012 * 372
+                if numeric_date > max_numeric_date
+                        max_numeric_date = numeric_date + 1
+                if numeric_date < min_numeric_date
+                        min_numeric_date = numeric_date
+                $(this).attr('data-duedate-numeric',numeric_date)
+        )
+        timeline_items.each( ->
+                date = parseInt($(this).attr('data-duedate-numeric'))
+                percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10
+                $(this).css("top",percent+"%")
+        )
+
     # Allow the DOM to sync
     await setTimeout((defer _),50)
 
