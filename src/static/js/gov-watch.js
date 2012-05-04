@@ -157,7 +157,7 @@
   };
 
   data_callback = function(data) {
-    var rec, tag, _i, _j, _len, _len2, _ref;
+    var gov_updates, k, rec, tag, u, v, watch_updates, _i, _j, _k, _len, _len2, _len3, _ref, _ref2;
     loaded_data = data;
     all_books = {};
     all_tags = {};
@@ -172,6 +172,23 @@
         all_tags[tag] = 1;
       }
       all_subjects[rec.base.subject] = 1;
+      gov_updates = [];
+      watch_updates = [];
+      _ref2 = rec.updates;
+      for (k in _ref2) {
+        v = _ref2[k];
+        for (_k = 0, _len3 = v.length; _k < _len3; _k++) {
+          u = v[_k];
+          u.user = k;
+          if (k === 'gov') {
+            gov_updates.push(u);
+          } else {
+            watch_updates.push(u);
+          }
+        }
+      }
+      rec.gov_updates = gov_updates;
+      rec.watch_updates = watch_updates;
     }
     all_tags = Object.keys(all_tags);
     all_subjects = Object.keys(all_subjects);
@@ -321,7 +338,7 @@
       timeline_items.each(function() {
         var d, date, day, month, numeric_date, year, _ref;
         date = $(this).attr('data-date');
-        date = date.split('/');
+        date = date.split(' ')[0].split('/');
         _ref = (function() {
           var _j, _len2, _results;
           _results = [];
@@ -390,7 +407,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 305
+        lineno: 310
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -481,7 +498,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 373
+              lineno: 378
             })));
           } else {
             __iced_deferrals.defer({
@@ -490,7 +507,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 376
+              lineno: 381
             });
           }
           __iced_deferrals._fulfill();
@@ -507,7 +524,7 @@
                   return __iced_deferrals.ret = arguments[0];
                 };
               })(),
-              lineno: 376
+              lineno: 381
             })), 1000);
             __iced_deferrals._fulfill();
           })(function() {
@@ -525,7 +542,7 @@
                     return __iced_deferrals.ret = arguments[0];
                   };
                 })(),
-                lineno: 379
+                lineno: 384
               })), 1000);
               __iced_deferrals._fulfill();
             })(function() {
@@ -542,7 +559,7 @@
   };
 
   do_search = function() {
-    var field, found, re, rec, should_show, slug, tag, ___iced_passed_deferral, __iced_deferrals, _i, _j, _k, _len, _len2, _len3, _ref, _ref2,
+    var found, re, rec, should_show, slug, tag, x, ___iced_passed_deferral, __iced_deferrals, _i, _j, _k, _len, _len2, _len3, _ref, _ref2,
       _this = this;
     ___iced_passed_deferral = iced.findDeferral(arguments);
     re = RegExp(search_term, "ig");
@@ -552,11 +569,11 @@
       rec = rec.base;
       should_show = search_term === "";
       if (search_term !== "") {
-        _ref = ["recommendation", "subject", "result_metric", "title", "chapter", "subchapter", "responsible_authority"];
+        _ref = [rec["recommendation"], rec["subject"], rec["result_metric"], rec["title"], rec["chapter"], rec["subchapter"], rec["responsible_authority"]["main"], rec["responsible_authority"]["secondary"]];
         for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
-          field = _ref[_j];
-          if (rec[field]) {
-            found = rec[field].indexOf(search_term) >= 0;
+          x = _ref[_j];
+          if (x) {
+            found = x.indexOf(search_term) >= 0;
           } else {
             found = false;
           }
@@ -586,7 +603,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 418
+        lineno: 423
       })), 1000);
       __iced_deferrals._fulfill();
     })(function() {

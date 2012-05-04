@@ -114,15 +114,24 @@
       </li>
       {{/timeline}}
 {{/base}}
-{{#updates}}{{#gov}}
-      <li class="timeline-point gov-update" data-date="{{update_date}}" data-status="{{implementation_status}}">
+{{#gov_updates}}
+      <li class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
         <div>
           <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	  <p>תיאור {{implementation_status_text}}</p>
-	  <small>{{update_date}}: הממשלה</small>
+	  <p>{{implementation_status_text}}</p>
+	  <small>{{update_time}}: הממשלה</small>
 	</div>    
       </li>
-{{/gov}}{{/updates}}
+{{/gov_updates}}
+{{#watch_updates}}
+      <li class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+        <div>
+          <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	  <p>{{implementation_status_text}}</p>
+	  <small>{{update_time}}: {{user}}</small>
+	</div>    
+      </li>
+{{/watch_updates}}
       <li class="timeline-point today">
         <span>היום</span>
       </li>     

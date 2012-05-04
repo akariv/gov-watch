@@ -108,7 +108,9 @@ issue_scheme = {
                    { "name" : "tags",
                      "props": { "title"  : u'תגיות',
                                 "type"   : "arr",
-                                "eltype" : { "type" : "str" } 
+                                "optional" : True,
+                                "eltype" : { "type" : "str",
+                                             "title": "tag" } 
                                 }
                      },
                    { "name" : "timeline",
@@ -132,11 +134,13 @@ issue_scheme = {
                                                               },
                                                             { "name" : "start",
                                                               "props": { "type" : "bool",
+                                                                         "optional" : True,
                                                                          "title": u'האם זוהי נקודת ההתחלה של ההמלצה?' }
                                                               },
-                                                            { "name" : "due_date",
+                                                            { "name" : "completion",
                                                               "props": { "type" : "bool",
-                                                                         "title": u'האם זוהי נקודם הסיום של ההמלצה?' }
+                                                                         "optional" : True,
+                                                                         "title": u'האם זוהי נקודת הסיום של ההמלצה?' }
                                                               },
                                                             ]
                                              }

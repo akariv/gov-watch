@@ -131,14 +131,20 @@ data_callback = (data) ->
         for tag in rec.base.tags
            all_tags[tag]=1
         all_subjects[rec.base.subject]=1
+        gov_updates = []
+        watch_updates = []
+        for k,v of rec.updates
+                for u in v
+                        u.user = k
+                        if k == 'gov'
+                                gov_updates.push(u)
+                        else
+                                watch_updates.push(u)
+        rec.gov_updates = gov_updates
+        rec.watch_updates = watch_updates
 
     all_tags = Object.keys(all_tags)
     all_subjects = Object.keys(all_subjects)
-
-    # Collect all chapters for every book
-#    all_chapters = {}
-#    for book, chapters of all_books
-#        all_chapters[book] = Object.keys(chapters)
 
     all_books = Object.keys(all_books)
 
@@ -146,7 +152,6 @@ data_callback = (data) ->
     if localStorage
         localStorage.data = JSON.stringify(data)
         localStorage.all_books = JSON.stringify(all_books)
-#        localStorage.all_chapters = JSON.stringify(all_chapters)
         localStorage.all_tags = JSON.stringify(all_tags)
         localStorage.all_subjects=JSON.stringify(all_subjects)
 
@@ -257,7 +262,7 @@ process_data = ->
         min_numeric_date = 2100 * 372
         timeline_items.each( ->
                 date = $(this).attr('data-date')
-                date = date.split('/')
+                date = date.split(' ')[0].split('/')
                 [year,month,day] = (parseInt(d,10) for d in date)
                 numeric_date = (year * 372) + ((month-1) * 31) + (day-1)
                 if isNaN(numeric_date)
@@ -395,9 +400,9 @@ do_search = ->
         should_show = search_term == ""
         # search the term in prespecified fields
         if search_term != ""
-            for field in [ "recommendation", "subject", "result_metric", "title",  "chapter", "subchapter", "responsible_authority"]
-                if rec[field]
-                    found = rec[field].indexOf(search_term) >= 0
+            for x in [ rec["recommendation"], rec["subject"], rec["result_metric"], rec["title"],  rec["chapter"], rec["subchapter"], rec["responsible_authority"]["main"], rec["responsible_authority"]["secondary"] ]
+                if x
+                    found = x.indexOf(search_term) >= 0
                 else
                     found = false
 
