@@ -3762,28 +3762,44 @@ body {
 #sort {
   width: 180px;
 }
+.dropdown-menu {
+  overflow: hidden;
+}
+.dropdown-menu a {
+  line-height: 23px;
+  padding: 4px 15px;
+}
+.dropdown-menu strong {
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.dropdown-menu li:nth-child(even) {
+  background: #eeeeee;
+}
 .searchtag {
   display: inline-block;
   text-decoration: none;
-  background: url("/static/img/taghead.png") no-repeat right top;
+  background: url("/static/img/taghead-s.png") no-repeat right top;
   font-size: 0.7em;
-  height: 18px;
-  line-height: 19px;
+  height: 23px;
+  line-height: 22px;
   list-style: none outside none;
   margin-left: 5px;
-  padding-right: 13px;
+  padding-right: 15px;
 }
-.searchtag a {
+.searchtag span {
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   background: #e4daac;
-  -webkit-border-radius: 3px 0 0 3px;
-  -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
-  padding: 0px 5px 0;
-  color: black;
-  font-weight: 700;
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 0 5px 1px;
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
 }
-.searchtag a:hover {
+.searchtag span:hover {
   text-decoration: none;
 }
 .searchtag:hover {
@@ -4026,6 +4042,7 @@ body {
   clear: both;
   margin: 1.3em 10px 0.5em;
   line-height: 1em;
+  background: url("/static/img/hr.png");
 }
 .item h2.good {
   background: #6ba688;
@@ -4066,6 +4083,12 @@ body {
 .item .responsible {
   width: 40%;
   float: right;
+  font-weight: normal;
+}
+.item .budget span,
+.item .responsible span {
+  display: block;
+  color: #847d6b;
 }
 .item .recommendation,
 .item .tools {

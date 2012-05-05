@@ -99,26 +99,52 @@ body {
   #sort{
     width:180px;
   }
-
- .searchtag { //TODO: MUSHON
+  
+  .dropdown-menu{
+    overflow: hidden;
+    
+    a{
+      line-height: 23px;
+      padding: 4px 15px;
+    }
+    strong{
+      background: rgba(0, 0, 0, 0.2);
+      .border-radius(3px);
+    }
+    li{
+      
+      &:nth-child(even){
+        background: @grayLighter;
+      }  
+    }
+  }
+  
+ .searchtag {
       display: inline-block;
       text-decoration: none;
-      background: url("/static/img/taghead.png") no-repeat right top;
+      background: url("/static/img/taghead-s.png") no-repeat right top;
       font-size: 0.7em;
-      height: 18px;
-      line-height: 19px;
+      height: 23px;
+      line-height: 22px;
       list-style: none outside none;
       margin-left: 5px;
-      padding-right: 13px;
-      a{
-        background: @cardshade;
-        .border-radius(3px 0 0 3px);
-        padding: 0px 5px 0;
-        color: black;
-        font-weight: 700;
+      padding-right: 15px;
+      
+      span{
         text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-        &:hover{text-decoration:none;}
+        background: @cardshade;
+        border-radius: 3px 0 0 3px;
+        color: white;
+        font-size: 18px;
+        font-weight: 400;
+        padding: 0 5px 1px;
+        text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+        
+        &:hover{
+          text-decoration:none;
+        }
       }
+      
       &:hover{background-position: right bottom; a{background: @carddark;}}
   }
   
@@ -367,6 +393,7 @@ body {
     clear: both;
     margin: 1.3em 10px 0.5em;
     line-height: 1em;
+    background: url("/static/img/hr.png");
     
     &.good{
       background: @good;
@@ -413,6 +440,13 @@ body {
   .responsible{
     width: 40%;
     float: right;
+    font-weight: normal;
+    
+    span{
+      display: block;
+      color: @lighttext;
+    }
+    
   }
   
   .recommendation,
