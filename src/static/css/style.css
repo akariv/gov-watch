@@ -3878,8 +3878,8 @@ body {
   -moz-border-radius: 13px;
   border-radius: 13px;
   background: #e4daac;
-  z-index: 10;
   margin-right: -6px;
+  z-index: 3;
 }
 .item .timeline > ul > li.timeline-point.today {
   background: blue;

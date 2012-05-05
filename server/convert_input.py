@@ -92,7 +92,7 @@ for x in orig:
                 date = '2012/01/01'
             implementation_status_text = implementation_status_text + "\n" + s
             implementation_status = 'IN_PROGRESS'
-            updates.insert( 0, { 'update_date' : date, 
+            updates.insert( 0, { 'update_time' : date, 
                                  'links' : [l for l in links], 
                                  'implementation_status' : implementation_status,
                                  'implementation_status_text' : implementation_status_text } )
