@@ -3867,7 +3867,7 @@ body {
 }
 .item .timeline > ul {
   list-style: none outside none;
-  margin: 30px 39px;
+  margin: 30px 45px;
 }
 .item .timeline > ul > li.timeline-point {
   width: 13px;
@@ -3878,6 +3878,8 @@ body {
   -moz-border-radius: 13px;
   border-radius: 13px;
   background: #e4daac;
+  z-index: 10;
+  margin-right: -6px;
 }
 .item .timeline > ul > li.timeline-point.today {
   background: blue;
@@ -3972,18 +3974,18 @@ body {
   display: block;
 }
 .item .timeline > ul > li.timeline-line {
-  position: absolute;
-  border: 1px red dashed;
+  background: #f0776d;
+  border: 5px solid #fffcd9;
   height: 30px;
+  left: 46px;
+  position: absolute;
+  width: 4px;
+  margin-right: -6px;
 }
-.item .timeline > ul > li.timeline-line.status-IN_PROGRESS {
-  border-color: green;
-}
-.item .timeline > ul > li.timeline-line.status-FIXED {
-  border-color: green;
-}
+.item .timeline > ul > li.timeline-line.status-IN_PROGRESS,
+.item .timeline > ul > li.timeline-line.status-FIXED,
 .item .timeline > ul > li.timeline-line.status-IRRELEVANT {
-  border-color: green;
+  background: #6ba688;
 }
 .item .breadcrumb {
   border: 0;
