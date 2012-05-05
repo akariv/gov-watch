@@ -6,6 +6,7 @@ from flask.helpers import url_for
 import urllib
 import json
 import md5
+import os
 import datetime
 from redis import Redis
 
@@ -31,6 +32,10 @@ def list():
 @app.route('/api')
 def listall():
     return Response(response=r.get("everything"), content_type="application/json")
+
+@app.route('/api/version')
+def version():
+    return Response(response=r.get("version"), content_type="application/json")
 
 @app.route("/api/<slug>", methods=['GET'])
 def getitem(slug):
@@ -106,6 +111,7 @@ def doupdate(slug):
 if __name__=="__main__":
     r = Redis()
     everything = file('data.json').read()
+    r.set('version',int(os.stat('data.json').st_mtime))
     r.set("everything",everything)
     data = json.loads(everything)
     for x in data:

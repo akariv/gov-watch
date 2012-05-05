@@ -220,6 +220,7 @@ body {
         border: 5px @card solid;
         .border-radius(13px);
         background: @cardshade;
+        z-index:3;
         
         &.today { background: blue; } //TODO: MUSHON 
         &.start,
@@ -320,7 +321,8 @@ body {
       > li.timeline-line {
         position:absolute;
         border: 1px red dashed;
-        height:30px;
+        margin-right:9px;
+        z-index:2;
 
         &.status-IN_PROGRESS {
            border-color: green;

@@ -34,6 +34,10 @@ update_history = (slug) ->
     await setTimeout((defer _),0)
     window.location.hash = generate_hash( selected_book, search_term, slug )
 
+set_fb_title = (title) ->
+        $("title").html(title)
+        $("meta[property='og:title']").attr("content",title)
+
 ## Process page hash changes
 onhashchange = ->
 
@@ -46,7 +50,6 @@ onhashchange = ->
 
    slug = null
    selected_book = null
-   #selected_chapter = null
    search_term = ""
 
    for part in splits
@@ -55,15 +58,12 @@ onhashchange = ->
           selected_book = value
        if key == SLUG
           slug = value
-#       if key == CHAPTER
-#          selected_chapter = value
        if key == SEARCHTERM
           search_term = value
 
    if not selected_book and not slug
        # fix hash to be of the correct form
        selected_book = all_books[0]
-       #selected_chapter = ""
        update_history()
        return
 
@@ -71,38 +71,21 @@ onhashchange = ->
    $("#books li.book").toggleClass('active', false)
    $("#books li.book[data-book='#{selected_book}']").toggleClass('active', true)
 
-#   if all_chapters[selected_book]
-#       # fill values in the chapters listbox
-#       $("#chapters").html("<option value=''>כל הפרקים</option>")
-#       for chapter in all_chapters[selected_book]
-#           $("#chapters").append("<option value='#{chapter}'>#{chapter}</option>")
-#   else
-#       # no values there
-#       $("#chapters").html("<option value=''>-</option>")
-
-   # select the selected chapter
-   #$("#chapters option[value='#{selected_chapter}']").attr('selected', 'selected')
-
    if search_term != ""
       show_watermark(false)
       $("#searchbox").val(search_term)
 
    $(".item").removeClass("bigger")
    if slug
-      selected_slug = slug
-      $("body").addClass("detail-view")
-      $("body").removeClass("list-view")
-      select_item( $(".item[rel=#{selected_slug}]") )
-      $(".item").removeClass("shown")
-      $(".item[rel=#{selected_slug}]").addClass("shown")
-      $(".item[rel=#{selected_slug}]").addClass("bigger")
-      $("#items").isotope({filter: ".shown"})
-   else
-      # apply these filters
-      select_item(null)
-      $("body").addClass("list-view")
-      $("body").removeClass("detail-view")
-      do_search()
+        selected_slug = slug
+        select_item( selected_slug )
+        $(".item").removeClass("shown")
+        $("#items").isotope({filter: ".shown"})
+    else
+        set_fb_title('דו"ח טרכטנברג | המפקח: מעקב אחר ישום המלצות הועדה')
+        selected_slug = null
+        select_item( null )
+        do_search()
 
 ## Watermark handling
 wm_shown = false
@@ -197,22 +180,11 @@ setup_searchbox = ->
                             if item.type == "tag"
                                     "<span class='searchtag'><span>#{highlighted_title}</span></span>"
 
-
-## Handles the site's data (could be from local storage or freshly loaded)
-process_data = ->
-
-    # process only once
-    if initialized
-       return
-    initialized = true
-
-    # Fill contents to the book selection sidebox
-    for book in all_books
-        $("#books").prepend("<li data-book='#{book}' class='book'><a href='#'>#{book}</a></li>")
-
+run_templates = (template,data,selector) ->
     # This is used to process lists in the data's values.
     # Lists are srtings separated with ';'
-    template = $("script[name=item]").html()
+    template = $("script[name=#{template}]").html()
+
     list_template = $("script[name=list]").html()
     do_list = (text) ->
         Mustache.to_html( list_template,
@@ -226,7 +198,7 @@ process_data = ->
 
     # Run the main template on the loaded data
     html = Mustache.to_html(template,
-                            items: loaded_data
+                            data
                             none_val: ->
                                 (text,render) ->
                                     text = render(text)
@@ -245,7 +217,21 @@ process_data = ->
                                     generate_url( text )
                             )
     # Update the document with rendered HTML
-    $("#items").html(html)
+    $(selector).html(html)
+
+## Handles the site's data (could be from local storage or freshly loaded)
+process_data = ->
+
+    # process only once
+    if initialized
+       return
+    initialized = true
+
+    # Fill contents to the book selection sidebox
+    for book in all_books
+        $("#books").prepend("<li data-book='#{book}' class='book'><a href='#'>#{book}</a></li>")
+
+    run_templates( "item", items: loaded_data, "#items" )
 
     $(".item").each ->
         # Timeline
@@ -283,8 +269,21 @@ process_data = ->
                         when "WORKAROUND" then "יושם חלקית"
                         when "IRRELEVANT" then "יישום ההמלצה כבר לא נדרש"
 
+        is_good_status = (status) ->
+                switch status
+                        when "NEW" then false
+                        when "STUCK" then false
+                        when "IN_PROGRESS" then true
+                        when "FIXED" then true
+                        when "WORKAROUND" then false
+                        when "IRRELEVANT" then true
+
+
         status = 'NEW'
         last_percent = 10.0
+
+        conflict = false
+
         timeline_items.each( ->
                 date = parseInt($(this).attr('data-date-numeric'))
                 percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10.0
@@ -294,18 +293,31 @@ process_data = ->
                          $(this).parent().find('.timeline-line:last').css('height',(percent-last_percent)+"%")
                          $(this).parent().find('.timeline-line:last').css('top',last_percent+"%")
 
-                status = $(this).attr('data-status') ? status
-                $(this).find('.implementation-status').addClass("label-#{status}")
-                $(this).find('.implementation-status').html(status_to_hebrew(status))
+                current_status = $(this).attr('data-status') ? status
+
+                if $(this).hasClass('gov-update')
+                        conflict = false
+                        status = current_status ? status
+
+                if $(this).hasClass('watch-update')
+                        if is_good_status(current_status) != is_good_status(status)
+                                conflict = true
+
+                $(this).find('.implementation-status').addClass("label-#{current_status}")
+                $(this).find('.implementation-status').html(status_to_hebrew(current_status))
                 last_percent = percent
         )
 
         # current status
         implementation_status = $(this).find('.gov-update:last').attr('data-status')
-        if implementation_status in [ 'STUCK', 'WORKAROUND' ]
-             $(this).find('.buxa-header').addClass('bad')
-        if implementation_status in [ 'FIXED' ]
-             $(this).find('.buxa-header').addClass('good')
+        if conflict
+                $(this).find('.buxa-header').addClass('conflict')
+        else
+                $(this).find('.buxa-header').removeClass('conflict')
+                if is_good_status( implementation_status )
+                     $(this).find('.buxa-header').addClass('good')
+                else
+                     $(this).find('.buxa-header').addClass('bad')
 
     # Allow the DOM to sync
     await setTimeout((defer _),50)
@@ -326,11 +338,6 @@ process_data = ->
                         -parseInt( "0"+e.attr('cost'), 10 )
            comments :  ( e ) ->
                         -parseInt( "0"+e.find('.fb_comments_count').text(), 10 )
-           oneitem : ( e ) ->
-                    if e.attr("rel") == selected_slug
-                       0
-                    else
-                       1
     )
 
     setup_searchbox()
@@ -363,28 +370,23 @@ process_data = ->
     #FB.XFBML.parse( $("#items").get(0), update_sort_data )
 
 ## Item selection
-select_item = (item) ->
+select_item = (slug) ->
     $('fb\\:comments').remove()
     $('fb\\:like').remove()
-    $(".item").removeClass("bigger")
-    if item
-      item.addClass("bigger")
-      $("#items").isotope( 'reLayout', -> )
-      selected_slug = item.attr("rel")
-      url = generate_url(selected_slug)
-      item.append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
-      item.append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
-      await
-        if window.FB
-            FB.XFBML.parse( item.get(0), (defer _) )
-        else
-            defer _
-      await setTimeout( (defer _),1000 )
-      $(".item[rel=#{selected_slug}]").scrollintoview()
-      $("#items").isotope( 'reLayout' )
-      await setTimeout( (defer _),1000 )
-      $(".item[rel=#{selected_slug}]").scrollintoview()
-    $("#items").isotope( 'reLayout' )
+    if slug
+        for x in loaded_data
+                if x.slug == slug
+                        item = run_templates( "single-item", x, "#single-item" )
+                        set_fb_title( x.base.book+": "+x.base.subject )
+                        url = generate_url(slug)
+                        $("#single-item").append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
+                        $("#single-item").append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
+                        if window.FB
+                                FB.XFBML.parse( item.get(0), -> )
+                        break
+
+    else
+        $("#single-item").html('')
 
 ## Perform search on the site's data
 do_search = ->
@@ -413,17 +415,13 @@ do_search = ->
                     should_show = true
 
         # should_show determines if the item should be shown in the search
-        should_show = should_show and ((selected_book == "") or (rec.book == selected_book)) #and ((selected_chapter == "") or (rec.chapter == selected_chapter))
+        should_show = should_show and ((selected_book == "") or (rec.book == selected_book)) and (not selected_slug)
 
         # the 'shown' class is applied to the relevant items
         $(".item[rel=#{slug}]").toggleClass("shown",should_show)
 
     # apply the filtering using Isotope
     $("#items").isotope({filter: ".shown"});
-
-    await setTimeout (defer _),1000
-    $(".item[rel=#{selected_slug}]").scrollintoview()
-
 
 ## Load the current data for the site from google docs
 load_data = ->
@@ -432,15 +430,19 @@ load_data = ->
 ## On document load
 $ ->
    try
-        # Try to load data from the cache, to make the page load faster
-        loaded_data = JSON.parse(localStorage.data)
-        all_books = JSON.parse(localStorage.all_books)
-        #all_chapters = JSON.parse(localStorage.all_chapters)
-        all_tags = JSON.parse(localStorage.all_tags)
-        all_subjects = JSON.parse(localStorage.all_subjects)
-        process_data()
-        # either way, load the current data to cache after a few seconds
-        setTimeout( load_data, 10000 )
+        await $.get("/api/version",(defer version),"json")
+        current_version = localStorage.version
+        localStorage.version = JSON.stringify(version)
+        if current_version and version != JSON.parse(current_version)
+
+                # Try to load data from the cache, to make the page load faster
+                loaded_data = JSON.parse(localStorage.data)
+                all_books = JSON.parse(localStorage.all_books)
+                all_tags = JSON.parse(localStorage.all_tags)
+                all_subjects = JSON.parse(localStorage.all_subjects)
+                process_data()
+         else
+                load_data()
    catch error
         # If we don't succeed, load data immediately
         load_data()

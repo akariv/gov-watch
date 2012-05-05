@@ -3878,6 +3878,7 @@ body {
   -moz-border-radius: 13px;
   border-radius: 13px;
   background: #e4daac;
+  z-index: 3;
 }
 .item .timeline > ul > li.timeline-point.today {
   background: blue;
@@ -3974,7 +3975,8 @@ body {
 .item .timeline > ul > li.timeline-line {
   position: absolute;
   border: 1px red dashed;
-  height: 30px;
+  margin-right: 9px;
+  z-index: 2;
 }
 .item .timeline > ul > li.timeline-line.status-IN_PROGRESS {
   border-color: green;
