@@ -332,7 +332,7 @@
       items: loaded_data
     }, "#items");
     $(".item").each(function() {
-      var after_today, conflict, implementation_status, is_good_status, last_percent, max_numeric_date, min_numeric_date, pad, status, status_to_hebrew, timeline_items, today;
+      var after_today, conflict, gov_status, implementation_status, is_good_status, last_percent, max_numeric_date, min_numeric_date, pad, status_to_hebrew, timeline_items, today;
       pad = function(n) {
         if (n < 10) {
           return '0' + n;
@@ -402,33 +402,45 @@
             return true;
         }
       };
-      status = 'NEW';
-      last_percent = 90.0;
+      gov_status = 'NEW';
+      last_percent = 100.0;
       conflict = false;
       after_today = false;
       timeline_items.each(function() {
-        var current_status, date, percent, _ref;
+        var date, percent, status, _ref;
         date = parseInt($(this).attr('data-date-numeric'));
-        percent = 90.0 - (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0;
+        percent = 100.0 - (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 100.0;
         $(this).css("top", percent + "%");
         if (percent !== last_percent && !after_today) {
-          $(this).before("<li class='timeline-line status-" + status + "'></li>");
+          $(this).before("<li class='timeline-line status-" + gov_status + "'></li>");
           $(this).parent().find('.timeline-line:last').css('height', (last_percent - percent) + "%");
           $(this).parent().find('.timeline-line:last').css('top', percent + "%");
         }
-        current_status = (_ref = $(this).attr('data-status')) != null ? _ref : status;
+        status = (_ref = $(this).attr('data-status')) != null ? _ref : gov_status;
         if ($(this).hasClass('gov-update')) {
           conflict = false;
-          status = current_status != null ? current_status : status;
+          gov_status = status != null ? status : gov_status;
         }
         if ($(this).hasClass('watch-update')) {
-          if (is_good_status(current_status) !== is_good_status(status)) {
+          if (is_good_status(gov_status) !== is_good_status(status)) {
             conflict = true;
           }
+          if (is_good_status(status)) {
+            $(this).addClass("watch-status-good");
+          } else {
+            $(this).addClass("watch-status-bad");
+          }
         }
+        $(this).addClass("gov-" + gov_status);
+        if (is_good_status(gov_status)) {
+          $(this).addClass("gov-status-good");
+        } else {
+          $(this).addClass("gov-status-bad");
+        }
+        if (conflict) $(this).addClass("conflict");
         if ($(this).hasClass("today")) after_today = true;
-        $(this).find('.implementation-status').addClass("label-" + current_status);
-        $(this).find('.implementation-status').html(status_to_hebrew(current_status));
+        $(this).find('.implementation-status').addClass("label-" + status);
+        $(this).find('.implementation-status').html(status_to_hebrew(status));
         return last_percent = percent;
       });
       implementation_status = $(this).find('.gov-update:last').attr('data-status');
@@ -455,7 +467,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 331
+        lineno: 344
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -590,7 +602,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 441
+          lineno: 454
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
