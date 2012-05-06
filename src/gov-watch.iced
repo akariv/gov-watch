@@ -108,6 +108,7 @@ data_callback = (data) ->
 
     # Collect all available books
     for rec in data
+        num_links = {}
         if not all_books[rec.base.book]
             all_books[rec.base.book] = {}
         all_books[rec.base.book][rec.base.chapter] = true
@@ -123,6 +124,10 @@ data_callback = (data) ->
                                 gov_updates.push(u)
                         else
                                 watch_updates.push(u)
+                        if u.links
+                                for l in u.links
+                                        num_links[l.url] = true
+        rec.base.num_links = Object.keys(num_links).length
         rec.gov_updates = gov_updates
         rec.watch_updates = watch_updates
 
@@ -279,32 +284,49 @@ process_data = ->
                         when "IRRELEVANT" then true
 
 
-        status = 'NEW'
-        last_percent = 10.0
+        gov_status = 'NEW'
+        last_percent = 100.0
 
         conflict = false
+        after_today = false
 
         timeline_items.each( ->
                 date = parseInt($(this).attr('data-date-numeric'))
-                percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10.0
+                percent = 100.0 - (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 100.0
                 $(this).css("top",percent+"%")
-                if percent != last_percent
-                         $(this).before("<li class='timeline-line status-#{status}'></li>")
-                         $(this).parent().find('.timeline-line:last').css('height',(percent-last_percent)+"%")
-                         $(this).parent().find('.timeline-line:last').css('top',last_percent+"%")
+                if percent != last_percent and not after_today
+                         $(this).before("<li class='timeline-line status-#{gov_status}'></li>")
+                         $(this).parent().find('.timeline-line:last').css('height',(last_percent-percent)+"%")
+                         $(this).parent().find('.timeline-line:last').css('top',percent+"%")
 
-                current_status = $(this).attr('data-status') ? status
+                status = $(this).attr('data-status') ? gov_status
 
                 if $(this).hasClass('gov-update')
                         conflict = false
-                        status = current_status ? status
+                        gov_status = status ? gov_status
 
                 if $(this).hasClass('watch-update')
-                        if is_good_status(current_status) != is_good_status(status)
+                        if is_good_status(gov_status) != is_good_status(status)
                                 conflict = true
+                        if is_good_status(status)
+                                $(this).addClass("watch-status-good")
+                        else
+                                $(this).addClass("watch-status-bad")
 
-                $(this).find('.implementation-status').addClass("label-#{current_status}")
-                $(this).find('.implementation-status').html(status_to_hebrew(current_status))
+                $(this).addClass("gov-#{gov_status}")
+                if is_good_status(gov_status)
+                        $(this).addClass("gov-status-good")
+                else
+                        $(this).addClass("gov-status-bad")
+
+                if conflict
+                        $(this).addClass("conflict")
+
+                if $(this).hasClass("today")
+                        after_today = true
+
+                $(this).find('.implementation-status').addClass("label-#{status}")
+                $(this).find('.implementation-status').html(status_to_hebrew(status))
                 last_percent = percent
         )
 
@@ -434,7 +456,6 @@ $ ->
         current_version = localStorage.version
         localStorage.version = JSON.stringify(version)
         if current_version and version != JSON.parse(current_version)
-
                 # Try to load data from the cache, to make the page load faster
                 loaded_data = JSON.parse(localStorage.data)
                 all_books = JSON.parse(localStorage.all_books)

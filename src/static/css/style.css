@@ -3853,9 +3853,10 @@ body {
   width: 104px;
   vertical-align: top;
   margin-right: -104px;
-  margin-bottom: 13px;
+  margin-bottom: 7.5%;
+  margin-top: 7.5%;
   position: absolute;
-  height: 100%;
+  height: 85%;
   left: 0px;
 }
 .item .timeline > ul {
@@ -3969,7 +3970,6 @@ body {
 .item .timeline > ul > li.timeline-line {
   background: #f0776d;
   border: 5px solid #fffcd9;
-  height: 30px;
   left: 46px;
   position: absolute;
   width: 4px;

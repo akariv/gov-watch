@@ -1,5 +1,5 @@
 $( () ->
-        await $.getJSON("http://127.0.0.1:5000/api",(defer data))
+        await $.getJSON("/api",(defer data))
         for item in data
                 $("#list").append("<div class='row'>
                                          <div class='span7' style='color:white;'>#{item['base']['subject']}</div>
