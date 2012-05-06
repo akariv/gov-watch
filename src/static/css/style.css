@@ -3719,6 +3719,9 @@ body {
   padding: 30px;
   color: #DDD;
   width: 350px;
+  -webkit-border-radius: 5px 0 0 5px;
+  -moz-border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
 }
 .hero-unit h1,
 .well h1,
