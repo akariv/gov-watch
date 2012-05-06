@@ -108,6 +108,7 @@ data_callback = (data) ->
 
     # Collect all available books
     for rec in data
+        num_links = {}
         if not all_books[rec.base.book]
             all_books[rec.base.book] = {}
         all_books[rec.base.book][rec.base.chapter] = true
@@ -123,6 +124,10 @@ data_callback = (data) ->
                                 gov_updates.push(u)
                         else
                                 watch_updates.push(u)
+                        if u.links
+                                for l in u.links
+                                        num_links[l.url] = true
+        rec.base.num_links = Object.keys(num_links).length
         rec.gov_updates = gov_updates
         rec.watch_updates = watch_updates
 

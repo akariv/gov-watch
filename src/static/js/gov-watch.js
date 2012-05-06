@@ -158,13 +158,14 @@
   };
 
   data_callback = function(data) {
-    var gov_updates, k, rec, tag, u, v, watch_updates, _i, _j, _k, _len, _len2, _len3, _ref, _ref2;
+    var gov_updates, k, l, num_links, rec, tag, u, v, watch_updates, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2, _ref3;
     loaded_data = data;
     all_books = {};
     all_tags = {};
     all_subjects = {};
     for (_i = 0, _len = data.length; _i < _len; _i++) {
       rec = data[_i];
+      num_links = {};
       if (!all_books[rec.base.book]) all_books[rec.base.book] = {};
       all_books[rec.base.book][rec.base.chapter] = true;
       _ref = rec.base.tags;
@@ -186,8 +187,16 @@
           } else {
             watch_updates.push(u);
           }
+          if (u.links) {
+            _ref3 = u.links;
+            for (_l = 0, _len4 = _ref3.length; _l < _len4; _l++) {
+              l = _ref3[_l];
+              num_links[l.url] = true;
+            }
+          }
         }
       }
+      rec.base.num_links = Object.keys(num_links).length;
       rec.gov_updates = gov_updates;
       rec.watch_updates = watch_updates;
     }
@@ -444,7 +453,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 322
+        lineno: 327
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -579,7 +588,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 432
+          lineno: 437
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
