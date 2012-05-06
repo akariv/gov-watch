@@ -285,18 +285,19 @@ process_data = ->
 
 
         status = 'NEW'
-        last_percent = 10.0
+        last_percent = 90.0
 
         conflict = false
+        after_today = false
 
         timeline_items.each( ->
                 date = parseInt($(this).attr('data-date-numeric'))
-                percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10.0
+                percent = 90.0 - (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0
                 $(this).css("top",percent+"%")
-                if percent != last_percent
+                if percent != last_percent and not after_today
                          $(this).before("<li class='timeline-line status-#{status}'></li>")
-                         $(this).parent().find('.timeline-line:last').css('height',(percent-last_percent)+"%")
-                         $(this).parent().find('.timeline-line:last').css('top',last_percent+"%")
+                         $(this).parent().find('.timeline-line:last').css('height',(last_percent-percent)+"%")
+                         $(this).parent().find('.timeline-line:last').css('top',percent+"%")
 
                 current_status = $(this).attr('data-status') ? status
 
@@ -307,6 +308,9 @@ process_data = ->
                 if $(this).hasClass('watch-update')
                         if is_good_status(current_status) != is_good_status(status)
                                 conflict = true
+
+                if $(this).hasClass("today")
+                        after_today = true
 
                 $(this).find('.implementation-status').addClass("label-#{current_status}")
                 $(this).find('.implementation-status').html(status_to_hebrew(current_status))

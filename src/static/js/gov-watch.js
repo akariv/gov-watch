@@ -332,7 +332,7 @@
       items: loaded_data
     }, "#items");
     $(".item").each(function() {
-      var conflict, implementation_status, is_good_status, last_percent, max_numeric_date, min_numeric_date, pad, status, status_to_hebrew, timeline_items, today;
+      var after_today, conflict, implementation_status, is_good_status, last_percent, max_numeric_date, min_numeric_date, pad, status, status_to_hebrew, timeline_items, today;
       pad = function(n) {
         if (n < 10) {
           return '0' + n;
@@ -403,17 +403,18 @@
         }
       };
       status = 'NEW';
-      last_percent = 10.0;
+      last_percent = 90.0;
       conflict = false;
+      after_today = false;
       timeline_items.each(function() {
         var current_status, date, percent, _ref;
         date = parseInt($(this).attr('data-date-numeric'));
-        percent = (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0 + 10.0;
+        percent = 90.0 - (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 75.0;
         $(this).css("top", percent + "%");
-        if (percent !== last_percent) {
+        if (percent !== last_percent && !after_today) {
           $(this).before("<li class='timeline-line status-" + status + "'></li>");
-          $(this).parent().find('.timeline-line:last').css('height', (percent - last_percent) + "%");
-          $(this).parent().find('.timeline-line:last').css('top', last_percent + "%");
+          $(this).parent().find('.timeline-line:last').css('height', (last_percent - percent) + "%");
+          $(this).parent().find('.timeline-line:last').css('top', percent + "%");
         }
         current_status = (_ref = $(this).attr('data-status')) != null ? _ref : status;
         if ($(this).hasClass('gov-update')) {
@@ -425,6 +426,7 @@
             conflict = true;
           }
         }
+        if ($(this).hasClass("today")) after_today = true;
         $(this).find('.implementation-status').addClass("label-" + current_status);
         $(this).find('.implementation-status').html(status_to_hebrew(current_status));
         return last_percent = percent;
@@ -453,7 +455,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 327
+        lineno: 331
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -588,7 +590,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 437
+          lineno: 441
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

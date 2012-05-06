@@ -20,19 +20,10 @@
 @linkMuted: @gray;
 
 /**** Fonts ****/
-@font-face { 
-    font-family: 'MiriamGRegular';
-    src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot');
-    src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot?#iefix') format('embedded-opentype'),
-         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.woff') format('woff'),
-         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.ttf') format('truetype'),
-         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svgz#MiriamGRegular') format('svg'),
-         url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svg#MiriamGRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
 
+input, button, select, textarea {
+  font-family: 'PauzaFOT', Arial, sans-serif; 
 }
-
 
 /**** Basic Styles ****/
 
@@ -49,6 +40,7 @@ body {
   background: rgba(0, 0, 0, 0.3);
   padding: 30px;
   color: #DDD;
+  width: 350px;
   
   h1,h2,h3{color: #DDD;}
     
@@ -65,11 +57,7 @@ body {
     -moz-transition: background-color 3s;
 }
 
-/**** Sidebar ****/
-.container-fluid > .sidebar{
-  position: fixed;
-  top: 60px;
-}
+/**** Header ****/
 
   #search{
     
@@ -78,29 +66,21 @@ body {
     }
     
     input{
-      width: 170px;
-    }
-    select{
-      width: 85px;
-      float: right; 
-      margin-left: 10px;
-      
-      &:last-child{
-        margin-left:0;
-      }
+      width: 329px;
+      font-size: 30px;
+      line-height: 40px;
+      padding: 5px;
+      height: 40px;
     }
     
   }
-
-  #filters {
-    float: right;
-  }
-
-  #sort{
-    width:180px;
+  
+  #sort .btn{
+    font-size: 16px;
   }
   
   .dropdown-menu{
+    margin-right: 30px;
     overflow: hidden;
     
     a{
@@ -220,8 +200,8 @@ body {
         border: 5px @card solid;
         .border-radius(13px);
         background: @cardshade;
-        z-index: 10;
         margin-right: -6px;
+        z-index:3;
         
         &.today { background: blue; } //TODO: MUSHON 
         &.start,
@@ -322,7 +302,6 @@ body {
       > li.timeline-line {
         background: @bad;
         border: 5px solid @card;
-        height: 30px;
         left: 46px;
         position: absolute;
         width: 4px;
@@ -408,7 +387,7 @@ body {
       background: @bad;
     }
     
-    &.bad,&.good{
+    &.bad,&.good,&.conflict {
        a{color: @card;}
     }
     
@@ -435,17 +414,20 @@ body {
   
   p{
     padding:5px;
+    font-size: 18px;
   }
   
   .budget,
   .responsible{
+    color: @lighttext;
     width: 40%;
     float: right;
     font-weight: normal;
     
     span{
+      font-size: 22px;
       display: block;
-      color: @lighttext;
+      color: @text;
     }
     
   }
