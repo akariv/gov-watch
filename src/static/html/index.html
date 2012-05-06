@@ -52,20 +52,22 @@
     <div class="budget">
 	{{#budget}}
     	<h3>עלות:</h3>
-	    <p>{{millions}} מיליון ִ₪
-		<span class="period">/על פני {{year_span}} שנים</span></p>
+	    <p>
+	    	<span>{{millions}} מיליון ִ₪</span>
+			/על פני {{year_span}} שנים</p>
     	<p class="more">{{description}}</p>
     {{/budget}}
     </div>
     
     <div class="responsible">
+  	{{#responsible_authority}}
     	<h3>גורם אחראי:</h3>
     	<p>
-          {{#responsible_authority}}
           <span class="responsible-main">{{main}}</span>
-          <span class="responsible-secondary">{{secondary}}</span>
-          {{/responsible_authority}}
-        </p>
+          {{secondary}}
+    	</p>
+    {{/responsible_authority}}
+    
 	</div>
     
     <div class="recommendation">
@@ -124,9 +126,11 @@
 
 </div>
 {{/items}}
-    </script>
+</script><!-- End list view -->
     
-
+<!------------------------------------------------
+---- Single Item starts here:
+------------------------------------------------->
 	<script type="text/html" name="single-item">
 <div class="detail-item span shown" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
@@ -252,13 +256,21 @@
           	<form id="searchbar" action="#">
         		<fieldset id='search'>
 			  <input id="searchbox" class="xlarge" type="text" size="30" autocomplete="off" name="xlInput">
-			  <select id="sort" name="normalSelect">
+<!-- 			  <select id="sort" name="normalSelect">
 			    <option value="chapter">פרק</option>
 			    <option value="budget">עלות תקציבית</option>
 			    <option value="recommendation">שם</option>
 			    <option value="comments">מספר תגובות</option>
-			  </select>
+			  </select> -->
 			</fieldset>
+			<!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+			<h3>סדר לפי:</h3>
+			<div id="sort" class="btn-group" data-toggle="buttons-radio">
+				<button class="btn active" value="chapter">נושא</button>
+				<button class="btn" value="budget">עלות תקציבית</button>
+				<button class="btn" value="followers">מספר עוקבים</button>
+				<button class="btn" value="comments">מספר תגובות</button>
+			</div>
 		</form>
         </div>
         

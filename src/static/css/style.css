@@ -3699,12 +3699,11 @@ a.thumbnail:hover {
 }
 /**** Vars ****/
 /**** Fonts ****/
-@font-face {
-  font-family: 'MiriamGRegular';
-  src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot');
-  src: url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.eot?#iefix') format('embedded-opentype'), url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.woff') format('woff'), url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.ttf') format('truetype'), url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svgz#MiriamGRegular') format('svg'), url('http://ptpx.omerziv.com/wp-content/themes/ptpx/styles/fontfaces/miriamgreg-webfont.svg#MiriamGRegular') format('svg');
-  font-weight: normal;
-  font-style: normal;
+input,
+button,
+select,
+textarea {
+  font-family: 'PauzaFOT', Arial, sans-serif;
 }
 /**** Basic Styles ****/
 body {
@@ -3719,6 +3718,7 @@ body {
   background: rgba(0, 0, 0, 0.3);
   padding: 30px;
   color: #DDD;
+  width: 350px;
 }
 .hero-unit h1,
 .well h1,
@@ -3737,32 +3737,22 @@ body {
   -webkit-transition: background-color 3s;
   -moz-transition: background-color 3s;
 }
-/**** Sidebar ****/
-.container-fluid > .sidebar {
-  position: fixed;
-  top: 60px;
-}
+/**** Header ****/
 #search legend {
   padding-left: 0;
 }
 #search input {
-  width: 170px;
+  width: 329px;
+  font-size: 30px;
+  line-height: 40px;
+  padding: 5px;
+  height: 40px;
 }
-#search select {
-  width: 85px;
-  float: right;
-  margin-left: 10px;
-}
-#search select:last-child {
-  margin-left: 0;
-}
-#filters {
-  float: right;
-}
-#sort {
-  width: 180px;
+#sort .btn {
+  font-size: 16px;
 }
 .dropdown-menu {
+  margin-right: 30px;
   overflow: hidden;
 }
 .dropdown-menu a {
@@ -4056,7 +4046,8 @@ body {
   background: #f0776d;
 }
 .item h2.bad a,
-.item h2.good a {
+.item h2.good a,
+.item h2.conflict a {
   color: #fffcd9;
 }
 .item h2 a {
@@ -4080,17 +4071,20 @@ body {
 }
 .item p {
   padding: 5px;
+  font-size: 18px;
 }
 .item .budget,
 .item .responsible {
+  color: #847d6b;
   width: 40%;
   float: right;
   font-weight: normal;
 }
 .item .budget span,
 .item .responsible span {
+  font-size: 22px;
   display: block;
-  color: #847d6b;
+  color: #3c3c3c;
 }
 .item .recommendation,
 .item .tools {
