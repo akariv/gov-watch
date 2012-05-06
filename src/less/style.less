@@ -185,38 +185,63 @@ body {
     width: @gridGutterWidth + @gridColumnWidth;
     vertical-align:top;
     margin-right: -@gridGutterWidth - @gridColumnWidth;
-    margin-bottom:7.5%;
-    margin-top:7.5%;
+    // margin-bottom:7.5%;
+    // margin-top:7.5%;
     position:absolute;
-    height:85%;
+    height:100%;
     left:0px;
 
     > ul {
+      position: absolute;
+      top: 20px;
+      bottom: 20px;
       list-style: none outside none;
-      margin: 30px 45px;
+      margin: 20px 45px;
+      width: 3px;
+      //background: @card;
+      border: @card solid 5px;
       
       > li.timeline-point {
-        width: 13px;
-        height: 13px;
+        width: 5px;
+        height: 5px;
         position:absolute;
         border: 5px @card solid;
         .border-radius(13px);
         background: @cardshade;
-        margin-right: -6px;
-        z-index:3;
-        
-        &.today { background: blue; } //TODO: MUSHON 
+        margin-right: -7px;
+        z-index:10;
+        &.today,
         &.start,
         &.completion {
+          border: 5px solid @card;
+          height: 5px;
+          width: 20px;
+          margin: -2px -14px;
           height: 3px;
           .border-radius(3px);
           > div {
             top: -8px;
           }
-          
+        }
+        &.watch-status-good,
+        &.gov-status-good {
+          background: @card;
+          border-color: @good;
+        }
+        &.watch-status-bad,
+        &.gov-status-bad {
+          background: @card;
+          border-color: @bad;
+        }
+        &.today { 
+          background: @card;
+          border-width: 1px;
+          width: 28px;
+          border-color: @card;
         }
         &.start {
-          background: @good;
+          background: @cardshade;
+          border-color: @card;
         }
         
         > div {
@@ -304,7 +329,6 @@ body {
       > li.timeline-line {
         background: @bad;
         border: 5px solid @card;
-        left: 46px;
         position: absolute;
         width: 4px;
         margin-right: -6px;
