@@ -49,7 +49,7 @@
         parent: ___iced_passed_deferral,
         filename: 'edit-list.iced'
       });
-      $.getJSON("http://127.0.0.1:5000/api", (__iced_deferrals.defer({
+      $.getJSON("/api", (__iced_deferrals.defer({
         assign_fn: (function() {
           return function() {
             return data = arguments[0];

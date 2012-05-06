@@ -211,7 +211,7 @@ body {
 
     > ul {
       list-style: none outside none;
-      margin: 30px 39px;
+      margin: 30px 45px;
       
       > li.timeline-point {
         width: 13px;
@@ -220,7 +220,8 @@ body {
         border: 5px @card solid;
         .border-radius(13px);
         background: @cardshade;
-        z-index:3;
+        z-index: 10;
+        margin-right: -6px;
         
         &.today { background: blue; } //TODO: MUSHON 
         &.start,
@@ -319,21 +320,19 @@ body {
         }
       }
       > li.timeline-line {
-        position:absolute;
-        border: 1px red dashed;
-        margin-right:9px;
-        z-index:2;
+        background: @bad;
+        border: 5px solid @card;
+        height: 30px;
+        left: 46px;
+        position: absolute;
+        width: 4px;
+        margin-right: -6px;
 
-        &.status-IN_PROGRESS {
-           border-color: green;
-        }       
-
-        &.status-FIXED {
-           border-color: green;
-        }       
-
-        &.status-IRRELEVANT {
-           border-color: green;
+        &.status-IN_PROGRESS,
+        &.status-FIXED,
+        &.status-IRRELEVANT
+         {
+           background: @good;
         }       
 
       } 
