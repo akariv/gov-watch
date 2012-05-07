@@ -3719,6 +3719,9 @@ body {
   padding: 30px;
   color: #DDD;
   width: 350px;
+  -webkit-border-radius: 5px 0 0 5px;
+  -moz-border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
 }
 .hero-unit h1,
 .well h1,
@@ -3850,44 +3853,68 @@ body {
   width: 104px;
   vertical-align: top;
   margin-right: -104px;
-  margin-bottom: 7.5%;
-  margin-top: 7.5%;
   position: absolute;
-  height: 85%;
+  height: 100%;
   left: 0px;
 }
 .item .timeline > ul {
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
   list-style: none outside none;
-  margin: 30px 45px;
+  margin: 20px 45px;
+  width: 3px;
+  border: #fffcd9 solid 5px;
 }
 .item .timeline > ul > li.timeline-point {
-  width: 13px;
-  height: 13px;
+  width: 5px;
+  height: 5px;
   position: absolute;
   border: 5px #fffcd9 solid;
   -webkit-border-radius: 13px;
   -moz-border-radius: 13px;
   border-radius: 13px;
   background: #e4daac;
-  margin-right: -6px;
-  z-index: 3;
+  margin-right: -7px;
+  z-index: 10;
 }
-.item .timeline > ul > li.timeline-point.today {
-  background: blue;
+.item .timeline > ul > li.timeline-point.watch-status-good,
+.item .timeline > ul > li.timeline-point.gov-status-good {
+  background: #fffcd9;
+  border-color: #6ba688;
 }
+.item .timeline > ul > li.timeline-point.watch-status-bad,
+.item .timeline > ul > li.timeline-point.gov-status-bad {
+  background: #fffcd9;
+  border-color: #f0776d;
+}
+.item .timeline > ul > li.timeline-point.today,
 .item .timeline > ul > li.timeline-point.start,
 .item .timeline > ul > li.timeline-point.completion {
+  background: #e4daac;
+  border: 5px solid #fffcd9;
+  height: 5px;
+  width: 20px;
+  margin: -2px -14px;
   height: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+.item .timeline > ul > li.timeline-point.today > div,
 .item .timeline > ul > li.timeline-point.start > div,
 .item .timeline > ul > li.timeline-point.completion > div {
   top: -8px;
 }
+.item .timeline > ul > li.timeline-point.today {
+  background: #fffcd9;
+  border-width: 1px;
+  width: 28px;
+  border-color: #fffcd9;
+}
 .item .timeline > ul > li.timeline-point.start {
-  background: #6ba688;
+  background: #e4daac;
+  border-color: #fffcd9;
 }
 .item .timeline > ul > li.timeline-point > div {
   z-index: 10;
@@ -3967,7 +3994,6 @@ body {
 .item .timeline > ul > li.timeline-line {
   background: #f0776d;
   border: 5px solid #fffcd9;
-  left: 46px;
   position: absolute;
   width: 4px;
   margin-right: -6px;
