@@ -129,7 +129,6 @@
       show_watermark(false);
       $("#searchbox").val(search_term);
     }
-    $(".item").removeClass("bigger");
     if (slug) {
       selected_slug = slug;
       select_item(selected_slug);
@@ -331,6 +330,8 @@
     run_templates("item", {
       items: loaded_data
     }, "#items");
+    $("#items").prepend($("#hero-unit-holder").html());
+    $("#hero-unit-holder").html('');
     $(".item").each(function() {
       var after_today, conflict, gov_status, implementation_status, is_good_status, last_percent, max_numeric_date, min_numeric_date, pad, status_to_hebrew, timeline_items, today;
       pad = function(n) {
@@ -467,8 +468,8 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 344
-      })), 50);
+        lineno: 346
+      })), 1000);
       __iced_deferrals._fulfill();
     })(function() {
       $.Isotope.prototype._positionAbs = function(x, y) {
@@ -478,7 +479,7 @@
         };
       };
       $("#items").isotope({
-        itemSelector: '.item',
+        itemSelector: '.isotope-card',
         layoutMode: 'masonry',
         transformsEnabled: false,
         filter: ".shown",
@@ -602,7 +603,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 454
+          lineno: 456
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

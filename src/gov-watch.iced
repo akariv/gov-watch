@@ -75,7 +75,6 @@ onhashchange = ->
       show_watermark(false)
       $("#searchbox").val(search_term)
 
-   $(".item").removeClass("bigger")
    if slug
         selected_slug = slug
         select_item( selected_slug )
@@ -238,6 +237,9 @@ process_data = ->
 
     run_templates( "item", items: loaded_data, "#items" )
 
+    $("#items").prepend($("#hero-unit-holder").html())
+    $("#hero-unit-holder").html('')
+
     $(".item").each ->
         # Timeline
         pad = (n) -> if n<10 then '0'+n else n
@@ -342,14 +344,14 @@ process_data = ->
                      $(this).find('.buxa-header').addClass('bad')
 
     # Allow the DOM to sync
-    await setTimeout((defer _),50)
+    await setTimeout((defer _),1000)
 
     # Apply event handlers on the DOM, Isotope initialization
     # modify Isotope's absolute position method (for RTL)
     $.Isotope.prototype._positionAbs = ( x, y ) -> { right: x, top: y }
     # initialize Isotope
     $("#items").isotope(
-        itemSelector : '.item'
+        itemSelector : '.isotope-card'
         layoutMode : 'masonry'
         transformsEnabled: false
         filter: ".shown"
