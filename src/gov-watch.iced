@@ -344,7 +344,7 @@ process_data = ->
                      $(this).find('.buxa-header').addClass('bad')
 
     # Allow the DOM to sync
-    await setTimeout((defer _),1000)
+    await setTimeout((defer _),50)
 
     # Apply event handlers on the DOM, Isotope initialization
     # modify Isotope's absolute position method (for RTL)
