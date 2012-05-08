@@ -67,6 +67,12 @@ def update_everything(slug):
     f.flush()
     f.close()
 
+    timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    f = file('data.%s.json' % timestamp,'wb')
+    f.write(everything)
+    f.flush()
+    f.close()
+
 @app.route("/base/<slug>", methods=['POST'])
 def setbaseinfo(slug):
     user = request.form["user"]

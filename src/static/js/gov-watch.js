@@ -469,7 +469,7 @@
           };
         })(),
         lineno: 346
-      })), 1000);
+      })), 50);
       __iced_deferrals._fulfill();
     })(function() {
       $.Isotope.prototype._positionAbs = function(x, y) {
