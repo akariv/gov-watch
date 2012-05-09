@@ -66,6 +66,7 @@ def update_everything(slug):
     f.write(everything)
     f.flush()
     f.close()
+    r.set('version',int(os.stat('data.json').st_mtime))
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     f = file('data.%s.json' % timestamp,'wb')
