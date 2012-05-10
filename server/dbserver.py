@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf8
 
-from flask import Flask, g, request, Response, redirect, render_template, session
+from flask import Flask, g, request, Response, redirect, render_template, session, make_response
 from flask.helpers import url_for
 import urllib
 import json
@@ -35,7 +35,9 @@ def listall():
 
 @app.route('/api/version')
 def version():
-    return Response(response=r.get("version"), content_type="application/json")
+    resp = make_response(Response(response=r.get("version"), content_type="application/json", ))
+    resp.cache_control.no_cache = True
+    return resp
 
 @app.route("/api/<slug>", methods=['GET'])
 def getitem(slug):
