@@ -78,7 +78,7 @@
         "name": "result_metric",
         "props": {
           "type": "text",
-          "title": "\u05de\u05d8\u05e8\u05d4"
+          "title": "\u05de\u05d3\u05d3 \u05d4\u05ea\u05d5\u05e6\u05d0\u05d4"
         }
       }, {
         "name": "budget",

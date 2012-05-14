@@ -5,10 +5,10 @@ from flask import Flask, g, request, Response, redirect, render_template, sessio
 from flask.helpers import url_for
 import urllib
 import json
-import md5
 import os
 import datetime
 from redis import Redis
+from secret import calc_secret
 
 app = Flask(__name__)
 app.debug = True
@@ -42,15 +42,6 @@ def version():
 @app.route("/api/<slug>", methods=['GET'])
 def getitem(slug):
     return Response(response=r.get(slug), content_type="application/json")
-
-secret = file('secret').read()
-chars='abcdefghijklmnopqrstuvwxyz0123456789_+ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-print(len(chars))
-def calc_secret(what):
-    return ''.join([ chars[(ord(x) & 0x3f)] for x in  md5.md5(secret+what.encode('utf8')).digest() ])
-
-print calc_secret('gov')
-print calc_secret(u'מושיקו')
 
 def update_everything(slug):
     newrec = r.get(slug)
