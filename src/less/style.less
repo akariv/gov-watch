@@ -201,151 +201,158 @@ body {
       //background: @card;
       border: @card solid 5px;
       
-      > li.timeline-point {
-        width: 5px;
-        height: 5px;
-        position:absolute;
-        border: 5px @card solid;
-        .border-radius(13px);
-        background: @cardshade;
-        margin-right: -7px;
-        z-index:10;
-        
-        &.watch-status-good,
-        &.gov-status-good {
-          background: @card;
-          border-color: @good;
-        }
-        &.watch-status-bad,
-        &.gov-status-bad {
-          background: @card;
-          border-color: @bad;
-        }
-        
-        &.today,
-        &.start,
-        &.completion {
-          background: @cardshade;
-          border: 5px solid @card;
+      > li {
+
+        > .timeline-point {
+          width: 5px;
           height: 5px;
-          width: 20px;
-          margin: -2px -14px;
-          height: 3px;
-          .border-radius(3px);
-          > div {
-            top: -8px;
-          }
-        }
-        &.today { 
-          background: @card;
-          border-width: 1px;
-          width: 28px;
-          border-color: @card;
-        }
-        &.start {
+          position:relative;
+          top: -5px;
+          border: 5px @card solid;
+          .border-radius(13px);
           background: @cardshade;
-          border-color: @card;
-        }
-        
-        > div {
-          z-index: 10;
-          display: none;
-          position: absolute;
-          width: 300px;
-          color: @lighttext;
-          left: 20px;
-          top: -3px;
-          line-height: 20px;
-          border: 3px solid @good;
-          .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 
-          background: @card;
-          .border-radius(3px);
+          margin-right: -7px;
+          z-index:10;
           
-          h4,
-          p,
-          small {
-            padding: 3px;
-            font-size: 16px;
-          }
-          
-          .label {
-            color: @card;
-            background: @good;
-            display: block;
-            float: left;
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 1.2em;
-            margin: 4px 4px 0px 1px;
-            padding: 0 3px;
-          }
-          
-          .label-STUCK,
-          .label-WORKAROUND,
-          .label-NEW {
-            background: @bad;
-          }
-          
-          h4{
-            background: @cardshade;
-            //border-bottom: @cardshade 2px solid;
-            color: @text;
-            font-weight: normal;
-            margin: 0;
-            padding: 0 3px;
-          }
-          
-          small{
-            color: fadeout(@good, 20%);
-            &:before {
-              content: "— ";
+          &.watch-status-good,
+          &.gov-status-good {
+            background: @card;
+            border-color: @good;
             }
-          }
-                    
-          &:after{
-            border-bottom: 5px solid transparent;
-            border-right: 5px solid @good;
-            border-top: 5px solid transparent;
-            content: "";
-            display: block;
-            height: 0;
-            left: -8px;
+          &.watch-status-bad,
+          &.gov-status-bad {
+            background: @card;
+            border-color: @bad;
+            }
+          
+          &.today,
+          &.start,
+          &.completion {
+            background: @cardshade;
+            border: 5px solid @card;
+            height: 5px;
+            width: 20px;
+            margin: -2px -14px;
+            height: 3px;
+            .border-radius(3px);
+            > div {
+              top: -8px;
+              }
+            }
+          &.today { 
+            background: @card;
+            border-width: 1px;
+            width: 28px;
+            border-color: @card;
+            }
+          &.start {
+            background: @cardshade;
+            border-color: @card;
+            }
+          
+          > div {
+            z-index: 10;
+            display: none;
             position: absolute;
-            top: 1px;
-            width: 0;
-          }
-        }
-        
-        &.bad > div{
+            width: 300px;
+            color: @lighttext;
+            left: 20px;
+            top: -3px;
+            line-height: 20px;
+            border: 3px solid @good;
+            .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 
+            background: @card;
+            .border-radius(3px);
+            
+            h4,
+            p,
+            small {
+              padding: 3px;
+              font-size: 16px;
+              }
+            
+            .label {
+              color: @card;
+              background: @good;
+              display: block;
+              float: left;
+              font-size: 14px;
+              font-weight: normal;
+              line-height: 1.2em;
+              margin: 4px 4px 0px 1px;
+              padding: 0 3px;
+              }
+            
+            .label-STUCK,
+            .label-WORKAROUND,
+            .label-NEW {
+              background: @bad;
+              }
+            
+            h4{
+              background: @cardshade;
+              //border-bottom: @cardshade 2px solid;
+              color: @text;
+              font-weight: normal;
+              margin: 0;
+              padding: 0 3px;
+              }
+            
+            small{
+              color: fadeout(@good, 20%);
+              &:before {
+                content: "— ";
+                }
+              }
+            
+            &:after{
+              border-bottom: 5px solid transparent;
+              border-right: 5px solid @good;
+              border-top: 5px solid transparent;
+              content: "";
+              display: block;
+              height: 0;
+              left: -8px;
+              position: absolute;
+              top: 1px;
+              width: 0;
+              }
+            }
+          
+          &.bad > div{
             border: 3px solid darken(@good, 10%); 
             background: @good;
             
             &:after{
               border-right: 5px solid darken(@good, 10%);
+              }
+            }
+          
+          &:hover > div {
+            display: block;
             }
           }
         
-        &:hover > div{
-          display: block;
+        > .timeline-line {
+          background: @bad;
+          border: 5px solid @card;
+          border-bottom: none;
+          //position: absolute;
+          height:100%;
+          width: 4px;
+          margin-right: -6px;
+          
+          &.status-IN_PROGRESS,
+          &.status-FIXED,
+          &.status-IRRELEVANT
+          {
+            background: @good;
+            }       
+          
+          } 
         }
       }
-      > li.timeline-line {
-        background: @bad;
-        border: 5px solid @card;
-        position: absolute;
-        width: 4px;
-        margin-right: -6px;
-
-        &.status-IN_PROGRESS,
-        &.status-FIXED,
-        &.status-IRRELEVANT
-         {
-           background: @good;
-        }       
-
-      } 
     }
-  }
   
   .breadcrumb{
     border: 0;

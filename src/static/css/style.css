@@ -3866,10 +3866,11 @@ body {
   width: 3px;
   border: #fffcd9 solid 5px;
 }
-.item .timeline > ul > li.timeline-point {
+.item .timeline > ul > li > .timeline-point {
   width: 5px;
   height: 5px;
-  position: absolute;
+  position: relative;
+  top: -5px;
   border: 5px #fffcd9 solid;
   -webkit-border-radius: 13px;
   -moz-border-radius: 13px;
@@ -3878,19 +3879,19 @@ body {
   margin-right: -7px;
   z-index: 10;
 }
-.item .timeline > ul > li.timeline-point.watch-status-good,
-.item .timeline > ul > li.timeline-point.gov-status-good {
+.item .timeline > ul > li > .timeline-point.watch-status-good,
+.item .timeline > ul > li > .timeline-point.gov-status-good {
   background: #fffcd9;
   border-color: #6ba688;
 }
-.item .timeline > ul > li.timeline-point.watch-status-bad,
-.item .timeline > ul > li.timeline-point.gov-status-bad {
+.item .timeline > ul > li > .timeline-point.watch-status-bad,
+.item .timeline > ul > li > .timeline-point.gov-status-bad {
   background: #fffcd9;
   border-color: #f0776d;
 }
-.item .timeline > ul > li.timeline-point.today,
-.item .timeline > ul > li.timeline-point.start,
-.item .timeline > ul > li.timeline-point.completion {
+.item .timeline > ul > li > .timeline-point.today,
+.item .timeline > ul > li > .timeline-point.start,
+.item .timeline > ul > li > .timeline-point.completion {
   background: #e4daac;
   border: 5px solid #fffcd9;
   height: 5px;
@@ -3901,22 +3902,22 @@ body {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-.item .timeline > ul > li.timeline-point.today > div,
-.item .timeline > ul > li.timeline-point.start > div,
-.item .timeline > ul > li.timeline-point.completion > div {
+.item .timeline > ul > li > .timeline-point.today > div,
+.item .timeline > ul > li > .timeline-point.start > div,
+.item .timeline > ul > li > .timeline-point.completion > div {
   top: -8px;
 }
-.item .timeline > ul > li.timeline-point.today {
+.item .timeline > ul > li > .timeline-point.today {
   background: #fffcd9;
   border-width: 1px;
   width: 28px;
   border-color: #fffcd9;
 }
-.item .timeline > ul > li.timeline-point.start {
+.item .timeline > ul > li > .timeline-point.start {
   background: #e4daac;
   border-color: #fffcd9;
 }
-.item .timeline > ul > li.timeline-point > div {
+.item .timeline > ul > li > .timeline-point > div {
   z-index: 10;
   display: none;
   position: absolute;
@@ -3934,13 +3935,13 @@ body {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-.item .timeline > ul > li.timeline-point > div h4,
-.item .timeline > ul > li.timeline-point > div p,
-.item .timeline > ul > li.timeline-point > div small {
+.item .timeline > ul > li > .timeline-point > div h4,
+.item .timeline > ul > li > .timeline-point > div p,
+.item .timeline > ul > li > .timeline-point > div small {
   padding: 3px;
   font-size: 16px;
 }
-.item .timeline > ul > li.timeline-point > div .label {
+.item .timeline > ul > li > .timeline-point > div .label {
   color: #fffcd9;
   background: #6ba688;
   display: block;
@@ -3951,25 +3952,25 @@ body {
   margin: 4px 4px 0px 1px;
   padding: 0 3px;
 }
-.item .timeline > ul > li.timeline-point > div .label-STUCK,
-.item .timeline > ul > li.timeline-point > div .label-WORKAROUND,
-.item .timeline > ul > li.timeline-point > div .label-NEW {
+.item .timeline > ul > li > .timeline-point > div .label-STUCK,
+.item .timeline > ul > li > .timeline-point > div .label-WORKAROUND,
+.item .timeline > ul > li > .timeline-point > div .label-NEW {
   background: #f0776d;
 }
-.item .timeline > ul > li.timeline-point > div h4 {
+.item .timeline > ul > li > .timeline-point > div h4 {
   background: #e4daac;
   color: #3c3c3c;
   font-weight: normal;
   margin: 0;
   padding: 0 3px;
 }
-.item .timeline > ul > li.timeline-point > div small {
+.item .timeline > ul > li > .timeline-point > div small {
   color: rgba(107, 166, 136, 0.8);
 }
-.item .timeline > ul > li.timeline-point > div small:before {
+.item .timeline > ul > li > .timeline-point > div small:before {
   content: "— ";
 }
-.item .timeline > ul > li.timeline-point > div:after {
+.item .timeline > ul > li > .timeline-point > div:after {
   border-bottom: 5px solid transparent;
   border-right: 5px solid #6ba688;
   border-top: 5px solid transparent;
@@ -3981,26 +3982,27 @@ body {
   top: 1px;
   width: 0;
 }
-.item .timeline > ul > li.timeline-point.bad > div {
+.item .timeline > ul > li > .timeline-point.bad > div {
   border: 3px solid #538b6f;
   background: #6ba688;
 }
-.item .timeline > ul > li.timeline-point.bad > div:after {
+.item .timeline > ul > li > .timeline-point.bad > div:after {
   border-right: 5px solid #538b6f;
 }
-.item .timeline > ul > li.timeline-point:hover > div {
+.item .timeline > ul > li > .timeline-point:hover > div {
   display: block;
 }
-.item .timeline > ul > li.timeline-line {
+.item .timeline > ul > li > .timeline-line {
   background: #f0776d;
   border: 5px solid #fffcd9;
-  position: absolute;
+  border-bottom: none;
+  height: 100%;
   width: 4px;
   margin-right: -6px;
 }
-.item .timeline > ul > li.timeline-line.status-IN_PROGRESS,
-.item .timeline > ul > li.timeline-line.status-FIXED,
-.item .timeline > ul > li.timeline-line.status-IRRELEVANT {
+.item .timeline > ul > li > .timeline-line.status-IN_PROGRESS,
+.item .timeline > ul > li > .timeline-line.status-FIXED,
+.item .timeline > ul > li > .timeline-line.status-IRRELEVANT {
   background: #6ba688;
 }
 .item .breadcrumb {

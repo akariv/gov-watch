@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf8
 
-from flask import Flask, g, request, Response, redirect, render_template, session
+from flask import Flask, g, request, Response, redirect, render_template, session, make_response
 from flask.helpers import url_for
 import urllib
 import json
-import md5
 import os
 import datetime
 from redis import Redis
+from secret import calc_secret
 
 app = Flask(__name__)
 app.debug = True
@@ -35,20 +35,13 @@ def listall():
 
 @app.route('/api/version')
 def version():
-    return Response(response=r.get("version"), content_type="application/json")
+    resp = make_response(Response(response=r.get("version"), content_type="application/json", ))
+    resp.cache_control.no_cache = True
+    return resp
 
 @app.route("/api/<slug>", methods=['GET'])
 def getitem(slug):
     return Response(response=r.get(slug), content_type="application/json")
-
-secret = file('secret').read()
-chars='abcdefghijklmnopqrstuvwxyz0123456789_+ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-print(len(chars))
-def calc_secret(what):
-    return ''.join([ chars[(ord(x) & 0x3f)] for x in  md5.md5(secret+what.encode('utf8')).digest() ])
-
-print calc_secret('gov')
-print calc_secret(u'מושיקו')
 
 def update_everything(slug):
     newrec = r.get(slug)
@@ -63,6 +56,13 @@ def update_everything(slug):
     r.set("everything",everything)
 
     f = file('data.json','wb')
+    f.write(everything)
+    f.flush()
+    f.close()
+    r.set('version',int(os.stat('data.json').st_mtime))
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    f = file('data.%s.json' % timestamp,'wb')
     f.write(everything)
     f.flush()
     f.close()

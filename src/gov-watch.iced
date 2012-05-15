@@ -16,10 +16,6 @@ SEARCHTERM = 't'
 
 ## Generate hash for current state
 generate_hash = ( selected_book, search_term, slug ) ->
-#   if slug
-#      "!z=#{BOOK}:#{selected_book}|#{CHAPTER}:#{selected_chapter}|#{SEARCHTERM}:#{search_term}|#{SLUG}:#{slug}"
-#   else
-#      "!z=#{BOOK}:#{selected_book}|#{CHAPTER}:#{selected_chapter}|#{SEARCHTERM}:#{search_term}"
    if slug
       "!z=#{BOOK}:#{selected_book}|#{SEARCHTERM}:#{search_term}|#{SLUG}:#{slug}"
    else
@@ -75,7 +71,6 @@ onhashchange = ->
       show_watermark(false)
       $("#searchbox").val(search_term)
 
-   $(".item").removeClass("bigger")
    if slug
         selected_slug = slug
         select_item( selected_slug )
@@ -224,46 +219,33 @@ run_templates = (template,data,selector) ->
     # Update the document with rendered HTML
     $(selector).html(html)
 
-## Handles the site's data (could be from local storage or freshly loaded)
-process_data = ->
-
-    # process only once
-    if initialized
-       return
-    initialized = true
-
-    # Fill contents to the book selection sidebox
-    for book in all_books
-        $("#books").prepend("<li data-book='#{book}' class='book'><a href='#'>#{book}</a></li>")
-
-    run_templates( "item", items: loaded_data, "#items" )
-
+setup_timeline = ->
+    # Setup timeline after all elements have reached their required size
     $(".item").each ->
         # Timeline
         pad = (n) -> if n<10 then '0'+n else n
         today = new Date()
         today = "#{today.getFullYear()}/#{pad(today.getMonth()+1)}/#{pad(today.getDate()+1)}"
 
-        $(this).find('.timeline .timeline-point.today').attr('data-date',today)
-        timeline_items = $(this).find(".timeline .timeline-point")
-        timeline_items.tsort({attr:'data-date',order:'asc'})
-        timeline_items = $(this).find(".timeline .timeline-point")
-
         max_numeric_date = 0
         min_numeric_date = 2100 * 372
-        timeline_items.each( ->
-                date = $(this).attr('data-date')
+        $(this).find('.timeline .timeline-point.today').attr('data-date',today)
+
+        $(this).find(".timeline > ul > li").each( ->
+                date = $(this).find('.timeline-point:first').attr('data-date')
                 date = date.split(' ')[0].split('/')
                 [year,month,day] = (parseInt(d,10) for d in date)
                 numeric_date = (year * 372) + ((month-1) * 31) + (day-1)
                 if isNaN(numeric_date)
                         numeric_date = 2012 * 372
                 if numeric_date > max_numeric_date
-                        max_numeric_date = numeric_date + 1
+                        max_numeric_date = numeric_date
                 if numeric_date < min_numeric_date
-                        min_numeric_date = numeric_date
+                        min_numeric_date = numeric_date - 1
                 $(this).attr('data-date-numeric',numeric_date)
         )
+
+        $(this).find(".timeline > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
 
         status_to_hebrew = (status) ->
                 switch status
@@ -285,50 +267,84 @@ process_data = ->
 
 
         gov_status = 'NEW'
-        last_percent = 100.0
+        last_percent = 0.0
+        item_size = 15
+        margins = 80
+        height = $(this).innerHeight() - margins
+        available_height = height
+        $(this).find(".timeline > ul > li .timeline-point").each( ->
+                available_height = available_height - $(this).outerHeight()
+                )
+        #available_height = height - item_size*($(this).find(".timeline > ul > li").size())
+        top = 0
 
         conflict = false
         after_today = false
 
-        timeline_items.each( ->
-                date = parseInt($(this).attr('data-date-numeric'))
-                percent = 100.0 - (date - min_numeric_date) / (max_numeric_date - min_numeric_date) * 100.0
-                $(this).css("top",percent+"%")
-                if percent != last_percent and not after_today
-                         $(this).before("<li class='timeline-line status-#{gov_status}'></li>")
-                         $(this).parent().find('.timeline-line:last').css('height',(last_percent-percent)+"%")
-                         $(this).parent().find('.timeline-line:last').css('top',percent+"%")
+        timeline_items = $(this).find(".timeline > ul > li")
+        for i in [timeline_items.size()-1..0]
+                el = $(timeline_items[i])
+                point = el.find('.timeline-point:first')
+                line = el.find('.timeline-line:first')
 
-                status = $(this).attr('data-status') ? gov_status
+                status = point.attr('data-status') ? gov_status
 
-                if $(this).hasClass('gov-update')
+                if point.hasClass("today")
+                        after_today = true
+
+                if point.hasClass('gov-update')
                         conflict = false
                         gov_status = status ? gov_status
 
-                if $(this).hasClass('watch-update')
+                if after_today
+                        line.css('border',"none")
+                        line.css('background',"none")
+                else
+                        line.addClass("status-#{gov_status}")
+
+                if point.hasClass('watch-update')
                         if is_good_status(gov_status) != is_good_status(status)
                                 conflict = true
                         if is_good_status(status)
-                                $(this).addClass("watch-status-good")
+                                point.addClass("watch-status-good")
                         else
-                                $(this).addClass("watch-status-bad")
+                                point.addClass("watch-status-bad")
 
-                $(this).addClass("gov-#{gov_status}")
-                if is_good_status(gov_status)
-                        $(this).addClass("gov-status-good")
-                else
-                        $(this).addClass("gov-status-bad")
+                if not after_today
+                        point.addClass("gov-#{gov_status}")
 
-                if conflict
-                        $(this).addClass("conflict")
+                        if is_good_status(gov_status)
+                                point.addClass("gov-status-good")
+                        else
+                                point.addClass("gov-status-bad")
 
-                if $(this).hasClass("today")
-                        after_today = true
+                        if conflict
+                                point.addClass("conflict")
 
-                $(this).find('.implementation-status').addClass("label-#{status}")
-                $(this).find('.implementation-status').html(status_to_hebrew(status))
+                point.find('.implementation-status').addClass("label-#{status}")
+                point.find('.implementation-status').html(status_to_hebrew(status))
+
+
+        $(this).find(".timeline > ul > li").each( ->
+                point = $(this).find('.timeline-point:first')
+                line = $(this).find('.timeline-line:first')
+
+                date = parseInt($(this).attr('data-date-numeric'))
+
+                percent = (max_numeric_date - date) / (max_numeric_date - min_numeric_date)
+                point_size = point.outerHeight()
+                #console.log point_size
+                item_height = available_height * (percent - last_percent) + point_size
+                $(this).css('height',item_height)
+                $(this).css('top',top)
                 last_percent = percent
+                top = top + item_height
         )
+
+        $(this).find(".timeline > ul > li:first > .timeline-line").remove()
+        $(this).find(".timeline > ul > li:first").css('height','3px')
+
+        #console.log "top: #{top}, height: #{height}"
 
         # current status
         implementation_status = $(this).find('.gov-update:last').attr('data-status')
@@ -341,6 +357,24 @@ process_data = ->
                 else
                      $(this).find('.buxa-header').addClass('bad')
 
+
+## Handles the site's data (could be from local storage or freshly loaded)
+process_data = ->
+
+    # process only once
+    if initialized
+       return
+    initialized = true
+
+    # Fill contents to the book selection sidebox
+    for book in all_books
+        $("#books").prepend("<li data-book='#{book}' class='book'><a href='#'>#{book}</a></li>")
+
+    run_templates( "item", items: loaded_data, "#items" )
+
+    $("#items").prepend($("#hero-unit-holder").html())
+    $("#hero-unit-holder").html('')
+
     # Allow the DOM to sync
     await setTimeout((defer _),50)
 
@@ -349,7 +383,7 @@ process_data = ->
     $.Isotope.prototype._positionAbs = ( x, y ) -> { right: x, top: y }
     # initialize Isotope
     $("#items").isotope(
-        itemSelector : '.item'
+        itemSelector : '.isotope-card'
         layoutMode : 'masonry'
         transformsEnabled: false
         filter: ".shown"
@@ -361,6 +395,13 @@ process_data = ->
            comments :  ( e ) ->
                         -parseInt( "0"+e.find('.fb_comments_count').text(), 10 )
     )
+
+    # Let isotope do its magic
+    await setTimeout((defer _),50)
+
+    setup_timeline()
+
+    $(".item").css('visibility','inherit')
 
     setup_searchbox()
 
@@ -382,12 +423,12 @@ process_data = ->
     onhashchange()
 
     # create overview modal
-    modal_options =
-       backdrop: true
-       keyboard: true
-       show: false
-    $("#overview").modal( modal_options )
-    $("#overview-close").click -> $("#overview").modal('hide')
+    #modal_options =
+    #   backdrop: true
+    #   keyboard: true
+    #   show: false
+    #$("#overview").modal( modal_options )
+    #$("#overview-close").click -> $("#overview").modal('hide')
     #update_sort_data = () -> $("#items").isotope( 'updateSortData', $("#items") )
     #FB.XFBML.parse( $("#items").get(0), update_sort_data )
 

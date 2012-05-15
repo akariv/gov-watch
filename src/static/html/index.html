@@ -31,7 +31,7 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item span" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
+<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -76,7 +76,7 @@
     </div>
     
     <div class="purpose">
-    	<h3>מה המטרה?</h3>
+    	<h3>מה מדד התוצאה?</h3>
 	    <p>{{result_metric}}</p>
 	</div>
     
@@ -90,35 +90,45 @@
   <div class="timeline">
     <ul>
       {{#timeline}}
-      <li class="timeline-point milestone {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
-        <div>
-          <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
-	  <p>{{description}}</p>
-	  <small>{{due_date}}: הממשלה</small>
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point milestone {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
+          <div>
+            <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
+	    <p>{{description}}</p>
+	    <small>{{due_date}}: הממשלה</small>
+          </div>
 	</div>    
       </li>
       {{/timeline}}
 {{/base}}
 {{#gov_updates}}
-      <li class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-        <div>
-          <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	  <p>{{implementation_status_text}}</p>
-	  <small>{{update_time}}: הממשלה</small>
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+          <div>
+            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	    <p>{{implementation_status_text}}</p>
+	    <small>{{update_time}}: הממשלה</small>
+	  </div>    
 	</div>    
       </li>
 {{/gov_updates}}
 {{#watch_updates}}
-      <li class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-        <div>
-          <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	  <p>{{implementation_status_text}}</p>
-	  <small>{{update_time}}: {{user}}</small>
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+	  <div>    
+            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	    <p>{{implementation_status_text}}</p>
+	    <small>{{update_time}}: {{user}}</small>
+	  </div>    
 	</div>    
       </li>
 {{/watch_updates}}
-      <li class="timeline-point today">
-        <div>היום</div>
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point today"><div>היום</div></div>
       </li>     
     </ul>
   </div>
@@ -132,7 +142,7 @@
 ---- Single Item starts here:
 ------------------------------------------------->
 	<script type="text/html" name="single-item">
-<div class="detail-item span shown" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
+<div class="detail-item span" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -247,40 +257,40 @@
       </div>
     </div>
     
+        <div id="hero-unit-holder" style="display:none;">
+          <!-- Main hero unit for a primary marketing message or call to action -->
+          <div class="hero-unit span shown isotope-card">
+            <h2><a href="#">המפקח</a>	&larr;</h2>
+            <h1>דו"ח טרכטנברג</h1>
+            <p>מעקב וביקורת אחרי ישום המלצות דו"ח שטרכטנברג בשיתוף המשרד לשיתוף הציבור, הסדנא לידע ציבורי והתאחדות הסטודנטים הארצית</p>
+            <!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
+            <form id="searchbar" action="#">
+              <fieldset id='search'>
+		<input id="searchbox" class="xlarge" type="text" size="30" autocomplete="off" name="xlInput">
+                <!-- 			  <select id="sort" name="normalSelect">
+			                  <option value="chapter">פרק</option>
+			                  <option value="budget">עלות תקציבית</option>
+			                  <option value="recommendation">שם</option>
+			                  <option value="comments">מספר תגובות</option>
+		</select> -->
+	      </fieldset>
+	      <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+	      <h3>סדר לפי:</h3>
+	      <div id="sort" class="btn-group" data-toggle="buttons-radio">
+		<button class="btn active" value="chapter">נושא</button>
+		<button class="btn" value="budget">עלות תקציבית</button>
+		<button class="btn" value="followers">מספר עוקבים</button>
+		<button class="btn" value="comments">מספר תגובות</button>
+	      </div>
+	    </form>
+          </div>
+        </div>
+
       <div class="content">
       
-      
-        <!-- Main hero unit for a primary marketing message or call to action -->
-        <div class="hero-unit">
-          <h2><a href="#">המפקח</a>	&larr;</h2>
-          <h1>דו"ח טרכטנברג</h1>
-          <p>מעקב וביקורת אחרי ישום המלצות דו"ח שטרכטנברג בשיתוף המשרד לשיתוף הציבור, הסדנא לידע ציבורי והתאחדות הסטודנטים הארצית</p>
-          <!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
-          	<form id="searchbar" action="#">
-        		<fieldset id='search'>
-			  <input id="searchbox" class="xlarge" type="text" size="30" autocomplete="off" name="xlInput">
-<!-- 			  <select id="sort" name="normalSelect">
-			    <option value="chapter">פרק</option>
-			    <option value="budget">עלות תקציבית</option>
-			    <option value="recommendation">שם</option>
-			    <option value="comments">מספר תגובות</option>
-			  </select> -->
-			</fieldset>
-			<!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
-			<h3>סדר לפי:</h3>
-			<div id="sort" class="btn-group" data-toggle="buttons-radio">
-				<button class="btn active" value="chapter">נושא</button>
-				<button class="btn" value="budget">עלות תקציבית</button>
-				<button class="btn" value="followers">מספר עוקבים</button>
-				<button class="btn" value="comments">מספר תגובות</button>
-			</div>
-		</form>
-        </div>
-        
-        
         <div id='container'>
           <div id='single-item' class="row"></div>
-          <div id='items' class="row"></div>
+          <div id='items' class="row"></div>        
         </div>
         
         <footer>
