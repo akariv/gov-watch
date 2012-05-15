@@ -44,8 +44,43 @@ body {
   .border-radius(5px 0 0 5px);
   
   h1,h2,h3{color: #DDD;}
+
+  & > .hero-size-control {
+    position:absolute;
+    bottom:10px;
+    left:10px;
+    }
+
+  & > .reduce, & > .summary {
+    display:none;
+    }
+
+  &.expanded {
+
+    & > .reduce { 
+      display:inherit;
+      }
+
+    & > .expand { 
+      display:none;
+      }
+
+    & > .summary {
+      display:inherit;
+      }
+
+    }
+
+  &.explanation {
+    //width: 770px;
+
+    > h2 {
+      float:left;
+      }
+    }
     
 }
+
 
 .highlight {
     background-color: yellow;

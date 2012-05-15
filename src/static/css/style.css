@@ -3731,6 +3731,34 @@ body {
 .well h3 {
   color: #DDD;
 }
+.hero-unit  > .hero-size-control,
+.well  > .hero-size-control {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+.hero-unit  > .reduce,
+.well  > .reduce,
+.hero-unit  > .summary,
+.well  > .summary {
+  display: none;
+}
+.hero-unit.expanded  > .reduce,
+.well.expanded  > .reduce {
+  display: inherit;
+}
+.hero-unit.expanded  > .expand,
+.well.expanded  > .expand {
+  display: none;
+}
+.hero-unit.expanded  > .summary,
+.well.expanded  > .summary {
+  display: inherit;
+}
+.hero-unit.explanation > h2,
+.well.explanation > h2 {
+  float: left;
+}
 .highlight {
   background-color: yellow;
 }
