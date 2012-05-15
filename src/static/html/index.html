@@ -31,7 +31,7 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item isotope-card span" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
+<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -90,35 +90,45 @@
   <div class="timeline">
     <ul>
       {{#timeline}}
-      <li class="timeline-point milestone {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
-        <div>
-          <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
-	  <p>{{description}}</p>
-	  <small>{{due_date}}: הממשלה</small>
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point milestone {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
+          <div>
+            <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
+	    <p>{{description}}</p>
+	    <small>{{due_date}}: הממשלה</small>
+          </div>
 	</div>    
       </li>
       {{/timeline}}
 {{/base}}
 {{#gov_updates}}
-      <li class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-        <div>
-          <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	  <p>{{implementation_status_text}}</p>
-	  <small>{{update_time}}: הממשלה</small>
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+          <div>
+            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	    <p>{{implementation_status_text}}</p>
+	    <small>{{update_time}}: הממשלה</small>
+	  </div>    
 	</div>    
       </li>
 {{/gov_updates}}
 {{#watch_updates}}
-      <li class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-        <div>
-          <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	  <p>{{implementation_status_text}}</p>
-	  <small>{{update_time}}: {{user}}</small>
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+	  <div>    
+            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	    <p>{{implementation_status_text}}</p>
+	    <small>{{update_time}}: {{user}}</small>
+	  </div>    
 	</div>    
       </li>
 {{/watch_updates}}
-      <li class="timeline-point today">
-        <div>היום</div>
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point today"><div>היום</div></div>
       </li>     
     </ul>
   </div>
@@ -132,7 +142,7 @@
 ---- Single Item starts here:
 ------------------------------------------------->
 	<script type="text/html" name="single-item">
-<div class="detail-item span shown" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
+<div class="detail-item span" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
   	
     <div class="tags">
