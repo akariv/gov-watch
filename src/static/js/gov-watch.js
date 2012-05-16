@@ -468,7 +468,7 @@
   };
 
   process_data = function() {
-    var book, ___iced_passed_deferral, __iced_deferrals, _i, _len,
+    var book, explanation_needed, ___iced_passed_deferral, __iced_deferrals, _i, _len,
       _this = this;
     ___iced_passed_deferral = iced.findDeferral(arguments);
     if (initialized) return;
@@ -480,6 +480,22 @@
     run_templates("item", {
       items: loaded_data
     }, "#items");
+    explanation_needed = true;
+    if ((typeof localStorage !== "undefined" && localStorage !== null ? localStorage.explained : void 0) != null) {
+      explanation_needed = false;
+    }
+    $("#items").prepend($("#explanation-holder").html());
+    $("#explanation-holder").html('');
+    $("#explanation").toggleClass('shown', explanation_needed);
+    $("#clear-explanation").click(function() {
+      if (typeof localStorage !== "undefined" && localStorage !== null) {
+        localStorage.explained = true;
+      }
+      $("#explanation").removeClass('shown');
+      return $("#items").isotope({
+        filter: ".shown"
+      });
+    });
     $("#items").prepend($("#hero-unit-holder").html());
     $("#hero-unit-holder").html('');
     (function(__iced_k) {
@@ -494,7 +510,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 378
+        lineno: 392
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -536,7 +552,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 399
+          lineno: 413
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -547,12 +563,19 @@
           selected_book = $(this).html();
           return update_history();
         });
-        $("#sort").change(function() {
+        $("#sort button").click(function() {
           var sort_measure;
-          sort_measure = $("#sort").val();
+          $("#sort button").removeClass('active');
+          $(this).addClass('active');
+          sort_measure = $(this).attr('value');
           return $("#items").isotope({
             sortBy: sort_measure
           });
+        });
+        $(".hero-unit .hero-size-control").click(function() {
+          $(".hero-unit").toggleClass("expanded");
+          $("#items").isotope('reLayout');
+          return false;
         });
         window.onhashchange = onhashchange;
         return onhashchange();
@@ -639,7 +662,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 495
+          lineno: 519
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

@@ -372,6 +372,20 @@ process_data = ->
 
     run_templates( "item", items: loaded_data, "#items" )
 
+    # Explanation unit
+    explanation_needed = true
+    if localStorage?.explained?
+        explanation_needed = false
+
+    $("#items").prepend($("#explanation-holder").html())
+    $("#explanation-holder").html('')
+    $("#explanation").toggleClass('shown',explanation_needed)
+
+    $("#clear-explanation").click ->
+        localStorage?.explained = true
+        $("#explanation").removeClass('shown')
+        $("#items").isotope({filter: ".shown"})
+
     $("#items").prepend($("#hero-unit-holder").html())
     $("#hero-unit-holder").html('')
 
@@ -411,12 +425,22 @@ process_data = ->
         update_history()
 
     # sidebox sort init
-    $("#sort").change ->
-        sort_measure = $("#sort").val()
+    $("#sort button").click ->
+        $("#sort button").removeClass('active')
+        $(this).addClass('active')
+        sort_measure = $(this).attr('value')
         $("#items").isotope({ sortBy: sort_measure })
 
     # item click handler
     # $(".item").click -> update_history($(this).attr('rel'))
+
+    # hero unit expansion
+    $(".hero-unit .hero-size-control").click( ->
+        $(".hero-unit").toggleClass("expanded")
+        $("#items").isotope('reLayout')
+        false
+        )
+
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange

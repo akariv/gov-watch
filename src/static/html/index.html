@@ -31,7 +31,7 @@
 
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
+<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -239,10 +239,8 @@
 </div>
     </script>
 
-
-
-</head>
-<body>
+  </head>
+  <body>
 
     <div class="navbar">
       <div class="navbar-inner">
@@ -257,59 +255,66 @@
       </div>
     </div>
     
-        <div id="hero-unit-holder" style="display:none;">
-          <!-- Main hero unit for a primary marketing message or call to action -->
-          <div class="hero-unit span shown isotope-card">
-            <h2><a href="#">המפקח</a>	&larr;</h2>
-            <h1>דו"ח טרכטנברג</h1>
-            <p>מעקב וביקורת אחרי ישום המלצות דו"ח שטרכטנברג בשיתוף המשרד לשיתוף הציבור, הסדנא לידע ציבורי והתאחדות הסטודנטים הארצית</p>
-            <!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
-            <form id="searchbar" action="#">
-              <fieldset id='search'>
-		<input id="searchbox" class="xlarge" type="text" size="30" autocomplete="off" name="xlInput">
-                <!-- 			  <select id="sort" name="normalSelect">
-			                  <option value="chapter">פרק</option>
-			                  <option value="budget">עלות תקציבית</option>
-			                  <option value="recommendation">שם</option>
-			                  <option value="comments">מספר תגובות</option>
-		</select> -->
-	      </fieldset>
-	      <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
-	      <h3>סדר לפי:</h3>
-	      <div id="sort" class="btn-group" data-toggle="buttons-radio">
-		<button class="btn active" value="chapter">נושא</button>
-		<button class="btn" value="budget">עלות תקציבית</button>
-		<button class="btn" value="followers">מספר עוקבים</button>
-		<button class="btn" value="comments">מספר תגובות</button>
-	      </div>
-	    </form>
-          </div>
+    <div id="hero-unit-holder" style="display:none;">
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit span shown isotope-card" cost="9999999">
+        <h2><a href="#">המפקח</a>	&larr;</h2>
+        <h1>דו"ח טרכטנברג</h1>
+        <p>מעקב וביקורת אחרי ישום המלצות דו"ח שטרכטנברג בשיתוף המשרד לשיתוף הציבור, הסדנא לידע ציבורי והתאחדות הסטודנטים הארצית</p>
+        <!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
+        <form id="searchbar" action="#">
+          <fieldset id='search'>
+	    <input id="searchbox" class="xlarge" type="text" size="30" autocomplete="off" name="xlInput">
+	  </fieldset>
+	  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+	  <h3>סדר לפי:</h3>
+	  <div id="sort" class="btn-group" data-toggle="buttons-radio">
+	    <button class="btn" value="recommendation">כותרת</button>
+	    <button class="btn" value="budget">עלות תקציבית</button>
+	    <button class="btn" value="followers">מספר עוקבים</button>
+	    <button class="btn" value="comments">מספר תגובות</button>
+	  </div>
+	</form>
+        <a class="hero-size-control expand" href="#"><i class="icon-chevron-down icon-white"></i></a>
+        <a class="hero-size-control reduce" href="#"><i class="icon-chevron-up icon-white"></i></a>
+        <div class="summary">
+          <p>X המלצות בסה"כ, מתוכן Y עברו ו-Z תקועות.</p>
         </div>
-
-      <div class="content">
-      
-        <div id='container'>
-          <div id='single-item' class="row"></div>
-          <div id='items' class="row"></div>        
-        </div>
-        
-        <footer>
-          <p>חלק מהזכויות שמורות | הסדנא לידע ציבורי 2012</p>
-        </footer>
-        
       </div>
     </div>
-    
-    <div id="fb-root"></div>
-    <!-- JS -->
-    <script type='text/javascript' src='static/js/jquery.min.js'></script>
-    <script type='text/javascript' src='static/bootstrap/js/bootstrap.js'></script>
-    <script type='text/javascript' src='static/js/mustache.js'></script>
-    <script type='text/javascript' src='static/js/jquery.isotope.min.js'></script>
-    <script type='text/javascript' src='static/js/jquery.scrollintoview.min.js'></script>
-    <script type='text/javascript' src='static/js/jquery.tinysort.min.js'></script>
-    <script type='text/javascript' src='static/js/gov-watch.js'></script>
-    <script type='text/javascript' src='//connect.facebook.net/he_IL/all.js#xfbml=1&appId=161102067336024'></script>
-    
+
+    <div id="explanation-holder" style="display:none;">
+      <div id='explanation' class='hero-unit explanation span shown isotope-card' cost="9999998">
+        <p>כאן יבוא הסבר כללי על האתר ועל מטרותיו</p>
+        <h2>&larr;	<a id="clear-explanation" href="#">אוקיי, הבנתי!</a></h2>
+      </div>
+    </div>
+
+    <div class="content">
+      
+      <div id='container'>
+        <div id='single-item' class="row"></div>
+        <div id='items' class="row">
+        </div>        
+      </div>
+      
+      <footer>
+        <p>חלק מהזכויות שמורות | הסדנא לידע ציבורי 2012</p>
+      </footer>
+      
+    </div>
+</div>
+
+<div id="fb-root"></div>
+<!-- JS -->
+<script type='text/javascript' src='static/js/jquery.min.js'></script>
+<script type='text/javascript' src='static/bootstrap/js/bootstrap.js'></script>
+<script type='text/javascript' src='static/js/mustache.js'></script>
+<script type='text/javascript' src='static/js/jquery.isotope.min.js'></script>
+<script type='text/javascript' src='static/js/jquery.scrollintoview.min.js'></script>
+<script type='text/javascript' src='static/js/jquery.tinysort.min.js'></script>
+<script type='text/javascript' src='static/js/gov-watch.js'></script>
+<script type='text/javascript' src='//connect.facebook.net/he_IL/all.js#xfbml=1&appId=161102067336024'></script>
+
 </body>
 </html>
