@@ -16,16 +16,41 @@ SEARCHTERM = 't'
 
 status_filter = null
 
+slugify = (str) ->
+        str2 = ""
+        if str == ""
+                return ""
+        for x in [0..str.length-1]
+                ch = str.charAt(x)
+                co = str.charCodeAt(x)
+                if co >= 0x5d0 and co < 0x600
+                        co = co - 0x550
+                if co < 256
+                        str2+=(co+0x100).toString(16).substr(-2).toUpperCase();
+        str2
+
+unslugify = (str) ->
+        str2 = ""
+        if str == ""
+                return ""
+        for x in [0..(str.length/2)-1]
+                ch = str[x*2..x*2+1]
+                ch = parseInt(ch,16)
+                if ch >= 128
+                        ch += 0x550
+                str2 = str2 + String.fromCharCode(ch)
+        str2
+
 ## Generate hash for current state
 generate_hash = ( selected_book, search_term, slug ) ->
    if slug
-      "!z=#{BOOK}:#{selected_book}|#{SLUG}:#{slug}"
+      "!z=#{BOOK}:#{slugify(selected_book)}|#{SLUG}:#{slug}"
    else
-      "!z=#{BOOK}:#{selected_book}|#{SEARCHTERM}:#{search_term}"
+      "!z=#{BOOK}:#{slugify(selected_book)}|#{SEARCHTERM}:#{slugify(search_term)}"
 
 ## Generate a fully qualified url for a given slug
 generate_url = (slug) ->
-    "http://#{window.location.host}/##{generate_hash( "", "", slug )}"
+    "http://#{window.location.host}/##{generate_hash( selected_book, "", slug )}"
 
 ## Change page's hash - this is the way we keep (and update) our current state
 update_history = (slug) ->
@@ -54,11 +79,11 @@ onhashchange = ->
    for part in splits
        [ key, value ] = part.split(":")
        if key == BOOK
-          selected_book = value
+          selected_book = unslugify(value)
        if key == SLUG
           slug = value
        if key == SEARCHTERM
-          search_term = value
+          search_term = unslugify(value)
 
    if not selected_book and not slug
        # fix hash to be of the correct form
@@ -381,11 +406,17 @@ setup_summary = ->
         fixed = $(".item.shown[data-implementation-status='FIXED']").size()
         workaround = $(".item.shown[data-implementation-status='WORKAROUND']").size()
         irrelevant = $(".item.shown[data-implementation-status='IRRELEVANT']").size()
-        data =
-                total : total
-                stuck : news + workaround + stuck
-                implemented : fixed + irrelevant
-                in_progress : in_progress
+        data = {}
+        if total
+                data.total = total
+        stuck = news + workaround + stuck
+        if stuck
+                data.stuck = stuck
+        implemented = fixed + irrelevant
+        if implemented
+                data.implemented = implemented
+        if in_progress
+                data.in_progress = in_progress
         run_templates( "summary", data, "#summary" )
 
         $("#summary .total").click ->
@@ -427,8 +458,8 @@ process_data = ->
 
     $("#clear-explanation").click ->
         localStorage?.explained = true
-        $("#explanation").removeClass('shown')
-        $("#items").isotope({filter: ".shown"})
+        $("#explanation").removeClass('always-shown')
+        do_search()
 
     $("#items").prepend($("#hero-unit-holder").html())
     $("#hero-unit-holder").html('')
@@ -446,7 +477,7 @@ process_data = ->
         transformsEnabled: false
         filter: ".shown"
         getSortData :
-           chapter :  ( e ) -> e.find('.chapter-text').text()
+           followers:  ( e ) -> -parseInt( "0"+e.find('.watch').text() )
            recommendation :  ( e ) -> e.find('.recommendation-text').text()
            budget :  ( e ) ->
                         -parseInt( "0"+e.attr('cost'), 10 )

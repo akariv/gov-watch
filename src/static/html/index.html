@@ -251,8 +251,19 @@
 *******************************
 -->
 <script type="text/html" name="summary">
-  <p> <a class="total">{{total}}</a> המלצות בסה"כ, מתוכן <a class="implemented">{{implemented}}</a> בוצעו במלואן, 
-      <a class="in_progress">{{in_progress}}</a> בתהליך ביצוע ו-<a class="stuck">{{stuck}}</a> תקועות בדרך.</p>
+  <p> {{#total}}<a class="total">{{total}}</a> המלצות בסה"כ, מתוכן 
+                {{#implemented}}<a class="implemented">{{implemented}}</a><span> בוצעו במלואן</span>
+                                {{^in_progress}}{{^stuck}}.{{/stuck}}{{/in_progress}}
+                                {{#in_progress}}{{^stuck}} ו-{{/stuck}}{{/in_progress}}
+                                {{^in_progress}}{{#stuck}} ו-{{/stuck}}{{/in_progress}}
+                                {{#in_progress}}{{#stuck}},{{/stuck}}{{/in_progress}}
+                {{/implemented}} 
+                {{#in_progress}}<a class="in_progress">{{in_progress}}</a><span> בתהליך ביצוע</span>
+                                {{#stuck}} ו-{{/stuck}}
+                                {{^stuck}}.{{/stuck}}   
+                {{/in_progress}}
+                {{#stuck}}<a class="stuck">{{stuck}}</a> תקועות בדרך.{{/stuck}}
+       {{/total}}</p>
 </script>
 
 <script type="text/javascript">
