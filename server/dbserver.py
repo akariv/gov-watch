@@ -137,5 +137,6 @@ if __name__=="__main__":
     r.set("everything",everything)
     data = json.loads(everything)
     for x in data:
-        r.set("slug:%s" % x["slug"],json.dumps(x.setdefault('subscribers',0),indent=0))
+        x.setdefault('subscribers',0)
+        r.set("slug:%s" % x["slug"],json.dumps(x,indent=0))
     app.run()
