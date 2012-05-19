@@ -29,9 +29,13 @@
 	    </ul>
     </script>
 
+<!-- 
+*********************
+ Small Card Template
+********************* -->
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}" implementation-status="{{implementation_status}}">
+<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -81,7 +85,7 @@
 	</div>
     
 	<div class="tools">
-	    <a href="#" class="watch">watch</a>
+	    <a href="#" class="watch">{{subscribers}}</a>
    		<a href="#" class="linkcount">{{num_links}}</a>
 	    <a href="#" class="commentcount"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
 	</div>
@@ -138,9 +142,11 @@
 {{/items}}
 </script><!-- End list view -->
     
-<!------------------------------------------------
----- Single Item starts here:
-------------------------------------------------->
+<!--
+*******************************
+ Detail view template
+*******************************
+-->
 	<script type="text/html" name="single-item">
 <div class="detail-item span" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
   <div class="item-body">
@@ -239,6 +245,29 @@
 </div>
     </script>
 
+<!--
+*******************************
+ Summary template
+*******************************
+-->
+<script type="text/html" name="summary">
+  <p> <a class="total">{{total}}</a> המלצות בסה"כ, מתוכן <a class="implemented">{{implemented}}</a> בוצעו במלואן, 
+      <a class="in_progress">{{in_progress}}</a> בתהליך ביצוע ו-<a class="stuck">{{stuck}}</a> תקועות בדרך.</p>
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10203855-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
   </head>
   <body>
 
@@ -257,10 +286,10 @@
     
     <div id="hero-unit-holder" style="display:none;">
       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit span shown isotope-card" cost="9999999">
+      <div class="hero-unit span always-shown isotope-card expanded" cost="9999999">
         <h2><a href="#">המפקח</a>	&larr;</h2>
         <h1>דו"ח טרכטנברג</h1>
-        <p>מעקב וביקורת אחרי ישום המלצות דו"ח שטרכטנברג בשיתוף המשרד לשיתוף הציבור, הסדנא לידע ציבורי והתאחדות הסטודנטים הארצית</p>
+        <p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי</p>
         <!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
         <form id="searchbar" action="#">
           <fieldset id='search'>
@@ -277,14 +306,13 @@
 	</form>
         <a class="hero-size-control expand" href="#"><i class="icon-chevron-down icon-white"></i></a>
         <a class="hero-size-control reduce" href="#"><i class="icon-chevron-up icon-white"></i></a>
-        <div class="summary">
-          <p>X המלצות בסה"כ, מתוכן Y עברו ו-Z תקועות.</p>
+        <div id="summary" class="summary">
         </div>
       </div>
     </div>
 
     <div id="explanation-holder" style="display:none;">
-      <div id='explanation' class='hero-unit explanation span shown isotope-card' cost="9999998">
+      <div id='explanation' class='hero-unit explanation span isotope-card' cost="9999998">
         <p>כאן יבוא הסבר כללי על האתר ועל מטרותיו</p>
         <h2>&larr;	<a id="clear-explanation" href="#">אוקיי, הבנתי!</a></h2>
       </div>

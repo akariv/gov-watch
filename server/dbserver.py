@@ -39,12 +39,34 @@ def version():
     resp.cache_control.no_cache = True
     return resp
 
+@app.route('/subscribe/<slug>', methods=['POST'])
+def subscribe():
+    email = request.form["email"]
+    key = "slug:%s" % slug
+    if r.exists(key):
+        skey = "subscribe:%s" % key
+        r.sadd(skey ,[email])
+        rec = json.loads(r.get(key))
+        rec["subscribers"] = r.scard(skey)
+        r.set(key,json.dumps(rec,indent=0))
+
+@app.route('/unsubscribe/<slug>', methods=['POST'])
+def unsubscribe():
+    email = request.form["email"]
+    key = "slug:%s" % slug
+    if r.exists(key):
+        skey = "subscribe:%s" % key
+        r.srem(skey ,[email])
+        rec = json.loads(r.get(key))
+        rec["subscribers"] = r.scard(skey)
+        r.set(key,json.dumps(rec,indent=0))
+
 @app.route("/api/<slug>", methods=['GET'])
 def getitem(slug):
-    return Response(response=r.get(slug), content_type="application/json")
+    return Response(response=r.get("slug:%s" % slug), content_type="application/json")
 
 def update_everything(slug):
-    newrec = r.get(slug)
+    newrec = r.get("slug:%s" % slug)
     newrec = json.loads(newrec)
 
     everything = r.get("everything")
@@ -77,11 +99,11 @@ def setbaseinfo(slug):
     baseinfo = request.form["data"]
     baseinfo = json.loads(baseinfo) 
 
-    currentrec = r.get(slug)
+    currentrec = r.get("slug:%s" % slug)
     currentrec = json.loads(currentrec)
     currentrec['base'] = baseinfo
     currentrec = json.dumps(currentrec,indent=0)
-    r.set(slug,currentrec)
+    r.set("slug:%s" % slug,currentrec)
 
     update_everything(slug)
 
@@ -98,11 +120,11 @@ def doupdate(slug):
     update = json.loads(update)
     update['update_time'] = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
-    currentrec = r.get(slug)
+    currentrec = r.get("slug:%s" % slug)
     currentrec = json.loads(currentrec)
     currentrec.setdefault('updates',{}).setdefault(user,[]).insert(0,update)
     currentrec = json.dumps(currentrec,indent=0)
-    r.set(slug,currentrec)
+    r.set("slug:%s" % slug,currentrec)
 
     update_everything(slug)
 
@@ -115,5 +137,5 @@ if __name__=="__main__":
     r.set("everything",everything)
     data = json.loads(everything)
     for x in data:
-        r.set(x["slug"],json.dumps(x,indent=0))
+        r.set("slug:%s" % x["slug"],json.dumps(x.setdefault('subscribers',0),indent=0))
     app.run()
