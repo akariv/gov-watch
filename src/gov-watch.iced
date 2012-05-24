@@ -266,10 +266,17 @@ setup_timeline = ->
         has_unknowns = false
         $(this).find(".timeline > ul > li").each( ->
                 date = $(this).find('.timeline-point:first').attr('data-date')
-                date = date.split(' ')[0].split('/')
+                date = date.split(' ')
+                if (date.length > 1)
+                        time = date[1]
+                else
+                        time = "00:00:00"
+                date = date[0].split('/')
+                time = time.split(':')
                 [year,month,day] = (parseInt(d,10) for d in date)
-                numeric_date = (year * 372) + ((month-1) * 31) + (day-1)
-                if isNaN(numeric_date)
+                [hour,min,second] = (parseInt(t,10) for t in time)
+                numeric_date = (year * 372) + ((month-1) * 31) + (day-1) + hour/24.0 + min/(24.0*60) + second/(24*60*60.0)
+                if isNaN(numeric_date) or (year == 1970)
                         numeric_date = "xxx"
                         has_unknowns = true
                 else
@@ -318,7 +325,7 @@ setup_timeline = ->
         top = 0
 
         conflict = false
-        after_today = false
+        remove_line = false
 
         timeline_items = $(this).find(".timeline > ul > li")
         for i in [timeline_items.size()-1..0]
@@ -328,28 +335,7 @@ setup_timeline = ->
 
                 status = point.attr('data-status') ? gov_status
 
-                if point.hasClass("today")
-                        after_today = true
-
-                if point.hasClass('gov-update')
-                        conflict = false
-                        gov_status = status ? gov_status
-
-                if after_today
-                        line.css('border',"none")
-                        line.css('background',"none")
-                else
-                        line.addClass("status-#{gov_status}")
-
-                if point.hasClass('watch-update')
-                        if is_good_status(gov_status) != is_good_status(status)
-                                conflict = true
-                        if is_good_status(status)
-                                point.addClass("watch-status-good")
-                        else
-                                point.addClass("watch-status-bad")
-
-                if not after_today
+                if not remove_line
                         point.addClass("gov-#{gov_status}")
 
                         if is_good_status(gov_status)
@@ -359,6 +345,29 @@ setup_timeline = ->
 
                         if conflict
                                 point.addClass("conflict")
+
+                if point.hasClass("today") or gov_status == "FIXED" or gov_status == "IRRELEVANT"
+                        remove_line = true
+
+                if point.hasClass('gov-update')
+                        conflict = false
+                        gov_status = status ? gov_status
+
+                if remove_line
+                        line.css('border',"none")
+                        line.css('background',"none")
+                else
+                        line.addClass("status-#{gov_status}")
+                        timeline_items.find(".timeline-line").removeClass("unreported")
+                        line.addClass("unreported")
+
+                if point.hasClass('watch-update')
+                        if is_good_status(gov_status) != is_good_status(status)
+                                conflict = true
+                        if is_good_status(status)
+                                point.addClass("watch-status-good")
+                        else
+                                point.addClass("watch-status-bad")
 
                 point.find('.implementation-status').addClass("label-#{status}")
                 point.find('.implementation-status').html(status_to_hebrew(status))
