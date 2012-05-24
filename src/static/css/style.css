@@ -3784,6 +3784,17 @@ body {
   padding: 5px;
   height: 40px;
 }
+#search button {
+  border: 0 none;
+  height: 20px;
+  left: 40px;
+  margin-top: 16px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: -2000%;
+  width: 20px;
+  background: url('/static/img/clear-search.png');
+}
 #sort .btn {
   font-size: 16px;
 }
