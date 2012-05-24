@@ -40,8 +40,9 @@ body {
   background: rgba(0, 0, 0, 0.3);
   padding: 30px;
   color: #DDD;
-  width: 350px;
-  .border-radius(5px 0 0 5px);
+  width: 345px;
+  
+  .border-radius(5px);
   
   h1,h2,h3{color: #DDD;}
 
@@ -70,6 +71,11 @@ body {
       }
 
     }
+    
+  .btn-group{
+    width: 350px;
+    margin-bottom: 30px;
+  }
 
   &.explanation {
     //width: 770px;
@@ -102,7 +108,7 @@ body {
     }
     
     input{
-      width: 329px;
+      width: 335px;
       font-size: 30px;
       line-height: 40px;
       padding: 5px;
@@ -229,7 +235,7 @@ body {
     > ul {
       position: absolute;
       top: 20px;
-      bottom: 20px;
+      //bottom: 20px;
       list-style: none outside none;
       margin: 20px 45px;
       width: 3px;
@@ -239,19 +245,28 @@ body {
       > li {
 
         > .timeline-point {
-          width: 5px;
-          height: 5px;
+          width: 9px;
+          height: 9px;
           position:relative;
           top: -5px;
-          border: 5px @card solid;
+          background: @card;
+          border: 3px solid @cardshade; 
+          
           .border-radius(13px);
-          background: @cardshade;
-          margin-right: -7px;
+          margin-right: -6px;
           z-index:10;
+          
+          &.watch-status-good
+          ,&.gov-status-good
+          ,&.watch-status-bad
+          ,&.gov-status-bad{
+            width: 15px; height: 15px;
+            border: 0;
+          } 
           
           &.watch-status-good,
           &.gov-status-good {
-            background: @card;
+            background: @good;
             border-color: @good;
             }
           &.watch-status-bad,
@@ -260,39 +275,73 @@ body {
             border-color: @bad;
             }
           
+          &.start,
+          &.gov-status-bad {
+            background: @bad;
+            }
+          
+          &.gov-FIXED
+          {
+            background: @good url("/static/img/point-complete.png") no-repeat;
+          }
+          
+          &.gov-NEW{
+            background: @bad url("/static/img/point-waiting.png") no-repeat;
+          }
+          
+          &.gov-IN_PROGRESS{
+            background: @good url("/static/img/point-waiting.png") no-repeat;
+          }
+          
+          &.gov-WORKAROUND{
+            background: @bad url("/static/img/point-workaround.png") no-repeat;
+          }
+          
           &.today,
           &.start,
           &.completion {
-            background: @cardshade;
+            //background: @cardshade;
             border: 5px solid @card;
             height: 5px;
-            width: 20px;
-            margin: -2px -14px;
+            width: 19px;
+            margin: -2px -13px;
             height: 3px;
             .border-radius(3px);
             > div {
-              top: -8px;
+              top: -4px;
               }
             }
+            
           &.today { 
-            background: @card;
-            border-width: 1px;
-            width: 28px;
-            border-color: @card;
+            top: 0;
+            border-width: 0;
+            height: 7px;
+            width: 7px;
+            margin: 0 -2px;
+            background: @bad;
+            
+            > div{
+              left: 20px;
+              width: 25px;
+              font-size: 0.9em;
+              color: @card;
+              border-color: @bad;
+              background: @bad;
+              padding: 0 3px;
+              &:after{
+                border-right-color: @bad;
+                }
+              }
             }
-          &.start {
-            background: @cardshade;
-            border-color: @card;
-            }
-          
+            
           > div {
             z-index: 10;
             display: none;
             position: absolute;
             width: 300px;
             color: @lighttext;
-            left: 20px;
-            top: -3px;
+            left: 24px;
+            top: 0px;
             line-height: 20px;
             border: 3px solid @good;
             .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 
@@ -349,17 +398,22 @@ body {
               height: 0;
               left: -8px;
               position: absolute;
-              top: 1px;
+              top: -2px;
               width: 0;
               }
             }
           
-          &.bad > div{
-            border: 3px solid darken(@good, 10%); 
-            background: @good;
+          &.gov-status-bad > div
+          ,&.watch-status-bad > div{
+            border: 3px solid @bad; 
+            //background: @good;
+            
+            small{
+              color: fadeout(@bad, 20%);
+            }
             
             &:after{
-              border-right: 5px solid darken(@good, 10%);
+              border-right: 5px solid @bad;
               }
             }
           
@@ -370,12 +424,12 @@ body {
         
         > .timeline-line {
           background: @bad;
-          border: 5px solid @card;
+          //border: 5px solid @card;
           border-bottom: none;
           //position: absolute;
           height:100%;
-          width: 4px;
-          margin-right: -6px;
+          width: 3px;
+          //margin-right: -5px;
           
           &.status-IN_PROGRESS,
           &.status-FIXED,
@@ -388,6 +442,8 @@ body {
         }
       }
     }
+    
+   
   
   .breadcrumb{
     border: 0;

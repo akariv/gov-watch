@@ -3718,10 +3718,10 @@ body {
   background: rgba(0, 0, 0, 0.3);
   padding: 30px;
   color: #DDD;
-  width: 350px;
-  -webkit-border-radius: 5px 0 0 5px;
-  -moz-border-radius: 5px 0 0 5px;
-  border-radius: 5px 0 0 5px;
+  width: 345px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 .hero-unit h1,
 .well h1,
@@ -3755,6 +3755,11 @@ body {
 .well.expanded  > .summary {
   display: inherit;
 }
+.hero-unit .btn-group,
+.well .btn-group {
+  width: 350px;
+  margin-bottom: 30px;
+}
 .hero-unit.explanation > h2,
 .well.explanation > h2 {
   float: left;
@@ -3773,7 +3778,7 @@ body {
   padding-left: 0;
 }
 #search input {
-  width: 329px;
+  width: 335px;
   font-size: 30px;
   line-height: 40px;
   padding: 5px;
@@ -3888,28 +3893,35 @@ body {
 .item .timeline > ul {
   position: absolute;
   top: 20px;
-  bottom: 20px;
   list-style: none outside none;
   margin: 20px 45px;
   width: 3px;
   border: #fffcd9 solid 5px;
 }
 .item .timeline > ul > li > .timeline-point {
-  width: 5px;
-  height: 5px;
+  width: 9px;
+  height: 9px;
   position: relative;
   top: -5px;
-  border: 5px #fffcd9 solid;
+  background: #fffcd9;
+  border: 3px solid #e4daac;
   -webkit-border-radius: 13px;
   -moz-border-radius: 13px;
   border-radius: 13px;
-  background: #e4daac;
-  margin-right: -7px;
+  margin-right: -6px;
   z-index: 10;
 }
 .item .timeline > ul > li > .timeline-point.watch-status-good,
+.item .timeline > ul > li > .timeline-point.gov-status-good,
+.item .timeline > ul > li > .timeline-point.watch-status-bad,
+.item .timeline > ul > li > .timeline-point.gov-status-bad {
+  width: 15px;
+  height: 15px;
+  border: 0;
+}
+.item .timeline > ul > li > .timeline-point.watch-status-good,
 .item .timeline > ul > li > .timeline-point.gov-status-good {
-  background: #fffcd9;
+  background: #6ba688;
   border-color: #6ba688;
 }
 .item .timeline > ul > li > .timeline-point.watch-status-bad,
@@ -3917,14 +3929,29 @@ body {
   background: #fffcd9;
   border-color: #f0776d;
 }
+.item .timeline > ul > li > .timeline-point.start,
+.item .timeline > ul > li > .timeline-point.gov-status-bad {
+  background: #f0776d;
+}
+.item .timeline > ul > li > .timeline-point.gov-FIXED {
+  background: #6ba688 url("/static/img/point-complete.png") no-repeat;
+}
+.item .timeline > ul > li > .timeline-point.gov-NEW {
+  background: #f0776d url("/static/img/point-waiting.png") no-repeat;
+}
+.item .timeline > ul > li > .timeline-point.gov-IN_PROGRESS {
+  background: #6ba688 url("/static/img/point-waiting.png") no-repeat;
+}
+.item .timeline > ul > li > .timeline-point.gov-WORKAROUND {
+  background: #f0776d url("/static/img/point-workaround.png") no-repeat;
+}
 .item .timeline > ul > li > .timeline-point.today,
 .item .timeline > ul > li > .timeline-point.start,
 .item .timeline > ul > li > .timeline-point.completion {
-  background: #e4daac;
   border: 5px solid #fffcd9;
   height: 5px;
-  width: 20px;
-  margin: -2px -14px;
+  width: 19px;
+  margin: -2px -13px;
   height: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -3933,17 +3960,27 @@ body {
 .item .timeline > ul > li > .timeline-point.today > div,
 .item .timeline > ul > li > .timeline-point.start > div,
 .item .timeline > ul > li > .timeline-point.completion > div {
-  top: -8px;
+  top: -4px;
 }
 .item .timeline > ul > li > .timeline-point.today {
-  background: #fffcd9;
-  border-width: 1px;
-  width: 28px;
-  border-color: #fffcd9;
+  top: 0;
+  border-width: 0;
+  height: 7px;
+  width: 7px;
+  margin: 0 -2px;
+  background: #f0776d;
 }
-.item .timeline > ul > li > .timeline-point.start {
-  background: #e4daac;
-  border-color: #fffcd9;
+.item .timeline > ul > li > .timeline-point.today > div {
+  left: 20px;
+  width: 25px;
+  font-size: 0.9em;
+  color: #fffcd9;
+  border-color: #f0776d;
+  background: #f0776d;
+  padding: 0 3px;
+}
+.item .timeline > ul > li > .timeline-point.today > div:after {
+  border-right-color: #f0776d;
 }
 .item .timeline > ul > li > .timeline-point > div {
   z-index: 10;
@@ -3951,8 +3988,8 @@ body {
   position: absolute;
   width: 300px;
   color: #847d6b;
-  left: 20px;
-  top: -3px;
+  left: 24px;
+  top: 0px;
   line-height: 20px;
   border: 3px solid #6ba688;
   -webkit-box-shadow: 0px 0px 10px rgba(50, 50, 50, 0.4);
@@ -4007,26 +4044,29 @@ body {
   height: 0;
   left: -8px;
   position: absolute;
-  top: 1px;
+  top: -2px;
   width: 0;
 }
-.item .timeline > ul > li > .timeline-point.bad > div {
-  border: 3px solid #538b6f;
-  background: #6ba688;
+.item .timeline > ul > li > .timeline-point.gov-status-bad > div,
+.item .timeline > ul > li > .timeline-point.watch-status-bad > div {
+  border: 3px solid #f0776d;
 }
-.item .timeline > ul > li > .timeline-point.bad > div:after {
-  border-right: 5px solid #538b6f;
+.item .timeline > ul > li > .timeline-point.gov-status-bad > div small,
+.item .timeline > ul > li > .timeline-point.watch-status-bad > div small {
+  color: rgba(240, 119, 109, 0.8);
+}
+.item .timeline > ul > li > .timeline-point.gov-status-bad > div:after,
+.item .timeline > ul > li > .timeline-point.watch-status-bad > div:after {
+  border-right: 5px solid #f0776d;
 }
 .item .timeline > ul > li > .timeline-point:hover > div {
   display: block;
 }
 .item .timeline > ul > li > .timeline-line {
   background: #f0776d;
-  border: 5px solid #fffcd9;
   border-bottom: none;
   height: 100%;
-  width: 4px;
-  margin-right: -6px;
+  width: 3px;
 }
 .item .timeline > ul > li > .timeline-line.status-IN_PROGRESS,
 .item .timeline > ul > li > .timeline-line.status-FIXED,
