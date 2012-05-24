@@ -14,16 +14,43 @@ BOOK = 'b'
 SLUG = 's'
 SEARCHTERM = 't'
 
+status_filter = null
+
+slugify = (str) ->
+        str2 = ""
+        if str == ""
+                return ""
+        for x in [0..str.length-1]
+                ch = str.charAt(x)
+                co = str.charCodeAt(x)
+                if co >= 0x5d0 and co < 0x600
+                        co = co - 0x550
+                if co < 256
+                        str2+=(co+0x100).toString(16).substr(-2).toUpperCase();
+        str2
+
+unslugify = (str) ->
+        str2 = ""
+        if str == ""
+                return ""
+        for x in [0..(str.length/2)-1]
+                ch = str[x*2..x*2+1]
+                ch = parseInt(ch,16)
+                if ch >= 128
+                        ch += 0x550
+                str2 = str2 + String.fromCharCode(ch)
+        str2
+
 ## Generate hash for current state
 generate_hash = ( selected_book, search_term, slug ) ->
    if slug
-      "!z=#{BOOK}:#{selected_book}|#{SEARCHTERM}:#{search_term}|#{SLUG}:#{slug}"
+      "!z=#{BOOK}:#{slugify(selected_book)}|#{SLUG}:#{slug}"
    else
-      "!z=#{BOOK}:#{selected_book}|#{SEARCHTERM}:#{search_term}"
+      "!z=#{BOOK}:#{slugify(selected_book)}|#{SEARCHTERM}:#{slugify(search_term)}"
 
 ## Generate a fully qualified url for a given slug
 generate_url = (slug) ->
-    "http://#{window.location.host}/##{generate_hash( "", "", "", slug )}"
+    "http://#{window.location.host}/##{generate_hash( selected_book, "", slug )}"
 
 ## Change page's hash - this is the way we keep (and update) our current state
 update_history = (slug) ->
@@ -38,8 +65,9 @@ set_fb_title = (title) ->
 onhashchange = ->
 
    # read the hash, discard first '#!z='
-   hash = window.location.hash
-   hash = hash[4...hash.length]
+   fullhash = window.location.hash
+
+   hash = fullhash[4...fullhash.length]
 
    # hash is separated to key=value parts
    splits = hash.split("|")
@@ -51,11 +79,11 @@ onhashchange = ->
    for part in splits
        [ key, value ] = part.split(":")
        if key == BOOK
-          selected_book = value
+          selected_book = unslugify(value)
        if key == SLUG
           slug = value
        if key == SEARCHTERM
-          search_term = value
+          search_term = unslugify(value)
 
    if not selected_book and not slug
        # fix hash to be of the correct form
@@ -81,6 +109,9 @@ onhashchange = ->
         selected_slug = null
         select_item( null )
         do_search()
+
+   # Google analytics
+   `_gaq.push(['_trackPageview', '/'+fullhash]);`
 
 ## Watermark handling
 wm_shown = false
@@ -125,6 +156,7 @@ data_callback = (data) ->
         rec.base.num_links = Object.keys(num_links).length
         rec.gov_updates = gov_updates
         rec.watch_updates = watch_updates
+        rec.base.subscribers = rec.subscribers ? 0
 
     all_tags = Object.keys(all_tags)
     all_subjects = Object.keys(all_subjects)
@@ -231,19 +263,26 @@ setup_timeline = ->
         min_numeric_date = 2100 * 372
         $(this).find('.timeline .timeline-point.today').attr('data-date',today)
 
+        has_unknowns = false
         $(this).find(".timeline > ul > li").each( ->
                 date = $(this).find('.timeline-point:first').attr('data-date')
                 date = date.split(' ')[0].split('/')
                 [year,month,day] = (parseInt(d,10) for d in date)
                 numeric_date = (year * 372) + ((month-1) * 31) + (day-1)
                 if isNaN(numeric_date)
-                        numeric_date = 2012 * 372
-                if numeric_date > max_numeric_date
-                        max_numeric_date = numeric_date
-                if numeric_date < min_numeric_date
-                        min_numeric_date = numeric_date - 1
+                        numeric_date = "xxx"
+                        has_unknowns = true
+                else
+                        if numeric_date > max_numeric_date
+                                max_numeric_date = numeric_date
+                        if numeric_date < min_numeric_date
+                                min_numeric_date = numeric_date - 1
                 $(this).attr('data-date-numeric',numeric_date)
         )
+
+        if has_unknowns
+                max_numeric_date += 180
+                $(this).find(".timeline > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
 
         $(this).find(".timeline > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
 
@@ -347,7 +386,7 @@ setup_timeline = ->
         #console.log "top: #{top}, height: #{height}"
 
         # current status
-        implementation_status = $(this).find('.gov-update:last').attr('data-status')
+        implementation_status = $(this).find('.gov-update:last').attr('data-status') ? "NEW"
         if conflict
                 $(this).find('.buxa-header').addClass('conflict')
         else
@@ -356,6 +395,42 @@ setup_timeline = ->
                      $(this).find('.buxa-header').addClass('good')
                 else
                      $(this).find('.buxa-header').addClass('bad')
+        $(this).attr('data-implementation-status',implementation_status)
+        $(this).addClass("implementation-status-#{implementation_status}")
+
+setup_summary = ->
+        total = $(".item.shown").size()
+        stuck = $(".item.shown[data-implementation-status='STUCK']").size()
+        news = $(".item.shown[data-implementation-status='NEW']").size()
+        in_progress = $(".item.shown[data-implementation-status='IN_PROGRESS']").size()
+        fixed = $(".item.shown[data-implementation-status='FIXED']").size()
+        workaround = $(".item.shown[data-implementation-status='WORKAROUND']").size()
+        irrelevant = $(".item.shown[data-implementation-status='IRRELEVANT']").size()
+        data = {}
+        if total
+                data.total = total
+        stuck = news + workaround + stuck
+        if stuck
+                data.stuck = stuck
+        implemented = fixed + irrelevant
+        if implemented
+                data.implemented = implemented
+        if in_progress
+                data.in_progress = in_progress
+        run_templates( "summary", data, "#summary" )
+
+        $("#summary .total").click ->
+                status_filter = null
+                do_search()
+        $("#summary .stuck").click ->
+                status_filter = ['STUCK','NEW','WORKAROUND']
+                do_search()
+        $("#summary .implemented").click ->
+                status_filter = ['FIXED','IRRELEVANT']
+                do_search()
+        $("#summary .in_progress").click ->
+                status_filter = ['IN_PROGRESS']
+                do_search()
 
 
 ## Handles the site's data (could be from local storage or freshly loaded)
@@ -371,6 +446,20 @@ process_data = ->
         $("#books").prepend("<li data-book='#{book}' class='book'><a href='#'>#{book}</a></li>")
 
     run_templates( "item", items: loaded_data, "#items" )
+
+    # Explanation unit
+    explanation_needed = true
+    if localStorage?.explained?
+        explanation_needed = false
+
+    $("#items").prepend($("#explanation-holder").html())
+    $("#explanation-holder").html('')
+    $("#explanation").toggleClass('always-shown',explanation_needed)
+
+    $("#clear-explanation").click ->
+        localStorage?.explained = true
+        $("#explanation").removeClass('always-shown')
+        do_search()
 
     $("#items").prepend($("#hero-unit-holder").html())
     $("#hero-unit-holder").html('')
@@ -388,7 +477,7 @@ process_data = ->
         transformsEnabled: false
         filter: ".shown"
         getSortData :
-           chapter :  ( e ) -> e.find('.chapter-text').text()
+           followers:  ( e ) -> -parseInt( "0"+e.find('.watch').text() )
            recommendation :  ( e ) -> e.find('.recommendation-text').text()
            budget :  ( e ) ->
                         -parseInt( "0"+e.attr('cost'), 10 )
@@ -411,12 +500,21 @@ process_data = ->
         update_history()
 
     # sidebox sort init
-    $("#sort").change ->
-        sort_measure = $("#sort").val()
+    $("#sort button").click ->
+        $("#sort button").removeClass('active')
+        $(this).addClass('active')
+        sort_measure = $(this).attr('value')
         $("#items").isotope({ sortBy: sort_measure })
 
     # item click handler
     # $(".item").click -> update_history($(this).attr('rel'))
+
+    # hero unit expansion
+    $(".hero-unit .hero-size-control").click( ->
+        $(".hero-unit").toggleClass("expanded")
+        $("#items").isotope('reLayout')
+        false
+        )
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
@@ -483,8 +581,19 @@ do_search = ->
         # the 'shown' class is applied to the relevant items
         $(".item[rel=#{slug}]").toggleClass("shown",should_show)
 
+    setup_summary()
+
+    if status_filter
+        class_filter = [ ".shown.implementation-status-#{st}" for st in status_filter ]
+        class_filter = class_filter.join(",")
+    else
+        class_filter = ".shown"
+
+    class_filter = class_filter + ",.always-shown"
+
     # apply the filtering using Isotope
-    $("#items").isotope({filter: ".shown"});
+    $("#items").isotope({filter: class_filter});
+    $("#items").isotope("reLayout");
 
 ## Load the current data for the site from google docs
 load_data = ->
