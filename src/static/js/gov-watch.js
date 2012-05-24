@@ -460,6 +460,10 @@
         point = el.find('.timeline-point:first');
         line = el.find('.timeline-line:first');
         status = (_ref2 = point.attr('data-status')) != null ? _ref2 : gov_status;
+        if (point.hasClass('gov-update')) {
+          conflict = false;
+          gov_status = status != null ? status : gov_status;
+        }
         if (!remove_line) {
           point.addClass("gov-" + gov_status);
           if (is_good_status(gov_status)) {
@@ -471,10 +475,6 @@
         }
         if (point.hasClass("today") || gov_status === "FIXED" || gov_status === "IRRELEVANT") {
           remove_line = true;
-        }
-        if (point.hasClass('gov-update')) {
-          conflict = false;
-          gov_status = status != null ? status : gov_status;
         }
         if (remove_line) {
           line.css('border', "none");

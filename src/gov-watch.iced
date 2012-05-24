@@ -335,6 +335,10 @@ setup_timeline = ->
 
                 status = point.attr('data-status') ? gov_status
 
+                if point.hasClass('gov-update')
+                        conflict = false
+                        gov_status = status ? gov_status
+
                 if not remove_line
                         point.addClass("gov-#{gov_status}")
 
@@ -348,10 +352,6 @@ setup_timeline = ->
 
                 if point.hasClass("today") or gov_status == "FIXED" or gov_status == "IRRELEVANT"
                         remove_line = true
-
-                if point.hasClass('gov-update')
-                        conflict = false
-                        gov_status = status ? gov_status
 
                 if remove_line
                         line.css('border',"none")
