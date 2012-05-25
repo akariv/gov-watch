@@ -32,17 +32,25 @@ body {
 	background: url('/static/img/background-grid.png') top right; 
 }
 
+.navbar{
+  margin-bottom: 0;
+}
+
 .container-fluid{
   min-width:570px;
 }
 
 .hero-unit, .well{
   background: rgba(0, 0, 0, 0.3);
-  padding: 30px;
+  padding: 30px 15px;
   color: #DDD;
-  width: 345px;
+  //width: 345px;
   
   .border-radius(5px);
+  
+  .row-fluid {
+    max-width: 1230px;
+  }
   
   h1,h2,h3{color: #DDD;}
 
@@ -70,9 +78,13 @@ body {
       }
 
     }
+   
+  form{
+    margin: 0;
+  }
     
   .btn-group{
-    width: 350px;
+    //width: 350px;
     margin-bottom: 30px;
   }
 
@@ -107,12 +119,14 @@ body {
     }
     
     input{
-      width: 335px;
+      width: 100%;
+      display: table;
       font-size: 30px;
       line-height: 40px;
-      padding: 5px;
+      padding: 5px 0;
+      text-indent: 5px;
       height: 40px;
-      float: left;
+      float: right;
     }
     
     button{
@@ -128,7 +142,7 @@ body {
   }
   
   #sort .btn{
-    font-size: 16px;
+    font-size: 14px;
   }
   
   .dropdown-menu{
@@ -199,7 +213,7 @@ body {
 }
 
 #items{
-  padding:10px;
+  //padding:10px;
 }
 
 .item{
@@ -441,7 +455,7 @@ body {
             
             &:after{
               border-bottom: 5px solid transparent;
-              border-right: 5px solid @good;
+              border-right: 5px solid @carddark;
               border-top: 5px solid transparent;
               content: "";
               display: block;
