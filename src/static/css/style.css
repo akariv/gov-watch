@@ -3993,6 +3993,16 @@ body {
 .item .timeline > ul > li > .timeline-point.today > div:after {
   border-right-color: #f0776d;
 }
+.item .timeline > ul > li > .timeline-point.today.gov-status-good {
+  background: #6ba688;
+}
+.item .timeline > ul > li > .timeline-point.today.gov-status-good > div {
+  border-color: #6ba688;
+  background: #6ba688;
+}
+.item .timeline > ul > li > .timeline-point.today.gov-status-good > div:after {
+  border-right-color: #6ba688;
+}
 .item .timeline > ul > li > .timeline-point > div {
   z-index: 10;
   display: none;
@@ -4083,6 +4093,9 @@ body {
 .item .timeline > ul > li > .timeline-line.status-FIXED,
 .item .timeline > ul > li > .timeline-line.status-IRRELEVANT {
   background: #6ba688;
+}
+.item .timeline > ul > li > .timeline-line.unreported {
+  background-image: url("/static/img/unreported-tile.png");
 }
 .item .breadcrumb {
   border: 0;
@@ -4266,6 +4279,7 @@ body {
 .item.bigger .current_status-text {
   border-bottom: 1px solid #847d6b;
 }
+/**** After Hacks ***/
 /**** Isotope Filtering ****/
 .isotope-item {
   z-index: 2;

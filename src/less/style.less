@@ -331,6 +331,7 @@ body {
             width: 7px;
             margin: 0 -2px;
             background: @bad;
+           
             
             > div{
               left: 20px;
@@ -344,6 +345,19 @@ body {
                 border-right-color: @bad;
                 }
               }
+              
+            &.gov-status-good{
+              background: @good;
+              
+              > div {
+                border-color: @good;
+                background: @good;
+                &:after{
+                  border-right-color: @good;
+                }
+              }
+            }
+              
             }
             
           > div {
@@ -446,9 +460,13 @@ body {
           &.status-IN_PROGRESS,
           &.status-FIXED,
           &.status-IRRELEVANT
-          {
-            background: @good;
+            {
+              background: @good;
             }       
+          
+          &.unreported{
+            background-image: url("/static/img/unreported-tile.png");
+          }
           
           } 
         }
@@ -660,6 +678,9 @@ body {
   }
   
 } // End .item
+
+/**** After Hacks ***/
+
 
 /**** Isotope Filtering ****/
 
