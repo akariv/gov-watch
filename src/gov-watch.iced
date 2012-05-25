@@ -476,6 +476,10 @@ process_data = ->
 
     $("#items").prepend($("#hero-unit-holder").html())
     $("#hero-unit-holder").html('')
+    $("#clearsearch").click ->
+        search_term = ""
+        show_watermark(true)
+        update_history()
 
     # Allow the DOM to sync
     await setTimeout((defer _),50)
@@ -491,7 +495,7 @@ process_data = ->
         filter: ".shown"
         getSortData :
            followers:  ( e ) -> -parseInt( "0"+e.find('.watch').text() )
-           recommendation :  ( e ) -> e.find('.recommendation-text').text()
+           original :  ( e ) -> "#{e.attr('data-chapter')}/{e.attr('data-subchapter')}"
            budget :  ( e ) ->
                         -parseInt( "0"+e.attr('cost'), 10 )
            comments :  ( e ) ->
