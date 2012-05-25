@@ -3783,16 +3783,16 @@ body {
   line-height: 40px;
   padding: 5px;
   height: 40px;
+  float: left;
 }
 #search button {
   border: 0 none;
-  height: 20px;
-  left: 40px;
-  margin-top: 16px;
-  overflow: hidden;
-  position: absolute;
-  text-indent: -2000%;
   width: 20px;
+  height: 20px;
+  margin: -45px 0 0 10px;
+  overflow: hidden;
+  text-indent: -2000%;
+  float: left;
   background: url('/static/img/clear-search.png');
 }
 #sort .btn {
@@ -4191,13 +4191,13 @@ body {
 }
 .item div.stamp {
   background: url("/static/img/stamp-done.png");
-  width: 80px;
+  float: left;
   height: 40px;
+  margin: -3px 0 -11px -18px;
   overflow: hidden;
+  right: 240px;
   text-indent: -200%;
-  position: absolute;
-  margin: -20px 0 0;
-  right: 220px;
+  width: 80px;
 }
 .item div.stamp.inprogress {
   background: url("/static/img/stamp-inprogress.png");
@@ -4314,6 +4314,9 @@ body {
   border-bottom: 1px solid #847d6b;
 }
 /**** After Hacks ***/
+.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today {
+  background: #6ba688;
+}
 /**** Isotope Filtering ****/
 .isotope-item {
   z-index: 2;

@@ -113,17 +113,16 @@ body {
       line-height: 40px;
       padding: 5px;
       height: 40px;
+      float: left;
     }
     
     button{
       border: 0 none;
-      height: 20px;
-      left: 40px;
-      margin-top: 16px;
+      width: 20px; height: 20px;
+      margin: -45px 0 0 10px;
       overflow: hidden;
-      position: absolute;
       text-indent: -2000%;
-      width: 20px;
+      float: left;
       background: url('/static/img/clear-search.png'); 
     }
     
@@ -571,13 +570,13 @@ body {
   
   div.stamp{
     background: url("/static/img/stamp-done.png");
-    width: 80px;
+    float: left;
     height: 40px;
+    margin: -3px 0 -11px -18px;
     overflow: hidden;
+    right: 240px;
     text-indent: -200%;
-    position: absolute;
-    margin: -20px 0 0;
-    right: 220px; 
+    width: 80px;
     
     &.inprogress{
       background: url("/static/img/stamp-inprogress.png");
@@ -721,7 +720,9 @@ body {
 } // End .item
 
 /**** After Hacks ***/
-
+.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today{
+  background: @good;
+}
 
 /**** Isotope Filtering ****/
 
