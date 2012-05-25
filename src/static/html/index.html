@@ -21,14 +21,6 @@
     <!-- Less -->
     <link rel="stylesheet" href="static/css/style.css"/>
 
-    <script type="text/html" name="list">
-	    <ul>
-	    {{#items}}
-	       - {{#linkify}}{{.}}{{/linkify}}<br/>
-	    {{/items}}
-	    </ul>
-    </script>
-
 <!-- 
 *********************
  Small Card Template
@@ -76,7 +68,7 @@
     
     <div class="recommendation">
     	<h3>הסבר:</h3>
-    	<p>{{recommendation}}</p>
+    	<p>{{{recommendation_shortened}}}</p>
     </div>
     
     <div class="purpose">

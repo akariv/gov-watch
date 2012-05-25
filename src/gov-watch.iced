@@ -158,6 +158,9 @@ data_callback = (data) ->
         rec.watch_updates = watch_updates
         rec.base.subscribers = rec.subscribers ? 0
 
+        if rec.base.recommendation?.length > 500
+                rec.base.recommendation_shortened = rec.base.recommendation[0..500] + "&nbsp;" +"<a href='#{generate_url(rec.slug)}'>" + "עוד..." +"</a>"
+
     all_tags = Object.keys(all_tags)
     all_subjects = Object.keys(all_subjects)
 
@@ -217,36 +220,9 @@ run_templates = (template,data,selector) ->
     # Lists are srtings separated with ';'
     template = $("script[name=#{template}]").html()
 
-    list_template = $("script[name=list]").html()
-    do_list = (text) ->
-        Mustache.to_html( list_template,
-                          items:text
-                          # linkify converts [xxx] to <a href='xxx'>...</a>
-                          linkify: ->
-                            (text,render) ->
-                               text = render(text)
-                               text = text.replace( /\[(.+)\]/, "<a href='$1'>\u05e7\u05d9\u05e9\u05d5\u05e8</a>" )
-                        )
-
     # Run the main template on the loaded data
     html = Mustache.to_html(template,
                             data
-                            none_val: ->
-                                (text,render) ->
-                                    text = render(text)
-                                    if text == ""
-                                        "\u05d0\u05d9\u05df"
-                                    else
-                                        text
-                            semicolon_list: ->
-                                (text,render) ->
-                                    text = render(text)
-                                    text = text.split(';')
-                                    text = do_list(text)
-                            urlforslug: ->
-                                (text,render) ->
-                                    text = render(text)
-                                    generate_url( text )
                             )
     # Update the document with rendered HTML
     $(selector).html(html)
