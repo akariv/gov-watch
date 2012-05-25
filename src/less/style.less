@@ -560,6 +560,29 @@ body {
     display: none;
   }
   
+  div.stamp{
+    background: url("/static/img/stamp-done.png");
+    width: 80px;
+    height: 40px;
+    overflow: hidden;
+    text-indent: -200%;
+    position: absolute;
+    margin: -20px 0 0;
+    right: 220px; 
+    
+    &.workaround{
+      background: url("/static/img/stamp-workaround.png");
+    }
+    
+    &.stuck{
+      background: url("/static/img/stamp-stuck.png");
+    }
+    
+    &.late{
+      background: url("/static/img/stamp-late.png");
+    }
+  }
+  
   h3{
     font-family: Arial,Sans;
     font-size: 0.6em;
