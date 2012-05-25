@@ -276,7 +276,7 @@ body {
             
           &.watch-status-bad,
           &.gov-status-bad {
-            background: @bad;
+            background-color: @bad;
             border-color: @bad;
             }
           
@@ -324,11 +324,11 @@ body {
           
           &.start,
           &.gov-status-bad {
-            background: @bad;
+            background-color: @bad;
             }
           
           &.gov-status-good {
-            background: @good;
+            background-color: @good;
             }
             
           &.today { 
@@ -354,7 +354,7 @@ body {
               }
               
             &.gov-status-good{
-              background: @good;
+              background-color: @good;
               
               > div {
                 border-color: @good;
@@ -455,11 +455,11 @@ body {
             
           &.watch-status-good,
           &.gov-status-good {
-            background: @good;
+            background-color: @good;
             > div{
               border-color: @good;
               &:after{
-                right-border-color: @good;
+                border-right-color: @good;
               }
               > div {
                 background: fadeout(@good, 30%);
@@ -473,11 +473,11 @@ body {
           
           &.watch-status-bad,
           &.gov-status-bad {
-            background: @bad;
+            background-color: @bad;
             > div{
               border-color: @bad;
               &:after{
-                right-border-color: @bad;
+                border-right-color: @bad;
               }
               > div {
                 background: fadeout(@bad, 30%);
@@ -495,7 +495,7 @@ body {
           }
         
         > .timeline-line {
-          background: @bad;
+          background-color: @bad;
           //border: 5px solid @card;
           border-bottom: none;
           //position: absolute;
@@ -507,7 +507,7 @@ body {
           &.status-FIXED,
           &.status-IRRELEVANT
             {
-              background: @good;
+              background-color: @good;
             }       
           
           &.unreported{
@@ -558,7 +558,7 @@ body {
       margin: 0 0 3px 5px;
       padding-right: 13px;
       a{
-        background: @cardshade;
+        background-color: @cardshade;
         .border-radius(3px 0 0 3px);
         padding: 0px 5px 0;
         color: @card;

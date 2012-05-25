@@ -3931,7 +3931,7 @@ body {
 }
 .item .timeline > ul > li > .timeline-point.watch-status-bad,
 .item .timeline > ul > li > .timeline-point.gov-status-bad {
-  background: #f0776d;
+  background-color: #f0776d;
   border-color: #f0776d;
 }
 .item .timeline > ul > li > .timeline-point.gov-FIXED,
@@ -3976,10 +3976,10 @@ body {
 }
 .item .timeline > ul > li > .timeline-point.start,
 .item .timeline > ul > li > .timeline-point.gov-status-bad {
-  background: #f0776d;
+  background-color: #f0776d;
 }
 .item .timeline > ul > li > .timeline-point.gov-status-good {
-  background: #6ba688;
+  background-color: #6ba688;
 }
 .item .timeline > ul > li > .timeline-point.today {
   top: 0;
@@ -4002,7 +4002,7 @@ body {
   border-right-color: #f0776d;
 }
 .item .timeline > ul > li > .timeline-point.today.gov-status-good {
-  background: #6ba688;
+  background-color: #6ba688;
 }
 .item .timeline > ul > li > .timeline-point.today.gov-status-good > div {
   border-color: #6ba688;
@@ -4095,7 +4095,7 @@ body {
 }
 .item .timeline > ul > li > .timeline-point.watch-status-good,
 .item .timeline > ul > li > .timeline-point.gov-status-good {
-  background: #6ba688;
+  background-color: #6ba688;
 }
 .item .timeline > ul > li > .timeline-point.watch-status-good > div,
 .item .timeline > ul > li > .timeline-point.gov-status-good > div {
@@ -4103,7 +4103,7 @@ body {
 }
 .item .timeline > ul > li > .timeline-point.watch-status-good > div:after,
 .item .timeline > ul > li > .timeline-point.gov-status-good > div:after {
-  right-border-color: #6ba688;
+  border-right-color: #6ba688;
 }
 .item .timeline > ul > li > .timeline-point.watch-status-good > div > div,
 .item .timeline > ul > li > .timeline-point.gov-status-good > div > div {
@@ -4116,7 +4116,7 @@ body {
 }
 .item .timeline > ul > li > .timeline-point.watch-status-bad,
 .item .timeline > ul > li > .timeline-point.gov-status-bad {
-  background: #f0776d;
+  background-color: #f0776d;
 }
 .item .timeline > ul > li > .timeline-point.watch-status-bad > div,
 .item .timeline > ul > li > .timeline-point.gov-status-bad > div {
@@ -4124,7 +4124,7 @@ body {
 }
 .item .timeline > ul > li > .timeline-point.watch-status-bad > div:after,
 .item .timeline > ul > li > .timeline-point.gov-status-bad > div:after {
-  right-border-color: #f0776d;
+  border-right-color: #f0776d;
 }
 .item .timeline > ul > li > .timeline-point.watch-status-bad > div > div,
 .item .timeline > ul > li > .timeline-point.gov-status-bad > div > div {
@@ -4139,7 +4139,7 @@ body {
   display: block;
 }
 .item .timeline > ul > li > .timeline-line {
-  background: #f0776d;
+  background-color: #f0776d;
   border-bottom: none;
   height: 100%;
   width: 3px;
@@ -4147,7 +4147,7 @@ body {
 .item .timeline > ul > li > .timeline-line.status-IN_PROGRESS,
 .item .timeline > ul > li > .timeline-line.status-FIXED,
 .item .timeline > ul > li > .timeline-line.status-IRRELEVANT {
-  background: #6ba688;
+  background-color: #6ba688;
 }
 .item .timeline > ul > li > .timeline-line.unreported {
   background-image: url("/static/img/unreported-tile.png");
@@ -4185,7 +4185,7 @@ body {
   padding-right: 13px;
 }
 .item .tags li a {
-  background: #e4daac;
+  background-color: #e4daac;
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
