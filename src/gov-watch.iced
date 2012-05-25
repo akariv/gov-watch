@@ -326,6 +326,10 @@ setup_timeline = ->
                 if today_date - last_update > 180
                         late = true
 
+        last_update_at = 1000
+        today_at = 1000
+        fixed_at = 1000
+
         for i in [timeline_items.size()-1..0]
                 el = $(timeline_items[i])
                 point = el.find('.timeline-point:first')
@@ -336,30 +340,12 @@ setup_timeline = ->
                 if point.hasClass('gov-update')
                         conflict = false
                         gov_status = status ? gov_status
+                        last_update_at = i
 
-                if not remove_line
-                        point.addClass("gov-#{gov_status}")
-
-                        if is_good_status(gov_status)
-                                point.addClass("gov-status-good")
-                        else
-                                point.addClass("gov-status-bad")
-
-                        if conflict
-                                point.addClass("conflict")
-
-                if point.hasClass("today") or gov_status == "FIXED" or gov_status == "IRRELEVANT"
-                        remove_line = true
+                if (fixed_at == 1000) and (gov_status == "FIXED" or gov_status == "IRRELEVANT")
+                        fixed_at = i
                 if point.hasClass("today")
-                        after_today = true
-
-                if not remove_line
-                        line.addClass("status-#{gov_status}")
-                        timeline_items.find(".timeline-line").removeClass("unreported")
-                        line.addClass("unreported")
-
-                if after_today
-                        line.addClass("future")
+                        today_at = i
 
                 if point.hasClass('watch-update')
                         if is_good_status(gov_status) != is_good_status(status)
@@ -369,9 +355,34 @@ setup_timeline = ->
                                 point.addClass("watch-status-good")
                         else
                                 point.addClass("watch-status-bad")
+                        last_update_at = i
 
-                point.find('.implementation-status').addClass("label-#{status}")
-                point.find('.implementation-status').html(status_to_hebrew(status))
+                line.addClass("status-#{gov_status}")
+                point.addClass("gov-#{gov_status}")
+
+                if is_good_status(gov_status)
+                        point.addClass("gov-status-good")
+                else
+                        point.addClass("gov-status-bad")
+
+                if conflict
+                        point.addClass("conflict")
+
+                if today_at == 1000
+                        point.find('.implementation-status').addClass("label-#{status}")
+                        point.find('.implementation-status').html(status_to_hebrew(status))
+
+        for i in [timeline_items.size()-1..0]
+                el = $(timeline_items[i])
+                line = el.find('.timeline-line:first')
+
+                if (fixed_at != 1000 and i <= fixed_at) or i <= today_at
+                        line.addClass("future")
+                else
+                        line.addClass("past")
+                        if i <= last_update_at
+                                line.addClass("unreported")
+
 
 
         $(this).find(".timeline > ul > li").each( ->
@@ -564,8 +575,8 @@ select_item = (slug) ->
                         item = run_templates( "single-item", x, "#single-item" )
                         set_fb_title( x.base.book+": "+x.base.subject )
                         url = generate_url(slug)
-                        $("#single-item").append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
-                        $("#single-item").append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
+                        $("#single-item .fb").append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
+                        $("#single-item .fb").append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
                         if window.FB
                                 FB.XFBML.parse( item.get(0), -> )
                         break

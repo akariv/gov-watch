@@ -153,99 +153,101 @@
 *******************************
 -->
 	<script type="text/html" name="single-item">
-<div class="detail-item span" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
-  <div class="item-body">
-  	
-    <div class="tags">
-    	<h3>תגיות:</h3>
-	    <ul>
-	      {{#tags}}
-	      <li><a href="#">{{.}}</a></li>
-	      {{/tags}}
-	    </ul>
+<div class="detail-item row" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
+  <div class="row">
+    <div class="tags span12">
+      {{#tags}}
+      <span><a href="#">{{.}}</a></span>
+      {{/tags}}
     </div>
-  	    
-    <h2 class="buxa-header">
-      <a href="#" class="recommendation-text">
-        {{subject}}
-      </a>
-    </h2>
-    
-    <div class="budget">
+  </div>
+  	
+  <div class="subject row">
+    <span class="subject span12">{{subject}}</span>
+  </div>
+
+  <div class="row">
+    <div class="span4">
+      <div class="budget">
 	{{#budget}}
     	<h3>עלות:</h3>
-	    <p>{{millions}} מיליון ִ₪
-		<span class="period">/על פני {{year_span}} שנים</span></p>
+	<p>{{millions}} מיליון ִ₪
+	  <span class="period">/על פני {{year_span}} שנים</span></p>
     	<p class="more">{{description}}</p>
-    {{/budget}}
-    </div>
-    
-    <div class="responsible">
-    	<h3>גורם אחראי:</h3>
-    	<p>
-          {{#responsible_authority}}
-          <span class="responsible-main">{{main}}</span>
-          <span class="responsible-secondary">{{secondary}}</span>
-          {{/responsible_authority}}
-        </p>
+        {{/budget}}
+        <div class="responsible">
+          <h3>גורם אחראי:</h3>
+    	  <p>
+            {{#responsible_authority}}
+            <span class="responsible-main">{{main}}</span>
+            <span class="responsible-secondary">{{secondary}}</span>
+            {{/responsible_authority}}
+          </p>
 	</div>
-    
-    <div class="recommendation">
+      </div>
+    </div>
+    <div class="span4">
+      <div class="recommendation">
     	<h3>הסבר:</h3>
     	<p>{{recommendation}}</p>
+      </div>
     </div>
-    
-    <div class="purpose">
-    	<h3>מה המטרה?</h3>
-	    <p>{{result_metric}}</p>
-	</div>
-    
-	<div class="tools">
-	    <a href="#" class="watch">watch</a>
-   		<a href="#" class="linkcount">_num_ links</a>
-	    <a href="#" class="commentcount"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
-	</div>
-    
+    <div class="span4">
+      <div class="purpose">
+    	<h3>מה מדד התוצאה?</h3>
+	<p>{{result_metric}}</p>
+      </div>
+    </div>                        
   </div>
-  <div class="timeline">
-    <ul>
-      {{#timeline}}
-      <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
-        <div>
-          <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
-	  <p>{{description}}</p>
-	  <small>{{due_date}}: מתוך הדו"ח</small>
-	</div>    
-      </li>
-      {{/timeline}}
-  {{/base}}
-  
-  {{#gov_updates}}
-      <li class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-        <div>
-          <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	  <p>{{implementation_status_text}}</p>
-	  <small>{{update_time}}: הממשלה</small>
-	</div>    
-      </li>
-  {{/gov_updates}}
-  
-  {{#watch_updates}}
-      <li class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-        <div>
-          <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	  <p>{{implementation_status_text}}</p>
-	  <small>{{update_time}}: {{user}}</small>
-	</div>    
-      </li>
-  {{/watch_updates}}
-
-      <li class="timeline-point today">
-        <span>היום</span>
-      </li>     
-    </ul>
+    
+  <div class="row">
+    <div class="tools span12">
+      <a href="#" class="watch">watch</a>
+      <a href="#" class="linkcount">_num_ links</a>
+      <a href="#" class="commentcount"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
+    </div>  
   </div>
-  <div class="footer"></div>
+  <div class="row">
+    <div class="timeline span12">
+      <ul>
+        {{#timeline}}
+        <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
+          <div>
+            <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
+	    <p>{{description}}</p>
+	    <small>{{due_date}}: מתוך הדו"ח</small>
+	  </div>    
+        </li>
+        {{/timeline}}
+        {{/base}}
+        {{#gov_updates}}
+        <li class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+          <div>
+            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	    <p>{{implementation_status_text}}</p>
+	    <small>{{update_time}}: הממשלה</small>
+	  </div>    
+        </li>
+        {{/gov_updates}}
+        {{#watch_updates}}
+        <li class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+          <div>
+            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	    <p>{{implementation_status_text}}</p>
+	    <small>{{update_time}}: {{user}}</small>
+	  </div>    
+        </li>
+        {{/watch_updates}}
+        <li class="timeline-point today">
+          <span>היום</span>
+        </li>     
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="fb span12">
+    </div>
+  </div>
 
 </div>
     </script>

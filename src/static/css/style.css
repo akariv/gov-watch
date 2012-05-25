@@ -4160,6 +4160,11 @@ body {
 .item .timeline > ul > li > .timeline-line.unreported {
   background-image: url("/static/img/unreported-tile.png");
 }
+.item .timeline > ul > li > .timeline-line.future {
+  background: none;
+  background-image: none;
+  border: none;
+}
 .item .breadcrumb {
   border: 0;
   background: none;
