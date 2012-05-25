@@ -9,6 +9,8 @@ import os
 import datetime
 from redis import Redis
 from secret import calc_secret
+from profiles import profiles
+from slugs import slugify, unslugify
 
 app = Flask(__name__)
 app.debug = True
@@ -33,6 +35,10 @@ def list():
 def listall():
     return Response(response=r.get("everything"), content_type="application/json")
 
+@app.route('/profile/<slug>')
+def profile_img(slug):
+    return Response(response=r.get('profile:%s' % slug), content_type='image/png')
+
 @app.route('/api/version')
 def version():
     resp = make_response(Response(response=r.get("version"), content_type="application/json", ))
@@ -40,7 +46,7 @@ def version():
     return resp
 
 @app.route('/subscribe/<slug>', methods=['POST'])
-def subscribe():
+def subscribe(slug):
     email = request.form["email"]
     key = "slug:%s" % slug
     if r.exists(key):
@@ -139,4 +145,7 @@ if __name__=="__main__":
     for x in data:
         x.setdefault('subscribers',0)
         r.set("slug:%s" % x["slug"],json.dumps(x,indent=0))
+    for profile_name, profile_image in profiles.iteritems():
+        print "%s, %s" % (profile_name, slugify(profile_name))
+        r.set("profile:%s" % slugify(profile_name), file('static/img/%s' % profile_image).read())
     app.run()

@@ -267,6 +267,12 @@ setup_timeline = ->
                         if numeric_date < min_numeric_date
                                 min_numeric_date = numeric_date - 1
                 $(this).attr('data-date-numeric',numeric_date)
+
+                # profile image
+                img = $(this).find('img')
+                alt = img?.attr('alt')
+                if alt
+                        img.attr('src',"/profile/#{slugify(alt)}")
         )
 
         if has_unknowns
