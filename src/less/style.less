@@ -634,7 +634,7 @@ body {
       background: url("/static/img/stamp-late.png");
     }
     
-    &:nth-child(even){
+    &:nth-child(odd){
       right: 200px;
     }
   }
@@ -761,6 +761,13 @@ body {
 /**** After Hacks ***/
 .item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today{
   background: @good;
+  > div{
+    background: @good;
+    border-color: @good;
+    &:after{
+      border-right-color: @good;
+    }
+  }
 }
 
 /**** Isotope Filtering ****/

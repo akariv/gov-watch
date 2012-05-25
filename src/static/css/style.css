@@ -4260,7 +4260,7 @@ body {
 .item div.stamp.notstarted {
   background: url("/static/img/stamp-late.png");
 }
-.item div.stamp:nth-child(even) {
+.item div.stamp:nth-child(odd) {
   right: 200px;
 }
 .item h3 {
@@ -4364,6 +4364,13 @@ body {
 /**** After Hacks ***/
 .item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today {
   background: #6ba688;
+}
+.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today > div {
+  background: #6ba688;
+  border-color: #6ba688;
+}
+.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today > div:after {
+  border-right-color: #6ba688;
 }
 /**** Isotope Filtering ****/
 .isotope-item {
