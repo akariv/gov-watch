@@ -3733,7 +3733,6 @@ body {
 }
 .hero-unit  > .hero-size-control,
 .well  > .hero-size-control {
-  position: absolute;
   bottom: 10px;
   left: 10px;
 }
