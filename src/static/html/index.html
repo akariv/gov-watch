@@ -27,7 +27,7 @@
 ********************* -->
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}" data-chapter="{{chapter}}" data-subchapter="{{subchapter}}">
+<div class="item isotope-card span4 shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}" data-chapter="{{chapter}}" data-subchapter="{{subchapter}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -301,31 +301,40 @@
     </div>
     
     <!--div id="hero-unit-holder" style="display:none;"-->
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit span  expanded" cost="9999999">
-        <h2><a href="#">המפקח</a>	&larr;</h2>
+  <!-- Main hero unit for a primary marketing message or call to action -->
+  <div class="hero-unit container-fluid expanded" cost="9999999">
+  	<div class="row-fluid">
+      <div class="span4">
         <h1>דו"ח טרכטנברג</h1>
         <p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי</p>
         <!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
-	  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
-	  <h3>סדר לפי:</h3>
-	  <div id="sort" class="btn-group" data-toggle="buttons-radio">
-	    <button class="btn" value="original">מקור</button>
-	    <button class="btn" value="budget">עלות תקציבית</button>
-	    <button class="btn" value="followers">מספר עוקבים</button>
-	    <button class="btn" value="comments">מספר תגובות</button>
-	  </div>
-        <form id="searchbar" action="#">
-          <fieldset id='search'>
-	    <input id="searchbox" class="xlarge" type="text" size="30" autocomplete="off" name="xlInput">
-	    <button id="clearsearch">clear</button>
-	  </fieldset>
-	</form>
+      </div>
+      
+      <div class="span4">
+		  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+		  <h3>סדר לפי:</h3>
+		  <div id="sort" class="btn-group" data-toggle="buttons-radio">
+		    <button class="btn" value="original">מקור</button>
+		    <button class="btn" value="budget">עלות תקציבית</button>
+		    <button class="btn" value="followers">מספר עוקבים</button>
+		    <button class="btn" value="comments">מספר תגובות</button>
+		  </div>
+	        <form id="searchbar" action="#">
+	          <fieldset id='search'>
+			    <input id="searchbox" class="xlarge" type="text" autocomplete="off" name="xlInput">
+			    <button id="clearsearch">clear</button>
+			  </fieldset>
+			</form>
+		</div>
+		
+      <div class="span4">
         <a class="hero-size-control expand" href="#"><i class="icon-chevron-down icon-white"></i></a>
         <a class="hero-size-control reduce" href="#"><i class="icon-chevron-up icon-white"></i></a>
         <div id="summary" class="summary">
         </div>
       </div>
+	</div>
+  </div>
     <!--/div-->
 
     <div id="explanation-holder" style="display:none;">
@@ -335,7 +344,7 @@
       </div>
     </div>
 
-    <div class="content">
+    <div class="content container-fluid">
       
       <div id='container'>
         <div id='single-item' class="row"></div>

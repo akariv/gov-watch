@@ -3710,18 +3710,24 @@ body {
   direction: rtl;
   background: url('/static/img/background-grid.png') top right;
 }
+.navbar {
+  margin-bottom: 0;
+}
 .container-fluid {
   min-width: 570px;
 }
 .hero-unit,
 .well {
   background: rgba(0, 0, 0, 0.3);
-  padding: 30px;
+  padding: 30px 15px;
   color: #DDD;
-  width: 345px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+}
+.hero-unit .row-fluid,
+.well .row-fluid {
+  max-width: 1230px;
 }
 .hero-unit h1,
 .well h1,
@@ -3754,9 +3760,12 @@ body {
 .well.expanded  > .summary {
   display: inherit;
 }
+.hero-unit form,
+.well form {
+  margin: 0;
+}
 .hero-unit .btn-group,
 .well .btn-group {
-  width: 350px;
   margin-bottom: 30px;
 }
 .hero-unit.explanation > h2,
@@ -3777,12 +3786,14 @@ body {
   padding-left: 0;
 }
 #search input {
-  width: 335px;
+  width: 100%;
+  display: table;
   font-size: 30px;
   line-height: 40px;
-  padding: 5px;
+  padding: 5px 0;
+  text-indent: 5px;
   height: 40px;
-  float: left;
+  float: right;
 }
 #search button {
   border: 0 none;
@@ -3795,7 +3806,7 @@ body {
   background: url('/static/img/clear-search.png');
 }
 #sort .btn {
-  font-size: 16px;
+  font-size: 14px;
 }
 .dropdown-menu {
   margin-right: 30px;
@@ -3856,9 +3867,6 @@ body {
 }
 .detail-view .more {
   display: none;
-}
-#items {
-  padding: 10px;
 }
 .item {
   -webkit-box-shadow: 0px 0px 10px rgba(50, 50, 50, 0.2);
@@ -4083,7 +4091,7 @@ body {
 }
 .item .timeline > ul > li > .timeline-point > div:after {
   border-bottom: 5px solid transparent;
-  border-right: 5px solid #6ba688;
+  border-right: 5px solid #c4bb91;
   border-top: 5px solid transparent;
   content: "";
   display: block;
