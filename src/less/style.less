@@ -283,7 +283,7 @@ body {
             }
           &.watch-status-bad,
           &.gov-status-bad {
-            background: @card;
+            background: @bad;
             border-color: @bad;
             }
           
@@ -292,21 +292,30 @@ body {
             background: @bad;
             }
           
-          &.gov-FIXED
+          &.gov-FIXED,
+          &.watch-FIXED
           {
             background: @good url("/static/img/point-complete.png") no-repeat;
           }
           
-          &.gov-NEW{
-            background: @bad url("/static/img/point-waiting.png") no-repeat;
+          &.gov-NEW,
+          &.watch-NEW{
+            background: @bad url("/static/img/point-late.gif") no-repeat;
           }
           
-          &.gov-IN_PROGRESS{
-            background: @good url("/static/img/point-waiting.png") no-repeat;
+          &.gov-IN_PROGRESS,
+          &.watch-IN_PROGRESS{
+            background: @good url("/static/img/point-inprogress.gif") no-repeat;
           }
           
-          &.gov-WORKAROUND{
+          &.gov-WORKAROUND,
+          &.watch-WORKAROUND,{
             background: @bad url("/static/img/point-workaround.png") no-repeat;
+          }
+          
+          &.gov-STUCK,
+          &.watch-STUCK{
+            background: @bad url("/static/img/point-stuck.png") no-repeat;
           }
           
           &.today,
@@ -569,6 +578,10 @@ body {
     position: absolute;
     margin: -20px 0 0;
     right: 220px; 
+    
+    &.inprogress{
+      background: url("/static/img/stamp-inprogress.png");
+    }
     
     &.workaround{
       background: url("/static/img/stamp-workaround.png");

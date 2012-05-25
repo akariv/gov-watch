@@ -3937,24 +3937,32 @@ body {
 }
 .item .timeline > ul > li > .timeline-point.watch-status-bad,
 .item .timeline > ul > li > .timeline-point.gov-status-bad {
-  background: #fffcd9;
+  background: #f0776d;
   border-color: #f0776d;
 }
 .item .timeline > ul > li > .timeline-point.start,
 .item .timeline > ul > li > .timeline-point.gov-status-bad {
   background: #f0776d;
 }
-.item .timeline > ul > li > .timeline-point.gov-FIXED {
+.item .timeline > ul > li > .timeline-point.gov-FIXED,
+.item .timeline > ul > li > .timeline-point.watch-FIXED {
   background: #6ba688 url("/static/img/point-complete.png") no-repeat;
 }
-.item .timeline > ul > li > .timeline-point.gov-NEW {
-  background: #f0776d url("/static/img/point-waiting.png") no-repeat;
+.item .timeline > ul > li > .timeline-point.gov-NEW,
+.item .timeline > ul > li > .timeline-point.watch-NEW {
+  background: #f0776d url("/static/img/point-late.gif") no-repeat;
 }
-.item .timeline > ul > li > .timeline-point.gov-IN_PROGRESS {
-  background: #6ba688 url("/static/img/point-waiting.png") no-repeat;
+.item .timeline > ul > li > .timeline-point.gov-IN_PROGRESS,
+.item .timeline > ul > li > .timeline-point.watch-IN_PROGRESS {
+  background: #6ba688 url("/static/img/point-inprogress.gif") no-repeat;
 }
-.item .timeline > ul > li > .timeline-point.gov-WORKAROUND {
+.item .timeline > ul > li > .timeline-point.gov-WORKAROUND,
+.item .timeline > ul > li > .timeline-point.watch-WORKAROUND {
   background: #f0776d url("/static/img/point-workaround.png") no-repeat;
+}
+.item .timeline > ul > li > .timeline-point.gov-STUCK,
+.item .timeline > ul > li > .timeline-point.watch-STUCK {
+  background: #f0776d url("/static/img/point-stuck.png") no-repeat;
 }
 .item .timeline > ul > li > .timeline-point.today,
 .item .timeline > ul > li > .timeline-point.start,
@@ -4190,6 +4198,9 @@ body {
   position: absolute;
   margin: -20px 0 0;
   right: 220px;
+}
+.item div.stamp.inprogress {
+  background: url("/static/img/stamp-inprogress.png");
 }
 .item div.stamp.workaround {
   background: url("/static/img/stamp-workaround.png");
