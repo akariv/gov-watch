@@ -273,22 +273,12 @@ body {
           ,&.gov-status-bad{
             width: 15px; height: 15px;
             border: 0;
-          } 
-          
-          &.watch-status-good,
-          &.gov-status-good {
-            background: @good;
-            border-color: @good;
-            }
+          }
+            
           &.watch-status-bad,
           &.gov-status-bad {
             background: @bad;
             border-color: @bad;
-            }
-          
-          &.start,
-          &.gov-status-bad {
-            background: @bad;
             }
           
           &.gov-FIXED,
@@ -317,10 +307,11 @@ body {
             background: @bad url("/static/img/point-stuck.png") no-repeat;
           }
           
+          &.milestone,
           &.today,
           &.start,
           &.completion {
-            //background: @cardshade;
+            background: @cardshade;
             border: 5px solid @card;
             height: 5px;
             width: 19px;
@@ -330,6 +321,15 @@ body {
             > div {
               top: -4px;
               }
+            }
+          
+          &.start,
+          &.gov-status-bad {
+            background: @bad;
+            }
+          
+          &.gov-status-good {
+            background: @good;
             }
             
           &.today { 
@@ -377,10 +377,25 @@ body {
             left: 24px;
             top: 0px;
             line-height: 20px;
-            border: 3px solid @good;
+            border: 3px solid @carddark;
             .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 
             background: @card;
             .border-radius(3px);
+            
+            > .point-meta{
+              background: @carddark;
+              min-height: 26px;
+            }
+            
+            img{
+              background: @carddark;
+              border: 2px solid @carddark;
+              .border-radius(5px);
+              float: right;
+              height: auto;
+              margin: -3px -15px 0 3px;
+              width: 25px;
+            }
             
             h4,
             p,
@@ -397,7 +412,7 @@ body {
               font-size: 14px;
               font-weight: normal;
               line-height: 1.2em;
-              margin: 4px 4px 0px 1px;
+              margin: 3px 4px 0px 3px;
               padding: 0 3px;
               }
             
@@ -417,7 +432,9 @@ body {
               }
             
             small{
-              color: fadeout(@good, 20%);
+              color: @card;
+              line-height: 24px;
+              text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
               &:before {
                 content: "— ";
                 }
@@ -436,20 +453,42 @@ body {
               width: 0;
               }
             }
-          
-          &.gov-status-bad > div
-          ,&.watch-status-bad > div{
-            border: 3px solid @bad; 
-            //background: @good;
             
-            small{
-              color: fadeout(@bad, 20%);
-            }
-            
-            &:after{
-              border-right: 5px solid @bad;
+          &.watch-status-good,
+          &.gov-status-good {
+            background: @good;
+            > div{
+              border-color: @good;
+              &:after{
+                right-border-color: @good;
+              }
+              > div {
+                background: fadeout(@good, 30%);
+              }
+              img{
+                border-color: @good;
+                background: @good;
               }
             }
+          }
+          
+          &.watch-status-bad,
+          &.gov-status-bad {
+            background: @bad;
+            > div{
+              border-color: @bad;
+              &:after{
+                right-border-color: @bad;
+              }
+              > div {
+                background: fadeout(@bad, 30%);
+              }
+              img{
+                border-color: @bad;
+                background: @bad;
+              }
+            }
+          }
           
           &:hover > div {
             display: block;
