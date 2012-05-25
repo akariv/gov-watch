@@ -404,12 +404,12 @@ setup_timeline = ->
         stamp_class = status_to_stamp_class(implementation_status)
         if late
                 stamp_class = 'late'
-        $(this).find('.buxa-header').after("<div class='stamp #{stamp_class}'></div>")
+        $(this).find('.buxa-header').before("<div class='stamp #{stamp_class}'></div>")
 
         if conflict
                 stamp = status_to_hebrew(conflict_status)
                 stamp_class = status_to_stamp_class(conflict_status)
-                $(this).find('.buxa-header').after("<div class='stamp conflicting #{stamp_class}'></div>")
+                $(this).find('.buxa-header').before("<div class='stamp conflicting #{stamp_class}'></div>")
 
 setup_summary = ->
         total = $(".item.shown").size()
