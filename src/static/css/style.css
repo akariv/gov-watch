@@ -3733,7 +3733,6 @@ body {
 }
 .hero-unit  > .hero-size-control,
 .well  > .hero-size-control {
-  position: absolute;
   bottom: 10px;
   left: 10px;
 }
@@ -4363,7 +4362,7 @@ body {
 }
 /**** After Hacks ***/
 .item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today {
-  background: #6ba688;
+  background-color: #6ba688;
 }
 .item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today > div {
   background: #6ba688;
