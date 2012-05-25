@@ -301,9 +301,18 @@ setup_timeline = ->
         top = 0
 
         conflict = false
+        conflict_status = null
         remove_line = false
+        late = false
 
         timeline_items = $(this).find(".timeline > ul > li")
+
+        if (timeline_items.length>1) and $(timeline_items[0]).find('.timeline-point').hasClass('today')
+                today_date = parseInt($(timeline_items[0]).attr('data-date-numeric'))
+                last_update = parseInt($(timeline_items[1]).attr('data-date-numeric'))
+                if today_date - last_update > 180
+                        late = true
+
         for i in [timeline_items.size()-1..0]
                 el = $(timeline_items[i])
                 point = el.find('.timeline-point:first')
@@ -340,6 +349,7 @@ setup_timeline = ->
                 if point.hasClass('watch-update')
                         if is_good_status(gov_status) != is_good_status(status)
                                 conflict = true
+                                conflict_status = status
                         if is_good_status(status)
                                 point.addClass("watch-status-good")
                         else
@@ -368,8 +378,6 @@ setup_timeline = ->
         $(this).find(".timeline > ul > li:first > .timeline-line").remove()
         $(this).find(".timeline > ul > li:first").css('height','3px')
 
-        #console.log "top: #{top}, height: #{height}"
-
         # current status
         implementation_status = $(this).find('.gov-update:last').attr('data-status') ? "NEW"
         if conflict
@@ -382,6 +390,26 @@ setup_timeline = ->
                      $(this).find('.buxa-header').addClass('bad')
         $(this).attr('data-implementation-status',implementation_status)
         $(this).addClass("implementation-status-#{implementation_status}")
+
+        # stamp
+        status_to_stamp_class = (status) ->
+                switch status
+                        when "NEW" then "notstarted"
+                        when "STUCK" then "stuck"
+                        when "IN_PROGRESS" then "inprogress"
+                        when "FIXED" then "done"
+                        when "WORKAROUND" then "workaround"
+                        when "IRRELEVANT" then "done"
+
+        stamp_class = status_to_stamp_class(implementation_status)
+        if late
+                stamp_class = 'late'
+        $(this).find('.buxa-header').after("<div class='stamp #{stamp_class}'></div>")
+
+        if conflict
+                stamp = status_to_hebrew(conflict_status)
+                stamp_class = status_to_stamp_class(conflict_status)
+                $(this).find('.buxa-header').after("<div class='stamp #{stamp_class}'></div>")
 
 setup_summary = ->
         total = $(".item.shown").size()
