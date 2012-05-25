@@ -4208,7 +4208,8 @@ body {
 .item div.stamp.stuck {
   background: url("/static/img/stamp-stuck.png");
 }
-.item div.stamp.late {
+.item div.stamp.late,
+.item div.stamp.notstarted {
   background: url("/static/img/stamp-late.png");
 }
 .item h3 {
