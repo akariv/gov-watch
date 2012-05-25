@@ -4212,6 +4212,9 @@ body {
 .item div.stamp.notstarted {
   background: url("/static/img/stamp-late.png");
 }
+.item div.stamp:nth-child(even) {
+  right: 200px;
+}
 .item h3 {
   font-family: Arial,Sans;
   font-size: 0.6em;
