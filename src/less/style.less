@@ -331,6 +331,7 @@ body {
             width: 7px;
             margin: 0 -2px;
             background: @bad;
+           
             
             > div{
               left: 20px;
@@ -344,6 +345,19 @@ body {
                 border-right-color: @bad;
                 }
               }
+              
+            &.gov-status-good{
+              background: @good;
+              
+              > div {
+                border-color: @good;
+                background: @good;
+                &:after{
+                  border-right-color: @good;
+                }
+              }
+            }
+              
             }
             
           > div {
@@ -446,9 +460,13 @@ body {
           &.status-IN_PROGRESS,
           &.status-FIXED,
           &.status-IRRELEVANT
-          {
-            background: @good;
+            {
+              background: @good;
             }       
+          
+          &.unreported{
+            background-image: url("/static/img/unreported-tile.png");
+          }
           
           } 
         }
@@ -540,6 +558,29 @@ body {
   
   h2 a.hover-toggle{
     display: none;
+  }
+  
+  div.stamp{
+    background: url("/static/img/stamp-done.png");
+    width: 80px;
+    height: 40px;
+    overflow: hidden;
+    text-indent: -200%;
+    position: absolute;
+    margin: -20px 0 0;
+    right: 220px; 
+    
+    &.workaround{
+      background: url("/static/img/stamp-workaround.png");
+    }
+    
+    &.stuck{
+      background: url("/static/img/stamp-stuck.png");
+    }
+    
+    &.late{
+      background: url("/static/img/stamp-late.png");
+    }
   }
   
   h3{
@@ -660,6 +701,9 @@ body {
   }
   
 } // End .item
+
+/**** After Hacks ***/
+
 
 /**** Isotope Filtering ****/
 
