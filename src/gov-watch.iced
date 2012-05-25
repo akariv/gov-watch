@@ -205,15 +205,21 @@ setup_searchbox = ->
          items: 20
          matcher: (item) -> ~item.title.indexOf(this.query)
          valueof: (item) -> item.title
+         itemfrom: (query) -> {type:"subject", title:query}
          selected: (val) ->
-                         search_term = val
-                         update_history()
+                search_term = val
+                update_history()
          highlighter: (item) ->
-                            highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
-                            if item.type == "subject"
-                                    return highlighted_title
-                            if item.type == "tag"
-                                    "<span class='searchtag'><span>#{highlighted_title}</span></span>"
+                highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
+                if item.type == "subject"
+                        return highlighted_title
+                if item.type == "tag"
+                        "<span class='searchtag'><span>#{highlighted_title}</span></span>"
+
+    $("#clearsearch").click ->
+        search_term = ""
+        show_watermark(true)
+        update_history()
 
 run_templates = (template,data,selector) ->
     # This is used to process lists in the data's values.
@@ -303,13 +309,14 @@ setup_timeline = ->
         conflict = false
         conflict_status = null
         remove_line = false
+        after_today = false
         late = false
 
         timeline_items = $(this).find(".timeline > ul > li")
 
-        if (timeline_items.length>1) and $(timeline_items[0]).find('.timeline-point').hasClass('today')
+        if (timeline_items.length>0) and $(timeline_items[0]).find('.timeline-point').hasClass('today')
                 today_date = parseInt($(timeline_items[0]).attr('data-date-numeric'))
-                last_update = parseInt($(timeline_items[1]).attr('data-date-numeric'))
+                last_update = parseInt($(this).find(".timeline > ul > li").attr('data-date-numeric'))
                 if today_date - last_update > 180
                         late = true
 
@@ -337,14 +344,16 @@ setup_timeline = ->
 
                 if point.hasClass("today") or gov_status == "FIXED" or gov_status == "IRRELEVANT"
                         remove_line = true
+                if point.hasClass("today")
+                        after_today = true
 
-                if remove_line
-                        line.css('border',"none")
-                        line.css('background',"none")
-                else
+                if not remove_line
                         line.addClass("status-#{gov_status}")
                         timeline_items.find(".timeline-line").removeClass("unreported")
                         line.addClass("unreported")
+
+                if after_today
+                        line.addClass("future")
 
                 if point.hasClass('watch-update')
                         if is_good_status(gov_status) != is_good_status(status)
@@ -474,9 +483,6 @@ process_data = ->
         $("#explanation").removeClass('always-shown')
         do_search()
 
-    $("#items").prepend($("#hero-unit-holder").html())
-    $("#hero-unit-holder").html('')
-
     # Allow the DOM to sync
     await setTimeout((defer _),50)
 
@@ -491,7 +497,7 @@ process_data = ->
         filter: ".shown"
         getSortData :
            followers:  ( e ) -> -parseInt( "0"+e.find('.watch').text() )
-           recommendation :  ( e ) -> e.find('.recommendation-text').text()
+           original :  ( e ) -> "#{e.attr('data-chapter')}/{e.attr('data-subchapter')}"
            budget :  ( e ) ->
                         -parseInt( "0"+e.attr('cost'), 10 )
            comments :  ( e ) ->
@@ -525,7 +531,6 @@ process_data = ->
     # hero unit expansion
     $(".hero-unit .hero-size-control").click( ->
         $(".hero-unit").toggleClass("expanded")
-        $("#items").isotope('reLayout')
         false
         )
 

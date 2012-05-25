@@ -27,7 +27,7 @@
 ********************* -->
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}">
+<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}" data-chapter="{{chapter}}" data-subchapter="{{subchapter}}">
   <div class="item-body">
   	
     <div class="tags">
@@ -300,9 +300,9 @@
       </div>
     </div>
     
-    <div id="hero-unit-holder" style="display:none;">
+    <!--div id="hero-unit-holder" style="display:none;"-->
       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit span always-shown isotope-card expanded" cost="9999999">
+      <div class="hero-unit span  expanded" cost="9999999">
         <h2><a href="#">המפקח</a>	&larr;</h2>
         <h1>דו"ח טרכטנברג</h1>
         <p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי</p>
@@ -310,7 +310,7 @@
 	  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
 	  <h3>סדר לפי:</h3>
 	  <div id="sort" class="btn-group" data-toggle="buttons-radio">
-	    <button class="btn" value="recommendation">כותרת</button>
+	    <button class="btn" value="original">מקור</button>
 	    <button class="btn" value="budget">עלות תקציבית</button>
 	    <button class="btn" value="followers">מספר עוקבים</button>
 	    <button class="btn" value="comments">מספר תגובות</button>
@@ -326,7 +326,7 @@
         <div id="summary" class="summary">
         </div>
       </div>
-    </div>
+    <!--/div-->
 
     <div id="explanation-holder" style="display:none;">
       <div id='explanation' class='hero-unit explanation span isotope-card' cost="9999998">
