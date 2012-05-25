@@ -186,7 +186,7 @@
   };
 
   data_callback = function(data) {
-    var gov_updates, k, l, num_links, rec, tag, u, v, watch_updates, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2, _ref3, _ref4;
+    var gov_updates, k, l, num_links, rec, tag, u, v, watch_updates, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2, _ref3, _ref4, _ref5;
     loaded_data = data;
     all_books = {};
     all_tags = {};
@@ -228,6 +228,9 @@
       rec.gov_updates = gov_updates;
       rec.watch_updates = watch_updates;
       rec.base.subscribers = (_ref4 = rec.subscribers) != null ? _ref4 : 0;
+      if (((_ref5 = rec.base.recommendation) != null ? _ref5.length : void 0) > 500) {
+        rec.base.recommendation_shortened = rec.base.recommendation.slice(0, 501) + "&nbsp;" + ("<a href='" + (generate_url(rec.slug)) + "'>") + "עוד..." + "</a>";
+      }
     }
     all_tags = Object.keys(all_tags);
     all_subjects = Object.keys(all_subjects);
@@ -305,51 +308,15 @@
   };
 
   run_templates = function(template, data, selector) {
-    var do_list, html, list_template;
+    var html;
     template = $("script[name=" + template + "]").html();
-    list_template = $("script[name=list]").html();
-    do_list = function(text) {
-      return Mustache.to_html(list_template, {
-        items: text,
-        linkify: function() {
-          return function(text, render) {
-            text = render(text);
-            return text = text.replace(/\[(.+)\]/, "<a href='$1'>\u05e7\u05d9\u05e9\u05d5\u05e8</a>");
-          };
-        }
-      });
-    };
-    html = Mustache.to_html(template, data, {
-      none_val: function() {
-        return function(text, render) {
-          text = render(text);
-          if (text === "") {
-            return "\u05d0\u05d9\u05df";
-          } else {
-            return text;
-          }
-        };
-      },
-      semicolon_list: function() {
-        return function(text, render) {
-          text = render(text);
-          text = text.split(';');
-          return text = do_list(text);
-        };
-      },
-      urlforslug: function() {
-        return function(text, render) {
-          text = render(text);
-          return generate_url(text);
-        };
-      }
-    });
+    html = Mustache.to_html(template, data);
     return $(selector).html(html);
   };
 
   setup_timeline = function() {
     return $(".item").each(function() {
-      var available_height, conflict, el, gov_status, has_unknowns, height, i, implementation_status, is_good_status, item_size, last_percent, line, margins, max_numeric_date, min_numeric_date, pad, point, remove_line, status, status_to_hebrew, timeline_items, today, top, _i, _ref, _ref2, _ref3;
+      var available_height, conflict, conflict_status, el, gov_status, has_unknowns, height, i, implementation_status, is_good_status, item_size, last_percent, last_update, late, line, margins, max_numeric_date, min_numeric_date, pad, point, remove_line, stamp, stamp_class, status, status_to_hebrew, status_to_stamp_class, timeline_items, today, today_date, top, _i, _ref, _ref2, _ref3;
       pad = function(n) {
         if (n < 10) {
           return '0' + n;
@@ -453,8 +420,15 @@
       });
       top = 0;
       conflict = false;
+      conflict_status = null;
       remove_line = false;
+      late = false;
       timeline_items = $(this).find(".timeline > ul > li");
+      if ((timeline_items.length > 1) && $(timeline_items[0]).find('.timeline-point').hasClass('today')) {
+        today_date = parseInt($(timeline_items[0]).attr('data-date-numeric'));
+        last_update = parseInt($(timeline_items[1]).attr('data-date-numeric'));
+        if (today_date - last_update > 180) late = true;
+      }
       for (i = _i = _ref = timeline_items.size() - 1; _ref <= 0 ? _i <= 0 : _i >= 0; i = _ref <= 0 ? ++_i : --_i) {
         el = $(timeline_items[i]);
         point = el.find('.timeline-point:first');
@@ -487,6 +461,7 @@
         if (point.hasClass('watch-update')) {
           if (is_good_status(gov_status) !== is_good_status(status)) {
             conflict = true;
+            conflict_status = status;
           }
           if (is_good_status(status)) {
             point.addClass("watch-status-good");
@@ -524,7 +499,31 @@
         }
       }
       $(this).attr('data-implementation-status', implementation_status);
-      return $(this).addClass("implementation-status-" + implementation_status);
+      $(this).addClass("implementation-status-" + implementation_status);
+      status_to_stamp_class = function(status) {
+        switch (status) {
+          case "NEW":
+            return "notstarted";
+          case "STUCK":
+            return "stuck";
+          case "IN_PROGRESS":
+            return "inprogress";
+          case "FIXED":
+            return "done";
+          case "WORKAROUND":
+            return "workaround";
+          case "IRRELEVANT":
+            return "done";
+        }
+      };
+      stamp_class = status_to_stamp_class(implementation_status);
+      if (late) stamp_class = 'late';
+      $(this).find('.buxa-header').after("<div class='stamp " + stamp_class + "'></div>");
+      if (conflict) {
+        stamp = status_to_hebrew(conflict_status);
+        stamp_class = status_to_stamp_class(conflict_status);
+        return $(this).find('.buxa-header').after("<div class='stamp " + stamp_class + "'></div>");
+      }
     });
   };
 
@@ -604,7 +603,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 476
+        lineno: 480
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -646,7 +645,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 497
+          lineno: 501
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -775,7 +774,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 613
+          lineno: 617
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
