@@ -18,6 +18,7 @@ app.debug = True
 @app.route('/')
 def idx():
     orig_hashbang = request.args.get('_escaped_fragment_')
+    orig_hashbang = urllib.unquote(hashbang)
 
     if not orig_hashbang:
         return Response(file('static/html/index.html').read())
@@ -163,4 +164,4 @@ if __name__=="__main__":
     for profile_name, profile_image in profiles.iteritems():
         print "%s, %s" % (profile_name, slugify(profile_name))
         r.set("profile:%s" % slugify(profile_name), file('static/img/%s' % profile_image).read())
-    app.run(debug=True)
+    app.run(debug=False)
