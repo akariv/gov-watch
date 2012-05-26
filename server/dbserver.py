@@ -18,11 +18,11 @@ app.debug = True
 @app.route('/')
 def idx():
     orig_hashbang = request.args.get('_escaped_fragment_')
-    orig_hashbang = urllib.unquote(hashbang)
 
     if not orig_hashbang:
         return Response(file('static/html/index.html').read())
     else:
+        orig_hashbang = urllib.unquote(orig_hashbang)
         hashbang = orig_hashbang.split('|')
         hashbang = [ x.split(':') for x in hashbang ]
         hashbang = dict(hashbang)
