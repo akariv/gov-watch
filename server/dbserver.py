@@ -17,7 +17,22 @@ app.debug = True
 
 @app.route('/')
 def idx():
-    return Response(file('static/html/index.html').read())
+    orig_hashbang = request.args.get('_escaped_fragment_')
+
+    if not orig_hashbang:
+        return Response(file('static/html/index.html').read())
+    else:
+        hashbang = orig_hashbang.split('|')
+        hashbang = [ x.split(':') for x in hashbang ]
+        hashbang = dict(hashbang)
+        slug = hashbang.get('s')
+        if slug:
+            data = json.loads(r.get('slug:%s' % slug))
+            return render_template('single.html', item=data, hashbang=orig_hashbang)
+        else:
+            data = json.loads(r.get('everything'))
+            return render_template('all.html', items=data, hashbang=orig_hashbang)
+                        
 
 @app.route('/edit')
 def edit():
@@ -148,4 +163,4 @@ if __name__=="__main__":
     for profile_name, profile_image in profiles.iteritems():
         print "%s, %s" % (profile_name, slugify(profile_name))
         r.set("profile:%s" % slugify(profile_name), file('static/img/%s' % profile_image).read())
-    app.run()
+    app.run(debug=True)
