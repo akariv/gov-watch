@@ -44,9 +44,9 @@ unslugify = (str) ->
 ## Generate hash for current state
 generate_hash = ( selected_book, search_term, slug ) ->
    if slug
-      "!z=#{BOOK}:#{slugify(selected_book)}|#{SLUG}:#{slug}"
+      "!z=#{BOOK}:#{slugify(selected_book)}_#{SLUG}:#{slug}"
    else
-      "!z=#{BOOK}:#{slugify(selected_book)}|#{SEARCHTERM}:#{slugify(search_term)}"
+      "!z=#{BOOK}:#{slugify(selected_book)}_#{SEARCHTERM}:#{slugify(search_term)}"
 
 ## Generate a fully qualified url for a given slug
 generate_url = (slug) ->
@@ -57,9 +57,8 @@ update_history = (slug) ->
     await setTimeout((defer _),0)
     window.location.hash = generate_hash( selected_book, search_term, slug )
 
-set_fb_title = (title) ->
+set_title = (title) ->
         $("title").html(title)
-        $("meta[property='og:title']").attr("content",title)
 
 ## Process page hash changes
 onhashchange = ->
@@ -70,7 +69,7 @@ onhashchange = ->
    hash = fullhash[4...fullhash.length]
 
    # hash is separated to key=value parts
-   splits = hash.split("|")
+   splits = hash.split("_")
 
    slug = null
    selected_book = null
@@ -105,7 +104,7 @@ onhashchange = ->
         $(".item").removeClass("shown")
         $("#items").isotope({filter: ".shown"})
     else
-        set_fb_title('דו"ח טרכטנברג | המפקח: מעקב אחר ישום המלצות הועדה')
+        set_title('דו"ח טרכטנברג | המפקח: מעקב אחר ישום המלצות הועדה')
         selected_slug = null
         select_item( null )
         do_search()
@@ -573,7 +572,7 @@ select_item = (slug) ->
         for x in loaded_data
                 if x.slug == slug
                         item = run_templates( "single-item", x, "#single-item" )
-                        set_fb_title( x.base.book+": "+x.base.subject )
+                        set_title( x.base.book+": "+x.base.subject )
                         url = generate_url(slug)
                         $("#single-item .fb").append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
                         $("#single-item .fb").append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
@@ -651,5 +650,6 @@ $ ->
                 load_data()
    catch error
         # If we don't succeed, load data immediately
+        alert("error?")
         load_data()
 

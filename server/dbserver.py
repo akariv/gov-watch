@@ -23,7 +23,7 @@ def idx():
         return Response(file('static/html/index.html').read())
     else:
         orig_hashbang = urllib.unquote(orig_hashbang)
-        hashbang = orig_hashbang[2:].split('|')
+        hashbang = orig_hashbang[2:].split('_')
         hashbang = [ x.split(':') for x in hashbang ]
         hashbang = dict(hashbang)
         slug = hashbang.get('s')
