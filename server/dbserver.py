@@ -162,6 +162,5 @@ if __name__=="__main__":
         x.setdefault('subscribers',0)
         r.set("slug:%s" % x["slug"],json.dumps(x,indent=0))
     for profile_name, profile_image in profiles.iteritems():
-        print "%s, %s" % (profile_name, slugify(profile_name))
         r.set("profile:%s" % slugify(profile_name), file('static/img/%s' % profile_image).read())
     app.run(debug=False)
