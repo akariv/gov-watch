@@ -3719,15 +3719,43 @@ body {
 .hero-unit,
 .well {
   background: rgba(0, 0, 0, 0.3);
-  padding: 30px 15px;
+  padding: 0;
   color: #DDD;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
+.hero-unit .heading,
+.well .heading {
+  *zoom: 1;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 14px 30px;
+  margin-bottom: 10px;
+}
+.hero-unit .heading:before,
+.well .heading:before,
+.hero-unit .heading:after,
+.well .heading:after {
+  display: table;
+  content: "";
+}
+.hero-unit .heading:after,
+.well .heading:after {
+  clear: both;
+}
+.hero-unit .heading p,
+.well .heading p {
+  margin: 23px 0 0;
+}
+.hero-unit h1,
+.well h1 {
+  float: right;
+  margin-left: 20px;
+}
 .hero-unit .row-fluid,
 .well .row-fluid {
   max-width: 1230px;
+  margin-right: 14px;
 }
 .hero-unit h1,
 .well h1,
@@ -3735,7 +3763,7 @@ body {
 .well h2,
 .hero-unit h3,
 .well h3 {
-  color: #DDD;
+  color: #fff;
 }
 .hero-unit  > .hero-size-control,
 .well  > .hero-size-control {
@@ -3768,9 +3796,49 @@ body {
 .well .btn-group {
   margin-bottom: 30px;
 }
+.hero-unit .btn-group .btn-inverse,
+.well .btn-group .btn-inverse {
+  background-color: #30343b;
+  background-image: -moz-linear-gradient(top, #393e46, #22252a);
+  background-image: -ms-linear-gradient(top, #393e46, #22252a);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#393e46), to(#22252a));
+  background-image: -webkit-linear-gradient(top, #393e46, #22252a);
+  background-image: -o-linear-gradient(top, #393e46, #22252a);
+  background-image: linear-gradient(top, #393e46, #22252a);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#393e46', endColorstr='#22252a', GradientType=0);
+  border-color: #22252a #22252a #000000;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #FFFFFF;
+}
+.hero-unit .btn-group .btn-inverse:hover,
+.well .btn-group .btn-inverse:hover,
+.hero-unit .btn-group .btn-inverse:active,
+.well .btn-group .btn-inverse:active,
+.hero-unit .btn-group .btn-inverse.active,
+.well .btn-group .btn-inverse.active,
+.hero-unit .btn-group .btn-inverse.disabled,
+.well .btn-group .btn-inverse.disabled,
+.hero-unit .btn-group .btn-inverse[disabled],
+.well .btn-group .btn-inverse[disabled] {
+  background-color: #22252a;
+}
+.hero-unit .btn-group .btn-inverse:active,
+.well .btn-group .btn-inverse:active,
+.hero-unit .btn-group .btn-inverse.active,
+.well .btn-group .btn-inverse.active {
+  background-color: #0b0c0e \9;
+}
 .hero-unit.explanation > h2,
 .well.explanation > h2 {
   float: left;
+}
+.hero-unit h3,
+.well h3 {
+  font-size: 0.8em;
+  font-weight: normal;
+  color: #808998;
 }
 .highlight {
   background-color: yellow;
@@ -3788,33 +3856,33 @@ body {
 #search input {
   width: 100%;
   display: table;
-  font-size: 30px;
-  line-height: 40px;
-  padding: 5px 0;
-  text-indent: 5px;
-  height: 40px;
+  font-size: 22px;
+  line-height: 50px;
+  padding: 7px 0;
+  text-indent: 10px;
+  height: 20px;
   float: right;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
 }
 #search button {
   border: 0 none;
   width: 20px;
   height: 20px;
-  margin: -45px 0 0 10px;
+  margin: -36px 0 0 5px;
   overflow: hidden;
   text-indent: -2000%;
   float: left;
   background: url('/static/img/clear-search.png');
 }
-#sort .btn {
-  font-size: 14px;
-}
 .dropdown-menu {
-  margin-right: 30px;
+  margin-right: 5px;
   overflow: hidden;
 }
 .dropdown-menu a {
   line-height: 23px;
-  padding: 4px 15px;
+  padding: 4px 5px;
 }
 .dropdown-menu strong {
   background: rgba(0, 0, 0, 0.2);
@@ -3854,6 +3922,42 @@ body {
 }
 .searchtag:hover a {
   background: #c4bb91;
+}
+#summary {
+  margin-left: -14px;
+  margin-right: -14px;
+  font-weight: bold;
+}
+#summary a {
+  font-size: 2em;
+  color: white;
+  float: right;
+  margin-right: 14px;
+  width: 90px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 4px 0;
+  text-indent: 4px;
+}
+#summary a span {
+  font-size: 0.4em;
+  display: block;
+  font-weight: normal;
+}
+#summary a.implemented,
+#summary a.in_progress {
+  color: #6ba688;
+}
+#summary a.stuck {
+  color: #f0776d;
+}
+#summary a:hover {
+  text-decoration: none;
+  background: #393e46;
+}
+#summary .punct {
+  display: none;
 }
 /**** Item ****/
 .row > [class*="span"] {
@@ -4195,7 +4299,7 @@ body {
   background: url("/static/img/taghead.png") no-repeat right top;
   font-size: 0.7em;
   height: 18px;
-  line-height: 19px;
+  line-height: 18px;
   list-style: none outside none;
   margin: 0 0 3px 5px;
   padding-right: 13px;
