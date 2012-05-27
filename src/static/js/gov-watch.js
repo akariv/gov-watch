@@ -472,12 +472,14 @@
           }
           last_update_at = i;
         }
-        line.addClass("status-" + gov_status);
-        point.addClass("gov-" + gov_status);
-        if (is_good_status(gov_status)) {
-          point.addClass("gov-status-good");
-        } else {
-          point.addClass("gov-status-bad");
+        if (!after_today) {
+          line.addClass("status-" + gov_status);
+          point.addClass("gov-" + gov_status);
+          if (is_good_status(gov_status)) {
+            point.addClass("gov-status-good");
+          } else {
+            point.addClass("gov-status-bad");
+          }
         }
         if (conflict) point.addClass("conflict");
         if (today_at === 1000) {
@@ -624,7 +626,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 502
+        lineno: 503
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -666,7 +668,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 523
+          lineno: 524
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -794,7 +796,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 638
+          lineno: 639
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

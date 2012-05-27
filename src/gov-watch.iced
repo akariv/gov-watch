@@ -356,13 +356,14 @@ setup_timeline = ->
                                 point.addClass("watch-status-bad")
                         last_update_at = i
 
-                line.addClass("status-#{gov_status}")
-                point.addClass("gov-#{gov_status}")
+                if not after_today
+                        line.addClass("status-#{gov_status}")
+                        point.addClass("gov-#{gov_status}")
 
-                if is_good_status(gov_status)
-                        point.addClass("gov-status-good")
-                else
-                        point.addClass("gov-status-bad")
+                        if is_good_status(gov_status)
+                                point.addClass("gov-status-good")
+                        else
+                                point.addClass("gov-status-bad")
 
                 if conflict
                         point.addClass("conflict")
