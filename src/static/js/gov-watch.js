@@ -759,7 +759,7 @@
         return $(_this).find(".commentcount").html(json[0].commentsbox_count);
       });
     });
-    return $("#items").isotope('updateSortData', $("#items"));
+    return $("#items").isotope('updateSortData', $(".item"));
   };
 
   do_search = function() {

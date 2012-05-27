@@ -594,7 +594,7 @@ load_fb_comment_count = ->
                             (defer json),
                             "json")
                 $(this).find(".commentcount").html(json[0].commentsbox_count)
-        $("#items").isotope( 'updateSortData', $("#items") )
+        $("#items").isotope( 'updateSortData', $(".item") )
 
 ## Perform search on the site's data
 do_search = ->
