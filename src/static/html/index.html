@@ -259,19 +259,16 @@
 -->
 <script type="text/html" name="summary">
   {{#total}}<a class="total">{{total}} <span>סך ההמלצות</span></a>
-				<span class="punct">:</span>
-                {{#implemented}}<a class="implemented">{{implemented}} <span>בוצעו במלואן</span></a>
-                                {{^in_progress}}{{^stuck}}<span class="punct">.</span>{{/stuck}}{{/in_progress}}
-                                {{#in_progress}}{{^stuck}}<span class="punct">,</span>{{/stuck}}{{/in_progress}}
-                                {{^in_progress}}{{#stuck}}<span class="punct">,</span>{{/stuck}}{{/in_progress}}
-                                {{#in_progress}}{{#stuck}}<span class="punct">,</span>{{/stuck}}{{/in_progress}}
-                {{/implemented}} 
-                {{#in_progress}}<a class="in_progress">{{in_progress}} <span>בתהליך ביצוע</span></a>
-                                {{#stuck}}<span class="punct">,</span>{{/stuck}}
-                                {{^stuck}}<span class="punct">.</span>{{/stuck}}   
-                {{/in_progress}}
-                {{#stuck}}<a class="stuck">{{stuck}} <span>תקועות בדרך</span></a><span class="punct">.</span>{{/stuck}}
-       {{/total}}
+  {{#implemented}}
+  <a class="implemented">{{implemented}} <span>בוצעו במלואן</span></a>
+  {{/implemented}} 
+  {{#in_progress}}
+  <a class="in_progress">{{in_progress}} <span>בתהליך ביצוע</span></a>
+  {{/in_progress}}
+  {{#stuck}}
+  <a class="stuck">{{stuck}} <span>תקועות בדרך</span></a>
+  {{/stuck}}
+  {{/total}}
 </script>
 
 <script type="text/javascript">
@@ -289,63 +286,60 @@
 </script>
   </head>
   <body>
-
+    
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="brand" href="#">המפקח</a>
           <ul class="nav" id="books">
-            <li><a href="#about">אודות</a></li>
-            <li><a href="#contact">צרו קשר</a></li>
+            <li><a href="http://www.hasadna.org.il/%D7%94%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%A9%D7%9C%D7%A0%D7%95/%D7%94%D7%9E%D7%A4%D7%A7%D7%97-%D7%94%D7%9B%D7%9C%D7%9C%D7%99-%D7%9E%D7%A2%D7%A7%D7%91-%D7%98%D7%A8%D7%9B%D7%98%D7%A0%D7%91%D7%A8%D7%92/" target="_blank">אודות</a></li>
+            <li><a href="mailto:gov.watch.il@gmail.com" target="_blank">צרו קשר</a></li>
           </ul>
           <p class="pull-left">מחובר כ- <a href="#">שם משתמש</a></p>
         </div>
       </div>
     </div>
     
-    <!--div id="hero-unit-holder" style="display:none;"-->
-  <!-- Main hero unit for a primary marketing message or call to action -->
-  <div class="hero-unit container-fluid expanded" cost="9999999">
-	<div class="heading">
-		<h1>דו"ח טרכטנברג</h1>
-		<p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי</p>
-                <p><a id="show-explanation" class="btn primary large">למדו עוד &raquo;</a></p>
-	</div>
-  
-	<div class="row-fluid">  
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="hero-unit container-fluid expanded" cost="9999999">
+      <div class="heading">
+	<h1>דו"ח טרכטנברג</h1>
+	<p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי</p>
+        <p><a id="show-explanation" class="btn primary large">למדו עוד &raquo;</a></p>
+      </div>
+      
+      <div class="row-fluid">  
 	
-		<div class="span4">
-			<h3>סינון:</h3>
-	        <form id="searchbar" action="#">
-	          <fieldset id='search'>
-			    <input id="searchbox" class="xlarge" type="text" autocomplete="off" name="xlInput">
-			    <button id="clearsearch">clear</button>
-			  </fieldset>
-			</form>
-		</div>
-		
-		<div class="span4">
-		  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
-		  <h3>סידור לפי:</h3>
-		  <div id="sort" class="btn-group" data-toggle="buttons-radio">
-		    <button class="btn btn-inverse" value="original">מקור</button>
-		    <button class="btn btn-inverse" value="budget">עלות</button>
-		    <button class="btn btn-inverse" value="followers">עוקבים</button>
-		    <button class="btn btn-inverse" value="comments">תגובות</button>
-		  </div>
-		</div>
-		
-      <div class="span4">
-		  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
-        <div id="summary" class="summary">
+	<div class="span4">
+	  <h3>סינון:</h3>
+	  <form id="searchbar" action="#">
+	    <fieldset id='search'>
+	      <input id="searchbox" class="xlarge" type="text" autocomplete="off" name="xlInput">
+	      <button id="clearsearch">clear</button>
+	    </fieldset>
+	  </form>
+	</div>
+	
+	<div class="span4">
+	  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+	  <h3>סידור לפי:</h3>
+	  <div id="sort" class="btn-group" data-toggle="buttons-radio">
+	    <button class="btn btn-inverse" value="original">מקור</button>
+	    <button class="btn btn-inverse" value="budget">עלות</button>
+	    <button class="btn btn-inverse" value="followers">עוקבים</button>
+	    <button class="btn btn-inverse" value="comments">תגובות</button>
+	  </div>
+	</div>
+	
+        <div class="span4">
+	  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
+          <div id="summary" class="summary">
+          </div>
         </div>
       </div>
-	</div>
-  </div>
-    <!--/div-->
-
+    </div>
+    
     <div class="content container-fluid">
-      
       <div id='container'>
         <div id='single-item' class="row"></div>
         <div id='items' class="row">
@@ -353,7 +347,7 @@
       </div>
       
       <footer>
-        <p>חלק מהזכויות שמורות | הסדנא לידע ציבורי 2012</p>
+        <p>חלק מהזכויות שמורות | 2012 <a href='http://www.hasadna.org.il'><img style='align:bottom;' src='static/img/hasadna-badge.png'></a> | <a href="/api">ממשק נתונים</a></p>
       </footer>
 
     </div>
