@@ -16,6 +16,7 @@
 @good: #6ba688;
 @bad: #f0776d;
 @darkTrans: rgba(0,0,0,0.5);
+@herotone: #393e46;
 
 @linkMuted: @gray;
 
@@ -42,17 +43,33 @@ body {
 
 .hero-unit, .well{
   background: rgba(0, 0, 0, 0.3);
-  padding: 30px 15px;
+  padding: 0;
   color: #DDD;
-  //width: 345px;
   
   .border-radius(5px);
   
-  .row-fluid {
-    max-width: 1230px;
+  .heading{
+    .clearfix();
+    background: rgba(0,0,0,0.1);
+    padding: 14px 30px;
+    margin-bottom: 10px;
+    
+    p{
+      margin: 23px 0 0;
+    }
   }
   
-  h1,h2,h3{color: #DDD;}
+  h1{
+    float: right;
+    margin-left: 20px;
+  }
+  
+  .row-fluid {
+    max-width: 1230px;
+    margin-right: 14px;
+  }
+  
+  h1,h2,h3{color: #fff;}
 
   & > .hero-size-control {
     bottom:10px;
@@ -86,6 +103,10 @@ body {
   .btn-group{
     //width: 350px;
     margin-bottom: 30px;
+    .btn-inverse{
+      .buttonBackground(@herotone, darken(#393e46, 10%));
+      color: #FFFFFF;
+    }
   }
 
   &.explanation {
@@ -94,7 +115,13 @@ body {
     > h2 {
       float:left;
       }
-    }
+  }
+  
+  h3{
+    font-size: 0.8em;
+    font-weight: normal;
+    color: lighten(@herotone, 30%);
+  }
     
 }
 
@@ -112,46 +139,43 @@ body {
 
 /**** Header ****/
 
-  #search{
-    
-    legend{
-      padding-left:0;
-    }
-    
-    input{
-      width: 100%;
-      display: table;
-      font-size: 30px;
-      line-height: 40px;
-      padding: 5px 0;
-      text-indent: 5px;
-      height: 40px;
-      float: right;
-    }
-    
-    button{
-      border: 0 none;
-      width: 20px; height: 20px;
-      margin: -45px 0 0 10px;
-      overflow: hidden;
-      text-indent: -2000%;
-      float: left;
-      background: url('/static/img/clear-search.png'); 
-    }
-    
+#search{
+  
+  legend{
+    padding-left:0;
   }
   
-  #sort .btn{
-    font-size: 14px;
+  input{
+    width: 100%;
+    display: table;
+    font-size: 22px;
+    line-height: 50px;
+    padding: 7px 0;
+    text-indent: 10px;
+    height: 20px;
+    float: right;
+    .border-radius(25px);
+  }
+  
+  button{
+    border: 0 none;
+    width: 20px; height: 20px;
+    margin: -36px 0 0 5px;
+    overflow: hidden;
+    text-indent: -2000%;
+    float: left;
+    background: url('/static/img/clear-search.png'); 
+    }
+    
   }
   
   .dropdown-menu{
-    margin-right: 30px;
+    margin-right: 5px;
     overflow: hidden;
     
     a{
       line-height: 23px;
-      padding: 4px 15px;
+      padding: 4px 5px;
     }
     strong{
       background: rgba(0, 0, 0, 0.2);
@@ -169,30 +193,71 @@ body {
       display: inline-block;
       text-decoration: none;
       background: url("/static/img/taghead-s.png") no-repeat right top;
-      font-size: 0.7em;
-      height: 23px;
-      line-height: 22px;
-      list-style: none outside none;
-      margin-left: 5px;
-      padding-right: 15px;
+    font-size: 0.7em;
+    height: 23px;
+    line-height: 22px;
+    list-style: none outside none;
+    margin-left: 5px;
+    padding-right: 15px;
+    
+    span{
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+      background: @cardshade;
+      border-radius: 3px 0 0 3px;
+      color: white;
+      font-size: 18px;
+      font-weight: 400;
+      padding: 0 5px 1px;
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
       
-      span{
-        text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-        background: @cardshade;
-        border-radius: 3px 0 0 3px;
-        color: white;
-        font-size: 18px;
-        font-weight: 400;
-        padding: 0 5px 1px;
-        text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-        
-        &:hover{
-          text-decoration:none;
-        }
+      &:hover{
+        text-decoration:none;
       }
-      
-      &:hover{background-position: right bottom; a{background: @carddark;}}
+    }
+    
+    &:hover{background-position: right bottom; a{background: @carddark;}}
+}
+
+#sort .btn{
+  //font-size: 14px;
+}
+
+#summary{
+  margin-left: -14px;
+  .row;
+  font-weight: bold;
+  a{
+    font-size: 2em;
+    color: white;
+    .makeColumn;
+    .border-radius(3px);
+    padding: 4px 0;
+    text-indent: 4px;
+    
+    span{
+      font-size: 0.4em;
+      display: block;
+      font-weight: normal;
+    }
+    
+    &.implemented,
+    &.in_progress{
+      color: @good;
+    }
+    
+    &.stuck{
+      color: @bad;
+    }
+    
+    &:hover{
+      text-decoration: none;
+      background: @herotone;
+    }
   }
+  .punct{
+    display: none;
+  }
+}
   
 /**** Item ****/
 
@@ -573,7 +638,7 @@ body {
       background: url("/static/img/taghead.png") no-repeat right top;
       font-size: 0.7em;
       height: 18px;
-      line-height: 19px;
+      line-height: 18px;
       list-style: none outside none;
       margin: 0 0 3px 5px;
       padding-right: 13px;

@@ -258,19 +258,20 @@
 *******************************
 -->
 <script type="text/html" name="summary">
-  <p> {{#total}}<a class="total">{{total}}</a> המלצות בסה"כ, מתוכן 
-                {{#implemented}}<a class="implemented">{{implemented}}</a><span> בוצעו במלואן</span>
-                                {{^in_progress}}{{^stuck}}.{{/stuck}}{{/in_progress}}
-                                {{#in_progress}}{{^stuck}} ו-{{/stuck}}{{/in_progress}}
-                                {{^in_progress}}{{#stuck}} ו-{{/stuck}}{{/in_progress}}
-                                {{#in_progress}}{{#stuck}},{{/stuck}}{{/in_progress}}
+  {{#total}}<a class="total">{{total}} <span>סך ההמלצות</span></a>
+				<span class="punct">:</span>
+                {{#implemented}}<a class="implemented">{{implemented}} <span>בוצעו במלואן</span></a>
+                                {{^in_progress}}{{^stuck}}<span class="punct">.</span>{{/stuck}}{{/in_progress}}
+                                {{#in_progress}}{{^stuck}}<span class="punct">,</span>{{/stuck}}{{/in_progress}}
+                                {{^in_progress}}{{#stuck}}<span class="punct">,</span>{{/stuck}}{{/in_progress}}
+                                {{#in_progress}}{{#stuck}}<span class="punct">,</span>{{/stuck}}{{/in_progress}}
                 {{/implemented}} 
-                {{#in_progress}}<a class="in_progress">{{in_progress}}</a><span> בתהליך ביצוע</span>
-                                {{#stuck}} ו-{{/stuck}}
-                                {{^stuck}}.{{/stuck}}   
+                {{#in_progress}}<a class="in_progress">{{in_progress}} <span>בתהליך ביצוע</span></a>
+                                {{#stuck}}<span class="punct">,</span>{{/stuck}}
+                                {{^stuck}}<span class="punct">.</span>{{/stuck}}   
                 {{/in_progress}}
-                {{#stuck}}<a class="stuck">{{stuck}}</a> תקועות בדרך.{{/stuck}}
-       {{/total}}</p>
+                {{#stuck}}<a class="stuck">{{stuck}} <span>תקועות בדרך</span></a><span class="punct">.</span>{{/stuck}}
+       {{/total}}
 </script>
 
 <script type="text/javascript">
@@ -305,22 +306,16 @@
     <!--div id="hero-unit-holder" style="display:none;"-->
   <!-- Main hero unit for a primary marketing message or call to action -->
   <div class="hero-unit container-fluid expanded" cost="9999999">
-  	<div class="row-fluid">
-      <div class="span4">
-        <h1>דו"ח טרכטנברג</h1>
-        <p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי</p>
-        <!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
-      </div>
-      
-      <div class="span4">
-		  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
-		  <h3>סדר לפי:</h3>
-		  <div id="sort" class="btn-group" data-toggle="buttons-radio">
-		    <button class="btn" value="original">מקור</button>
-		    <button class="btn" value="budget">עלות תקציבית</button>
-		    <button class="btn" value="followers">מספר עוקבים</button>
-		    <button class="btn" value="comments">מספר תגובות</button>
-		  </div>
+	<div class="heading">
+		<h1>דו"ח טרכטנברג</h1>
+		<p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי</p>
+		<!-- <p><a class="btn primary large">למדו עוד &raquo;</a></p> -->
+	</div>
+  
+	<div class="row-fluid">  
+	
+		<div class="span4">
+			<h3>סינון:</h3>
 	        <form id="searchbar" action="#">
 	          <fieldset id='search'>
 			    <input id="searchbox" class="xlarge" type="text" autocomplete="off" name="xlInput">
@@ -329,9 +324,21 @@
 			</form>
 		</div>
 		
+		<div class="span4">
+		  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+		  <h3>סידור לפי:</h3>
+		  <div id="sort" class="btn-group" data-toggle="buttons-radio">
+		    <button class="btn btn-inverse" value="original">מקור</button>
+		    <button class="btn btn-inverse" value="budget">עלות</button>
+		    <button class="btn btn-inverse" value="followers">עוקבים</button>
+		    <button class="btn btn-inverse" value="comments">תגובות</button>
+		  </div>
+		</div>
+		
       <div class="span4">
-        <a class="hero-size-control expand" href="#"><i class="icon-chevron-down icon-white"></i></a>
-        <a class="hero-size-control reduce" href="#"><i class="icon-chevron-up icon-white"></i></a>
+		  <h3>סיכום התצוגה הנוכחית:</h3>
+        <!-- <a class="hero-size-control expand" href="#"><i class="icon-chevron-down icon-white"></i></a>
+        <a class="hero-size-control reduce" href="#"><i class="icon-chevron-up icon-white"></i></a> -->
         <div id="summary" class="summary">
         </div>
       </div>

@@ -116,7 +116,7 @@ onhashchange = ->
 wm_shown = false
 show_watermark = (show) ->
     if show
-       $("#searchbox").val("חיפוש חופשי בתוך ההמלצות")
+       $("#searchbox").val("סינון חופשי של ההמלצות")
     else
         if wm_shown
             $("#searchbox").val("")
