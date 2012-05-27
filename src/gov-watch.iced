@@ -313,8 +313,6 @@ setup_timeline = ->
 
         conflict = false
         conflict_status = null
-        remove_line = false
-        after_today = false
         late = false
 
         timeline_items = $(this).find(".timeline > ul > li")
@@ -343,8 +341,11 @@ setup_timeline = ->
 
                 if (fixed_at == 1000) and (gov_status == "FIXED" or gov_status == "IRRELEVANT")
                         fixed_at = i
+
+                its_today = false
                 if point.hasClass("today")
                         today_at = i
+                        its_today = true
 
                 if point.hasClass('watch-update')
                         if is_good_status(gov_status) != is_good_status(status)
@@ -356,21 +357,20 @@ setup_timeline = ->
                                 point.addClass("watch-status-bad")
                         last_update_at = i
 
-                if not after_today
+                if today_at == 1000 or its_today
+                        point.find('.implementation-status').addClass("label-#{status}")
+                        point.find('.implementation-status').html(status_to_hebrew(status))
                         line.addClass("status-#{gov_status}")
                         point.addClass("gov-#{gov_status}")
+
+                        if conflict
+                                point.addClass("conflict")
 
                         if is_good_status(gov_status)
                                 point.addClass("gov-status-good")
                         else
                                 point.addClass("gov-status-bad")
 
-                if conflict
-                        point.addClass("conflict")
-
-                if today_at == 1000
-                        point.find('.implementation-status').addClass("label-#{status}")
-                        point.find('.implementation-status').html(status_to_hebrew(status))
 
         for i in [timeline_items.size()-1..0]
                 el = $(timeline_items[i])
@@ -491,14 +491,16 @@ process_data = ->
     if localStorage?.explained?
         explanation_needed = false
 
-    $("#items").prepend($("#explanation-holder").html())
-    $("#explanation-holder").html('')
-    $("#explanation").toggleClass('always-shown',explanation_needed)
+    $("#explanation").modal({'show':true})
+    if not explanation_needed
+        $("#explanation").modal('hide')
 
     $("#clear-explanation").click ->
         localStorage?.explained = true
-        $("#explanation").removeClass('always-shown')
-        do_search()
+        $("#explanation").modal('hide')
+
+    $("#show-explanation").click ->
+        $("#explanation").modal('show')
 
     # Allow the DOM to sync
     await setTimeout((defer _),50)
@@ -518,7 +520,7 @@ process_data = ->
            budget :  ( e ) ->
                         -parseInt( "0"+e.attr('cost'), 10 )
            comments :  ( e ) ->
-                        -parseInt( "0"+e.find('.fb_comments_count').text(), 10 )
+                        -parseInt( "0"+e.find('.commentcount').text(), 10 )
     )
 
     # Let isotope do its magic
@@ -555,14 +557,6 @@ process_data = ->
     window.onhashchange = onhashchange
     onhashchange()
 
-    # create overview modal
-    #modal_options =
-    #   backdrop: true
-    #   keyboard: true
-    #   show: false
-    #$("#overview").modal( modal_options )
-    #$("#overview-close").click -> $("#overview").modal('hide')
-    #update_sort_data = () -> $("#items").isotope( 'updateSortData', $("#items") )
     #FB.XFBML.parse( $("#items").get(0), update_sort_data )
 
 ## Item selection
@@ -570,6 +564,9 @@ select_item = (slug) ->
     $('fb\\:comments').remove()
     $('fb\\:like').remove()
     if slug
+        $("#summary-header").css('visibility','hidden')
+        $("#summary").html('')
+        $("#sort button").addClass('disabled')
         for x in loaded_data
                 if x.slug == slug
                         item = run_templates( "single-item", x, "#single-item" )
@@ -580,9 +577,24 @@ select_item = (slug) ->
                         if window.FB
                                 FB.XFBML.parse( item.get(0), -> )
                         break
-
     else
         $("#single-item").html('')
+        $("#summary-header").css('visibility','inherit')
+        $("#sort button").removeClass('disabled')
+
+load_fb_comment_count = ->
+        $(".item").each ->
+                slug = $(this).attr('rel')
+                await $.get('https://api.facebook.com/method/fql.query',
+                            {
+                              query: "SELECT url,commentsbox_count FROM link_stat WHERE url='#{generate_url(slug)}'",
+                              format: "json"
+                            }
+                            ,
+                            (defer json),
+                            "json")
+                $(this).find(".commentcount").html(json[0].commentsbox_count)
+        $("#items").isotope( 'updateSortData', $("#items") )
 
 ## Perform search on the site's data
 do_search = ->
@@ -629,6 +641,8 @@ do_search = ->
     # apply the filtering using Isotope
     $("#items").isotope({filter: class_filter});
     $("#items").isotope("reLayout");
+
+    load_fb_comment_count()
 
 ## Load the current data for the site from google docs
 load_data = ->
