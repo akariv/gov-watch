@@ -520,7 +520,8 @@ process_data = ->
            budget :  ( e ) ->
                         -parseInt( "0"+e.attr('cost'), 10 )
            comments :  ( e ) ->
-                        -parseInt( "0"+e.find('.commentcount').text(), 10 )
+                          ret = -parseInt( "0"+e.find('.commentcount').text(), 10 )
+                          return ret
     )
 
     # Let isotope do its magic
@@ -542,6 +543,7 @@ process_data = ->
         $("#sort button").removeClass('active')
         $(this).addClass('active')
         sort_measure = $(this).attr('value')
+        $("#items").isotope( 'updateSortData', $(".isotope-card") )
         $("#items").isotope({ sortBy: sort_measure })
 
     # item click handler
@@ -665,6 +667,5 @@ $ ->
                 load_data()
    catch error
         # If we don't succeed, load data immediately
-        alert("error?")
         load_data()
 

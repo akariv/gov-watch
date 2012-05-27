@@ -655,7 +655,10 @@
             return -parseInt("0" + e.attr('cost'), 10);
           },
           comments: function(e) {
-            return -parseInt("0" + e.find('.commentcount').text(), 10);
+            var ret;
+            ret = -parseInt("0" + e.find('.commentcount').text(), 10);
+            if (ret > 0) alert(ret);
+            return ret;
           }
         }
       });
@@ -671,7 +674,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 526
+          lineno: 529
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -687,6 +690,7 @@
           $("#sort button").removeClass('active');
           $(this).addClass('active');
           sort_measure = $(this).attr('value');
+          $("#items").isotope('updateSortData', $(".isotope-card"));
           return $("#items").isotope({
             sortBy: sort_measure
           });
@@ -752,7 +756,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 593
+          lineno: 597
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -835,7 +839,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 653
+          lineno: 657
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -852,7 +856,6 @@
         }
       });
     } catch (error) {
-      alert("error?");
       return load_data();
     }
   });
