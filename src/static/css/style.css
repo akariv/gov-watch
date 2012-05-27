@@ -3984,6 +3984,9 @@ body {
 .item.shown {
   display: inherit !important;
 }
+.item:hover {
+  z-index: 3;
+}
 .item .item-body {
   width: 298px;
   padding-left: 104px;
