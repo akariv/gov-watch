@@ -3857,7 +3857,6 @@ body {
   width: 100%;
   display: table;
   font-size: 22px;
-  line-height: 50px;
   padding: 7px 0;
   text-indent: 10px;
   height: 20px;
@@ -3922,6 +3921,12 @@ body {
 }
 .searchtag:hover a {
   background: #c4bb91;
+}
+#orderstats > div {
+  float: right;
+}
+#stats {
+  margin-right: 2.127659574%;
 }
 #summary {
   margin-left: -14px;
