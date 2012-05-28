@@ -3059,7 +3059,6 @@ input[type="submit"].btn.small {
   position: fixed;
   top: 50%;
   left: 50%;
-  right:auto;
   z-index: 1050;
   max-height: 500px;
   overflow: auto;
