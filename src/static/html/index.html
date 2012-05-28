@@ -29,16 +29,16 @@
 {{#items}}
 <div class="item isotope-card span4 shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}" data-chapter="{{chapter}}" data-subchapter="{{subchapter}}">
   <div class="item-body">
-  	
+    
     <div class="tags">
-    	<h3>תגיות:</h3>
-	    <ul>
-	      {{#tags}}
-	      <li><a href="#">{{.}}</a></li>
-	      {{/tags}}
-	    </ul>
+      <h3>תגיות:</h3>
+      <ul>
+	{{#tags}}
+	<li><a href="#">{{.}}</a></li>
+	{{/tags}}
+      </ul>
     </div>
-  	    
+    
     <h2 class="buxa-header">
       <a href="#" class="recommendation-text">
         {{subject}}
@@ -46,43 +46,44 @@
     </h2>
     
     <div class="budget">
-	{{#budget}}
-    	<h3>עלות:</h3>
-	    <p>
-	    	<span>{{millions}} מיליון ִ₪</span>
-			/על פני {{year_span}} שנים</p>
-    	<p class="more">{{description}}</p>
-    {{/budget}}
+      {{#budget}}
+      <h3>עלות:</h3>
+      <p>
+	<span>{{millions}} מיליון ִ₪</span>
+	/על פני {{year_span}} שנים</p>
+      <p class="more">{{description}}</p>
+      {{/budget}}
     </div>
     
     <div class="responsible">
-  	{{#responsible_authority}}
-    	<h3>גורם אחראי:</h3>
-    	<p>
-          <span class="responsible-main">{{main}}</span>
-          {{secondary}}
-    	</p>
-    {{/responsible_authority}}
-    
-	</div>
+      {{#responsible_authority}}
+      <h3>גורם אחראי:</h3>
+      <p>
+        <span class="responsible-main">{{main}}</span>
+        {{secondary}}
+      </p>
+      {{/responsible_authority}}
+      
+    </div>
     
     <div class="recommendation">
-    	<h3>הסבר:</h3>
-    	<p>{{{recommendation_shortened}}}</p>
+      <h3>הסבר:</h3>
+      <p>{{{recommendation_shortened}}}</p>
     </div>
     
     <div class="purpose">
-    	<h3>מה מדד התוצאה?</h3>
-	    <p>{{result_metric}}</p>
-	</div>
+      <h3>מה מדד התוצאה?</h3>
+      <p>{{result_metric}}</p>
+    </div>
     
-	<div class="tools">
-	    <a href="#" class="watch">{{subscribers}}</a>
-   		<a href="#" class="linkcount">{{num_links}}</a>
-	    <a href="#" class="commentcount"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
-	</div>
+    <div class="tools">
+      <a href="#" class="watch" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}</a>
+      <a href="#" class="linkcount">{{num_links}}</a>
+      <a href="#" class="commentcount"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
+    </div>
     
   </div>
+
   <div class="timeline">
     <ul>
       {{#timeline}}
@@ -90,11 +91,11 @@
         <div class="timeline-line"></div>
         <div class="timeline-point milestone {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
           <div>
-          	<div class="point-meta">
-				<img src="" alt="טרכטנברג">
-				<small>{{due_date}}: מתוך הדו"ח</small>
-				<span class="label implementation-status"></span>
-			</div>
+            <div class="point-meta">
+	      <img src="" alt="טרכטנברג">
+	      <small>{{due_date}}: מתוך הדו"ח</small>
+	      <span class="label implementation-status"></span>
+	    </div>
             <h4>{{milestone_name}}</h4>
 	    <p>{{description}}</p>
 	    
@@ -102,39 +103,39 @@
 	</div>    
       </li>
       {{/timeline}}
-{{/base}}
-{{#gov_updates}}
+      {{/base}}
+      {{#gov_updates}}
       <li>
         <div class="timeline-line"></div>
         <div class="timeline-point update gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
           <div>
-          	<div class="point-meta">
-				<img src="" alt="הממשלה">
-	    		<small>{{update_time}}: הממשלה</small>
-				<span class="label label-{{implementation_status}} implementation-status"></span> 
-			</div>
+            <div class="point-meta">
+	      <img src="" alt="הממשלה">
+	      <small>{{update_time}}: הממשלה</small>
+	      <span class="label label-{{implementation_status}} implementation-status"></span> 
+	    </div>
             <h4>{{implementation_status_name}}</h4>
-		    <p>{{implementation_status_text}}</p>
-		  </div>    
-		</div>    
+	    <p>{{implementation_status_text}}</p>
+	  </div>    
+	</div>    
       </li>
-{{/gov_updates}}
-{{#watch_updates}}
+      {{/gov_updates}}
+      {{#watch_updates}}
       <li>
         <div class="timeline-line"></div>
         <div class="timeline-point update watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-		  	<div>
-		  		<div class="point-meta">
-					<img src="" alt="{{user}}">
-				    <small>{{update_time}}: {{user}}</small>
-				    <span class="label label-{{implementation_status}} implementation-status"></span>
-				</div>
-	            <h4>{{implementation_status_name}}</h4>
-			    <p>{{implementation_status_text}}</p>
-			 </div>    
-		</div>    
+	  <div>
+	    <div class="point-meta">
+	      <img src="" alt="{{user}}">
+	      <small>{{update_time}}: {{user}}</small>
+	      <span class="label label-{{implementation_status}} implementation-status"></span>
+	    </div>
+	    <h4>{{implementation_status_name}}</h4>
+	    <p>{{implementation_status_text}}</p>
+	  </div>    
+	</div>    
       </li>
-{{/watch_updates}}
+      {{/watch_updates}}
       <li>
         <div class="timeline-line"></div>
         <div class="timeline-point today"><div>היום</div></div>
@@ -142,7 +143,7 @@
     </ul>
   </div>
   <div class="footer"></div>
-
+  
 </div>
 {{/items}}
 </script><!-- End list view -->
@@ -394,11 +395,14 @@
     <h3>הירשמות לעדכונים</h3>
   </div>
   <div class='modal-body'>
-    <h2>&larr;	<a class="close" data-dismiss="modal" href="#">אוקיי, הבנתי!</a></h2>
+    <p>הכניסו כתובת מייל תקנית על מנת לקבל עדכון בכל פעם שמשהו קורה עם ההמלצה</p>
+    <form id="subscribe_form" method="post">
+      <input id="subscribe_email" class="xlarge" type="text" autocomplete="on" name="email" data-slug="">
+    </form>
   </div>
   <div class="modal-footer">
     <a href="#" class="btn">Close</a>
-    <a href="#" class="btn btn-primary">Save changes</a>
+    <a href="#" id="do_subscribe" class="btn btn-primary">Save changes</a>
   </div>
 </div>
 

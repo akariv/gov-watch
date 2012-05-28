@@ -301,7 +301,7 @@ setup_timeline = ->
 
         gov_status = 'NEW'
         last_percent = 0.0
-        item_margins = 10
+        item_margins = 5
         margins = 80
         height = $(this).innerHeight() - margins
         available_height = height
@@ -394,7 +394,7 @@ setup_timeline = ->
                 date = parseInt($(this).attr('data-date-numeric'))
 
                 percent = (max_numeric_date - date) / (max_numeric_date - min_numeric_date)
-                point_size = point.outerHeight()
+                point_size = point.outerHeight() + item_margins
                 #console.log point_size
                 item_height = available_height * (percent - last_percent) + point_size
                 $(this).css('height',item_height)
@@ -473,6 +473,22 @@ setup_summary = ->
                 status_filter = ['IN_PROGRESS']
                 do_search()
 
+setup_subscriptions = ->
+   $("#subscribe").modal({'show':false})
+   $(".watch").click ->
+        rel = $(this).attr('rel')
+        $("#subscribe_email").attr('data-slug',rel)
+        $("#subscribe_form").attr('action',"/subscribe/#{rel}")
+        $("#subscribe").modal('show')
+   $("#do_subscribe").click ->
+           $("#subscribe_form").submit()
+   $("#subscribe_form").submit ->
+        $.post($(this).attr('action'),
+               'email':$("#subscribe_email").val(),
+                -> $("#subscribe").modal('hide'))
+        return false
+
+
 
 ## Handles the site's data (could be from local storage or freshly loaded)
 process_data = ->
@@ -493,7 +509,7 @@ process_data = ->
     if localStorage?.explained?
         explanation_needed = false
 
-    $("#clear-explanation").click ->
+    $("#explanation .close").click ->
         localStorage?.explained = true
         $("#explanation").modal('hide')
 
@@ -531,6 +547,8 @@ process_data = ->
 
     setup_searchbox()
 
+    setup_subscriptions()
+
     # sidebox filters init
     $("#books li.book a").click ->
         selected_book = $(this).html()
@@ -553,9 +571,7 @@ process_data = ->
         false
         )
 
-    $("#explanation").modal({'show':true})
-    if not explanation_needed
-        $("#explanation").modal('hide')
+    $("#explanation").modal({'show':explanation_needed})
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
