@@ -321,25 +321,30 @@
 	  </form>
 	</div>
 	
-	<div class="span4">
-	  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
-	  <h3>סידור לפי:</h3>
-	  <div id="sort" class="btn-group" data-toggle="buttons-radio">
-	    <button class="btn btn-inverse" value="original">מקור</button>
-	    <button class="btn btn-inverse" value="budget">עלות</button>
-	    <button class="btn btn-inverse" value="followers">עוקבים</button>
-	    <button class="btn btn-inverse" value="comments">תגובות</button>
-	  </div>
-	</div>
-	
-        <div class="span4">
-	  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
-          <div id="summary" class="summary">
-          </div>
-        </div>
-      </div>
+	<div id="orderstats" class="span8">
+	   
+		<div>
+		  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+		  <h3>סידור לפי:</h3>
+		  <div id="sort" class="btn-group" data-toggle="buttons-radio">
+		    <button class="btn btn-inverse" value="original">מקור</button>
+		    <button class="btn btn-inverse" value="budget">עלות</button>
+		    <button class="btn btn-inverse" value="followers">עוקבים</button>
+		    <button class="btn btn-inverse" value="comments">תגובות</button>
+		  </div>
+		</div>
+		
+		<div id="stats">
+		  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
+	      <div id="summary" class="summary">
+	      </div>
+	   </div>
+		
     </div>
-    
+		
+  </div>
+</div>
+	
     <div class="content container-fluid">
       <div id='container'>
         <div id='single-item' class="row"></div>
