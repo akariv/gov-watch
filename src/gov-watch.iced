@@ -301,12 +301,12 @@ setup_timeline = ->
 
         gov_status = 'NEW'
         last_percent = 0.0
-        item_size = 15
+        item_margins = 10
         margins = 80
         height = $(this).innerHeight() - margins
         available_height = height
         $(this).find(".timeline > ul > li .timeline-point").each( ->
-                available_height = available_height - $(this).outerHeight()
+                available_height = available_height - $(this).outerHeight() - item_margins
                 )
         #available_height = height - item_size*($(this).find(".timeline > ul > li").size())
         top = 0
@@ -323,9 +323,10 @@ setup_timeline = ->
                 if today_date - last_update > 180
                         late = true
 
-        last_update_at = 1000
-        today_at = 1000
-        fixed_at = 1000
+        NOT_SET = 1000
+        last_update_at = NOT_SET
+        today_at = NOT_SET
+        fixed_at = NOT_SET
 
         for i in [timeline_items.size()-1..0]
                 el = $(timeline_items[i])
@@ -339,7 +340,7 @@ setup_timeline = ->
                         gov_status = status ? gov_status
                         last_update_at = i
 
-                if (fixed_at == 1000) and (gov_status == "FIXED" or gov_status == "IRRELEVANT")
+                if (fixed_at == NOT_SET) and (gov_status == "FIXED" or gov_status == "IRRELEVANT")
                         fixed_at = i
 
                 its_today = false
@@ -357,7 +358,7 @@ setup_timeline = ->
                                 point.addClass("watch-status-bad")
                         last_update_at = i
 
-                if today_at == 1000 or its_today
+                if today_at == NOT_SET or its_today
                         point.find('.implementation-status').addClass("label-#{status}")
                         point.find('.implementation-status').html(status_to_hebrew(status))
                         line.addClass("status-#{gov_status}")
@@ -366,17 +367,18 @@ setup_timeline = ->
                         if conflict
                                 point.addClass("conflict")
 
-                        if is_good_status(gov_status)
-                                point.addClass("gov-status-good")
-                        else
-                                point.addClass("gov-status-bad")
+                        if point.hasClass('gov-update')
+                                if is_good_status(gov_status)
+                                        point.addClass("gov-status-good")
+                                else
+                                        point.addClass("gov-status-bad")
 
 
         for i in [timeline_items.size()-1..0]
                 el = $(timeline_items[i])
                 line = el.find('.timeline-line:first')
 
-                if (fixed_at != 1000 and i <= fixed_at) or i <= today_at
+                if (fixed_at != NOT_SET and i <= fixed_at) or i <= today_at
                         line.addClass("future")
                 else
                         line.addClass("past")
@@ -491,10 +493,6 @@ process_data = ->
     if localStorage?.explained?
         explanation_needed = false
 
-    $("#explanation").modal({'show':true})
-    if not explanation_needed
-        $("#explanation").modal('hide')
-
     $("#clear-explanation").click ->
         localStorage?.explained = true
         $("#explanation").modal('hide')
@@ -554,6 +552,10 @@ process_data = ->
         $(".hero-unit").toggleClass("expanded")
         false
         )
+
+    $("#explanation").modal({'show':true})
+    if not explanation_needed
+        $("#explanation").modal('hide')
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
