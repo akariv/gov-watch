@@ -49,7 +49,9 @@ def list():
 
 @app.route('/api')
 def listall():
-    return Response(response=r.get("everything"), content_type="application/json")
+    resp = make_response(Response(response=r.get("everything"), content_type="application/json"))
+    resp.cache_control.no_cache = True
+    return resp
 
 @app.route('/profile/<slug>')
 def profile_img(slug):
@@ -71,6 +73,8 @@ def subscribe(slug):
         rec = json.loads(r.get(key))
         rec["subscribers"] = r.scard(skey)
         r.set(key,json.dumps(rec,indent=0))
+        update_everything(slug)
+    return Response(response="1",content_type="application/json")
 
 @app.route('/unsubscribe/<slug>', methods=['POST'])
 def unsubscribe():
@@ -82,6 +86,8 @@ def unsubscribe():
         rec = json.loads(r.get(key))
         rec["subscribers"] = r.scard(skey)
         r.set(key,json.dumps(rec,indent=0))
+        update_everything(slug)
+    return Response(response="1",content_type="application/json")
 
 @app.route("/api/<slug>", methods=['GET'])
 def getitem(slug):
@@ -103,7 +109,7 @@ def update_everything(slug):
     f.write(everything)
     f.flush()
     f.close()
-    r.set('version',int(os.stat('data.json').st_mtime))
+    r.incr('version')
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     f = file('data.%s.json' % timestamp,'wb')
@@ -159,8 +165,13 @@ if __name__=="__main__":
     r.set("everything",everything)
     data = json.loads(everything)
     for x in data:
-        x.setdefault('subscribers',0)
-        r.set("slug:%s" % x["slug"],json.dumps(x,indent=0))
+        key = "slug:%s" % x["slug"]
+        if r.exists(key):
+            skey = "subscribe:%s" % key
+            x["subscribers"] = r.scard(skey)
+        else:
+            x.setdefault('subscribers',0)
+        r.set(key,json.dumps(x,indent=0))
     for profile_name, profile_image in profiles.iteritems():
         r.set("profile:%s" % slugify(profile_name), file('static/img/%s' % profile_image).read())
-    app.run(debug=False)
+    app.run(debug=True)
