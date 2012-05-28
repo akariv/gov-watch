@@ -326,7 +326,7 @@
 
   setup_timeline = function() {
     return $(".item").each(function() {
-      var available_height, conflict, conflict_status, el, fixed_at, gov_status, has_unknowns, height, i, implementation_status, is_good_status, item_size, its_today, last_percent, last_update, last_update_at, late, line, margins, max_numeric_date, min_numeric_date, pad, point, stamp, stamp_class, status, status_to_hebrew, status_to_stamp_class, timeline_items, today, today_at, today_date, top, _i, _j, _ref, _ref2, _ref3, _ref4;
+      var NOT_SET, available_height, conflict, conflict_status, el, fixed_at, gov_status, has_unknowns, height, i, implementation_status, is_good_status, item_margins, its_today, last_percent, last_update, last_update_at, late, line, margins, max_numeric_date, min_numeric_date, pad, point, stamp, stamp_class, status, status_to_hebrew, status_to_stamp_class, timeline_items, today, today_at, today_date, top, _i, _j, _ref, _ref2, _ref3, _ref4;
       pad = function(n) {
         if (n < 10) {
           return '0' + n;
@@ -424,12 +424,12 @@
       };
       gov_status = 'NEW';
       last_percent = 0.0;
-      item_size = 15;
+      item_margins = 10;
       margins = 80;
       height = $(this).innerHeight() - margins;
       available_height = height;
       $(this).find(".timeline > ul > li .timeline-point").each(function() {
-        return available_height = available_height - $(this).outerHeight();
+        return available_height = available_height - $(this).outerHeight() - item_margins;
       });
       top = 0;
       conflict = false;
@@ -441,9 +441,10 @@
         last_update = parseInt($(this).find(".timeline > ul > li").attr('data-date-numeric'));
         if (today_date - last_update > 180) late = true;
       }
-      last_update_at = 1000;
-      today_at = 1000;
-      fixed_at = 1000;
+      NOT_SET = 1000;
+      last_update_at = NOT_SET;
+      today_at = NOT_SET;
+      fixed_at = NOT_SET;
       for (i = _i = _ref = timeline_items.size() - 1; _ref <= 0 ? _i <= 0 : _i >= 0; i = _ref <= 0 ? ++_i : --_i) {
         el = $(timeline_items[i]);
         point = el.find('.timeline-point:first');
@@ -454,7 +455,7 @@
           gov_status = status != null ? status : gov_status;
           last_update_at = i;
         }
-        if ((fixed_at === 1000) && (gov_status === "FIXED" || gov_status === "IRRELEVANT")) {
+        if ((fixed_at === NOT_SET) && (gov_status === "FIXED" || gov_status === "IRRELEVANT")) {
           fixed_at = i;
         }
         its_today = false;
@@ -474,23 +475,25 @@
           }
           last_update_at = i;
         }
-        if (today_at === 1000 || its_today) {
+        if (today_at === NOT_SET || its_today) {
           point.find('.implementation-status').addClass("label-" + status);
           point.find('.implementation-status').html(status_to_hebrew(status));
           line.addClass("status-" + gov_status);
           point.addClass("gov-" + gov_status);
           if (conflict) point.addClass("conflict");
-          if (is_good_status(gov_status)) {
-            point.addClass("gov-status-good");
-          } else {
-            point.addClass("gov-status-bad");
+          if (point.hasClass('gov-update')) {
+            if (is_good_status(gov_status)) {
+              point.addClass("gov-status-good");
+            } else {
+              point.addClass("gov-status-bad");
+            }
           }
         }
       }
       for (i = _j = _ref3 = timeline_items.size() - 1; _ref3 <= 0 ? _j <= 0 : _j >= 0; i = _ref3 <= 0 ? ++_j : --_j) {
         el = $(timeline_items[i]);
         line = el.find('.timeline-line:first');
-        if ((fixed_at !== 1000 && i <= fixed_at) || i <= today_at) {
+        if ((fixed_at !== NOT_SET && i <= fixed_at) || i <= today_at) {
           line.addClass("future");
         } else {
           line.addClass("past");
@@ -604,10 +607,6 @@
     if ((typeof localStorage !== "undefined" && localStorage !== null ? localStorage.explained : void 0) != null) {
       explanation_needed = false;
     }
-    $("#explanation").modal({
-      'show': true
-    });
-    if (!explanation_needed) $("#explanation").modal('hide');
     $("#clear-explanation").click(function() {
       if (typeof localStorage !== "undefined" && localStorage !== null) {
         localStorage.explained = true;
@@ -629,7 +628,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 505
+        lineno: 503
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -657,7 +656,6 @@
           comments: function(e) {
             var ret;
             ret = -parseInt("0" + e.find('.commentcount').text(), 10);
-            if (ret > 0) alert(ret);
             return ret;
           }
         }
@@ -674,7 +672,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 529
+          lineno: 525
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -699,6 +697,10 @@
           $(".hero-unit").toggleClass("expanded");
           return false;
         });
+        $("#explanation").modal({
+          'show': true
+        });
+        if (!explanation_needed) $("#explanation").modal('hide');
         window.onhashchange = onhashchange;
         return onhashchange();
       });
