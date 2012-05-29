@@ -229,6 +229,8 @@
       rec.base.subscribers = (_ref4 = rec.subscribers) != null ? _ref4 : 0;
       if (((_ref5 = rec.base.recommendation) != null ? _ref5.length : void 0) > 500) {
         rec.base.recommendation_shortened = rec.base.recommendation.slice(0, 501) + "&nbsp;" + ("<a href='" + (generate_url(rec.slug)) + "'>") + "עוד..." + "</a>";
+      } else {
+        rec.base.recommendation_shortened = rec.base.recommendation;
       }
     }
     all_tags = Object.keys(all_tags);
@@ -479,9 +481,9 @@
           point.find('.implementation-status').addClass("label-" + status);
           point.find('.implementation-status').html(status_to_hebrew(status));
           line.addClass("status-" + gov_status);
-          point.addClass("gov-" + gov_status);
           if (conflict) point.addClass("conflict");
           if (point.hasClass('gov-update')) {
+            point.addClass("gov-" + gov_status);
             if (is_good_status(gov_status)) {
               point.addClass("gov-status-good");
             } else {
@@ -615,10 +617,11 @@
   };
 
   setup_tags = function() {
-    return $(".tags > ul > li").click(function() {
+    return $(".tags > ul > li, a[data-tag='true']").click(function() {
       search_term = $(this).text();
       show_watermark(false);
       $("#searchbox").val(search_term);
+      $("#explanation").modal('hide');
       return update_history();
     });
   };
@@ -661,7 +664,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 525
+        lineno: 528
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -705,7 +708,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 547
+          lineno: 550
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -792,7 +795,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 621
+          lineno: 624
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -875,7 +878,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 681
+          lineno: 684
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

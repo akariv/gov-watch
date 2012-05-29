@@ -159,6 +159,8 @@ data_callback = (data) ->
 
         if rec.base.recommendation?.length > 500
                 rec.base.recommendation_shortened = rec.base.recommendation[0..500] + "&nbsp;" +"<a href='#{generate_url(rec.slug)}'>" + "עוד..." +"</a>"
+        else
+                rec.base.recommendation_shortened = rec.base.recommendation
 
     all_tags = Object.keys(all_tags)
     all_subjects = Object.keys(all_subjects)
@@ -362,12 +364,12 @@ setup_timeline = ->
                         point.find('.implementation-status').addClass("label-#{status}")
                         point.find('.implementation-status').html(status_to_hebrew(status))
                         line.addClass("status-#{gov_status}")
-                        point.addClass("gov-#{gov_status}")
 
                         if conflict
                                 point.addClass("conflict")
 
                         if point.hasClass('gov-update')
+                                point.addClass("gov-#{gov_status}")
                                 if is_good_status(gov_status)
                                         point.addClass("gov-status-good")
                                 else
@@ -489,10 +491,11 @@ setup_subscriptions = ->
         return false
 
 setup_tags = ->
-   $(".tags > ul > li").click ->
+   $(".tags > ul > li, a[data-tag='true']").click ->
         search_term = $(this).text()
         show_watermark(false)
         $("#searchbox").val(search_term)
+        $("#explanation").modal('hide')
         update_history()
 
 
