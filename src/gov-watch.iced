@@ -488,6 +488,12 @@ setup_subscriptions = ->
                 -> $("#subscribe").modal('hide'))
         return false
 
+setup_tags = ->
+   $(".tags > ul > li").click ->
+        search_term = $(this).text()
+        show_watermark(false)
+        $("#searchbox").val(search_term)
+        update_history()
 
 
 ## Handles the site's data (could be from local storage or freshly loaded)
@@ -548,6 +554,8 @@ process_data = ->
     setup_searchbox()
 
     setup_subscriptions()
+
+    setup_tags()
 
     # sidebox filters init
     $("#books li.book a").click ->
