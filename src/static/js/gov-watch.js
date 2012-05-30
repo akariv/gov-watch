@@ -576,19 +576,23 @@
     run_templates("summary", data, "#summary");
     $("#summary .total").click(function() {
       status_filter = null;
-      return do_search();
+      do_search();
+      return false;
     });
     $("#summary .stuck").click(function() {
       status_filter = ['STUCK', 'NEW', 'WORKAROUND'];
-      return do_search();
+      do_search();
+      return false;
     });
     $("#summary .implemented").click(function() {
       status_filter = ['FIXED', 'IRRELEVANT'];
-      return do_search();
+      do_search();
+      return false;
     });
     return $("#summary .in_progress").click(function() {
       status_filter = ['IN_PROGRESS'];
-      return do_search();
+      do_search();
+      return false;
     });
   };
 
@@ -605,7 +609,8 @@
       return false;
     });
     $("#do_subscribe").click(function() {
-      return $("#subscribe_form").submit();
+      $("#subscribe_form").submit();
+      return false;
     });
     return $("#subscribe_form").submit(function() {
       $.post($(this).attr('action'), {
@@ -648,10 +653,12 @@
       if (typeof localStorage !== "undefined" && localStorage !== null) {
         localStorage.explained = true;
       }
-      return $("#explanation").modal('hide');
+      $("#explanation").modal('hide');
+      return false;
     });
     $("#show-explanation").click(function() {
-      return $("#explanation").modal('show');
+      $("#explanation").modal('show');
+      return false;
     });
     (function(__iced_k) {
       __iced_deferrals = new iced.Deferrals(__iced_k, {
@@ -665,7 +672,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 529
+        lineno: 536
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -709,7 +716,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 551
+          lineno: 558
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -731,10 +738,6 @@
           return $("#items").isotope({
             sortBy: sort_measure
           });
-        });
-        $(".hero-unit .hero-size-control").click(function() {
-          $(".hero-unit").toggleClass("expanded");
-          return false;
         });
         $("#explanation").modal({
           'show': explanation_needed
@@ -796,7 +799,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 625
+          lineno: 624
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -879,7 +882,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 685
+          lineno: 684
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
