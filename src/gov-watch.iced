@@ -482,6 +482,7 @@ setup_subscriptions = ->
         $("#subscribe_email").attr('data-slug',rel)
         $("#subscribe_form").attr('action',"/subscribe/#{rel}")
         $("#subscribe").modal('show')
+        return false
    $("#do_subscribe").click ->
            $("#subscribe_form").submit()
    $("#subscribe_form").submit ->

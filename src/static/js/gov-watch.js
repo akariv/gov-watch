@@ -601,7 +601,8 @@
       rel = $(this).attr('rel');
       $("#subscribe_email").attr('data-slug', rel);
       $("#subscribe_form").attr('action', "/subscribe/" + rel);
-      return $("#subscribe").modal('show');
+      $("#subscribe").modal('show');
+      return false;
     });
     $("#do_subscribe").click(function() {
       return $("#subscribe_form").submit();
@@ -664,7 +665,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 528
+        lineno: 529
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -708,7 +709,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 550
+          lineno: 551
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -795,7 +796,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 624
+          lineno: 625
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -878,7 +879,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 684
+          lineno: 685
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
