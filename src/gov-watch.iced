@@ -590,6 +590,8 @@ process_data = ->
     window.onhashchange = onhashchange
     onhashchange()
 
+    load_fb_comment_count()
+
 ## Item selection
 select_item = (slug) ->
     $('fb\\:comments').remove()
@@ -673,7 +675,6 @@ do_search = ->
     $("#items").isotope({filter: class_filter});
     $("#items").isotope("reLayout");
 
-    load_fb_comment_count()
 
 ## Load the current data for the site from google docs
 load_data = ->
