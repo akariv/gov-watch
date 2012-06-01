@@ -1,0 +1,96 @@
+/**** Item.BIGGER
+*******************************************************/  
+  
+  &.bigger{
+    width: 100%;
+    max-width: 2*@itemwidth + 2*@itempadding + @gutter; 
+    //max-height: 500px;
+    //overflow-y: scroll;
+    
+    .result_metric,
+    .execution_metric{
+      display: block;
+    }
+    
+    .current_status-text{
+      border-bottom: 1px solid @lighttext;
+      
+    }
+  }
+  
+} // End .item
+
+/**** After Hacks ***/
+.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today{
+  background-color: @good;
+  > div{
+    background: @good;
+    border-color: @good;
+    &:after{
+      border-right-color: @good;
+    }
+  }
+}
+
+/**** Isotope Filtering ****/
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
+
+/**** Isotope CSS3 transitions ****/
+
+.isotope,
+.isotope .isotope-item {
+  -webkit-transition-duration: 0.8s;
+     -moz-transition-duration: 0.8s;
+       -o-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.isotope {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+     -moz-transition-property: -moz-transform, opacity;
+       -o-transition-property: top, left, opacity;
+          transition-property: transform, opacity;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: right, top, -webkit-transform, opacity;
+     -moz-transition-property: right, top, -moz-transform, opacity;
+       -o-transition-property: right, top, -o-transform, opacity;
+          transition-property: right, top, transform, opacity;
+}
+/**** disabling Isotope CSS3 transitions ****/
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
+     -moz-transition-duration: 0s;
+       -o-transition-duration: 0s;
+          transition-duration: 0s;
+}
+
+/**** Isotope filtering ****/
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
