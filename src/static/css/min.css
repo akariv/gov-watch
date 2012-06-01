@@ -669,6 +669,7 @@ body{direction:rtl;background:url('/static/img/background-grid.png') top right;}
 #summary a.stuck{color:#f0776d;}
 #summary a:hover{text-decoration:none;background:#393e46;}
 #summary .punct{display:none;}
+footer a img{height:20px;margin-bottom:-5px;}
 .row>[class*="span"]{margin-right:14px;}
 .row{margin-right:-14px;}
 .more{display:none;}
