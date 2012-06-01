@@ -1,0 +1,270 @@
+@import "../bootstrap/lessrtl/bootstrap.less";
+@import "../static/fonts/fonts.less";
+
+/**** Vars ****/
+@card: #fffcd9;
+@cardshade: #e4daac;
+@carddark: #c4bb91;
+@text: #3c3c3c;
+@lighttext: #847d6b;
+@background: #f5f5f5;
+@lightshade: #efefef;
+@itemColumns: 4;
+@itemwidth: (@itemColumns * @gridColumnWidth) + (@gridGutterWidth * (@itemColumns - 1));
+@itempadding: 0;
+@gutter: @gridGutterWidth;
+@good: #6ba688;
+@bad: #f0776d;
+@darkTrans: rgba(0,0,0,0.5);
+@herotone: #393e46;
+
+@linkMuted: @gray;
+
+/**** Fonts ****/
+
+input, button, select, textarea {
+  font-family: 'PauzaFOT', Arial, sans-serif; 
+}
+
+/**** Basic Styles ****/
+
+body {
+	direction: rtl;
+	background: url('/static/img/background-grid.png') top right; 
+}
+
+.navbar{
+  margin-bottom: 0;
+}
+
+.container-fluid{
+  min-width:570px;
+}
+
+.hero-unit, .well{
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0;
+  color: #DDD;
+  
+  .border-radius(5px);
+  
+  .heading{
+    .clearfix();
+    background: rgba(0,0,0,0.1);
+    padding: 14px 30px;
+    margin-bottom: 10px;
+    
+    p{
+      margin: 23px 0 0;
+    }
+  }
+  
+  h1{
+    float: right;
+    margin-left: 20px;
+  }
+  
+  .row-fluid {
+    max-width: 1230px;
+    margin-right: 14px;
+  }
+  
+  h1,h2,h3{color: #fff;}
+
+  & > .hero-size-control {
+    bottom:10px;
+    left:10px;
+    }
+
+  & > .reduce, & > .summary {
+    display:none;
+    }
+
+  &.expanded {
+
+    & > .reduce { 
+      display:inherit;
+      }
+
+    & > .expand { 
+      display:none;
+      }
+
+    & > .summary {
+      display:inherit;
+      }
+
+    }
+   
+  form{
+    margin: 0;
+  }
+    
+  .btn-group{
+    //width: 350px;
+    margin-bottom: 30px;
+    .btn-inverse{
+      .buttonBackground(@herotone, darken(#393e46, 10%));
+      color: #FFFFFF;
+    }
+  }
+
+  &.explanation {
+    //width: 770px;
+
+    > h2 {
+      float:left;
+      }
+  }
+  
+  h3{
+    font-size: 0.8em;
+    font-weight: normal;
+    color: lighten(@herotone, 30%);
+  }
+    
+}
+
+
+.highlight {
+    background-color: yellow;
+}
+
+.highlight-off {
+    background-color: transparent;
+    transition: background-color 3s;
+    -webkit-transition: background-color 3s;
+    -moz-transition: background-color 3s;
+}
+
+/**** Header ****/
+
+#search{
+  
+  legend{
+    padding-left:0;
+  }
+  
+  input{
+    width: 100%;
+    display: table;
+    font-size: 22px;
+    padding: 7px 0;
+    text-indent: 10px;
+    height: 20px;
+    float: right;
+    .border-radius(25px);
+  }
+  
+  button{
+    border: 0 none;
+    width: 20px; height: 20px;
+    margin: -36px 0 0 5px;
+    overflow: hidden;
+    text-indent: -2000%;
+    float: left;
+    background: url('/static/img/clear-search.png'); 
+    }
+    
+  }
+  
+  .dropdown-menu{
+    margin-right: 5px;
+    overflow: hidden;
+    
+    a{
+      line-height: 23px;
+      padding: 4px 5px;
+    }
+    strong{
+      background: rgba(0, 0, 0, 0.2);
+      .border-radius(3px);
+    }
+    li{
+      
+      &:nth-child(even){
+        background: @grayLighter;
+      }  
+    }
+  }
+  
+ .searchtag {
+      display: inline-block;
+      text-decoration: none;
+      background: url("/static/img/taghead-s.png") no-repeat right top;
+    font-size: 0.7em;
+    height: 23px;
+    line-height: 22px;
+    list-style: none outside none;
+    margin-left: 5px;
+    padding-right: 15px;
+    
+    span{
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+      background: @cardshade;
+      border-radius: 3px 0 0 3px;
+      color: white;
+      font-size: 18px;
+      font-weight: 400;
+      padding: 0 5px 1px;
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+      
+      &:hover{
+        text-decoration:none;
+      }
+    }
+    
+    &:hover{background-position: right bottom; a{background: @carddark;}}
+}
+
+#sort .btn{
+  //font-size: 14px;
+}
+
+#orderstats{
+  >div{
+    float: right;
+  }
+}
+
+#stats{
+  margin-right: @fluidGridGutterWidth;
+}
+
+#summary{
+  margin-left: -14px;
+  .row;
+  font-weight: bold;
+  a{
+    font-size: 2em;
+    color: white;
+    .makeColumn;
+    .border-radius(3px);
+    padding: 4px 0;
+    text-indent: 4px;
+    
+    span{
+      font-size: 0.4em;
+      display: block;
+      font-weight: normal;
+    }
+    
+    &.implemented,
+    &.in_progress{
+      color: @good;
+    }
+    
+    &.stuck{
+      color: @bad;
+    }
+    
+    &:hover{
+      text-decoration: none;
+      background: @herotone;
+    }
+  }
+  .punct{
+    display: none;
+  }
+}
+
