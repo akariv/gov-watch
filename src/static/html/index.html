@@ -287,7 +287,15 @@
 </script>
   </head>
   <body>
-    
+    <div id="overlay">
+      <div id="popup-message">
+        <span class="close">&times;</span>
+        <div class="body">
+          <h3>You using old browser!</h3>
+          <p>Please, update it!</p>
+        </div>
+      </div>
+    </div>
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -423,6 +431,30 @@
 <script type='text/javascript' src='static/js/jquery.tinysort.min.js'></script>
 <script type='text/javascript' src='static/js/gov-watch.js'></script>
 <script type='text/javascript' src='//connect.facebook.net/he_IL/all.js#xfbml=1&appId=161102067336024'></script>
-
+<script type="text/javascript">
+jQuery(function($){
+    if($("#overlay").length){
+        $("#overlay").fadeIn(200, function(){
+            $("#popup-message").show().css("opacity", 0).animate({
+                marginTop: "+=40px",
+                opacity: 1
+            }, 240);
+        });
+        
+        $("#overlay, #overlay .close").click(function(e){
+            if(e.target == this){
+                $("#popup-message").animate({
+                    height:0,
+                    marginTop: "-=40px",
+                    opacity: 0
+                }, 240, function(){
+                    $("#popup-message").hide();
+                    $("#overlay").fadeOut(200);
+                });
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>
