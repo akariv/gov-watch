@@ -4514,6 +4514,10 @@ body {
   pointer-events: none;
   z-index: 1;
 }
+.modal {
+  width: 800px;
+  margin-left: -400px;
+}
 /**** Detailed view ****/
 .detail-view {
   -webkit-box-shadow: 0px 0px 10px rgba(50, 50, 50, 0.2);

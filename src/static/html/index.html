@@ -27,7 +27,7 @@
 ********************* -->
 	<script type="text/html" name="item">
 {{#items}}
-<div class="item isotope-card span4 shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}" data-chapter="{{chapter}}" data-subchapter="{{subchapter}}">
+<div class="item isotope-card span shown" style="visibility:hidden" rel="{{slug}}" {{#base}} cost="{{#budget}}{{millions}}{{/budget}}" data-chapter="{{chapter}}" data-subchapter="{{subchapter}}">
   <div class="item-body">
     
     <div class="tags">
@@ -154,110 +154,122 @@
 *******************************
 -->
 	<script type="text/html" name="single-item">
-<div class="detail-view row" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
-  <div class="row">
-    <div class="tags span12">
-      <ul>
-        {{#tags}}
-        <li><a href="#">{{.}}</a></li>
-        {{/tags}}
-      </ul>
-    </div>
-  </div>
-  	
-  <div class="subject row">
-    <span class="subject span12">{{subject}}</span>
-  </div>
-
-  <div class="row">
-    <div class="span4">
-      <div class="budget">
-	{{#budget}}
-    	<h3>עלות:</h3>
-	<p>{{millions}} מיליון ִ₪
-	  <span class="period">/על פני {{year_span}} שנים</span></p>
-    	<p class="more">{{description}}</p>
-        {{/budget}}
-      </div>
-    </div>
-    <div class="span4">
-      <div class="recommendation">
-    	<h3>הסבר:</h3>
-    	<p>{{recommendation}}</p>
-      </div>
-    </div>
-    <div class="span4">
-      <div class="purpose">
-    	<h3>מה מדד התוצאה?</h3>
-	<p>{{result_metric}}</p>
-      </div>
-    </div>                        
-  </div>
-  <div class="row">
-    <div class="span4">
-      <div class="responsible">
-        <h3>גורם אחראי:</h3>
-    	<p>
-          {{#responsible_authority}}
-          <span class="responsible-main">{{main}}</span>
-          <span class="responsible-secondary">{{secondary}}</span>
-          {{/responsible_authority}}
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="row tools">
-    <div class="span3">
-      <a href="#" class="watch">{{subscribers}}</a>&nbsp;עוקבים
-    </div>  
-    <div class="span3">
-      <a href="#" class="linkcount">{{num_links}}</a>&nbsp;קישורים
-    </div>  
-    <div class="span3">
-      <a href="#" class="commentcount"></a>&nbsp;תגובות
-    </div>  
-  </div>
-  <div class="row">
-    <div class="timeline span12">
-      <ul>
-        {{#timeline}}
-        <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
-          <div>
-            <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
-	    <p>{{description}}</p>
-	    <small>{{due_date}}: מתוך הדו"ח</small>
-	  </div>    
-        </li>
-        {{/timeline}}
-        {{/base}}
-        {{#gov_updates}}
-        <li class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-          <div>
-            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	    <p>{{implementation_status_text}}</p>
-	    <small>{{update_time}}: הממשלה</small>
-	  </div>    
-        </li>
-        {{/gov_updates}}
-        {{#watch_updates}}
-        <li class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-          <div>
-            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	    <p>{{implementation_status_text}}</p>
-	    <small>{{update_time}}: {{user}}</small>
-	  </div>    
-        </li>
-        {{/watch_updates}}
-        <li class="timeline-point today">
-          <span>היום</span>
-        </li>     
-      </ul>
-    </div>
-  </div>
-  <div class="row">
-    <div class="fb span12">
-    </div>
-  </div>
+		
+<div class="detail-view span8" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
+  
+	<div class="card-section">
+	  <div class="row">
+	    <div class="tags">
+	      <ul>
+	        {{#tags}}
+	        <li><a href="#">{{.}}</a></li>
+	        {{/tags}}
+	      </ul>
+	    </div>
+	  </div>
+	  	
+	  <div class="row">
+		<h2 class="buxa-header good">
+		  <span class="recommendation-text">{{subject}}</span>
+		</h2>
+	  </div>
+	
+	  <div class="row">
+	  	
+	    <div class="span2">
+	      <div class="budget">
+		{{#budget}}
+	    	<h3>עלות:</h3>
+		<p>{{millions}} מיליון ִ₪
+		  <span class="period">/על פני {{year_span}} שנים</span></p>
+	    	<p class="more">{{description}}</p>
+	        {{/budget}}
+	      </div>
+	      <div class="responsible">
+	        <h3>גורם אחראי:</h3>
+	    	<p>
+	          {{#responsible_authority}}
+	          <span class="responsible-main">{{main}}</span>
+	          <span class="responsible-secondary">{{secondary}}</span>
+	          {{/responsible_authority}}
+	        </p>
+	      </div>
+	    </div>
+	    
+	    <div class="span3">
+	      <div class="recommendation">
+	    	<h3>הסבר:</h3>
+	    	<p>{{recommendation}}</p>
+	      </div>
+	    </div>
+	    
+	    <div class="span3">
+	      <div class="purpose">
+	    	<h3>מה מדד התוצאה?</h3>
+		<p>{{result_metric}}</p>
+	      </div>
+	    </div>                        
+	  </div>
+	  
+	  <div class="row tools">
+	    <div class="span2">
+	      <a href="#" class="watch">{{subscribers}} עוקבים</a>
+	    </div>  
+	    <div class="span2">
+	      <a href="#" class="linkcount">{{num_links}} קישורים</a>
+	    </div>  
+	    <div class="span2">
+	      <a href="#" class="commentcount"> תגובות</a>
+	    </div>
+	  </div>
+	</div>
+	  
+	<div class="card-section">  
+	  <div class="row">
+	    <div class="timeline">
+	      <ul>
+	        {{#timeline}}
+	        <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
+	          <div>
+	            <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
+		    <p>{{description}}</p>
+		    <small>{{due_date}}: מתוך הדו"ח</small>
+		  </div>    
+	        </li>
+	        {{/timeline}}
+	        {{/base}}
+	        {{#gov_updates}}
+	        <li class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+	          <div>
+	            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+		    <p>{{implementation_status_text}}</p>
+		    <small>{{update_time}}: הממשלה</small>
+		  </div>    
+	        </li>
+	        {{/gov_updates}}
+	        {{#watch_updates}}
+	        <li class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+	          <div>
+	            <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+		    <p>{{implementation_status_text}}</p>
+		    <small>{{update_time}}: {{user}}</small>
+		  </div>    
+	        </li>
+	        {{/watch_updates}}
+	        <li class="timeline-point today">
+	          <span>היום</span>
+	        </li>     
+	      </ul>
+	    </div>
+	  </div>
+	</div>
+	  
+  	<div class="card-section">
+	  <div class="row">
+    	<div class="fb">
+ 	  	</div>
+  	  </div>
+  	</div>
 
 </div>
     </script>
@@ -313,40 +325,39 @@
     <div class="hero-unit container-fluid expanded" cost="9999999">
       <div class="heading">
 	<h1>דו"ח טרכטנברג</h1>
-	<p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי</p>
-        <p><a id="show-explanation" class="btn primary large">למדו עוד &raquo;</a></p>
+	<p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי <a id="show-explanation" class="btn btn-inverse btn-mini">למדו עוד &raquo;</a></p>
       </div>
       
       <div class="row-fluid">  
 	
-	<div class="span4">
-	  <h3>סינון:</h3>
-	  <form id="searchbar" action="#">
-	    <fieldset id='search'>
-	      <input id="searchbox" class="xlarge" type="text" autocomplete="off" name="xlInput">
-	      <button id="clearsearch">clear</button>
-	    </fieldset>
-	  </form>
-	</div>
-	
-	<div id="orderstats" class="span8">
-	   
-		<div>
-		  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
-		  <h3>סידור לפי:</h3>
-		  <div id="sort" class="btn-group" data-toggle="buttons-radio">
-		    <button class="btn btn-inverse" value="original">מקור</button>
-		    <button class="btn btn-inverse" value="budget">עלות</button>
-		    <button class="btn btn-inverse" value="followers">עוקבים</button>
-		    <button class="btn btn-inverse" value="comments">תגובות</button>
-		  </div>
+		<div class="span4">
+		  <h3>סינון:</h3>
+		  <form id="searchbar" action="#">
+		    <fieldset id='search'>
+		      <input id="searchbox" class="xlarge" type="text" autocomplete="off" name="xlInput">
+		      <button id="clearsearch">clear</button>
+		    </fieldset>
+		  </form>
 		</div>
 		
-		<div id="stats">
-		  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
-	      <div id="summary" class="summary">
-	      </div>
-	   </div>
+		<div id="orderstats" class="span8">
+		   
+			<div>
+			  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+			  <h3>סידור לפי:</h3>
+			  <div id="sort" class="btn-group" data-toggle="buttons-radio">
+			    <button class="btn btn-inverse" value="original">מקור</button>
+			    <button class="btn btn-inverse" value="budget">עלות</button>
+			    <button class="btn btn-inverse" value="followers">עוקבים</button>
+			    <button class="btn btn-inverse" value="comments">תגובות</button>
+			  </div>
+			</div>
+			
+			<div id="stats">
+			  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
+		      <div id="summary" class="summary">
+		      </div>
+		   </div>
 		
     </div>
 		
@@ -370,12 +381,9 @@
 <div id='explanation' class='modal explanation' style="display:none">
   <div class='modal-header'>
     <button class="close" data-dismiss="modal">×</button>
-    <h3>Modal header</h3>
+    <h3>ברוכים הבאים לאתר המעקב אחר יישום המלצות דו"ח טרכטנברג!</h3>
   </div>
   <div class='modal-body'>
-    <p>
-      ברוכים הבאים לאתר המעקב אחר יישום המלצות דו"ח טרכטנברג!
-    </p>
     <p>
       באתר זה תוכלו לעיין בכלל ההמלצות השונות בדו"ח ולראות אילו המלצות יושמו ואילו עדיין לא.
       כמו כן, תוכלו להשתתף בדיון סביב כל המלצה, להירשם לעידכונים ולקבל נקודות מבט אחרות מטעם ארגונים חוץ ממשלתיים.
@@ -383,9 +391,9 @@
     <p>
       מקורות המידע לאתר הם:
       <ul>
-        <li>הדו"ח עצמו כפי שפורסם רשמית על ידי הממשלה.</li>
-        <li>עדכוני ממשלה על אישורי סעיפים לדו"ח. עדכונים אלו מתקבלים הן מהחלטות ממשלה והן על ידי תקנות חדשות במשרדים השונים.</li>
-        <li>ארגונים חברתיים לא ממשלתיים המתייחסים למצב ההמלצות.</li>
+        <li><strong>הדו"ח עצמו</strong> כפי שפורסם רשמית על ידי הממשלה.</li>
+        <li><strong>עדכוני ממשלה רשמיים</strong> על אישורי סעיפים לדו"ח. עדכונים אלו מתקבלים הן מהחלטות ממשלה והן על ידי תקנות חדשות במשרדים השונים.</li>
+        <li><strong>ארגונים חברתיים</strong> לא ממשלתיים המתייחסים למצב ההמלצות.</li>
       </ul>
     </p>
     
@@ -397,28 +405,26 @@
       ארגונים המעוניינים להוסיף את נקודת מבטם לגבי הדו"ח מוזמנים לפנות אלינו.
       לשאלות (או אם מצאתם טעות...) אפשר ליצור קשר עם מפתחי האתר בכתובת <a href="mailto:gov.watch.il@gmail.com" target="_blank">gov.watch.il@gmail.com</a>.
     </p>
-    <h2>&larr;	<a class="close" data-dismiss="modal" href="#">אוקיי, הבנתי!</a></h2>
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn">Close</a>
-    <a href="#" class="btn btn-primary">Save changes</a>
+    <a href="#" class="btn" data-dismiss="modal">אוקיי, הבנתי.</a>
   </div>
 </div>
 
 <div id='subscribe' class='modal subscribe' style="display:none">
   <div class='modal-header'>
     <button class="close" data-dismiss="modal">×</button>
-    <h3>הירשמות לעדכונים</h3>
+    <h3>הרשמה לעדכונים</h3>
   </div>
   <div class='modal-body'>
-    <p>הכניסו כתובת מייל תקנית על מנת לקבל עדכון בכל פעם שמשהו קורה עם ההמלצה</p>
+    <p>הכניסו כתובת מייל תקנית על מנת לקבל עדכון בכל פעם שמשהו קורה עם ההמלצה:</p>
     <form id="subscribe_form" method="post">
       <input id="subscribe_email" class="xlarge" type="text" autocomplete="on" name="email" data-slug="">
     </form>
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn">Close</a>
-    <a href="#" id="do_subscribe" class="btn btn-primary">Save changes</a>
+    <a href="#" class="btn">ביטול</a>
+    <a href="#" id="do_subscribe" class="btn btn-primary">רשמו אותי</a>
   </div>
 </div>
 
