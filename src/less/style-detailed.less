@@ -3,10 +3,9 @@
 .detail-view{
   // #gridSystem .span4;
   .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.2));
-  margin-bottom: 33px;
+  margin: 0 auto;
   display:block;
-  padding-left: @gridGutterWidth + @gridColumnWidth;
-  float: right;
+  float: none;
   //background: rgba(250,248,222,1.0);
   > div {
     margin: 0 10px; 
@@ -341,22 +340,25 @@
   }
   
   .tags {
+    padding: 10px;
+    
     h3 {display: none}
     li{
       float: right;
       text-decoration: none;
       background: url("/static/img/taghead.png") no-repeat right top;
       font-size: 0.7em;
-      height: 18px;
-      line-height: 18px;
+      //height: 18px;
+      //line-height: 18px;
       list-style: none outside none;
       margin: 0 0 3px 5px;
       padding-right: 13px;
       a{
         background-color: @cardshade;
         .border-radius(3px 0 0 3px);
-        padding: 0px 5px 0;
+        padding: 0px 5px;
         color: @card;
+        display: block;
         font-weight: 700;
         text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
         &:hover{text-decoration:none;}
@@ -369,7 +371,7 @@
     font-weight:400;
     font-size:1.5em;
     clear: both;
-    margin: 1.3em 10px 0.5em;
+    margin: 10px 0 0.5em;
     line-height: 1em;
     background: url("/static/img/hr.png");
     
@@ -389,8 +391,8 @@
        a{color: @card;}
     }
     
-    a{
-      color: @text;
+    span{
+      color: @card;
       padding: 15px;
       display:block;
       &:hover{text-decoration:none;}
@@ -459,18 +461,13 @@
     }
     
   }
-  
-  .recommendation,
   .tools{
     clear:both;
     background: url("/static/img/hr.png") repeat-x center -2px;
-    padding-top: 0.5em;
-  }
+    padding: 0.5em 0;
   
-  .tools{
     a{
-      width: @gridColumnWidth - 37px;
-      padding-right: 30px;
+      padding-right: 35px;
       margin-left: @gridGutterWidth;
       display: block;
       height: 28px;
