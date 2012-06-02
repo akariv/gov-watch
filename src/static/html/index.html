@@ -433,27 +433,36 @@
 <script type='text/javascript' src='//connect.facebook.net/he_IL/all.js#xfbml=1&appId=161102067336024'></script>
 <script type="text/javascript">
 jQuery(function($){
+  if (($.browser.mozilla && parseInt($.browser.version.split('.')[0]) < 12) 
+  || ($.browser.safari && parseInt($.browser.version.split('.')[0]) < 500) 
+  || ($.browser.msie && parseInt($.browser.version) < 9) 
+  || ($.browser.opera && parseInt($.browser.version.split('.')[0]) < 11)) { 
     if($("#overlay").length){
-        $("#overlay").fadeIn(200, function(){
-            $("#popup-message").show().css("opacity", 0).animate({
-                marginTop: "+=40px",
-                opacity: 1
-            }, 240);
-        });
-        
-        $("#overlay, #overlay .close").click(function(e){
-            if(e.target == this){
-                $("#popup-message").animate({
-                    height:0,
-                    marginTop: "-=40px",
-                    opacity: 0
-                }, 240, function(){
-                    $("#popup-message").hide();
-                    $("#overlay").fadeOut(200);
-                });
+      $("#overlay").fadeIn(200, function(){
+        $("#popup-message").show().css("opacity", 0).animate({
+          marginTop: "+=40px",
+          opacity: 1
+        }, 240);
+      });
+
+      $("#overlay, #overlay .close").click(function(e){
+        if(e.target == this){
+          $("#popup-message").animate(
+            {
+              height:0,
+              marginTop: "-=40px",
+              opacity: 0
+            }, 
+            240, 
+            function(){
+              $("#popup-message").hide();
+              $("#overlay").fadeOut(200);
             }
-        });
+          );
+        }
+      });
     }
+  }
 });
 </script>
 </body>
