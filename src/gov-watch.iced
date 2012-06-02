@@ -465,15 +465,19 @@ setup_summary = ->
         $("#summary .total").click ->
                 status_filter = null
                 do_search()
+                return false
         $("#summary .stuck").click ->
                 status_filter = ['STUCK','NEW','WORKAROUND']
                 do_search()
+                return false
         $("#summary .implemented").click ->
                 status_filter = ['FIXED','IRRELEVANT']
                 do_search()
+                return false
         $("#summary .in_progress").click ->
                 status_filter = ['IN_PROGRESS']
                 do_search()
+                return false
 
 setup_subscriptions = ->
    $("#subscribe").modal({'show':false})
@@ -484,7 +488,8 @@ setup_subscriptions = ->
         $("#subscribe").modal('show')
         return false
    $("#do_subscribe").click ->
-           $("#subscribe_form").submit()
+        $("#subscribe_form").submit()
+        return false
    $("#subscribe_form").submit ->
         $.post($(this).attr('action'),
                'email':$("#subscribe_email").val(),
@@ -522,9 +527,11 @@ process_data = ->
     $("#explanation .close").click ->
         localStorage?.explained = true
         $("#explanation").modal('hide')
+        return false
 
     $("#show-explanation").click ->
         $("#explanation").modal('show')
+        return false
 
     # Allow the DOM to sync
     await setTimeout((defer _),50)
@@ -561,12 +568,12 @@ process_data = ->
 
     setup_tags()
 
-    # sidebox filters init
+    # book selection
     $("#books li.book a").click ->
         selected_book = $(this).html()
         update_history()
 
-    # sidebox sort init
+    # sort buttons
     $("#sort button").click ->
         $("#sort button").removeClass('active')
         $(this).addClass('active')
@@ -577,19 +584,13 @@ process_data = ->
     # item click handler
     # $(".item").click -> update_history($(this).attr('rel'))
 
-    # hero unit expansion
-    $(".hero-unit .hero-size-control").click( ->
-        $(".hero-unit").toggleClass("expanded")
-        false
-        )
-
     $("#explanation").modal({'show':explanation_needed})
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
     onhashchange()
 
-    #FB.XFBML.parse( $("#items").get(0), update_sort_data )
+    load_fb_comment_count()
 
 ## Item selection
 select_item = (slug) ->
@@ -674,7 +675,6 @@ do_search = ->
     $("#items").isotope({filter: class_filter});
     $("#items").isotope("reLayout");
 
-    load_fb_comment_count()
 
 ## Load the current data for the site from google docs
 load_data = ->

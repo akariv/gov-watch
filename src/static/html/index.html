@@ -8,8 +8,8 @@
 
     <meta property="og:title" content="מעקב יישום מסקנות וועדת טרכטנברג" />
     <meta property="og:type" content="government" />
-    <meta property="og:url" content="http://watch.yeda.us/#" />
-    <meta property="og:image" content="http://watch.yeda.us/static/img/logo-due.png" />
+    <meta property="og:url" content="http://watch.gov.il/#" />
+    <meta property="og:image" content="http://watch.gov.il/static/img/logo-due.png" />
     <meta property="og:site_name" content="מעקב יישום מסקנות וועדת טרכטנברג" />
     <meta property="fb:admins" content="100000025217694" />
 
@@ -19,7 +19,7 @@
     <![endif]-->
     
     <!-- Less -->
-    <link rel="stylesheet" href="static/css/style.css"/>
+    <link rel="stylesheet" href="static/css/min.css"/>
 
 <!-- 
 *********************
@@ -79,7 +79,7 @@
     <div class="tools">
       <a href="#" class="watch" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}</a>
       <a href="#" class="linkcount">{{num_links}}</a>
-      <a href="#" class="commentcount"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
+      <a href="#" class="commentcount">0</a>
     </div>
     
   </div>
@@ -154,12 +154,14 @@
 *******************************
 -->
 	<script type="text/html" name="single-item">
-<div class="detail-item row" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
+<div class="detail-view row" rel="{{slug}}" {{#base}} cost="{{budget.millions}}" implementation-status="{{implementation_status}}">
   <div class="row">
     <div class="tags span12">
-      {{#tags}}
-      <span><a href="#">{{.}}</a></span>
-      {{/tags}}
+      <ul>
+        {{#tags}}
+        <li><a href="#">{{.}}</a></li>
+        {{/tags}}
+      </ul>
     </div>
   </div>
   	
@@ -176,15 +178,6 @@
 	  <span class="period">/על פני {{year_span}} שנים</span></p>
     	<p class="more">{{description}}</p>
         {{/budget}}
-        <div class="responsible">
-          <h3>גורם אחראי:</h3>
-    	  <p>
-            {{#responsible_authority}}
-            <span class="responsible-main">{{main}}</span>
-            <span class="responsible-secondary">{{secondary}}</span>
-            {{/responsible_authority}}
-          </p>
-	</div>
       </div>
     </div>
     <div class="span4">
@@ -200,12 +193,28 @@
       </div>
     </div>                        
   </div>
-    
   <div class="row">
-    <div class="tools span12">
-      <a href="#" class="watch">watch</a>
-      <a href="#" class="linkcount">_num_ links</a>
-      <a href="#" class="commentcount"><!--fb:comments-count href="{{#urlforslug}}{{_srcslug}}{{/urlforslug}}"></fb:comments-count-->_num_ comments</a>
+    <div class="span4">
+      <div class="responsible">
+        <h3>גורם אחראי:</h3>
+    	<p>
+          {{#responsible_authority}}
+          <span class="responsible-main">{{main}}</span>
+          <span class="responsible-secondary">{{secondary}}</span>
+          {{/responsible_authority}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row tools">
+    <div class="span3">
+      <a href="#" class="watch">{{subscribers}}</a>&nbsp;עוקבים
+    </div>  
+    <div class="span3">
+      <a href="#" class="linkcount">{{num_links}}</a>&nbsp;קישורים
+    </div>  
+    <div class="span3">
+      <a href="#" class="commentcount"></a>&nbsp;תגובות
     </div>  
   </div>
   <div class="row">
@@ -354,7 +363,7 @@
 	
     <div class="content container-fluid">
       <div id='container'>
-        <div id='single-item' class="row"></div>
+        <div id='single-item'></div>
         <div id='items' class="row">
         </div>        
       </div>
@@ -423,13 +432,7 @@
 
 <div id="fb-root"></div>
 <!-- JS -->
-<script type='text/javascript' src='static/js/jquery.min.js'></script>
-<script type='text/javascript' src='static/bootstrap/js/bootstrap.js'></script>
-<script type='text/javascript' src='static/js/mustache.js'></script>
-<script type='text/javascript' src='static/js/jquery.isotope.min.js'></script>
-<script type='text/javascript' src='static/js/jquery.scrollintoview.min.js'></script>
-<script type='text/javascript' src='static/js/jquery.tinysort.min.js'></script>
-<script type='text/javascript' src='static/js/gov-watch.js'></script>
+<script type='text/javascript' src='static/js/min.js'></script>
 <script type='text/javascript' src='//connect.facebook.net/he_IL/all.js#xfbml=1&appId=161102067336024'></script>
 <script type="text/javascript">
 jQuery(function($){
