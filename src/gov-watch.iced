@@ -95,15 +95,15 @@ onhashchange = ->
    $("#books li.book[data-book='#{selected_book}']").toggleClass('active', true)
 
    if search_term != ""
-      show_watermark(false)
-      $("#searchbox").val(search_term)
+        show_watermark(false)
+        $("#searchbox").val(search_term)
 
    if slug
         selected_slug = slug
         select_item( selected_slug )
         $(".item").removeClass("shown")
         $("#items").isotope({filter: ".shown"})
-    else
+   else
         set_title('דו"ח טרכטנברג | המפקח: מעקב אחר ישום המלצות הועדה')
         selected_slug = null
         select_item( null )
@@ -234,9 +234,9 @@ run_templates = (template,data,selector) ->
     # Update the document with rendered HTML
     $(selector).html(html)
 
-setup_timeline = ->
+setup_timeline = (item_selector, margins=80 ) ->
     # Setup timeline after all elements have reached their required size
-    $(".item").each ->
+    $(item_selector).each ->
         # Timeline
         pad = (n) -> if n<10 then '0'+n else n
         today = new Date()
@@ -244,10 +244,10 @@ setup_timeline = ->
 
         max_numeric_date = 0
         min_numeric_date = 2100 * 372
-        $(this).find('.timeline .timeline-point.today').attr('data-date',today)
+        $(this).find('.timeline-logic .timeline-point.today').attr('data-date',today)
 
         has_unknowns = false
-        $(this).find(".timeline > ul > li").each( ->
+        $(this).find(".timeline-logic > ul > li").each( ->
                 date = $(this).find('.timeline-point:first').attr('data-date')
                 date = date.split(' ')
                 if (date.length > 1)
@@ -278,9 +278,9 @@ setup_timeline = ->
 
         if has_unknowns
                 max_numeric_date += 180
-                $(this).find(".timeline > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
+                $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
 
-        $(this).find(".timeline > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
+        $(this).find(".timeline-logic > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
 
         status_to_hebrew = (status) ->
                 switch status
@@ -304,10 +304,9 @@ setup_timeline = ->
         gov_status = 'NEW'
         last_percent = 0.0
         item_margins = 5
-        margins = 80
         height = $(this).innerHeight() - margins
         available_height = height
-        $(this).find(".timeline > ul > li .timeline-point").each( ->
+        $(this).find(".timeline-logic > ul > li .timeline-point").each( ->
                 available_height = available_height - $(this).outerHeight() - item_margins
                 )
         #available_height = height - item_size*($(this).find(".timeline > ul > li").size())
@@ -317,11 +316,11 @@ setup_timeline = ->
         conflict_status = null
         late = false
 
-        timeline_items = $(this).find(".timeline > ul > li")
+        timeline_items = $(this).find(".timeline-logic > ul > li")
 
         if (timeline_items.length>0) and $(timeline_items[0]).find('.timeline-point').hasClass('today')
                 today_date = parseInt($(timeline_items[0]).attr('data-date-numeric'))
-                last_update = parseInt($(this).find(".timeline > ul > li").attr('data-date-numeric'))
+                last_update = parseInt($(this).find(".timeline-logic > ul > li").attr('data-date-numeric'))
                 if today_date - last_update > 180
                         late = true
 
@@ -387,9 +386,7 @@ setup_timeline = ->
                         if i <= last_update_at
                                 line.addClass("unreported")
 
-
-
-        $(this).find(".timeline > ul > li").each( ->
+        $(this).find(".timeline-logic > ul > li").each( ->
                 point = $(this).find('.timeline-point:first')
                 line = $(this).find('.timeline-line:first')
 
@@ -405,8 +402,8 @@ setup_timeline = ->
                 top = top + item_height
         )
 
-        $(this).find(".timeline > ul > li:first > .timeline-line").remove()
-        $(this).find(".timeline > ul > li:first").css('height','3px')
+        $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
+        #$(this).find(".timeline-logic > ul > li:first").css('height','3px')
 
         # current status
         implementation_status = $(this).find('.gov-update:last').attr('data-status') ? "NEW"
@@ -481,20 +478,26 @@ setup_summary = ->
 
 setup_subscriptions = ->
    $("#subscribe").modal({'show':false})
-   $(".watch").click ->
-        rel = $(this).attr('rel')
-        $("#subscribe_email").attr('data-slug',rel)
-        $("#subscribe_form").attr('action',"/subscribe/#{rel}")
-        $("#subscribe").modal('show')
-        return false
    $("#do_subscribe").click ->
         $("#subscribe_form").submit()
         return false
    $("#subscribe_form").submit ->
         $.post($(this).attr('action'),
                'email':$("#subscribe_email").val(),
-                -> $("#subscribe").modal('hide'))
+                (data) ->
+                        $("#subscribe").modal('hide')
+                 ,
+                "json"
+                )
         return false
+setup_subscriptions = (selector) ->
+        $(".watch").click ->
+        rel = $(this).attr('rel')
+        $("#subscribe_email").attr('data-slug',rel)
+        $("#subscribe_form").attr('action',"/subscribe/#{rel}")
+        $("#subscribe").modal('show')
+        return false
+
 
 setup_tags = ->
    $(".tags > ul > li, a[data-tag='true']").click ->
@@ -503,6 +506,7 @@ setup_tags = ->
         $("#searchbox").val(search_term)
         $("#explanation").modal('hide')
         update_history()
+        return false
 
 
 ## Handles the site's data (could be from local storage or freshly loaded)
@@ -558,7 +562,7 @@ process_data = ->
     # Let isotope do its magic
     await setTimeout((defer _),50)
 
-    setup_timeline()
+    setup_timeline(".item")
 
     $(".item").css('visibility','inherit')
 
@@ -600,6 +604,7 @@ select_item = (slug) ->
         $("#summary-header").css('visibility','hidden')
         $("#summary").html('')
         $("#sort button").addClass('disabled')
+        $("#searchbox").addClass('disabled')
         for x in loaded_data
                 if x.slug == slug
                         item = run_templates( "single-item", x, "#single-item" )
@@ -610,13 +615,20 @@ select_item = (slug) ->
                         if window.FB
                                 FB.XFBML.parse( item.get(0), -> )
                         break
+
+        # Allow DOM to sync
+        await setTimeout((defer _),50)
+
+        setup_timeline('.detail-view',0)
+        setup_subscriptions(".detail-view")
     else
         $("#single-item").html('')
         $("#summary-header").css('visibility','inherit')
         $("#sort button").removeClass('disabled')
+        $("#searchbox").removeClass('disabled')
 
 load_fb_comment_count = ->
-        $(".item").each ->
+        $(".commentcount").each ->
                 slug = $(this).attr('rel')
                 await $.get('https://api.facebook.com/method/fql.query',
                             {
@@ -626,7 +638,7 @@ load_fb_comment_count = ->
                             ,
                             (defer json),
                             "json")
-                $(this).find(".commentcount").html(json[0].commentsbox_count)
+                $(this).html(json[0].commentsbox_count)
         $("#items").isotope( 'updateSortData', $(".item") )
 
 ## Perform search on the site's data
