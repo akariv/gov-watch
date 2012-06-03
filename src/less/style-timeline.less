@@ -1,0 +1,309 @@
+.timeline{
+    width: @gridGutterWidth + @gridColumnWidth;
+    vertical-align:top;
+    margin-right: -@gridGutterWidth - @gridColumnWidth;
+    // margin-bottom:7.5%;
+    // margin-top:7.5%;
+    position:absolute;
+    height:100%;
+    left:0px;
+
+    > ul {
+      position: absolute;
+      top: 20px;
+      //bottom: 20px;
+      list-style: none outside none;
+      margin: 20px 45px;
+      width: 3px;
+      //background: @card;
+      border: @card solid 5px;
+      
+      > li {
+
+        > .timeline-point {
+          width: 9px;
+          height: 9px;
+          position:relative;
+          top: -5px;
+          background: @card;
+          border: 3px solid @cardshade; 
+          
+          .border-radius(13px);
+          margin-right: -6px;
+          z-index:10;
+          
+          &.update{
+            width: 15px; height: 15px;
+            border: 0;
+          }
+          
+          &.gov-update{
+            width: 19px; height: 19px;
+            margin-top: -2px;
+            margin-right: -8px;
+            .border-radius(0);
+            border: 0;
+            background: url("/static/img/gov-pentagon.png") no-repeat;
+          }
+          
+          &.update:after{
+            width: 19px; height: 19px;
+            display: block;
+            content: "";
+            background-repeat: no-repeat;
+            background-position: 2px 3px;
+          }
+            
+          &.watch-status-bad
+          {
+            background-color: @bad;
+            border-color: @bad;
+            }
+            
+          &.gov-status-bad{
+            background-position: 0 100%;
+          }
+          
+          &.gov-FIXED:after,
+          &.watch-FIXED:after
+          {
+            background-image: url("/static/img/point-complete.png");
+          }
+          
+          &.gov-NEW:after,
+          &.watch-NEW:after {
+            background-image: url("/static/img/point-late.gif");
+          }
+          
+          &.gov-IN_PROGRESS:after,
+          &.watch-IN_PROGRESS:after{
+            background-image: url("/static/img/point-inprogress.gif");
+          }
+          
+          &.gov-WORKAROUND:after,
+          &.watch-WORKAROUND:after{
+            background-image: url("/static/img/point-workaround.png");
+          }
+          
+          &.gov-STUCK:after,
+          &.watch-STUCK:after {
+            background-image: url("/static/img/point-stuck.png");
+          }
+          
+          &.milestone,
+          &.today,
+          &.start,
+          &.completion {
+            background: @cardshade;
+            border: 5px solid @card;
+            height: 5px;
+            width: 19px;
+            margin: -2px -13px;
+            height: 3px;
+            .border-radius(3px);
+            > div {
+              top: -4px;
+              }
+            }
+          
+          &.start {
+            background-color: @bad;
+            }
+            
+          &.gov-status-bad{
+            background-position: bottom 0;
+          }
+                      
+          &.today { 
+            top: 0;
+            border-width: 0;
+            height: 7px;
+            width: 7px;
+            margin: 0 -2px;
+            background: @bad;
+           
+            
+            > div{
+              left: 20px;
+              width: 25px;
+              font-size: 0.9em;
+              color: @card;
+              border-color: @bad;
+              background: @bad;
+              padding: 0 3px;
+              &:after{
+                border-right-color: @bad;
+                }
+              }
+              
+            &.gov-status-good{
+              //background-color: @good;
+              
+              > div {
+                border-color: @good;
+                background: @good;
+                &:after{
+                  border-right-color: @good;
+                }
+              }
+            }
+              
+            }
+            
+          > div {
+            z-index: 10;
+            display: none;
+            position: absolute;
+            width: 300px;
+            color: @lighttext;
+            left: 24px;
+            top: 0px;
+            line-height: 20px;
+            border: 3px solid @carddark;
+            .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 
+            background: @card;
+            .border-radius(3px);
+            
+            > .point-meta{
+              background: @carddark;
+              min-height: 26px;
+            }
+            
+            img{
+              background: @carddark;
+              border: 2px solid @carddark;
+              .border-radius(5px);
+              float: right;
+              height: auto;
+              margin: -3px -15px 0 3px;
+              width: 25px;
+            }
+            
+            h4,
+            p,
+            small {
+              padding: 3px;
+              font-size: 16px;
+              }
+            
+            .label {
+              color: @card;
+              background: @good;
+              display: block;
+              float: left;
+              font-size: 14px;
+              font-weight: normal;
+              line-height: 1.2em;
+              margin: 3px 4px 0px 3px;
+              padding: 0 3px;
+              }
+            
+            .label-STUCK,
+            .label-WORKAROUND,
+            .label-NEW {
+              background: @bad;
+              }
+            
+            h4{
+              background: @cardshade;
+              //border-bottom: @cardshade 2px solid;
+              color: @text;
+              font-weight: normal;
+              margin: 0;
+              padding: 0 3px;
+              }
+            
+            small{
+              color: @card;
+              line-height: 24px;
+              text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+              &:before {
+                content: "— ";
+                }
+              }
+            
+            &:after{
+              border-bottom: 5px solid transparent;
+              border-right: 5px solid @carddark;
+              border-top: 5px solid transparent;
+              content: "";
+              display: block;
+              height: 0;
+              left: -8px;
+              position: absolute;
+              top: -2px;
+              width: 0;
+              }
+            }
+            
+          &.watch-status-good,
+          &.gov-status-good {
+            //background-color: @good;
+            > div{
+              border-color: @good;
+              &:after{
+                border-right-color: @good;
+              }
+              > div {
+                background: fadeout(@good, 30%);
+              }
+              img{
+                border-color: @good;
+                background: @good;
+              }
+            }
+          }
+          
+          &.watch-status-bad,
+          &.gov-status-bad {
+            //background-color: @bad;
+            > div{
+              border-color: @bad;
+              &:after{
+                border-right-color: @bad;
+              }
+              > div {
+                background: fadeout(@bad, 30%);
+              }
+              img{
+                border-color: @bad;
+                background: @bad;
+              }
+            }
+          }
+          
+          &:hover > div {
+            display: block;
+            }
+          }
+        
+        > .timeline-line {
+          background-color: @bad;
+          //border: 5px solid @card;
+          border-bottom: none;
+          //position: absolute;
+          height:100%;
+          width: 3px;
+          //margin-right: -5px;
+          
+          &.status-IN_PROGRESS,
+          &.status-FIXED,
+          &.status-IRRELEVANT
+            {
+              background-color: @good;
+            }       
+          
+          &.unreported{
+            background-image: url("/static/img/unreported-tile.png");
+            }
+          
+          &.future{
+            background:none;
+            background-image:none;
+            border:none;
+            }
+
+          } 
+        }
+      }
+    }
