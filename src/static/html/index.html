@@ -177,49 +177,47 @@
     <div class="row">
       
       <div class="span2">
-	<div class="budget">
-	  {{#budget}}
-	  <h3>עלות:</h3>
-	  <p>{{millions}} מיליון ִ₪
-	    <span class="period">/על פני {{year_span}} שנים</span></p>
-	  <p class="more">{{description}}</p>
-	  {{/budget}}
-	</div>
-	<div class="responsible">
-	  <h3>גורם אחראי:</h3>
-	  <p>
-	    {{#responsible_authority}}
-	    <span class="responsible-main">{{main}}</span>
-	    <span class="responsible-secondary">{{secondary}}</span>
-	    {{/responsible_authority}}
-	  </p>
-	</div>
+      	<div class="budget">
+      	  {{#budget}}
+      	  <h3>עלות:</h3>
+      	  <p>{{millions}} מיליון ִ₪
+      	    <span class="period">/על פני {{year_span}} שנים</span></p>
+      	  <p class="more">{{description}}</p>
+      	  {{/budget}}
+      	</div>
+      	<div class="responsible">
+      	  <h3>גורם אחראי:</h3>
+      	  <p>
+      	    {{#responsible_authority}}
+      	    <span class="responsible-main">{{main}}</span>
+      	    <span class="responsible-secondary">{{secondary}}</span>
+      	    {{/responsible_authority}}
+      	  </p>
+      	</div>
       </div>
       
-      <div class="span3">
-	<div class="recommendation">
-	  <h3>הסבר:</h3>
-	  <p>{{recommendation}}</p>
-	</div>
-      </div>
-      
-      <div class="span3">
-	<div class="purpose">
-	  <h3>מה מדד התוצאה?</h3>
-	  <p>{{result_metric}}</p>
-	</div>
-      </div>                        
+    <div class="span5">
+    	<div class="recommendation">
+    	  <h3>הסבר:</h3>
+    	  <p>{{recommendation}}</p>
+    	</div>
+          
+    	<div class="purpose">
+    	  <h3>מה מדד התוצאה?</h3>
+    	  <p>{{result_metric}}</p>
+    	</div>
     </div>
+  </div>
     
     <div class="row tools">
       <div class="span2">
-	<a href="#" class="watch" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}</a>&nbsp;עוקבים
+	<a href="#" class="watch" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}&nbsp;עוקבים</a>
       </div>  
       <div class="span2">
-	<a href="#" class="linkcount">{{num_links}}</a>&nbsp;קישורים
+	<a href="#" class="linkcount">{{num_links}}&nbsp;קישורים</a>
       </div>  
       <div class="span2">
-	<a href="#" class="commentcount" {{/base}}rel="{{slug}}"{{#base}}></a>&nbsp;תגובות
+	<a href="#" class="commentcount" {{/base}}rel="{{slug}}"{{#base}}>&nbsp;תגובות</a>
       </div>  
     </div>
   </div>
