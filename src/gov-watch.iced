@@ -613,7 +613,7 @@ process_data = ->
     window.onhashchange = onhashchange
     onhashchange()
 
-    load_fb_comment_count()
+    load_fb_comment_count(".item")
 
 ## Item selection
 select_item = (slug) ->
@@ -644,6 +644,8 @@ select_item = (slug) ->
         setup_timeline('.detail-view',0)
         setup_subscriptions(".detail-view")
         setup_tags(".detail-view .tags > ul > li")
+        load_fb_comment_count(".detail-view")
+
     else
         $("#single-item").html('')
         $("#summary-header").css('visibility','inherit')
@@ -654,8 +656,8 @@ select_item = (slug) ->
         $("#clearsearch").attr('disabled',null)
 
 
-load_fb_comment_count = ->
-        $(".commentcount").each ->
+load_fb_comment_count = (selector) ->
+        $("#{selector} .commentcount").each ->
                 slug = $(this).attr('rel')
                 await $.get('https://api.facebook.com/method/fql.query',
                             {
@@ -665,8 +667,10 @@ load_fb_comment_count = ->
                             ,
                             (defer json),
                             "json")
-                $(this).html(json[0].commentsbox_count)
-        $("#items").isotope( 'updateSortData', $(".item") )
+                h = $(this).html()
+                $(this).html(json[0].commentsbox_count+h)
+        if selector == ".item"
+                $("#items").isotope( 'updateSortData', $(".item") )
 
 ## Perform search on the site's data
 do_search = ->

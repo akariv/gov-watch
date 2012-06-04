@@ -1196,7 +1196,7 @@ var Mustache = function() {
         });
         window.onhashchange = onhashchange;
         onhashchange();
-        return load_fb_comment_count();
+        return load_fb_comment_count(".item");
       });
     });
   };
@@ -1245,7 +1245,8 @@ var Mustache = function() {
       })(function() {
         setup_timeline('.detail-view', 0);
         setup_subscriptions(".detail-view");
-        return __iced_k(setup_tags(".detail-view .tags > ul > li"));
+        setup_tags(".detail-view .tags > ul > li");
+        return __iced_k(load_fb_comment_count(".detail-view"));
       });
     } else {
       $("#single-item").html('');
@@ -1258,9 +1259,9 @@ var Mustache = function() {
     }
   };
 
-  load_fb_comment_count = function() {
-    $(".commentcount").each(function() {
-      var json, slug, ___iced_passed_deferral, __iced_deferrals,
+  load_fb_comment_count = function(selector) {
+    $("" + selector + " .commentcount").each(function() {
+      var h, json, slug, ___iced_passed_deferral, __iced_deferrals,
         _this = this;
       ___iced_passed_deferral = iced.findDeferral(arguments);
       slug = $(this).attr('rel');
@@ -1278,14 +1279,17 @@ var Mustache = function() {
               return json = arguments[0];
             };
           })(),
-          lineno: 665
+          lineno: 667
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
-        return $(_this).html(json[0].commentsbox_count);
+        h = $(_this).html();
+        return $(_this).html(json[0].commentsbox_count + h);
       });
     });
-    return $("#items").isotope('updateSortData', $(".item"));
+    if (selector === ".item") {
+      return $("#items").isotope('updateSortData', $(".item"));
+    }
   };
 
   do_search = function() {
@@ -1360,7 +1364,7 @@ var Mustache = function() {
               return version = arguments[0];
             };
           })(),
-          lineno: 724
+          lineno: 728
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

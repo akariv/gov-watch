@@ -79,7 +79,7 @@
     <div class="tools">
       <a href="#" class="watch" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}</a>
       <a href="#" class="linkcount">{{num_links}}</a>
-      <a href="#" class="commentcount" {{/base}}rel="{{slug}}"{{#base}}>0</a>
+      <a href="#" class="commentcount" {{/base}}rel="{{slug}}"{{#base}}></a>
     </div>
     
   </div>
@@ -169,7 +169,7 @@
     </div>
     
     <div class="row">
-      <h2 class="buxa-header good">
+      <h2 class="buxa-header">
 	<span class="recommendation-text">{{subject}}</span>
       </h2>
     </div>
@@ -182,7 +182,7 @@
       	  <h3>עלות:</h3>
       	  <p>{{millions}} מיליון ִ₪
       	    <span class="period">/על פני {{year_span}} שנים</span></p>
-      	  <p class="more">{{description}}</p>
+      	  <p>{{description}}</p>
       	  {{/budget}}
       	</div>
       	<div class="responsible">
@@ -423,7 +423,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn">ביטול</a>
+    <a href="#" class="btn close" data-dismiss="modal">ביטול</a>
     <a href="#" id="do_subscribe" class="btn btn-primary">רשמו אותי</a>
   </div>
 </div>
