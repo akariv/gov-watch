@@ -1193,8 +1193,8 @@ var Mustache = function() {
           item = run_templates("single-item", x, "#single-item");
           set_title(x.base.book + ": " + x.base.subject);
           url = generate_url(slug);
-          $("#single-item .fb").append("<fb:like href='" + url + "' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>");
-          $("#single-item .fb").append("<fb:comments href='" + url + "' num_posts='2' width='590'></fb:comments>");
+          $(".detail-view .fb").append("<fb:like href='" + url + "' send='true' width='700' show_faces='true' action='recommend' font='tahoma'></fb:like>");
+          $(".detail-view .fb").append("<fb:comments href='" + url + "' num_posts='2' width='700'></fb:comments>");
           if (window.FB) FB.XFBML.parse(item.get(0), function() {});
           break;
         }
