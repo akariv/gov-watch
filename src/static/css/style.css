@@ -7613,35 +7613,59 @@ footer a img {
   margin-right: -6px;
   z-index: 10;
 }
-.timeline > ul > li > .timeline-point .update {
+.timeline > ul > li > .timeline-point.update {
   width: 15px;
   height: 15px;
   border: 0;
 }
-.timeline > ul > li > .timeline-point.watch-status-bad,
-.timeline > ul > li > .timeline-point.gov-status-bad {
+.timeline > ul > li > .timeline-point.gov-update {
+  width: 19px;
+  height: 19px;
+  margin-top: -2px;
+  margin-right: -8px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  border: 0;
+  background: url("/static/img/gov-pentagon.png") no-repeat;
+}
+.timeline > ul > li > .timeline-point.update:after {
+  width: 19px;
+  height: 19px;
+  display: block;
+  content: "";
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+.timeline > ul > li > .timeline-point.watch-status-bad {
   background-color: #f0776d;
   border-color: #f0776d;
 }
-.timeline > ul > li > .timeline-point.gov-FIXED,
-.timeline > ul > li > .timeline-point.watch-FIXED {
-  background: #6ba688 url("/static/img/point-complete.png") no-repeat;
+.timeline > ul > li > .timeline-point.gov-status-bad {
+  background-position: 0 100%;
 }
-.timeline > ul > li > .timeline-point.gov-NEW,
-.timeline > ul > li > .timeline-point.watch-NEW {
-  background: #f0776d url("/static/img/point-late.gif") no-repeat;
+.timeline > ul > li > .timeline-point.gov-FIXED:after,
+.timeline > ul > li > .timeline-point.watch-FIXED:after {
+  background-image: url("/static/img/point-complete.png");
 }
-.timeline > ul > li > .timeline-point.gov-IN_PROGRESS,
-.timeline > ul > li > .timeline-point.watch-IN_PROGRESS {
-  background: #6ba688 url("/static/img/point-inprogress.gif") no-repeat;
+.timeline > ul > li > .timeline-point.gov-NEW:after,
+.timeline > ul > li > .timeline-point.watch-NEW:after {
+  background-image: url("/static/img/point-late.gif");
 }
-.timeline > ul > li > .timeline-point.gov-WORKAROUND,
-.timeline > ul > li > .timeline-point.watch-WORKAROUND {
-  background: #f0776d url("/static/img/point-workaround.png") no-repeat;
+.timeline > ul > li > .timeline-point.gov-IN_PROGRESS:after,
+.timeline > ul > li > .timeline-point.watch-IN_PROGRESS:after {
+  background-image: url("/static/img/point-inprogress.gif");
 }
-.timeline > ul > li > .timeline-point.gov-STUCK,
-.timeline > ul > li > .timeline-point.watch-STUCK {
-  background: #f0776d url("/static/img/point-stuck.png") no-repeat;
+.timeline > ul > li > .timeline-point.gov-WORKAROUND:after,
+.timeline > ul > li > .timeline-point.watch-WORKAROUND:after {
+  background-image: url("/static/img/point-workaround.png");
+}
+.timeline > ul > li > .timeline-point.gov-STUCK:after,
+.timeline > ul > li > .timeline-point.watch-STUCK:after {
+  background-image: url("/static/img/point-stuck.png");
 }
 .timeline > ul > li > .timeline-point.milestone,
 .timeline > ul > li > .timeline-point.today,
@@ -7666,12 +7690,11 @@ footer a img {
 .timeline > ul > li > .timeline-point.completion > div {
   top: -4px;
 }
-.timeline > ul > li > .timeline-point.start,
-.timeline > ul > li > .timeline-point.gov-status-bad {
+.timeline > ul > li > .timeline-point.start {
   background-color: #f0776d;
 }
-.timeline > ul > li > .timeline-point.gov-status-good {
-  background-color: #6ba688;
+.timeline > ul > li > .timeline-point.gov-status-bad {
+  background-position: bottom 0;
 }
 .timeline > ul > li > .timeline-point.today {
   top: 0;
@@ -7692,9 +7715,6 @@ footer a img {
 }
 .timeline > ul > li > .timeline-point.today > div:after {
   border-right-color: #f0776d;
-}
-.timeline > ul > li > .timeline-point.today.gov-status-good {
-  background-color: #6ba688;
 }
 .timeline > ul > li > .timeline-point.today.gov-status-good > div {
   border-color: #6ba688;
@@ -7794,10 +7814,6 @@ footer a img {
   top: -2px;
   width: 0;
 }
-.timeline > ul > li > .timeline-point.watch-status-good,
-.timeline > ul > li > .timeline-point.gov-status-good {
-  background-color: #6ba688;
-}
 .timeline > ul > li > .timeline-point.watch-status-good > div,
 .timeline > ul > li > .timeline-point.gov-status-good > div {
   border-color: #6ba688;
@@ -7814,10 +7830,6 @@ footer a img {
 .timeline > ul > li > .timeline-point.gov-status-good > div img {
   border-color: #6ba688;
   background: #6ba688;
-}
-.timeline > ul > li > .timeline-point.watch-status-bad,
-.timeline > ul > li > .timeline-point.gov-status-bad {
-  background-color: #f0776d;
 }
 .timeline > ul > li > .timeline-point.watch-status-bad > div,
 .timeline > ul > li > .timeline-point.gov-status-bad > div {

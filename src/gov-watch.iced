@@ -158,7 +158,7 @@ data_callback = (data) ->
         rec.base.subscribers = rec.subscribers ? 0
 
         if rec.base.recommendation?.length > 500
-                rec.base.recommendation_shortened = rec.base.recommendation[0..500] + "&nbsp;" +"<a href='#{generate_url(rec.slug)}'>" + "עוד..." +"</a>"
+                rec.base.recommendation_shortened = rec.base.recommendation[0..500] + "&nbsp;" +"<a class='goto-detail' rel='#{rec.slug}' href='#'>" + "עוד..." + "</a>"
         else
                 rec.base.recommendation_shortened = rec.base.recommendation
 
@@ -353,6 +353,7 @@ setup_timeline = (item_selector, margins=80 ) ->
                         if is_good_status(gov_status) != is_good_status(status)
                                 conflict = true
                                 conflict_status = status
+                        point.addClass("watch-#{status}")
                         if is_good_status(status)
                                 point.addClass("watch-status-good")
                         else
@@ -476,7 +477,7 @@ setup_summary = ->
                 do_search()
                 return false
 
-setup_subscriptions = ->
+setup_subscription_form = ->
    $("#subscribe").modal({'show':false})
    $("#do_subscribe").click ->
         $("#subscribe_form").submit()
@@ -484,28 +485,43 @@ setup_subscriptions = ->
    $("#subscribe_form").submit ->
         $.post($(this).attr('action'),
                'email':$("#subscribe_email").val(),
-                (data) ->
+                (data) =>
                         $("#subscribe").modal('hide')
+                        rel = $(this).attr("rel")
+                        $(".watch[rel='#{rel}']").html(data)
                  ,
                 "json"
                 )
         return false
+
 setup_subscriptions = (selector) ->
-        $(".watch").click ->
-        rel = $(this).attr('rel')
-        $("#subscribe_email").attr('data-slug',rel)
-        $("#subscribe_form").attr('action',"/subscribe/#{rel}")
-        $("#subscribe").modal('show')
-        return false
+        $("#{selector} .watch").click ->
+                rel = $(this).attr('rel')
+                $("#subscribe_email").attr('data-slug',rel)
+                $("#subscribe_form").attr('action',"/subscribe/#{rel}")
+                $("#subscribe_form").attr('rel',rel)
+                $("#subscribe").modal('show')
+                return false
 
 
-setup_tags = ->
-   $(".tags > ul > li, a[data-tag='true']").click ->
+setup_tags = (selector) ->
+   $(selector).click ->
         search_term = $(this).text()
         show_watermark(false)
         $("#searchbox").val(search_term)
         $("#explanation").modal('hide')
         update_history()
+        return false
+
+setup_detailed_links = ->
+    $(".item .goto-detail"). click ->
+        rel = $(this).attr('rel')
+        if not rel
+                for p in $(this).parents()
+                        rel = $(p).attr('rel')
+                        if rel
+                                break
+        update_history(rel)
         return false
 
 
@@ -568,9 +584,12 @@ process_data = ->
 
     setup_searchbox()
 
-    setup_subscriptions()
+    setup_subscription_form()
+    setup_subscriptions(".item")
 
-    setup_tags()
+    setup_tags(".item .tags > ul > li, a[data-tag='true']")
+
+    setup_detailed_links()
 
     # book selection
     $("#books li.book a").click ->
@@ -605,6 +624,9 @@ select_item = (slug) ->
         $("#summary").html('')
         $("#sort button").addClass('disabled')
         $("#searchbox").addClass('disabled')
+        $("#searchbox").attr('disabled','disabled')
+        $("#clearsearch").addClass('disabled')
+        $("#clearsearch").attr('disabled','disabled')
         for x in loaded_data
                 if x.slug == slug
                         item = run_templates( "single-item", x, "#single-item" )
@@ -621,11 +643,16 @@ select_item = (slug) ->
 
         setup_timeline('.detail-view',0)
         setup_subscriptions(".detail-view")
+        setup_tags(".detail-view .tags > ul > li")
     else
         $("#single-item").html('')
         $("#summary-header").css('visibility','inherit')
         $("#sort button").removeClass('disabled')
         $("#searchbox").removeClass('disabled')
+        $("#searchbox").attr('disabled',null)
+        $("#clearsearch").removeClass('disabled')
+        $("#clearsearch").attr('disabled',null)
+
 
 load_fb_comment_count = ->
         $(".commentcount").each ->

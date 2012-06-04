@@ -39,7 +39,7 @@
       </ul>
     </div>
     
-    <h2 class="buxa-header">
+    <h2 class="buxa-header goto-detail">
       <a href="#" class="recommendation-text">
         {{subject}}
       </a>
@@ -229,8 +229,8 @@
       <div class="detailed-timeline timeline-logic span9">
 	<ul>
           {{#timeline}}
-          <li class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
-	    <div>
+          <li>
+	    <div class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
 	      <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
 	      <p>{{description}}</p>
 	      <small>{{due_date}}: מתוך הדו"ח</small>
@@ -239,8 +239,8 @@
 	  {{/timeline}}
 	  {{/base}}
 	  {{#gov_updates}}
-	  <li class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-	    <div>
+	  <li>
+	    <div class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
 	      <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
 	      <p>{{implementation_status_text}}</p>
 	      <small>{{update_time}}: הממשלה</small>
@@ -248,16 +248,18 @@
 	  </li>
 	  {{/gov_updates}}
 	  {{#watch_updates}}
-	  <li class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-	    <div>
+	  <li>
+	    <div class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
 	      <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
 	      <p>{{implementation_status_text}}</p>
 	      <small>{{update_time}}: {{user}}</small>
 	    </div>    
 	  </li>
 	  {{/watch_updates}}
-	  <li class="timeline-point today">
-	    <span>היום</span>
+	  <li>
+            <div class="timeline-point today">
+	      <span>היום</span>
+            </div>
 	  </li>     
 	</ul>
       </div>
