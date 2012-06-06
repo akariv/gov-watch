@@ -86,16 +86,52 @@
     line-height: 1em;
     background: url("/static/img/hr.png");
     
-    &.good{
-      background: @good;
+    &:hover{
+      padding: 5px 0;
+      
+      a{
+      padding: 10px 15px;
+      background: @card;
+      
+      &:after{
+        content: ">";
+        text-decoration: blink;
+      }
+    }  
     }
     
-    &.conflict{
-      background: @good url("/static/img/conflict.png") 50% 50%;
+    &.good{
+      background: @good;
+            
+      &:hover{
+        a{
+          color: @good;
+        }
+      }
+
     }
     
     &.bad{
       background: @bad;
+            
+      &:hover{
+        a{
+          color: @bad;
+        }
+      }
+
+    }
+    
+    &.conflict{
+      background: @good url("/static/img/conflict.png") 50% 50%;
+      
+      &:hover a{
+        color: @good;
+        
+        &:first-line{
+          color: @bad;  
+        }
+      }
     }
     
     &.bad,&.good,&.conflict {
