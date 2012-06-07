@@ -226,15 +226,6 @@
     <div class="row">
       <div class="detailed-timeline timeline-logic span9">
 	<ul>
-          {{#timeline}}
-          <li>
-	    <div class="timeline-point {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
-	      <h4><span class="label implementation-status"></span> {{milestone_name}}</h4>
-	      <p>{{description}}</p>
-	      <small>{{due_date}}: מתוך הדו"ח</small>
-	    </div>    
-	  </li>
-	  {{/timeline}}
 	  {{/base}}
 	  {{#gov_updates}}
 	  <li>
@@ -254,11 +245,6 @@
 	    </div>    
 	  </li>
 	  {{/watch_updates}}
-	  <li>
-            <div class="timeline-point today">
-	      <span>היום</span>
-            </div>
-	  </li>     
 	</ul>
       </div>
     </div>
