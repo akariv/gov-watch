@@ -241,6 +241,7 @@ setup_timeline = (item_selector, margins=80 ) ->
         pad = (n) -> if n<10 then '0'+n else n
         today = new Date()
         today = "#{today.getFullYear()}/#{pad(today.getMonth()+1)}/#{pad(today.getDate()+1)}"
+        horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
 
         max_numeric_date = 0
         min_numeric_date = 2100 * 372
@@ -280,6 +281,7 @@ setup_timeline = (item_selector, margins=80 ) ->
                 max_numeric_date += 180
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
 
+        $(this).find(".update-feed > ul > li").tsort({attr:'data-date',order:'desc'})
         $(this).find(".timeline-logic > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
 
         status_to_hebrew = (status) ->
@@ -304,13 +306,19 @@ setup_timeline = (item_selector, margins=80 ) ->
         gov_status = 'NEW'
         last_percent = 0.0
         item_margins = 5
-        height = $(this).innerHeight() - margins
-        available_height = height
+        if horizontal
+                size = $(this).innerWidth() - margins
+        else
+                size = $(this).innerHeight() - margins
+        available_size = size
         $(this).find(".timeline-logic > ul > li .timeline-point").each( ->
-                available_height = available_height - $(this).outerHeight() - item_margins
+                if horizontal
+                        available_size = available_size - $(this).outerWidth() - item_margins
+                else
+                        available_size = available_size - $(this).outerHeight() - item_margins
                 )
-        #available_height = height - item_size*($(this).find(".timeline > ul > li").size())
-        top = 0
+        #available_size = size - item_size*($(this).find(".timeline > ul > li").size())
+        margin = 0
 
         conflict = false
         conflict_status = null
@@ -394,17 +402,25 @@ setup_timeline = (item_selector, margins=80 ) ->
                 date = parseInt($(this).attr('data-date-numeric'))
 
                 percent = (max_numeric_date - date) / (max_numeric_date - min_numeric_date)
-                point_size = point.outerHeight() + item_margins
+                if horizontal
+                        point_size = point.outerWidth() + item_margins
+                else
+                        point_size = point.outerHeight() + item_margins
                 #console.log point_size
-                item_height = available_height * (percent - last_percent) + point_size
-                $(this).css('height',item_height)
-                $(this).css('top',top)
+                item_size = available_size * (percent - last_percent) + point_size
+                if horizontal
+                        $(this).css('width',item_size)
+                        $(this).css('right',margin)
+                else
+                        $(this).css('height',item_size)
+                        $(this).css('top',margin)
+
                 last_percent = percent
-                top = top + item_height
+                margin = margin + item_size
         )
 
         $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
-        #$(this).find(".timeline-logic > ul > li:first").css('height','3px')
+        #$(this).find(".timeline-logic > ul > li:first").css('size','3px')
 
         # current status
         implementation_status = $(this).find('.gov-update:last').attr('data-status') ? "NEW"

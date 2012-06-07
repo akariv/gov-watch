@@ -9,7 +9,7 @@
     <meta property="og:title" content="מעקב יישום מסקנות וועדת טרכטנברג" />
     <meta property="og:type" content="government" />
     <meta property="og:url" content="http://watch.gov.il/#" />
-    <meta property="og:image" content="http://watch.gov.il/static/img/logo-due.png" />
+    <meta property="og:image" content="http://watch.gov.il/static/img/trachtenberg-cover.jpg" />
     <meta property="og:site_name" content="מעקב יישום מסקנות וועדת טרכטנברג" />
     <meta property="fb:admins" content="100000025217694" />
 
@@ -226,11 +226,71 @@
     </div>
   </div>
   
+  <div class="card-section">
+    <div class="timeline horizontal timeline-logic">
+    <ul>
+      {{#timeline}}
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point milestone {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
+          <div>
+            <div class="point-meta">
+	      <img src="" alt="טרכטנברג">
+	      <small>{{due_date}}: מתוך הדו"ח</small>
+	      <span class="label implementation-status"></span>
+	    </div>
+            <h4>{{milestone_name}}</h4>
+	    <p>{{description}}</p>
+	    
+          </div>
+	</div>    
+      </li>
+      {{/timeline}}
+      {{/base}}
+      {{#gov_updates}}
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point update gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+          <div>
+            <div class="point-meta">
+	      <img src="" alt="הממשלה">
+	      <small>{{update_time}}: הממשלה</small>
+	      <span class="label label-{{implementation_status}} implementation-status"></span> 
+	    </div>
+            <h4>{{implementation_status_name}}</h4>
+	    <p>{{implementation_status_text}}</p>
+	  </div>    
+	</div>    
+      </li>
+      {{/gov_updates}}
+      {{#watch_updates}}
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point update watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+	  <div>
+	    <div class="point-meta">
+	      <img src="" alt="{{user}}">
+	      <small>{{update_time}}: {{user}}</small>
+	      <span class="label label-{{implementation_status}} implementation-status"></span>
+	    </div>
+	    <h4>{{implementation_status_name}}</h4>
+	    <p>{{implementation_status_text}}</p>
+	  </div>    
+	</div>    
+      </li>
+      {{/watch_updates}}
+      <li>
+        <div class="timeline-line"></div>
+        <div class="timeline-point today"><div>היום</div></div>
+      </li>     
+    </ul>
+    </div>
+  </div>
+
   <div class="card-section">  
     <div class="row">
-      <div class="detailed-timeline timeline-logic span9">
+      <div class="update-feed">
 	<ul>
-	  {{/base}}
 	  {{#gov_updates}}
 	  <li>
 	    <div class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
