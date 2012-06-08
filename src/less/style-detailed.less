@@ -223,43 +223,14 @@
     .result_metric,
     .execution_metric{
       display: none;
+      }
     }
-  }
-  
-  .for-bigger {
-    display:none;
-  }
-  
-/**** Item.BIGGER
-*******************************************************/  
-  
-  &.bigger{
-    width: 100%;
-    max-width: 2*@itemwidth + 2*@itempadding + @gutter; 
-    //max-height: 500px;
-    //overflow-y: scroll;
-    
-    .result_metric,
-    .execution_metric{
-      display: block;
-    }
-    
-    .current_status-text{
-      border-bottom: 1px solid @lighttext;
-      
-    }
-  }
-  
-} // End .item
 
-/**** After Hacks ***/
-.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today{
-  background-color: @good;
-  > div{
-    background: @good;
-    border-color: @good;
-    &:after{
-      border-right-color: @good;
+  .fb {
+    margin-right: 40px;
+    margin-top: 20px;
+    margin-bottom:20px;
     }
-  }
-}
+  
+  } // End .detail-view
+

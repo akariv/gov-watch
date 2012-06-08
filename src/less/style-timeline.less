@@ -306,42 +306,58 @@
         } 
       }
     }
+
+  }
+
+/**** After Hacks ***/
+.implementation-status-FIXED .timeline > ul > li > .timeline-point.today{
+  background-color: @good;
+  > div{
+    background: @good;
+    border-color: @good;
+    &:after{
+      border-right-color: @good;
+      }
+    }
   }
 
 .timeline.horizontal {
   right:0px;
-  height:100px;
-  margin-right:0;
-  position: inherit;  
+  height:70px;
+  margin-right:-30px;
+  position: static;  
+  width:auto;
   
   > ul {
-    position: inherit;  
+    position: relative;  
     top: 20px;
     list-style: none outside none;
-    margin: 20px 45px;
-    width: 800px;
-    height: 30px;
+    margin: 0px 0px;
+    margin-top:-20px;
+    width: 780px;
+    height: 70px;
+    border: none;
+    direction: ltr;
     
     > li {
       
-      display: inline-block;
+      position:absolute;
 
       > .timeline-point {
 
-        display: inline-block;
-        
         position:relative;
         top: -5px;
-        
-        
+        float: right;
+                
         > div {
+          direction:rtl;
           z-index: 10;
           display: none;
           position: absolute;
           width: 300px;
           color: @lighttext;
-          left: 24px;
-          top: 0px;
+          left: -276px;
+          top: 20px;
           line-height: 20px;
           border: 3px solid @carddark;
           .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 

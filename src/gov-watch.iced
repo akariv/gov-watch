@@ -2,6 +2,7 @@ loaded_data = null
 all_books = []
 #all_chapters = {}
 all_tags = []
+all_people = []
 all_subjects = []
 
 selected_book = ""
@@ -129,6 +130,7 @@ data_callback = (data) ->
 
     all_books = {}
     all_tags = {}
+    all_people = {}
     all_subjects = {}
 
     # Collect all available books
@@ -139,6 +141,8 @@ data_callback = (data) ->
         all_books[rec.base.book][rec.base.chapter] = true
         for tag in rec.base.tags
            all_tags[tag]=1
+        if rec.base.responsible_authority?.main?
+                all_people[rec.base.responsible_authority.main] = 1
         all_subjects[rec.base.subject]=1
         gov_updates = []
         watch_updates = []
@@ -163,6 +167,7 @@ data_callback = (data) ->
                 rec.base.recommendation_shortened = rec.base.recommendation
 
     all_tags = Object.keys(all_tags)
+    all_people = Object.keys(all_people)
     all_subjects = Object.keys(all_subjects)
 
     all_books = Object.keys(all_books)
@@ -172,6 +177,7 @@ data_callback = (data) ->
         localStorage.data = JSON.stringify(data)
         localStorage.all_books = JSON.stringify(all_books)
         localStorage.all_tags = JSON.stringify(all_tags)
+        localStorage.all_people = JSON.stringify(all_people)
         localStorage.all_subjects=JSON.stringify(all_subjects)
 
     # process loaded data
@@ -198,9 +204,11 @@ setup_searchbox = ->
 
     source = []
     for tag in all_tags
-          source.push({type:"tag",title:tag})
+        source.push({type:"tag",title:tag})
+    for person in all_people
+        source.push({type:"person",title:person})
     for subject in all_subjects
-          source.push({type:"subject",title:subject})
+        source.push({type:"subject",title:subject})
     $("#searchbox").typeahead
          source: source
          items: 20
@@ -214,8 +222,12 @@ setup_searchbox = ->
                 highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
                 if item.type == "subject"
                         return highlighted_title
-                if item.type == "tag"
+                else if item.type == "tag"
                         "<span class='searchtag'><span>#{highlighted_title}</span></span>"
+                else if item.type == "person"
+                        "<span class='persontag'><span>#{highlighted_title}</span></span>"
+                else
+                        console.log item.type+" "+item.title
 
     $("#clearsearch").click ->
         search_term = ""
@@ -233,6 +245,27 @@ run_templates = (template,data,selector) ->
                             )
     # Update the document with rendered HTML
     $(selector).html(html)
+
+date_to_hebrew = (date) ->
+        date = date.split('/')
+        [year,month,day] = (parseInt(d,10) for d in date)
+        month_to_hebrew = (month) ->
+                switch month
+                        when 1 then "ינואר"
+                        when 2 then "פברואר"
+                        when 3 then "מרץ"
+                        when 4 then "אפריל"
+                        when 5 then "מאי"
+                        when 6 then "יוני"
+                        when 7 then "יולי"
+                        when 8 then "אוגוסט"
+                        when 9 then "ספטמבר"
+                        when 10 then "אוקטובר"
+                        when 11 then "נובמבר"
+                        when 12 then "דצמבר"
+        return "#{month_to_hebrew(month)} #{year}"
+
+
 
 setup_timeline = (item_selector, margins=80 ) ->
     # Setup timeline after all elements have reached their required size
@@ -283,6 +316,10 @@ setup_timeline = (item_selector, margins=80 ) ->
 
         $(this).find(".update-feed > ul > li").tsort({attr:'data-date',order:'desc'})
         $(this).find(".timeline-logic > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
+        finish_date = $(this).find(".timeline-logic > ul > li > .milestone:first").attr('data-date')
+        finish_date = date_to_hebrew(finish_date)
+        $(this).find(".duedate > p").html(finish_date)
+
 
         status_to_hebrew = (status) ->
                 switch status
@@ -410,7 +447,7 @@ setup_timeline = (item_selector, margins=80 ) ->
                 item_size = available_size * (percent - last_percent) + point_size
                 if horizontal
                         $(this).css('width',item_size)
-                        $(this).css('right',margin)
+                        $(this).css('left',margin)
                 else
                         $(this).css('height',item_size)
                         $(this).css('top',margin)
@@ -750,6 +787,7 @@ $ ->
                 loaded_data = JSON.parse(localStorage.data)
                 all_books = JSON.parse(localStorage.all_books)
                 all_tags = JSON.parse(localStorage.all_tags)
+                all_people = JSON.parse(localStorage.all_people)
                 all_subjects = JSON.parse(localStorage.all_subjects)
                 process_data()
          else

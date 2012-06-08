@@ -169,55 +169,67 @@ body {
     }
     
   }
+
+.dropdown-menu{
   
-  .dropdown-menu{
-    margin-right: 5px;
-    overflow: hidden;
+  margin-right: 5px;
+  overflow: hidden;
+  
+  a{
+    line-height: 23px;
+    padding: 4px 5px;
+    }
+  strong{
+    background: rgba(0, 0, 0, 0.2);
+    .border-radius(3px);
+    }
+  li{
     
-    a{
-      line-height: 23px;
-      padding: 4px 5px;
-    }
-    strong{
-      background: rgba(0, 0, 0, 0.2);
-      .border-radius(3px);
-    }
-    li{
-      
-      &:nth-child(even){
-        background: @grayLighter;
+    &:nth-child(even){
+      background: @grayLighter;
       }  
     }
   }
+
+.searchtag {
+  display: inline-block;
+  text-decoration: none;
+  background: url("/static/img/taghead-s.png") no-repeat right top;
+  font-size: 0.7em;
+  height: 23px;
+  line-height: 22px;
+  list-style: none outside none;
+  margin-left: 5px;
+  padding-right: 15px;
   
- .searchtag {
-      display: inline-block;
-      text-decoration: none;
-      background: url("/static/img/taghead-s.png") no-repeat right top;
-    font-size: 0.7em;
-    height: 23px;
-    line-height: 22px;
-    list-style: none outside none;
-    margin-left: 5px;
-    padding-right: 15px;
+  span{
+    background: @cardshade;
+    border-radius: 3px 0 0 3px;
+    color: white;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 0 5px 1px;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
     
-    span{
-      text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-      background: @cardshade;
-      border-radius: 3px 0 0 3px;
-      color: white;
-      font-size: 18px;
-      font-weight: 400;
-      padding: 0 5px 1px;
-      text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-      
-      &:hover{
-        text-decoration:none;
+    &:hover{
+      text-decoration:none;
       }
     }
-    
-    &:hover{background-position: right bottom; a{background: @carddark;}}
+  
+  &:hover{background-position: right bottom; a{background: @carddark;}}
+  }
+
+.persontag {
+  .searchtag;
+  background: url("/static/img/person-s.png") no-repeat right top; 
+
+  span {
+    background: none;
+    color:black;
+    text-shadow:none;
+    }
 }
+
 
 #sort .btn{
   //font-size: 14px;
@@ -226,12 +238,12 @@ body {
 #orderstats{
   >div{
     float: right;
+    }
   }
-}
 
 #stats{
   margin-right: @fluidGridGutterWidth;
-}
+  }
 
 #summary{
   margin-left: -14px;

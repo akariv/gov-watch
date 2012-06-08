@@ -228,10 +228,10 @@
   
   <div class="card-section">
     <div class="timeline horizontal timeline-logic">
+    <p>לוח זמנים</p>
     <ul>
       {{#timeline}}
       <li>
-        <div class="timeline-line"></div>
         <div class="timeline-point milestone {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
           <div>
             <div class="point-meta">
@@ -244,12 +244,12 @@
 	    
           </div>
 	</div>    
+        <div class="timeline-line"></div>
       </li>
       {{/timeline}}
       {{/base}}
       {{#gov_updates}}
       <li>
-        <div class="timeline-line"></div>
         <div class="timeline-point update gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
           <div>
             <div class="point-meta">
@@ -261,11 +261,11 @@
 	    <p>{{implementation_status_text}}</p>
 	  </div>    
 	</div>    
+        <div class="timeline-line"></div>
       </li>
       {{/gov_updates}}
       {{#watch_updates}}
       <li>
-        <div class="timeline-line"></div>
         <div class="timeline-point update watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
 	  <div>
 	    <div class="point-meta">
@@ -276,6 +276,7 @@
 	    <h4>{{implementation_status_name}}</h4>
 	    <p>{{implementation_status_text}}</p>
 	  </div>    
+          <div class="timeline-line"></div>
 	</div>    
       </li>
       {{/watch_updates}}
