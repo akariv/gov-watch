@@ -1,0 +1,35 @@
+/**** Single-item view ****/
+
+#single-item{
+    
+    .card-section{
+      background: url("/static/img/card-corners.png") no-repeat,
+                  url("/static/img/card-corners.png") no-repeat 0 100%;
+      padding: 10px 0;
+        
+      &:before,
+      &:after{
+        background: url("/static/img/card-corners.png") repeat scroll right 0 transparent;
+        content: "";
+        display: block;
+        height: 10px;
+        width: 14px;
+        float: right;
+        margin: -10px -14px 0 0;
+      }
+      
+      &:after{
+        background-position: right -10px;
+        margin: 0px -14px 0 0;
+      }
+      
+      > div{
+        background: url("/static/img/card-tile.jpg");
+      }
+    }
+      
+    .tags{
+      padding: 20px;
+    }  
+  
+  }

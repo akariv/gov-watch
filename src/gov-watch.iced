@@ -2,6 +2,7 @@ loaded_data = null
 all_books = []
 #all_chapters = {}
 all_tags = []
+all_people = []
 all_subjects = []
 
 selected_book = ""
@@ -95,15 +96,15 @@ onhashchange = ->
    $("#books li.book[data-book='#{selected_book}']").toggleClass('active', true)
 
    if search_term != ""
-      show_watermark(false)
-      $("#searchbox").val(search_term)
+        show_watermark(false)
+        $("#searchbox").val(search_term)
 
    if slug
         selected_slug = slug
         select_item( selected_slug )
         $(".item").removeClass("shown")
         $("#items").isotope({filter: ".shown"})
-    else
+   else
         set_title('דו"ח טרכטנברג | המפקח: מעקב אחר ישום המלצות הועדה')
         selected_slug = null
         select_item( null )
@@ -129,6 +130,7 @@ data_callback = (data) ->
 
     all_books = {}
     all_tags = {}
+    all_people = {}
     all_subjects = {}
 
     # Collect all available books
@@ -139,6 +141,8 @@ data_callback = (data) ->
         all_books[rec.base.book][rec.base.chapter] = true
         for tag in rec.base.tags
            all_tags[tag]=1
+        if rec.base.responsible_authority?.main?
+                all_people[rec.base.responsible_authority.main] = 1
         all_subjects[rec.base.subject]=1
         gov_updates = []
         watch_updates = []
@@ -158,11 +162,12 @@ data_callback = (data) ->
         rec.base.subscribers = rec.subscribers ? 0
 
         if rec.base.recommendation?.length > 500
-                rec.base.recommendation_shortened = rec.base.recommendation[0..500] + "&nbsp;" +"<a href='#{generate_url(rec.slug)}'>" + "עוד..." +"</a>"
+                rec.base.recommendation_shortened = rec.base.recommendation[0..500] + "&nbsp;" +"<a class='goto-detail' rel='#{rec.slug}' href='#'>" + "עוד..." + "</a>"
         else
                 rec.base.recommendation_shortened = rec.base.recommendation
 
     all_tags = Object.keys(all_tags)
+    all_people = Object.keys(all_people)
     all_subjects = Object.keys(all_subjects)
 
     all_books = Object.keys(all_books)
@@ -172,6 +177,7 @@ data_callback = (data) ->
         localStorage.data = JSON.stringify(data)
         localStorage.all_books = JSON.stringify(all_books)
         localStorage.all_tags = JSON.stringify(all_tags)
+        localStorage.all_people = JSON.stringify(all_people)
         localStorage.all_subjects=JSON.stringify(all_subjects)
 
     # process loaded data
@@ -198,9 +204,11 @@ setup_searchbox = ->
 
     source = []
     for tag in all_tags
-          source.push({type:"tag",title:tag})
+        source.push({type:"tag",title:tag})
+    for person in all_people
+        source.push({type:"person",title:person})
     for subject in all_subjects
-          source.push({type:"subject",title:subject})
+        source.push({type:"subject",title:subject})
     $("#searchbox").typeahead
          source: source
          items: 20
@@ -214,8 +222,12 @@ setup_searchbox = ->
                 highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
                 if item.type == "subject"
                         return highlighted_title
-                if item.type == "tag"
+                else if item.type == "tag"
                         "<span class='searchtag'><span>#{highlighted_title}</span></span>"
+                else if item.type == "person"
+                        "<span class='persontag'><span>#{highlighted_title}</span></span>"
+                else
+                        console.log item.type+" "+item.title
 
     $("#clearsearch").click ->
         search_term = ""
@@ -234,20 +246,42 @@ run_templates = (template,data,selector) ->
     # Update the document with rendered HTML
     $(selector).html(html)
 
-setup_timeline = ->
+date_to_hebrew = (date) ->
+        date = date.split('/')
+        [year,month,day] = (parseInt(d,10) for d in date)
+        month_to_hebrew = (month) ->
+                switch month
+                        when 1 then "ינואר"
+                        when 2 then "פברואר"
+                        when 3 then "מרץ"
+                        when 4 then "אפריל"
+                        when 5 then "מאי"
+                        when 6 then "יוני"
+                        when 7 then "יולי"
+                        when 8 then "אוגוסט"
+                        when 9 then "ספטמבר"
+                        when 10 then "אוקטובר"
+                        when 11 then "נובמבר"
+                        when 12 then "דצמבר"
+        return "#{month_to_hebrew(month)} #{year}"
+
+
+
+setup_timeline = (item_selector, margins=80 ) ->
     # Setup timeline after all elements have reached their required size
-    $(".item").each ->
+    $(item_selector).each ->
         # Timeline
         pad = (n) -> if n<10 then '0'+n else n
         today = new Date()
         today = "#{today.getFullYear()}/#{pad(today.getMonth()+1)}/#{pad(today.getDate()+1)}"
+        horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
 
         max_numeric_date = 0
         min_numeric_date = 2100 * 372
-        $(this).find('.timeline .timeline-point.today').attr('data-date',today)
+        $(this).find('.timeline-logic .timeline-point.today').attr('data-date',today)
 
         has_unknowns = false
-        $(this).find(".timeline > ul > li").each( ->
+        $(this).find(".timeline-logic > ul > li").each( ->
                 date = $(this).find('.timeline-point:first').attr('data-date')
                 date = date.split(' ')
                 if (date.length > 1)
@@ -278,9 +312,14 @@ setup_timeline = ->
 
         if has_unknowns
                 max_numeric_date += 180
-                $(this).find(".timeline > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
+                $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
 
-        $(this).find(".timeline > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
+        $(this).find(".update-feed > ul > li").tsort({attr:'data-date',order:'desc'})
+        $(this).find(".timeline-logic > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
+        finish_date = $(this).find(".timeline-logic > ul > li > .milestone:first").attr('data-date')
+        finish_date = date_to_hebrew(finish_date)
+        $(this).find(".duedate > p").html(finish_date)
+
 
         status_to_hebrew = (status) ->
                 switch status
@@ -304,24 +343,29 @@ setup_timeline = ->
         gov_status = 'NEW'
         last_percent = 0.0
         item_margins = 5
-        margins = 80
-        height = $(this).innerHeight() - margins
-        available_height = height
-        $(this).find(".timeline > ul > li .timeline-point").each( ->
-                available_height = available_height - $(this).outerHeight() - item_margins
+        if horizontal
+                size = $(this).innerWidth() - margins
+        else
+                size = $(this).innerHeight() - margins
+        available_size = size
+        $(this).find(".timeline-logic > ul > li .timeline-point").each( ->
+                if horizontal
+                        available_size = available_size - $(this).outerWidth() - item_margins
+                else
+                        available_size = available_size - $(this).outerHeight() - item_margins
                 )
-        #available_height = height - item_size*($(this).find(".timeline > ul > li").size())
-        top = 0
+        #available_size = size - item_size*($(this).find(".timeline > ul > li").size())
+        margin = 0
 
         conflict = false
         conflict_status = null
         late = false
 
-        timeline_items = $(this).find(".timeline > ul > li")
+        timeline_items = $(this).find(".timeline-logic > ul > li")
 
         if (timeline_items.length>0) and $(timeline_items[0]).find('.timeline-point').hasClass('today')
                 today_date = parseInt($(timeline_items[0]).attr('data-date-numeric'))
-                last_update = parseInt($(this).find(".timeline > ul > li").attr('data-date-numeric'))
+                last_update = parseInt($(this).find(".timeline-logic > ul > li").attr('data-date-numeric'))
                 if today_date - last_update > 180
                         late = true
 
@@ -354,6 +398,7 @@ setup_timeline = ->
                         if is_good_status(gov_status) != is_good_status(status)
                                 conflict = true
                                 conflict_status = status
+                        point.addClass("watch-#{status}")
                         if is_good_status(status)
                                 point.addClass("watch-status-good")
                         else
@@ -387,26 +432,32 @@ setup_timeline = ->
                         if i <= last_update_at
                                 line.addClass("unreported")
 
-
-
-        $(this).find(".timeline > ul > li").each( ->
+        $(this).find(".timeline-logic > ul > li").each( ->
                 point = $(this).find('.timeline-point:first')
                 line = $(this).find('.timeline-line:first')
 
                 date = parseInt($(this).attr('data-date-numeric'))
 
                 percent = (max_numeric_date - date) / (max_numeric_date - min_numeric_date)
-                point_size = point.outerHeight() + item_margins
+                if horizontal
+                        point_size = point.outerWidth() + item_margins
+                else
+                        point_size = point.outerHeight() + item_margins
                 #console.log point_size
-                item_height = available_height * (percent - last_percent) + point_size
-                $(this).css('height',item_height)
-                $(this).css('top',top)
+                item_size = available_size * (percent - last_percent) + point_size
+                if horizontal
+                        $(this).css('width',item_size)
+                        $(this).css('left',margin)
+                else
+                        $(this).css('height',item_size)
+                        $(this).css('top',margin)
+
                 last_percent = percent
-                top = top + item_height
+                margin = margin + item_size
         )
 
-        $(this).find(".timeline > ul > li:first > .timeline-line").remove()
-        $(this).find(".timeline > ul > li:first").css('height','3px')
+        $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
+        #$(this).find(".timeline-logic > ul > li:first").css('size','3px')
 
         # current status
         implementation_status = $(this).find('.gov-update:last').attr('data-status') ? "NEW"
@@ -479,30 +530,52 @@ setup_summary = ->
                 do_search()
                 return false
 
-setup_subscriptions = ->
+setup_subscription_form = ->
    $("#subscribe").modal({'show':false})
-   $(".watch").click ->
-        rel = $(this).attr('rel')
-        $("#subscribe_email").attr('data-slug',rel)
-        $("#subscribe_form").attr('action',"/subscribe/#{rel}")
-        $("#subscribe").modal('show')
-        return false
    $("#do_subscribe").click ->
         $("#subscribe_form").submit()
         return false
    $("#subscribe_form").submit ->
         $.post($(this).attr('action'),
                'email':$("#subscribe_email").val(),
-                -> $("#subscribe").modal('hide'))
+                (data) =>
+                        $("#subscribe").modal('hide')
+                        rel = $(this).attr("rel")
+                        $(".watch[rel='#{rel}']").html(data)
+                 ,
+                "json"
+                )
         return false
 
-setup_tags = ->
-   $(".tags > ul > li, a[data-tag='true']").click ->
+setup_subscriptions = (selector) ->
+        $("#{selector} .watch").click ->
+                rel = $(this).attr('rel')
+                $("#subscribe_email").attr('data-slug',rel)
+                $("#subscribe_form").attr('action',"/subscribe/#{rel}")
+                $("#subscribe_form").attr('rel',rel)
+                $("#subscribe").modal('show')
+                return false
+
+
+setup_tags = (selector) ->
+   $(selector).click ->
         search_term = $(this).text()
         show_watermark(false)
         $("#searchbox").val(search_term)
         $("#explanation").modal('hide')
         update_history()
+        return false
+
+setup_detailed_links = ->
+    $(".item .goto-detail"). click ->
+        rel = $(this).attr('rel')
+        if not rel
+                for p in $(this).parents()
+                        rel = $(p).attr('rel')
+                        if rel
+                                break
+        update_history(rel)
+        return false
 
 
 ## Handles the site's data (could be from local storage or freshly loaded)
@@ -558,15 +631,18 @@ process_data = ->
     # Let isotope do its magic
     await setTimeout((defer _),50)
 
-    setup_timeline()
+    setup_timeline(".item")
 
     $(".item").css('visibility','inherit')
 
     setup_searchbox()
 
-    setup_subscriptions()
+    setup_subscription_form()
+    setup_subscriptions(".item")
 
-    setup_tags()
+    setup_tags(".item .tags > ul > li, a[data-tag='true']")
+
+    setup_detailed_links()
 
     # book selection
     $("#books li.book a").click ->
@@ -590,7 +666,7 @@ process_data = ->
     window.onhashchange = onhashchange
     onhashchange()
 
-    load_fb_comment_count()
+    load_fb_comment_count(".item")
 
 ## Item selection
 select_item = (slug) ->
@@ -600,23 +676,41 @@ select_item = (slug) ->
         $("#summary-header").css('visibility','hidden')
         $("#summary").html('')
         $("#sort button").addClass('disabled')
+        $("#searchbox").addClass('disabled')
+        $("#searchbox").attr('disabled','disabled')
+        $("#clearsearch").addClass('disabled')
+        $("#clearsearch").attr('disabled','disabled')
         for x in loaded_data
                 if x.slug == slug
                         item = run_templates( "single-item", x, "#single-item" )
                         set_title( x.base.book+": "+x.base.subject )
                         url = generate_url(slug)
-                        $("#single-item .fb").append("<fb:like href='#{url}' send='true' width='590' show_faces='true' action='recommend' font='tahoma'></fb:like>")
-                        $("#single-item .fb").append("<fb:comments href='#{url}' num_posts='2' width='590'></fb:comments>")
+                        $(".detail-view .fb").append("<fb:like href='#{url}' send='true' width='700' show_faces='true' action='recommend' font='tahoma'></fb:like>")
+                        $(".detail-view .fb").append("<fb:comments href='#{url}' num_posts='2' width='700'></fb:comments>")
                         if window.FB
                                 FB.XFBML.parse( item.get(0), -> )
                         break
+
+        # Allow DOM to sync
+        await setTimeout((defer _),50)
+
+        setup_timeline('.detail-view',0)
+        setup_subscriptions(".detail-view")
+        setup_tags(".detail-view .tags > ul > li")
+        load_fb_comment_count(".detail-view")
+
     else
         $("#single-item").html('')
         $("#summary-header").css('visibility','inherit')
         $("#sort button").removeClass('disabled')
+        $("#searchbox").removeClass('disabled')
+        $("#searchbox").attr('disabled',null)
+        $("#clearsearch").removeClass('disabled')
+        $("#clearsearch").attr('disabled',null)
 
-load_fb_comment_count = ->
-        $(".item").each ->
+
+load_fb_comment_count = (selector) ->
+        $("#{selector} .commentcount").each ->
                 slug = $(this).attr('rel')
                 await $.get('https://api.facebook.com/method/fql.query',
                             {
@@ -626,8 +720,10 @@ load_fb_comment_count = ->
                             ,
                             (defer json),
                             "json")
-                $(this).find(".commentcount").html(json[0].commentsbox_count)
-        $("#items").isotope( 'updateSortData', $(".item") )
+                h = $(this).html()
+                $(this).html(json[0].commentsbox_count+h)
+        if selector == ".item"
+                $("#items").isotope( 'updateSortData', $(".item") )
 
 ## Perform search on the site's data
 do_search = ->
@@ -691,6 +787,7 @@ $ ->
                 loaded_data = JSON.parse(localStorage.data)
                 all_books = JSON.parse(localStorage.all_books)
                 all_tags = JSON.parse(localStorage.all_tags)
+                all_people = JSON.parse(localStorage.all_people)
                 all_subjects = JSON.parse(localStorage.all_subjects)
                 process_data()
          else

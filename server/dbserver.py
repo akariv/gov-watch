@@ -74,7 +74,9 @@ def subscribe(slug):
         rec["subscribers"] = r.scard(skey)
         r.set(key,json.dumps(rec,indent=0))
         update_everything(slug)
-    return Response(response="1",content_type="application/json")
+        return Response(response=str(r.scard(skey)),content_type="application/json")
+    else:
+        return Response(response="0",content_type="application/json")
 
 @app.route('/unsubscribe/<slug>', methods=['POST'])
 def unsubscribe():

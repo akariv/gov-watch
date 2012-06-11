@@ -3,11 +3,10 @@
 .detail-view{
   // #gridSystem .span4;
   .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.2));
-  margin-bottom: 33px;
+  margin: 0 auto;
   display:block;
-  padding-left: @gridGutterWidth + @gridColumnWidth;
-  float: right;
-  background: rgba(250,248,222,1.0);
+  float: none;
+  //background: rgba(250,248,222,1.0);
   > div {
     margin: 0 10px; 
     }
@@ -20,302 +19,7 @@
     height: 13px; width: 402px;
     position: absolute;
   }
-  
-  .timeline{
-    width: @gridGutterWidth + @gridColumnWidth;
-    vertical-align:top;
-    margin-right: -@gridGutterWidth - @gridColumnWidth;
-    // margin-bottom:7.5%;
-    // margin-top:7.5%;
-    position:absolute;
-    height:100%;
-    left:0px;
-
-    > ul {
-      position: absolute;
-      top: 20px;
-      //bottom: 20px;
-      list-style: none outside none;
-      margin: 20px 45px;
-      width: 3px;
-      //background: @card;
-      border: @card solid 5px;
-      
-      > li {
-
-        > .timeline-point {
-          width: 9px;
-          height: 9px;
-          position:relative;
-          top: -5px;
-          background: @card;
-          border: 3px solid @cardshade; 
-          
-          .border-radius(13px);
-          margin-right: -6px;
-          z-index:10;
-          
-          &.watch-status-good
-          ,&.gov-status-good
-          ,&.watch-status-bad
-          ,&.gov-status-bad{
-            width: 15px; height: 15px;
-            border: 0;
-          }
-            
-          &.watch-status-bad,
-          &.gov-status-bad {
-            background-color: @bad;
-            border-color: @bad;
-            }
-          
-          &.gov-FIXED,
-          &.watch-FIXED
-          {
-            background: @good url("/static/img/point-complete.png") no-repeat;
-          }
-          
-          &.gov-NEW,
-          &.watch-NEW{
-            background: @bad url("/static/img/point-late.gif") no-repeat;
-          }
-          
-          &.gov-IN_PROGRESS,
-          &.watch-IN_PROGRESS{
-            background: @good url("/static/img/point-inprogress.gif") no-repeat;
-          }
-          
-          &.gov-WORKAROUND,
-          &.watch-WORKAROUND,{
-            background: @bad url("/static/img/point-workaround.png") no-repeat;
-          }
-          
-          &.gov-STUCK,
-          &.watch-STUCK{
-            background: @bad url("/static/img/point-stuck.png") no-repeat;
-          }
-          
-          &.milestone,
-          &.today,
-          &.start,
-          &.completion {
-            background: @cardshade;
-            border: 5px solid @card;
-            height: 5px;
-            width: 19px;
-            margin: -2px -13px;
-            height: 3px;
-            .border-radius(3px);
-            > div {
-              top: -4px;
-              }
-            }
-          
-          &.start,
-          &.gov-status-bad {
-            background-color: @bad;
-            }
-          
-          &.gov-status-good {
-            background-color: @good;
-            }
-            
-          &.today { 
-            top: 0;
-            border-width: 0;
-            height: 7px;
-            width: 7px;
-            margin: 0 -2px;
-            background: @bad;
-           
-            
-            > div{
-              left: 20px;
-              width: 25px;
-              font-size: 0.9em;
-              color: @card;
-              border-color: @bad;
-              background: @bad;
-              padding: 0 3px;
-              &:after{
-                border-right-color: @bad;
-                }
-              }
-              
-            &.gov-status-good{
-              background-color: @good;
-              
-              > div {
-                border-color: @good;
-                background: @good;
-                &:after{
-                  border-right-color: @good;
-                }
-              }
-            }
-              
-            }
-            
-          > div {
-            z-index: 10;
-            display: none;
-            position: absolute;
-            width: 300px;
-            color: @lighttext;
-            left: 24px;
-            top: 0px;
-            line-height: 20px;
-            border: 3px solid @carddark;
-            .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 
-            background: @card;
-            .border-radius(3px);
-            
-            > .point-meta{
-              background: @carddark;
-              min-height: 26px;
-            }
-            
-            img{
-              background: @carddark;
-              border: 2px solid @carddark;
-              .border-radius(5px);
-              float: right;
-              height: auto;
-              margin: -3px -15px 0 3px;
-              width: 25px;
-            }
-            
-            h4,
-            p,
-            small {
-              padding: 3px;
-              font-size: 16px;
-              }
-            
-            .label {
-              color: @card;
-              background: @good;
-              display: block;
-              float: left;
-              font-size: 14px;
-              font-weight: normal;
-              line-height: 1.2em;
-              margin: 3px 4px 0px 3px;
-              padding: 0 3px;
-              }
-            
-            .label-STUCK,
-            .label-WORKAROUND,
-            .label-NEW {
-              background: @bad;
-              }
-            
-            h4{
-              background: @cardshade;
-              //border-bottom: @cardshade 2px solid;
-              color: @text;
-              font-weight: normal;
-              margin: 0;
-              padding: 0 3px;
-              }
-            
-            small{
-              color: @card;
-              line-height: 24px;
-              text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
-              &:before {
-                content: "— ";
-                }
-              }
-            
-            &:after{
-              border-bottom: 5px solid transparent;
-              border-right: 5px solid @carddark;
-              border-top: 5px solid transparent;
-              content: "";
-              display: block;
-              height: 0;
-              left: -8px;
-              position: absolute;
-              top: -2px;
-              width: 0;
-              }
-            }
-            
-          &.watch-status-good,
-          &.gov-status-good {
-            background-color: @good;
-            > div{
-              border-color: @good;
-              &:after{
-                border-right-color: @good;
-              }
-              > div {
-                background: fadeout(@good, 30%);
-              }
-              img{
-                border-color: @good;
-                background: @good;
-              }
-            }
-          }
-          
-          &.watch-status-bad,
-          &.gov-status-bad {
-            background-color: @bad;
-            > div{
-              border-color: @bad;
-              &:after{
-                border-right-color: @bad;
-              }
-              > div {
-                background: fadeout(@bad, 30%);
-              }
-              img{
-                border-color: @bad;
-                background: @bad;
-              }
-            }
-          }
-          
-          &:hover > div {
-            display: block;
-            }
-          }
-        
-        > .timeline-line {
-          background-color: @bad;
-          //border: 5px solid @card;
-          border-bottom: none;
-          //position: absolute;
-          height:100%;
-          width: 3px;
-          //margin-right: -5px;
-          
-          &.status-IN_PROGRESS,
-          &.status-FIXED,
-          &.status-IRRELEVANT
-            {
-              background-color: @good;
-            }       
-          
-          &.unreported{
-            background-image: url("/static/img/unreported-tile.png");
-            }
-          
-          &.future{
-            background:none;
-            background-image:none;
-            border:none;
-            }
-
-          } 
-        }
-      }
-    }
     
-   
-  
   .breadcrumb{
     border: 0;
     //border-bottom: 1px solid @lighttext;
@@ -341,22 +45,25 @@
   }
   
   .tags {
+    padding: 10px;
+    
     h3 {display: none}
     li{
       float: right;
       text-decoration: none;
       background: url("/static/img/taghead.png") no-repeat right top;
       font-size: 0.7em;
-      height: 18px;
-      line-height: 18px;
+      //height: 18px;
+      //line-height: 18px;
       list-style: none outside none;
       margin: 0 0 3px 5px;
       padding-right: 13px;
       a{
         background-color: @cardshade;
         .border-radius(3px 0 0 3px);
-        padding: 0px 5px 0;
+        padding: 0px 5px;
         color: @card;
+        display: block;
         font-weight: 700;
         text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
         &:hover{text-decoration:none;}
@@ -369,7 +76,7 @@
     font-weight:400;
     font-size:1.5em;
     clear: both;
-    margin: 1.3em 10px 0.5em;
+    margin: 10px 0 0.5em;
     line-height: 1em;
     background: url("/static/img/hr.png");
     
@@ -389,8 +96,8 @@
        a{color: @card;}
     }
     
-    a{
-      color: @text;
+    span{
+      color: @card;
       padding: 15px;
       display:block;
       &:hover{text-decoration:none;}
@@ -450,8 +157,6 @@
   .budget,
   .responsible{
     color: @lighttext;
-    width: 40%;
-    float: right;
     font-weight: normal;
     
     span{
@@ -461,18 +166,13 @@
     }
     
   }
-  
-  .recommendation,
   .tools{
     clear:both;
     background: url("/static/img/hr.png") repeat-x center -2px;
-    padding-top: 0.5em;
-  }
+    padding: 0.5em 0;
   
-  .tools{
     a{
-      width: @gridColumnWidth - 37px;
-      padding-right: 30px;
+      padding-right: 35px;
       margin-left: @gridGutterWidth;
       display: block;
       height: 28px;
@@ -523,106 +223,14 @@
     .result_metric,
     .execution_metric{
       display: none;
+      }
     }
-  }
-  
-  .for-bigger {
-    display:none;
-  }
-  
-/**** Item.BIGGER
-*******************************************************/  
-  
-  &.bigger{
-    width: 100%;
-    max-width: 2*@itemwidth + 2*@itempadding + @gutter; 
-    //max-height: 500px;
-    //overflow-y: scroll;
-    
-    .result_metric,
-    .execution_metric{
-      display: block;
+
+  .fb {
+    margin-right: 40px;
+    margin-top: 20px;
+    margin-bottom:20px;
     }
-    
-    .current_status-text{
-      border-bottom: 1px solid @lighttext;
-      
-    }
-  }
   
-} // End .item
+  } // End .detail-view
 
-/**** After Hacks ***/
-.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today{
-  background-color: @good;
-  > div{
-    background: @good;
-    border-color: @good;
-    &:after{
-      border-right-color: @good;
-    }
-  }
-}
-
-/**** Isotope Filtering ****/
-
-.isotope-item {
-  z-index: 2;
-}
-
-.isotope-hidden.isotope-item {
-  pointer-events: none;
-  z-index: 1;
-}
-
-/**** Isotope CSS3 transitions ****/
-
-.isotope,
-.isotope .isotope-item {
-  -webkit-transition-duration: 0.8s;
-     -moz-transition-duration: 0.8s;
-       -o-transition-duration: 0.8s;
-          transition-duration: 0.8s;
-}
-
-.isotope {
-  -webkit-transition-property: height, width;
-     -moz-transition-property: height, width;
-       -o-transition-property: height, width;
-          transition-property: height, width;
-}
-
-.isotope .isotope-item {
-  -webkit-transition-property: -webkit-transform, opacity;
-     -moz-transition-property: -moz-transform, opacity;
-       -o-transition-property: top, left, opacity;
-          transition-property: transform, opacity;
-}
-
-.isotope .isotope-item {
-  -webkit-transition-property: right, top, -webkit-transform, opacity;
-     -moz-transition-property: right, top, -moz-transform, opacity;
-       -o-transition-property: right, top, -o-transform, opacity;
-          transition-property: right, top, transform, opacity;
-}
-/**** disabling Isotope CSS3 transitions ****/
-
-.isotope.no-transition,
-.isotope.no-transition .isotope-item,
-.isotope .isotope-item.no-transition {
-  -webkit-transition-duration: 0s;
-     -moz-transition-duration: 0s;
-       -o-transition-duration: 0s;
-          transition-duration: 0s;
-}
-
-/**** Isotope filtering ****/
-
-.isotope-item {
-  z-index: 2;
-}
-
-.isotope-hidden.isotope-item {
-  pointer-events: none;
-  z-index: 1;
-}
