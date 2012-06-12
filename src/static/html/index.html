@@ -297,6 +297,12 @@
 	    <div class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
 	      <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
 	      <p>{{implementation_status_text}}</p>
+              {{#links}}
+              <p>קישורים:</p>
+              <ul>
+                <li><a href="{{url}}">{{description}}</a></li>
+              </ul>
+              {{/links}}
 	      <small>{{update_time}}: הממשלה</small>
 	    </div>    
 	  </li>
@@ -306,6 +312,12 @@
 	    <div class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
 	      <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
 	      <p>{{implementation_status_text}}</p>
+              {{#links}}
+              <p>קישורים:</p>
+              <ul>
+                <li><a href="{{url}}">{{description}}</a></li>
+              </ul>
+              {{/links}}
 	      <small>{{update_time}}: {{user}}</small>
 	    </div>    
 	  </li>
