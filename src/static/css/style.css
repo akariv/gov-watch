@@ -5989,7 +5989,7 @@ footer a img {
   height: 100%;
   left: 0;
   top: 0;
-  background: url(overlay.png);
+  background: url(/static/img/overlay.png);
   z-index: 12345;
   display: none;
 }
@@ -6004,15 +6004,16 @@ footer a img {
   margin: 0 auto;
   min-height: 200px;
   display: none;
+  background: url(/static/img/popup-bg.png) 0 100% repeat-x #ffffff;
 }
-#popup-message background:url(popup-bg.png) 0 100% repeat-x #fff .close {
+#popup-message .close {
   float: left;
   width: auto;
   font-size: 22px;
   cursor: pointer;
   position: relative;
   left: -20px;
-  color: #000000;
+  color: #000;
 }
 #popup-message h3 {
   font-size: 16px;
