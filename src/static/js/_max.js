@@ -731,7 +731,8 @@ var Mustache = function() {
     return $("#clearsearch").click(function() {
       search_term = "";
       show_watermark(true);
-      return update_history();
+      update_history();
+      return false;
     });
   };
 
@@ -891,6 +892,7 @@ var Mustache = function() {
           case "IRRELEVANT":
             return true;
         }
+        return null;
       };
       gov_status = 'NEW';
       last_percent = 0.0;
@@ -941,15 +943,17 @@ var Mustache = function() {
           its_today = true;
         }
         if (point.hasClass('watch-update')) {
-          if (is_good_status(gov_status) !== is_good_status(status)) {
-            conflict = true;
-            conflict_status = status;
-          }
-          point.addClass("watch-" + status);
-          if (is_good_status(status)) {
-            point.addClass("watch-status-good");
-          } else {
-            point.addClass("watch-status-bad");
+          if (is_good_status(status) !== null) {
+            if (is_good_status(gov_status) !== is_good_status(status)) {
+              conflict = true;
+              conflict_status = status;
+            }
+            point.addClass("watch-" + status);
+            if (is_good_status(status)) {
+              point.addClass("watch-status-good");
+            } else {
+              point.addClass("watch-status-bad");
+            }
           }
           last_update_at = i;
         }
@@ -1182,7 +1186,7 @@ var Mustache = function() {
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 609
+        lineno: 612
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -1226,7 +1230,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 631
+          lineno: 634
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1239,7 +1243,8 @@ var Mustache = function() {
         setup_detailed_links();
         $("#books li.book a").click(function() {
           selected_book = $(this).html();
-          return update_history();
+          update_history();
+          return false;
         });
         $("#sort button").click(function() {
           var sort_measure;
@@ -1247,9 +1252,10 @@ var Mustache = function() {
           $(this).addClass('active');
           sort_measure = $(this).attr('value');
           $("#items").isotope('updateSortData', $(".isotope-card"));
-          return $("#items").isotope({
+          $("#items").isotope({
             sortBy: sort_measure
           });
+          return false;
         });
         $("#explanation").modal({
           'show': explanation_needed
@@ -1299,7 +1305,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 694
+          lineno: 699
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1339,7 +1345,7 @@ var Mustache = function() {
               return json = arguments[0];
             };
           })(),
-          lineno: 720
+          lineno: 725
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1424,7 +1430,7 @@ var Mustache = function() {
               return version = arguments[0];
             };
           })(),
-          lineno: 781
+          lineno: 786
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
