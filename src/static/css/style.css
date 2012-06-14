@@ -6169,7 +6169,9 @@ footer a img {
   background: url("/static/img/stamp-stuck.png");
 }
 .item div.stamp.late {
-  background: url("/static/img/stamp-late.png");
+  background: url("/static/img/stamp-stuck.png");
+  /*TODO MUSHON: background: url("/static/img/stamp-late.png");*/
+
 }
 .item div.stamp:nth-child(odd) {
   right: 200px;
@@ -6273,14 +6275,14 @@ footer a img {
   border-bottom: 1px solid #847d6b;
 }
 /**** After Hacks ***/
-.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today {
+.item.implementation-status-good .timeline > ul > li > .timeline-point.today {
   background-color: #6ba688;
 }
-.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today > div {
+.item.implementation-status-good .timeline > ul > li > .timeline-point.today > div {
   background: #6ba688;
   border-color: #6ba688;
 }
-.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today > div:after {
+.item.implementation-status-good .timeline > ul > li > .timeline-point.today > div:after {
   border-right-color: #6ba688;
 }
 /**** Isotope Filtering ****/
