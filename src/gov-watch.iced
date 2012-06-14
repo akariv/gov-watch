@@ -291,12 +291,12 @@ pad = (n) -> if n<10 then '0'+n else n
 # utility for timeline
 status_to_hebrew = (status) ->
         switch status
-                when "NEW" then "טרם התחיל"
-                when "STUCK" then "תקוע"
-                when "IN_PROGRESS" then "בתהליך"
-                when "FIXED" then "יושם במלואו"
-                when "WORKAROUND" then "יושם חלקית"
-                when "IRRELEVANT" then "יישום ההמלצה כבר לא נדרש"
+                when "NEW" then return "טרם התחיל"
+                when "STUCK" then return "תקוע"
+                when "IN_PROGRESS" return then "בתהליך"
+                when "FIXED" then return "יושם במלואו"
+                when "WORKAROUND" then return "יושם חלקית"
+                when "IRRELEVANT" then return "יישום ההמלצה כבר לא נדרש"
         return ""
 
 is_good_status = (status) ->
