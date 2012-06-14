@@ -90,7 +90,7 @@
       {{#timeline}}
       <li>
         <div class="timeline-line"></div>
-        <div class="timeline-point milestone {{#start}}start{{/start}} {{#completion}}completion{{/completion}}" data-date="{{due_date}}">
+        <div class="timeline-point milestone {{#completion}}completion{{/completion}}  {{#start}}start{{/start}}" data-date="{{due_date}}">
           <div>
             <div class="point-meta">
 	      <img src="" alt="טרכטנברג">
@@ -116,7 +116,8 @@
 	      <span class="label label-{{implementation_status}} implementation-status"></span> 
 	    </div>
             <h4>{{implementation_status_name}}</h4>
-	    <p>{{implementation_status_text}}</p>
+	    {{#description}}<p>{{description}}</p>{{/description}}
+	    {{#implementation_status_text}}<p>{{implementation_status_text}}</p>{{/implementation_status_text}}
 	  </div>    
 	</div>    
       </li>
@@ -132,7 +133,8 @@
 	      <span class="label label-{{implementation_status}} implementation-status"></span>
 	    </div>
 	    <h4>{{implementation_status_name}}</h4>
-	    <p>{{implementation_status_text}}</p>
+	    {{#description}}<p>{{description}}</p>{{/description}}
+	    {{#implementation_status_text}}<p>{{implementation_status_text}}</p>{{/implementation_status_text}}
 	  </div>    
 	</div>    
       </li>
@@ -276,13 +278,13 @@
 	    <h4>{{implementation_status_name}}</h4>
 	    <p>{{implementation_status_text}}</p>
 	  </div>    
-          <div class="timeline-line"></div>
 	</div>    
+        <div class="timeline-line"></div>
       </li>
       {{/watch_updates}}
       <li>
-        <div class="timeline-line"></div>
         <div class="timeline-point today"><div>היום</div></div>
+        <div class="timeline-line"></div>
       </li>     
     </ul>
     </div>
@@ -375,8 +377,10 @@
       <div id="popup-message">
         <span class="close">&times;</span>
         <div class="body">
-          <h3>You using old browser!</h3>
-          <p>Please, update it!</p>
+          <h3>הממ... הדפדפן שלך קצת ישן...</h3>
+          <p>האתר הזה מיועד לפדפדנים חדשים, וכמו שזה נראה הגירסא של הדפדפן שלך די ישנה - ככה שיכול להיות שחלק מהדברים לא יעבדו כמו שצריך.</p>
+          <p>אנחנו ממליצים לשדרג את הדפדפן - זה בחינם, זה יגרום לדברים לזוז יותר מהר וזה יותר בטוח ומוגן.</p>
+          <p>אז למה לא בעצם? לחצו <a href="http://browsehappy.com">כאן</a> לשדרוג.</p>
         </div>
       </div>
     </div>
@@ -507,8 +511,8 @@
 jQuery(function($){
   if (($.browser.mozilla && parseInt($.browser.version.split('.')[0]) < 12) 
   || ($.browser.safari && parseInt($.browser.version.split('.')[0]) < 500) 
-  || ($.browser.msie && parseInt($.browser.version) < 9) 
-  || ($.browser.opera && parseInt($.browser.version.split('.')[0]) < 11)) { 
+  || ($.browser.msie && parseInt($.browser.version) < 8) 
+  || ($.browser.opera && parseInt($.browser.version.split('.')[0]) < 11) ) { 
     if($("#overlay").length){
       $("#overlay").fadeIn(200, function(){
         $("#popup-message").show().css("opacity", 0).animate({
