@@ -233,6 +233,7 @@ setup_searchbox = ->
         search_term = ""
         show_watermark(true)
         update_history()
+        return false
 
 run_templates = (template,data,selector) ->
     # This is used to process lists in the data's values.
@@ -332,12 +333,13 @@ setup_timeline = (item_selector, margins=80 ) ->
 
         is_good_status = (status) ->
                 switch status
-                        when "NEW" then false
-                        when "STUCK" then false
-                        when "IN_PROGRESS" then true
-                        when "FIXED" then true
-                        when "WORKAROUND" then false
-                        when "IRRELEVANT" then true
+                        when "NEW" then return false
+                        when "STUCK" then return false
+                        when "IN_PROGRESS" then return true
+                        when "FIXED" then return true
+                        when "WORKAROUND" then return false
+                        when "IRRELEVANT" then return true
+                return null
 
 
         gov_status = 'NEW'
@@ -395,14 +397,15 @@ setup_timeline = (item_selector, margins=80 ) ->
                         its_today = true
 
                 if point.hasClass('watch-update')
-                        if is_good_status(gov_status) != is_good_status(status)
-                                conflict = true
-                                conflict_status = status
-                        point.addClass("watch-#{status}")
-                        if is_good_status(status)
-                                point.addClass("watch-status-good")
-                        else
-                                point.addClass("watch-status-bad")
+                        if is_good_status(status) != null
+                                if is_good_status(gov_status) != is_good_status(status)
+                                        conflict = true
+                                        conflict_status = status
+                                point.addClass("watch-#{status}")
+                                if is_good_status(status)
+                                        point.addClass("watch-status-good")
+                                else
+                                        point.addClass("watch-status-bad")
                         last_update_at = i
 
                 if today_at == NOT_SET or its_today
@@ -648,6 +651,7 @@ process_data = ->
     $("#books li.book a").click ->
         selected_book = $(this).html()
         update_history()
+        return false
 
     # sort buttons
     $("#sort button").click ->
@@ -656,6 +660,7 @@ process_data = ->
         sort_measure = $(this).attr('value')
         $("#items").isotope( 'updateSortData', $(".isotope-card") )
         $("#items").isotope({ sortBy: sort_measure })
+        return false
 
     # item click handler
     # $(".item").click -> update_history($(this).attr('rel'))

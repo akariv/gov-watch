@@ -11,6 +11,7 @@ update_scheme = {
                    { "name" : "implementation_status",
                      "props": { "title"  : u'סטטוס יישום',
                                 "type"   : "select",
+                                "optional" : True,
                                 "options": [ [ "NEW"         , u'טרם התחיל' ],
                                              [ "STUCK"       , u'תקוע' ],
                                              [ "IN_PROGRESS" , u'בתהליך' ],
