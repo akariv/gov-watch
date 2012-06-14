@@ -6164,11 +6164,11 @@ footer a img {
 .item div.stamp.workaround {
   background: url("/static/img/stamp-workaround.png");
 }
-.item div.stamp.stuck {
+.item div.stamp.stuck,
+.item div.stamp.notstarted {
   background: url("/static/img/stamp-stuck.png");
 }
-.item div.stamp.late,
-.item div.stamp.notstarted {
+.item div.stamp.late {
   background: url("/static/img/stamp-late.png");
 }
 .item div.stamp:nth-child(odd) {

@@ -820,8 +820,8 @@ footer a img{height:20px;margin-bottom:-5px;}
 .item h2 a.hover-toggle{display:none;}
 .item div.stamp{background:url("/static/img/stamp-done.png");float:left;height:40px;margin:-3px 0 -11px -18px;overflow:hidden;right:240px;text-indent:-200%;width:80px;}.item div.stamp.inprogress{background:url("/static/img/stamp-inprogress.png");}
 .item div.stamp.workaround{background:url("/static/img/stamp-workaround.png");}
-.item div.stamp.stuck{background:url("/static/img/stamp-stuck.png");}
-.item div.stamp.late,.item div.stamp.notstarted{background:url("/static/img/stamp-late.png");}
+.item div.stamp.stuck,.item div.stamp.notstarted{background:url("/static/img/stamp-stuck.png");}
+.item div.stamp.late{background:url("/static/img/stamp-late.png");}
 .item div.stamp:nth-child(odd){right:200px;}
 .item h3{font-family:Arial,Sans;font-size:0.6em;font-weight:normal;color:#847d6b;padding:0 5px;line-height:0.5em;}
 .item p{padding:5px;font-size:18px;}
