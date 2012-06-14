@@ -293,7 +293,7 @@ status_to_hebrew = (status) ->
         switch status
                 when "NEW" then return "טרם התחיל"
                 when "STUCK" then return "תקוע"
-                when "IN_PROGRESS" return then "בתהליך"
+                when "IN_PROGRESS" then return "בתהליך"
                 when "FIXED" then return "יושם במלואו"
                 when "WORKAROUND" then return "יושם חלקית"
                 when "IRRELEVANT" then return "יישום ההמלצה כבר לא נדרש"
@@ -763,6 +763,7 @@ select_item = (slug) ->
         setup_subscriptions(".detail-view")
         setup_tags(".detail-view .tags > ul > li")
         load_fb_comment_count(".detail-view")
+        $('html, body').animate({ scrollTop: 0 }, 0);
 
     else
         $("#single-item").html('')

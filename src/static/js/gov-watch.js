@@ -426,28 +426,17 @@
   status_to_hebrew = function(status) {
     switch (status) {
       case "NEW":
-        "טרם התחיל";
-
-        break;
+        return "טרם התחיל";
       case "STUCK":
-        "תקוע";
-
-        break;
+        return "תקוע";
       case "IN_PROGRESS":
-        "בתהליך";
-
-        break;
+        return "בתהליך";
       case "FIXED":
-        "יושם במלואו";
-
-        break;
+        return "יושם במלואו";
       case "WORKAROUND":
-        "יושם חלקית";
-
-        break;
+        return "יושם חלקית";
       case "IRRELEVANT":
-        "יישום ההמלצה כבר לא נדרש";
-
+        return "יישום ההמלצה כבר לא נדרש";
     }
     return "";
   };
@@ -968,7 +957,10 @@
         setup_timeline('.detail-view', 0);
         setup_subscriptions(".detail-view");
         setup_tags(".detail-view .tags > ul > li");
-        return __iced_k(load_fb_comment_count(".detail-view"));
+        load_fb_comment_count(".detail-view");
+        return __iced_k($('html, body').animate({
+          scrollTop: 0
+        }, 0));
       });
     } else {
       $("#single-item").html('');
@@ -1001,7 +993,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 785
+          lineno: 786
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1086,7 +1078,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 846
+          lineno: 847
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
