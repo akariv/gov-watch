@@ -295,9 +295,10 @@
       <div class="update-feed">
 	<ul>
 	  {{#gov_updates}}
-	  <li>
+	  <li data-date="{{update_time}}" >
 	    <div class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
 	      <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	      <p>{{description}}</p>
 	      <p>{{implementation_status_text}}</p>
               {{#links}}
               <p>קישורים:</p>
@@ -310,9 +311,10 @@
 	  </li>
 	  {{/gov_updates}}
 	  {{#watch_updates}}
-	  <li>
+	  <li data-date="{{update_time}}" >
 	    <div class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
 	      <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
+	      <p>{{description}}</p>
 	      <p>{{implementation_status_text}}</p>
               {{#links}}
               <p>קישורים:</p>
