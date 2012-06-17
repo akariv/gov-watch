@@ -462,7 +462,7 @@
   setup_timeline = function(item_selector, margins) {
     if (margins == null) margins = 80;
     return $(item_selector).each(function() {
-      var NOT_SET, available_size, buxa_header, conflict, conflict_status, el, finish_date, fixed_at, gov_status, has_unknowns, horizontal, i, implementation_status, item_margins, its_today, last_percent, last_update, last_update_at, late, line, margin, max_numeric_date, min_numeric_date, point, size, stamp, stamp_class, status, status_to_stamp_class, timeline_items, today, today_at, today_date, _i, _j, _ref, _ref2, _ref3, _ref4;
+      var NOT_SET, available_size, buxa_header, conflict, conflict_status, el, finish_date, fixed_at, gov_status, has_unknowns, horizontal, i, implementation_status, item_margins, its_today, last_percent, last_update, last_update_at, late, line, margin, max_numeric_date, min_numeric_date, point, size, stamp, stamp_class, status, status_to_stamp_class, timeline_items, today, today_at, today_date, _i, _j, _ref, _ref2, _ref3;
       horizontal = $(this).find('.timeline-logic.horizontal').size() > 0;
       today = new Date();
       today = "" + (today.getFullYear()) + "/" + (pad(today.getMonth() + 1)) + "/" + (pad(today.getDate() + 1));
@@ -643,8 +643,12 @@
         return margin = margin + item_size;
       });
       $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove();
-      implementation_status = (_ref4 = $(this).find('.gov-update:last').attr('data-status')) != null ? _ref4 : "NEW";
-      if (late) implementation_status = "STUCK";
+      implementation_status = gov_status;
+      if (implementation_status !== "FIXED" && implementation_status !== "IRRELEVANT") {
+        if (late) implementation_status = "STUCK";
+      } else {
+        late = false;
+      }
       buxa_header = $(this).find('.buxa-header');
       if (conflict) {
         buxa_header.addClass('conflict');
@@ -831,7 +835,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 672
+        lineno: 675
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -875,7 +879,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 694
+          lineno: 697
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -950,7 +954,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 759
+          lineno: 762
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -993,7 +997,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 786
+          lineno: 789
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1078,7 +1082,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 847
+          lineno: 850
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

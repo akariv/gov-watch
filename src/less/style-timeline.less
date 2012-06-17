@@ -53,6 +53,10 @@
             background-repeat: no-repeat;
             background-position: 2px 3px;
           }
+          
+          &.watch-update:after{
+            background-position: 4px 0px;
+          }
             
           &.watch-status-bad
           {
@@ -334,7 +338,7 @@
     list-style: none outside none;
     margin: 0px 0px;
     margin-top:-20px;
-    width: 780px;
+    width: 790px;
     height: 70px;
     border: none;
     direction: ltr;
@@ -354,15 +358,15 @@
           z-index: 10;
           display: none;
           position: absolute;
-          width: 300px;
-          color: @lighttext;
-          left: -276px;
-          top: 20px;
-          line-height: 20px;
-          border: 3px solid @carddark;
-          .box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 
-          background: @card;
-          .border-radius(3px);
+          //width: 300px;
+          //color: @lighttext;
+          left: -296px;
+          top: 25px;
+          //line-height: 20px;
+          //border: 3px solid @carddark;
+          //.box-shadow(0px 0px 10px rgba(50, 50, 50, 0.4)); 
+          //background: @card;
+          //.border-radius(3px);
           
           > .point-meta{
             background: @carddark;
@@ -423,15 +427,15 @@
             }
           
           &:after{
-            border-bottom: 5px solid transparent;
-            border-right: 5px solid @carddark;
-            border-top: 5px solid transparent;
+            border-bottom: 5px solid @carddark;
+            border-right: 5px solid transparent;
+            border-left: 5px solid transparent;
             content: "";
             display: block;
             height: 0;
-            left: -8px;
+            right: -6px;
             position: absolute;
-            top: -2px;
+            top: -13px;
             width: 0;
             }
           }
@@ -442,7 +446,7 @@
           > div{
             border-color: @good;
             &:after{
-              border-right-color: @good;
+              border-bottom-color: @good;
               }
             > div {
               background: fadeout(@good, 30%);
@@ -460,7 +464,7 @@
           > div{
             border-color: @bad;
             &:after{
-              border-right-color: @bad;
+              border-bottom-color: @bad;
               }
             > div {
               background: fadeout(@bad, 30%);
@@ -471,6 +475,42 @@
               }
             }
           }
+          
+        &.milestone,
+        //&.today,
+        &.start,
+        &.completion{
+          width: 3px; height: 19px;
+          margin-top: -9px;
+          
+          > div {
+           left: -302px;
+          }
+          
+        }
+                  
+        &.watch-update:after{
+          background-position: 0 0;
+        }
+
+        &.gov-update > div{
+          left: -294px;
+        }
+        
+        &.today > div{
+            left: -23px;
+            width: 25px;
+            font-size: 0.9em;
+            color: @card;
+            border-color: @bad;
+            background: @bad;
+            padding: 0 3px;
+            &:after{
+              border-bottom-color: @bad;
+              right: 1px;
+            }
+          }
+
         
         &:hover > div {
           display: block;
