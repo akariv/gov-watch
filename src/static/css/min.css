@@ -846,6 +846,7 @@ footer a img{height:20px;margin-bottom:-5px;}
 .timeline{width:104px;vertical-align:top;margin-right:-104px;position:absolute;height:100%;left:0px;}.timeline>ul{position:absolute;top:20px;list-style:none outside none;margin:20px 45px;width:3px;border:#fffcd9 solid 5px;}.timeline>ul>li>.timeline-point{width:9px;height:9px;position:relative;top:-5px;background:#fffcd9;border:3px solid #e4daac;-webkit-border-radius:13px;-moz-border-radius:13px;border-radius:13px;-webkit-border-radius:13px;-moz-border-radius:13px;border-radius:13px;margin-right:-6px;z-index:10;}.timeline>ul>li>.timeline-point.update{width:15px;height:15px;border:0;}
 .timeline>ul>li>.timeline-point.gov-update{width:19px;height:19px;margin-top:-2px;margin-right:-8px;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;border:0;background:url("/static/img/gov-pentagon.png") no-repeat;}
 .timeline>ul>li>.timeline-point.update:after{width:19px;height:19px;display:block;content:"";background-repeat:no-repeat;background-position:2px 3px;}
+.timeline>ul>li>.timeline-point.watch-update:after{background-position:4px 0px;}
 .timeline>ul>li>.timeline-point.watch-status-bad{background-color:#f0776d;border-color:#f0776d;}
 .timeline>ul>li>.timeline-point.gov-status-bad{background-position:0 100%;}
 .timeline>ul>li>.timeline-point.gov-FIXED:after,.timeline>ul>li>.timeline-point.watch-FIXED:after{background-image:url("/static/img/point-complete.png");}
