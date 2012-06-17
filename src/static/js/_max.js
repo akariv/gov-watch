@@ -1354,7 +1354,7 @@ var Mustache = function() {
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
-        setup_timeline('.detail-view', 0);
+        setup_timeline('.detail-view', 30);
         setup_subscriptions(".detail-view");
         setup_tags(".detail-view .tags > ul > li");
         load_fb_comment_count(".detail-view");

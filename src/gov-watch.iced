@@ -513,9 +513,12 @@ setup_timeline = (item_selector, margins=80 ) ->
         $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
 
         # current implementation status for buxa
-        implementation_status = $(this).find('.gov-update:last').attr('data-status') ? "NEW"
-        if late
-                implementation_status = "STUCK"
+        implementation_status = gov_status
+        if implementation_status != "FIXED" and implementation_status != "IRRELEVANT"
+                if late
+                        implementation_status = "STUCK"
+        else
+                late = false
 
         buxa_header = $(this).find('.buxa-header')
         if conflict
@@ -759,7 +762,7 @@ select_item = (slug) ->
         # Allow DOM to sync
         await setTimeout((defer _),50)
 
-        setup_timeline('.detail-view',0)
+        setup_timeline('.detail-view',30)
         setup_subscriptions(".detail-view")
         setup_tags(".detail-view .tags > ul > li")
         load_fb_comment_count(".detail-view")
