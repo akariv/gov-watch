@@ -291,38 +291,41 @@
   <div class="card-section">  
     <div class="row">
       <div class="update-feed">
-	<ul>
-	  {{#gov_updates}}
-	  <li>
-	    <div class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-	      <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	      <p>{{implementation_status_text}}</p>
+      	<ul>
+      	  
+      	  {{#gov_updates}}
+      	  <li>
+      	    <div class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+              <p><img src="" alt="הממשלה"> {{update_time}}: הממשלה</p>
+              <h4><span class="label-{{implementation_status}} implementation-status"></span> </h4>
+              <p>{{implementation_status_text}}</p>
               {{#links}}
               <p>קישורים:</p>
               <ul>
                 <li><a href="{{url}}">{{description}}</a></li>
               </ul>
               {{/links}}
-	      <small>{{update_time}}: הממשלה</small>
-	    </div>    
-	  </li>
-	  {{/gov_updates}}
-	  {{#watch_updates}}
-	  <li>
-	    <div class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-	      <h4><span class="label label-{{implementation_status}} implementation-status"></span> </h4>
-	      <p>{{implementation_status_text}}</p>
-              {{#links}}
-              <p>קישורים:</p>
-              <ul>
-                <li><a href="{{url}}">{{description}}</a></li>
-              </ul>
-              {{/links}}
-	      <small>{{update_time}}: {{user}}</small>
-	    </div>    
-	  </li>
-	  {{/watch_updates}}
-	</ul>
+      	    </div>    
+      	  </li>
+      	  {{/gov_updates}}
+      	  
+      	  {{#watch_updates}}
+      	  <li>
+      	    <div class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+      	      <h4><span class="label-{{implementation_status}} implementation-status"></span> </h4>
+      	      <p>{{implementation_status_text}}</p>
+                    {{#links}}
+                    <p>קישורים:</p>
+                    <ul class="update-links">
+                      <li><a href="{{url}}">{{description}}</a></li>
+                    </ul>
+                    {{/links}}
+      	      <small>{{update_time}}: {{user}}</small>
+      	    </div>    
+      	  </li>
+      	  {{/watch_updates}}
+      	  
+      	</ul>
       </div>
     </div>
   </div>
