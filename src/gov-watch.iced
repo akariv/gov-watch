@@ -124,6 +124,22 @@ show_watermark = (show) ->
     wm_shown = show
     $("#searchbox").toggleClass('watermark',show)
 
+convert_to_israeli_time = (reversed_time) ->
+        if not reversed_time
+                return reversed_time
+        reversed_time = reversed_time.split(" ")
+        if reversed_time.length > 1
+                [date,time] = reversed_time
+        else
+                date = reversed_time[0]
+                time = null
+        date = date.split('/')
+        date = "#{date[2]}/#{date[1]}/#{date[0]}"
+        if time
+                return "#{date} #{time}"
+        else
+                return date
+
 ## Handle initial loading of data, save it to Local Storage
 data_callback = (data) ->
     loaded_data = data
@@ -143,12 +159,15 @@ data_callback = (data) ->
            all_tags[tag]=1
         if rec.base.responsible_authority?.main?
                 all_people[rec.base.responsible_authority.main] = 1
+        for t in rec.base.timeline
+                t.israeli_due_date = convert_to_israeli_time(t.due_date)
         all_subjects[rec.base.subject]=1
         gov_updates = []
         watch_updates = []
         for k,v of rec.updates
                 for u in v
                         u.user = k
+                        u.israeli_update_time = convert_to_israeli_time(u.update_time)
                         if k == 'gov'
                                 gov_updates.push(u)
                         else
@@ -233,6 +252,7 @@ setup_searchbox = ->
         search_term = ""
         show_watermark(true)
         update_history()
+        return false
 
 run_templates = (template,data,selector) ->
     # This is used to process lists in the data's values.
@@ -265,17 +285,42 @@ date_to_hebrew = (date) ->
                         when 12 then "דצמבר"
         return "#{month_to_hebrew(month)} #{year}"
 
+# Numeric pad to %02d
+pad = (n) -> if n<10 then '0'+n else n
+
+# utility for timeline
+status_to_hebrew = (status) ->
+        switch status
+                when "NEW" then return "טרם התחיל"
+                when "STUCK" then return "תקוע"
+                when "IN_PROGRESS" then return "בתהליך"
+                when "FIXED" then return "יושם במלואו"
+                when "WORKAROUND" then return "יושם חלקית"
+                when "IRRELEVANT" then return "יישום ההמלצה כבר לא נדרש"
+        return ""
+
+is_good_status = (status) ->
+        switch status
+                when "NEW" then return false
+                when "STUCK" then return false
+                when "IN_PROGRESS" then return true
+                when "FIXED" then return true
+                when "WORKAROUND" then return false
+                when "IRRELEVANT" then return true
+        return null
 
 
 setup_timeline = (item_selector, margins=80 ) ->
     # Setup timeline after all elements have reached their required size
     $(item_selector).each ->
-        # Timeline
-        pad = (n) -> if n<10 then '0'+n else n
-        today = new Date()
-        today = "#{today.getFullYear()}/#{pad(today.getMonth()+1)}/#{pad(today.getDate()+1)}"
+
         horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
 
+        # Get today's date
+        today = new Date()
+        today = "#{today.getFullYear()}/#{pad(today.getMonth()+1)}/#{pad(today.getDate()+1)}"
+
+        # Process dates & convert to numeric
         max_numeric_date = 0
         min_numeric_date = 2100 * 372
         $(this).find('.timeline-logic .timeline-point.today').attr('data-date',today)
@@ -302,6 +347,7 @@ setup_timeline = (item_selector, margins=80 ) ->
                         if numeric_date < min_numeric_date
                                 min_numeric_date = numeric_date - 1
                 $(this).attr('data-date-numeric',numeric_date)
+                $(this).find('.timeline-point').attr('data-date-numeric',numeric_date)
 
                 # profile image
                 img = $(this).find('img')
@@ -310,37 +356,25 @@ setup_timeline = (item_selector, margins=80 ) ->
                         img.attr('src',"/profile/#{slugify(alt)}")
         )
 
+        # If some milestones are unknown, assume last milestone is in 6 months
         if has_unknowns
                 max_numeric_date += 180
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
+                $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").find('.timeline-point').attr('data-date-numeric',max_numeric_date)
 
+        # Sort by timestamp
         $(this).find(".update-feed > ul > li").tsort({attr:'data-date',order:'desc'})
         $(this).find(".timeline-logic > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
+
+        # Finish date handling
         finish_date = $(this).find(".timeline-logic > ul > li > .milestone:first").attr('data-date')
         finish_date = date_to_hebrew(finish_date)
         $(this).find(".duedate > p").html(finish_date)
 
+        # Calculate widths and issue's status
+        # ---------
 
-        status_to_hebrew = (status) ->
-                switch status
-                        when "NEW" then "טרם התחיל"
-                        when "STUCK" then "תקוע"
-                        when "IN_PROGRESS" then "בתהליך"
-                        when "FIXED" then "יושם במלואו"
-                        when "WORKAROUND" then "יושם חלקית"
-                        when "IRRELEVANT" then "יישום ההמלצה כבר לא נדרש"
-
-        is_good_status = (status) ->
-                switch status
-                        when "NEW" then false
-                        when "STUCK" then false
-                        when "IN_PROGRESS" then true
-                        when "FIXED" then true
-                        when "WORKAROUND" then false
-                        when "IRRELEVANT" then true
-
-
-        gov_status = 'NEW'
+        # All kinds of measurements
         last_percent = 0.0
         item_margins = 5
         if horizontal
@@ -354,21 +388,28 @@ setup_timeline = (item_selector, margins=80 ) ->
                 else
                         available_size = available_size - $(this).outerHeight() - item_margins
                 )
-        #available_size = size - item_size*($(this).find(".timeline > ul > li").size())
         margin = 0
 
+        # initial government status and related variables
+        gov_status = 'NEW'
         conflict = false
         conflict_status = null
         late = false
 
         timeline_items = $(this).find(".timeline-logic > ul > li")
 
-        if (timeline_items.length>0) and $(timeline_items[0]).find('.timeline-point').hasClass('today')
-                today_date = parseInt($(timeline_items[0]).attr('data-date-numeric'))
-                last_update = parseInt($(this).find(".timeline-logic > ul > li").attr('data-date-numeric'))
+        # check lateness (= no gov update in the last 6 months)
+        today_date = parseInt($(this).find(".timeline-logic > ul > li .today").attr('data-date-numeric'))
+        last_update = $(this).find(".timeline-logic > ul > li .gov-update:last").attr('data-date-numeric')
+        if last_update
+                last_update = parseInt(last_update)
+        else
+                last_update = min_numeric_date
+        if last_update and today_date
                 if today_date - last_update > 180
                         late = true
 
+        # iterate over items and calculate status
         NOT_SET = 1000
         last_update_at = NOT_SET
         today_at = NOT_SET
@@ -379,48 +420,59 @@ setup_timeline = (item_selector, margins=80 ) ->
                 point = el.find('.timeline-point:first')
                 line = el.find('.timeline-line:first')
 
+                # current point's implementation-status (or the gov's status if not available)
                 status = point.attr('data-status') ? gov_status
 
+                # gov updates remove conflicts
                 if point.hasClass('gov-update')
                         conflict = false
                         gov_status = status ? gov_status
                         last_update_at = i
 
-                if (fixed_at == NOT_SET) and (gov_status == "FIXED" or gov_status == "IRRELEVANT")
-                        fixed_at = i
+                        # when was it fixed?
+                        if (fixed_at == NOT_SET) and (gov_status == "FIXED" or gov_status == "IRRELEVANT")
+                                fixed_at = i
 
+                        # set css classes accordingly
+                        point.addClass("gov-#{gov_status}")
+                        if is_good_status(gov_status)
+                                point.addClass("gov-status-good")
+                        else
+                                point.addClass("gov-status-bad")
+
+                # handle today points
                 its_today = false
                 if point.hasClass("today")
                         today_at = i
                         its_today = true
 
+                # handle watch updates
                 if point.hasClass('watch-update')
-                        if is_good_status(gov_status) != is_good_status(status)
-                                conflict = true
-                                conflict_status = status
-                        point.addClass("watch-#{status}")
-                        if is_good_status(status)
-                                point.addClass("watch-status-good")
-                        else
-                                point.addClass("watch-status-bad")
+                        if is_good_status(status) != null
+                                if is_good_status(gov_status) != is_good_status(status)
+                                        conflict = true
+                                        conflict_status = status
+                                point.addClass("watch-#{status}")
+                                if is_good_status(status)
+                                        point.addClass("watch-status-good")
+                                else
+                                        point.addClass("watch-status-bad")
                         last_update_at = i
 
+                # for all points up till today (including)
                 if today_at == NOT_SET or its_today
+                        # set implementation status to the correct one
                         point.find('.implementation-status').addClass("label-#{status}")
                         point.find('.implementation-status').html(status_to_hebrew(status))
+
+                        # set gov-status to the line (this is the line AFTER the point)
                         line.addClass("status-#{gov_status}")
 
+                        # set conflict if needed
                         if conflict
                                 point.addClass("conflict")
 
-                        if point.hasClass('gov-update')
-                                point.addClass("gov-#{gov_status}")
-                                if is_good_status(gov_status)
-                                        point.addClass("gov-status-good")
-                                else
-                                        point.addClass("gov-status-bad")
-
-
+        # Fix line styles between today, last update, and set classes accordingly
         for i in [timeline_items.size()-1..0]
                 el = $(timeline_items[i])
                 line = el.find('.timeline-line:first')
@@ -432,6 +484,7 @@ setup_timeline = (item_selector, margins=80 ) ->
                         if i <= last_update_at
                                 line.addClass("unreported")
 
+        # iterate over items and set size
         $(this).find(".timeline-logic > ul > li").each( ->
                 point = $(this).find('.timeline-point:first')
                 line = $(this).find('.timeline-line:first')
@@ -443,7 +496,7 @@ setup_timeline = (item_selector, margins=80 ) ->
                         point_size = point.outerWidth() + item_margins
                 else
                         point_size = point.outerHeight() + item_margins
-                #console.log point_size
+
                 item_size = available_size * (percent - last_percent) + point_size
                 if horizontal
                         $(this).css('width',item_size)
@@ -456,23 +509,33 @@ setup_timeline = (item_selector, margins=80 ) ->
                 margin = margin + item_size
         )
 
+        # remove first line (which appears AFTER the last milestone / point)
         $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
-        #$(this).find(".timeline-logic > ul > li:first").css('size','3px')
 
-        # current status
+        # current implementation status for buxa
         implementation_status = $(this).find('.gov-update:last').attr('data-status') ? "NEW"
+        if late
+                implementation_status = "STUCK"
+
+        buxa_header = $(this).find('.buxa-header')
         if conflict
-                $(this).find('.buxa-header').addClass('conflict')
+                buxa_header.addClass('conflict')
         else
-                $(this).find('.buxa-header').removeClass('conflict')
+                buxa_header.removeClass('conflict')
                 if is_good_status( implementation_status )
-                     $(this).find('.buxa-header').addClass('good')
+                     buxa_header.addClass('good')
                 else
-                     $(this).find('.buxa-header').addClass('bad')
+                     buxa_header.addClass('bad')
+
         $(this).attr('data-implementation-status',implementation_status)
         $(this).addClass("implementation-status-#{implementation_status}")
 
-        # stamp
+        if is_good_status(implementation_status)
+                $(this).addClass("implementation-status-good")
+        else
+                $(this).addClass("implementation-status-bad")
+
+        # buxa stamps
         status_to_stamp_class = (status) ->
                 switch status
                         when "NEW" then "notstarted"
@@ -485,12 +548,12 @@ setup_timeline = (item_selector, margins=80 ) ->
         stamp_class = status_to_stamp_class(implementation_status)
         if late
                 stamp_class = 'late'
-        $(this).find('.buxa-header').before("<div class='stamp #{stamp_class}'></div>")
+        buxa_header.before("<div class='stamp #{stamp_class}'></div>")
 
         if conflict
                 stamp = status_to_hebrew(conflict_status)
                 stamp_class = status_to_stamp_class(conflict_status)
-                $(this).find('.buxa-header').before("<div class='stamp conflicting #{stamp_class}'></div>")
+                buxa_header.before("<div class='stamp conflicting #{stamp_class}'></div>")
 
 setup_summary = ->
         total = $(".item.shown").size()
@@ -648,6 +711,7 @@ process_data = ->
     $("#books li.book a").click ->
         selected_book = $(this).html()
         update_history()
+        return false
 
     # sort buttons
     $("#sort button").click ->
@@ -656,6 +720,7 @@ process_data = ->
         sort_measure = $(this).attr('value')
         $("#items").isotope( 'updateSortData', $(".isotope-card") )
         $("#items").isotope({ sortBy: sort_measure })
+        return false
 
     # item click handler
     # $(".item").click -> update_history($(this).attr('rel'))
@@ -698,6 +763,7 @@ select_item = (slug) ->
         setup_subscriptions(".detail-view")
         setup_tags(".detail-view .tags > ul > li")
         load_fb_comment_count(".detail-view")
+        $('html, body').animate({ scrollTop: 0 }, 0);
 
     else
         $("#single-item").html('')

@@ -168,13 +168,14 @@
       background: url("/static/img/stamp-workaround.png");
     }
     
-    &.stuck{
+    &.stuck,
+    &.notstarted{
       background: url("/static/img/stamp-stuck.png");
     }
     
-    &.late,
-    &.notstarted{
-      background: url("/static/img/stamp-late.png");
+    &.late{
+      background: url("/static/img/stamp-stuck.png");
+      /*TODO MUSHON: background: url("/static/img/stamp-late.png");*/
     }
     
     &:nth-child(odd){
@@ -302,7 +303,7 @@
 } // End .item
 
 /**** After Hacks ***/
-.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today{
+.item.implementation-status-good .timeline > ul > li > .timeline-point.today{
   background-color: @good;
   > div{
     background: @good;

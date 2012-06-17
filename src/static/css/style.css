@@ -5982,6 +5982,45 @@ footer a img {
   height: 20px;
   margin-bottom: -5px;
 }
+/**** Popup ****/
+#overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: url(/static/img/overlay.png);
+  z-index: 12345;
+  display: none;
+}
+#popup-message {
+  position: relative;
+  top: 100px;
+  width: 560px;
+  padding: 20px 40px 40px;
+  border-radius: 8px;
+  box-shadow: 0 7px 26px #000;
+  font: 14px/22px arial, sans-serif;
+  margin: 0 auto;
+  min-height: 200px;
+  display: none;
+  background: url(/static/img/popup-bg.png) 0 100% repeat-x #ffffff;
+}
+#popup-message .close {
+  float: left;
+  width: auto;
+  font-size: 22px;
+  cursor: pointer;
+  position: relative;
+  left: -20px;
+  color: #000;
+}
+#popup-message h3 {
+  font-size: 16px;
+}
+#popup-message p {
+  font-size: 14px;
+}
 /**** Item ****/
 .row > [class*="span"] {
   margin-right: 14px;
@@ -6126,12 +6165,14 @@ footer a img {
 .item div.stamp.workaround {
   background: url("/static/img/stamp-workaround.png");
 }
-.item div.stamp.stuck {
+.item div.stamp.stuck,
+.item div.stamp.notstarted {
   background: url("/static/img/stamp-stuck.png");
 }
-.item div.stamp.late,
-.item div.stamp.notstarted {
-  background: url("/static/img/stamp-late.png");
+.item div.stamp.late {
+  background: url("/static/img/stamp-stuck.png");
+  /*TODO MUSHON: background: url("/static/img/stamp-late.png");*/
+
 }
 .item div.stamp:nth-child(odd) {
   right: 200px;
@@ -6235,14 +6276,14 @@ footer a img {
   border-bottom: 1px solid #847d6b;
 }
 /**** After Hacks ***/
-.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today {
+.item.implementation-status-good .timeline > ul > li > .timeline-point.today {
   background-color: #6ba688;
 }
-.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today > div {
+.item.implementation-status-good .timeline > ul > li > .timeline-point.today > div {
   background: #6ba688;
   border-color: #6ba688;
 }
-.item.implementation-status-FIXED .timeline > ul > li > .timeline-point.today > div:after {
+.item.implementation-status-good .timeline > ul > li > .timeline-point.today > div:after {
   border-right-color: #6ba688;
 }
 /**** Isotope Filtering ****/
