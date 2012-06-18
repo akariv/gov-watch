@@ -315,6 +315,7 @@
       	  {{#watch_updates}}
       	  <li>
       	    <div class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
+              <p><img src="" alt="{{user}}"> {{israeli_update_time}}: {{user}}</p>
       	      <h4><span class="label-{{implementation_status}} implementation-status"></span> </h4>
       	      <p>{{description}}</p>
       	      <p>{{implementation_status_text}}</p>
@@ -360,6 +361,9 @@
   {{#stuck}}
   <a class="stuck">{{stuck}} <span>תקועות בדרך</span></a>
   {{/stuck}}
+  {{#conflict}}
+  <a class="conflict">{{conflict}} <span>בחוסר הסכמה</span></a>
+  {{/conflict}}
   {{/total}}
 </script>
 

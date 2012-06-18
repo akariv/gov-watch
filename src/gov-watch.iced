@@ -348,12 +348,6 @@ setup_timeline = (item_selector, margins=80 ) ->
                                 min_numeric_date = numeric_date - 1
                 $(this).attr('data-date-numeric',numeric_date)
                 $(this).find('.timeline-point').attr('data-date-numeric',numeric_date)
-
-                # profile image
-                img = $(this).find('img')
-                alt = img?.attr('alt')
-                if alt
-                        img.attr('src',"/profile/#{slugify(alt)}")
         )
 
         # If some milestones are unknown, assume last milestone is in 6 months
@@ -361,6 +355,13 @@ setup_timeline = (item_selector, margins=80 ) ->
                 max_numeric_date += 180
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").find('.timeline-point').attr('data-date-numeric',max_numeric_date)
+
+        # profile image
+        $(this).find('img').each ->
+                alt = $(this).attr('alt')
+                if alt
+                        $(this).attr('src',"/profile/#{slugify(alt)}")
+
 
         # Sort by timestamp
         $(this).find(".update-feed > ul > li").tsort({attr:'data-date',order:'desc'})
@@ -462,8 +463,8 @@ setup_timeline = (item_selector, margins=80 ) ->
                 # for all points up till today (including)
                 if today_at == NOT_SET or its_today
                         # set implementation status to the correct one
-                        point.find('.implementation-status').addClass("label-#{status}")
-                        point.find('.implementation-status').html(status_to_hebrew(status))
+                        $(this).find('.implementation-status').addClass("label-#{status}")
+                        $(this).find('.implementation-status').html(status_to_hebrew(status))
 
                         # set gov-status to the line (this is the line AFTER the point)
                         line.addClass("status-#{gov_status}")
@@ -530,7 +531,12 @@ setup_timeline = (item_selector, margins=80 ) ->
                 else
                      buxa_header.addClass('bad')
 
-        $(this).attr('data-implementation-status',implementation_status)
+        if conflict
+                $(this).attr('data-implementation-status',"CONFLICT")
+                $(this).addClass("implementation-status-CONFLICT")
+        else
+                $(this).attr('data-implementation-status',implementation_status)
+
         $(this).addClass("implementation-status-#{implementation_status}")
 
         if is_good_status(implementation_status)
@@ -566,6 +572,7 @@ setup_summary = ->
         fixed = $(".item.shown[data-implementation-status='FIXED']").size()
         workaround = $(".item.shown[data-implementation-status='WORKAROUND']").size()
         irrelevant = $(".item.shown[data-implementation-status='IRRELEVANT']").size()
+        conflict = $(".item.shown[data-implementation-status='CONFLICT']").size()
         data = {}
         if total
                 data.total = total
@@ -577,6 +584,8 @@ setup_summary = ->
                 data.implemented = implemented
         if in_progress
                 data.in_progress = in_progress
+        if conflict
+                data.conflict = conflict
         run_templates( "summary", data, "#summary" )
 
         $("#summary .total").click ->
@@ -593,6 +602,10 @@ setup_summary = ->
                 return false
         $("#summary .in_progress").click ->
                 status_filter = ['IN_PROGRESS']
+                do_search()
+                return false
+        $("#summary .conflict").click ->
+                status_filter = ['CONFLICT']
                 do_search()
                 return false
 
