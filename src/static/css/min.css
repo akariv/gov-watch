@@ -791,7 +791,7 @@ body{direction:rtl;background:url('/static/img/background-grid.png') top right;}
 .persontag span{background:none;color:black;text-shadow:none;}
 #orderstats>div{float:right;}
 #stats{margin-right:2.127659574%;}
-#summary{margin-left:-14px;margin-right:-14px;font-weight:bold;}#summary a{font-size:2em;color:white;float:right;margin-right:14px;width:90px;float:right;margin-right:14px;width:90px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;padding:4px 0;text-indent:4px;}#summary a span{font-size:0.4em;display:block;font-weight:normal;}
+#summary{margin-left:-14px;margin-right:-14px;font-weight:bold;}#summary a{font-size:2em;color:white;float:right;margin-right:14px;width:90px;float:right;margin-right:14px;width:90px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;padding:4px 0;text-indent:4px;}#summary a>span{font-size:0.4em;display:block;font-weight:normal;}
 #summary a.implemented,#summary a.in_progress{color:#6ba688;}
 #summary a.stuck{color:#f0776d;}
 #summary a.conflict{color:#f0776d;}#summary a.conflict:first-letter{color:#6ba688;}
