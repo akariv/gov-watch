@@ -458,6 +458,9 @@ setup_timeline = (item_selector, margins=80 ) ->
                                         point.addClass("watch-status-good")
                                 else
                                         point.addClass("watch-status-bad")
+                        else
+                                point.addClass("no-review")
+                                point.removeClass("update")
                         last_update_at = i
 
                 # for all points up till today (including)
@@ -656,6 +659,8 @@ setup_detailed_links = ->
         update_history(rel)
         return false
 
+setup_tooltips = (selector) ->
+        $("#{selector} .rel-tooltip").tooltip({placement:'bottom'})
 
 ## Handles the site's data (could be from local storage or freshly loaded)
 process_data = ->
@@ -723,6 +728,8 @@ process_data = ->
 
     setup_detailed_links()
 
+    setup_tooltips(".item")
+
     # book selection
     $("#books li.book a").click ->
         selected_book = $(this).html()
@@ -778,6 +785,7 @@ select_item = (slug) ->
         setup_timeline('.detail-view',69)
         setup_subscriptions(".detail-view")
         setup_tags(".detail-view .tags > ul > li")
+        setup_tooltips(".detail-view")
         load_fb_comment_count(".detail-view")
         $('html, body').animate({ scrollTop: 0 }, 0);
 

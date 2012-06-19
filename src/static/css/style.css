@@ -6646,17 +6646,20 @@ footer a img {
   margin-right: -30px;
   position: static;
   width: auto;
+  height: 80px;
+  clear: both;
+  background: url("/static/img/horizontal-timeline.png") 10px 0 no-repeat, url("/static/img/card-tile.jpg") !important;
 }
 .timeline.horizontal > ul {
   position: relative;
-  top: 20px;
+  top: 41px;
+  right: 25px;
   list-style: none outside none;
   margin: -20px 0px 0px;
-  width: 770px;
-  height: 70px;
+  width: 722px;
+  height: 0px;
   border: none;
   direction: ltr;
-  clear: both;
 }
 .timeline.horizontal > ul > li {
   position: absolute;
@@ -6780,7 +6783,7 @@ footer a img {
 .timeline.horizontal > ul > li > .timeline-point.completion {
   width: 3px;
   height: 19px;
-  margin-top: -9px;
+  margin-top: -7px;
 }
 .timeline.horizontal > ul > li > .timeline-point.milestone > div,
 .timeline.horizontal > ul > li > .timeline-point.start > div,

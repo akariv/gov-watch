@@ -46,7 +46,7 @@
     </h2>
     
 	{{#budget}}
-    <div class="budget" rel="tooltip" title="{{description}}">
+    <div class="budget rel-tooltip" title="{{description}}">
       <h3>עלות:</h3>
       <p>
         <span>{{millions}} מיליון ִ₪</span>
@@ -77,9 +77,9 @@
     </div>
     
     <div class="tools">
-      <a href="#" class="watch" rel="tooltip" title="עקבו אחרי עדכונים להמלצה זו" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}</a>
-      <a href="#" class="linkcount" rel="tooltip" title="{{num_links}} קישורים מצורפים">{{num_links}}</a>
-      <a href="#" class="commentcount" rel="tooltip" title="הצטרפו לדיון" {{/base}}rel="{{slug}}"{{#base}}></a>
+      <a href="#" class="watch rel-tooltip" title="עקבו אחרי עדכונים להמלצה זו" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}</a>
+      <a href="#" class="linkcount goto-detail rel-tooltip" title="{{num_links}} קישורים מצורפים">{{num_links}}</a>
+      <a href="#" class="commentcount goto-detail rel-tooltip" title="הצטרפו לדיון" {{/base}}rel="{{slug}}"{{#base}}></a>
     </div>
     
   </div>
@@ -216,13 +216,13 @@
     
     <div class="row tools">
       <div class="span2">
-	<a href="#" class="watch" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}&nbsp;עוקבים</a>
+	<a href="" class="watch" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}&nbsp;עוקבים</a>
       </div>  
       <div class="span2">
-	<a href="#" class="linkcount">{{num_links}}&nbsp;קישורים</a>
+	<a href="" class="linkcount">{{num_links}}&nbsp;קישורים</a>
       </div>  
       <div class="span2">
-	<a href="#" class="commentcount" {{/base}}rel="{{slug}}"{{#base}}>&nbsp;תגובות</a>
+	<a href="" class="commentcount" {{/base}}rel="{{slug}}"{{#base}}>&nbsp;תגובות</a>
       </div>  
     </div>
   </div>
@@ -258,6 +258,7 @@
 	      <span class="label label-{{implementation_status}} implementation-status"></span> 
 	    </div>
             <h4>{{implementation_status_name}}</h4>
+	    <p>{{description}}</p>
 	    <p>{{implementation_status_text}}</p>
 	  </div>    
 	</div>    
@@ -274,6 +275,7 @@
 	      <span class="label label-{{implementation_status}} implementation-status"></span>
 	    </div>
 	    <h4>{{implementation_status_name}}</h4>
+	    <p>{{description}}</p>
 	    <p>{{implementation_status_text}}</p>
 	  </div>    
 	</div>    
