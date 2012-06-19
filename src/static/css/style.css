@@ -6173,8 +6173,6 @@ footer a img {
 }
 .item div.stamp.late {
   background: url("/static/img/stamp-stuck.png");
-  /*TODO MUSHON: background: url("/static/img/stamp-late.png");*/
-
 }
 .item div.stamp:nth-child(odd) {
   right: 200px;
@@ -6653,12 +6651,12 @@ footer a img {
   position: relative;
   top: 20px;
   list-style: none outside none;
-  margin: 0px 0px;
-  margin-top: -20px;
+  margin: -20px 0px 0px;
   width: 770px;
   height: 70px;
   border: none;
   direction: ltr;
+  clear: both;
 }
 .timeline.horizontal > ul > li {
   position: absolute;
@@ -6798,6 +6796,9 @@ footer a img {
 .timeline.horizontal > ul > li > .timeline-point.gov-update > div {
   left: -294px;
 }
+.timeline.horizontal > ul > li > .timeline-point.today {
+  margin-top: 3px;
+}
 .timeline.horizontal > ul > li > .timeline-point.today > div {
   left: -23px;
   width: 25px;
@@ -6820,7 +6821,10 @@ footer a img {
   height: 3px;
 }
 .timeline.horizontal > ul > li > .timeline-line.unreported {
-  background-image: url("/static/img/unreported-tile.png");
+  background-image: url("/static/img/unreported-tile-w.png");
+}
+.timeline.horizontal > ul > li > .timeline-line.future {
+  background: none;
 }
 /**** Detailed view ****/
 .detail-view {

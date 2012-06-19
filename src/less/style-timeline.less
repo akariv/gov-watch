@@ -331,15 +331,18 @@
   margin-right:-30px;
   position: static;  
   width:auto;
+  height: 80px;
+  clear: both;
+  background: url("/static/img/horizontal-timeline.png") 10px 0 no-repeat, url("/static/img/card-tile.jpg") !important;
   
   > ul {
     position: relative;  
-    top: 20px;
+    top: 41px;
+    right: 25px;
     list-style: none outside none;
-    margin: 0px 0px;
-    margin-top:-20px;
-    width: 770px;
-    height: 70px;
+    margin: -20px 0px 0px;
+    width: 722px;
+    height: 0px;
     border: none;
     direction: ltr;
     
@@ -481,7 +484,7 @@
         &.start,
         &.completion{
           width: 3px; height: 19px;
-          margin-top: -9px;
+          margin-top: -7px;
           
           > div {
            left: -302px;
@@ -500,7 +503,10 @@
           }
         }
         
-        &.today > div{
+        &.today {
+          margin-top: 3px;
+          
+          > div{
             left: -23px;
             width: 25px;
             font-size: 0.9em;
@@ -513,7 +519,7 @@
               right: 1px;
             }
           }
-
+        }
         
         &:hover > div {
           display: block;
@@ -526,7 +532,11 @@
         height: 3px;
                 
         &.unreported{
-          background-image: url("/static/img/unreported-tile.png");
+          background-image: url("/static/img/unreported-tile-w.png");
+          }
+
+        &.future{
+          background: none;
           }
         
         } 

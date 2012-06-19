@@ -762,7 +762,7 @@ select_item = (slug) ->
         # Allow DOM to sync
         await setTimeout((defer _),50)
 
-        setup_timeline('.detail-view',30)
+        setup_timeline('.detail-view',69)
         setup_subscriptions(".detail-view")
         setup_tags(".detail-view .tags > ul > li")
         load_fb_comment_count(".detail-view")

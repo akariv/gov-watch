@@ -45,16 +45,15 @@
       </a>
     </h2>
     
-    <div class="budget">
-      {{#budget}}
+	{{#budget}}
+    <div class="budget" title="{{description}}">
       <h3>עלות:</h3>
       <p>
         <span>{{millions}} מיליון ִ₪</span>
-        	/על פני {{year_span}} שנים   
-      </p>     
-      <span title="{{description}}">?</span>
-      {{/budget}}
+        	/על פני {{year_span}} שנים*
+      </p>
     </div>
+    {{/budget}}
     
     <div class="responsible">
       {{#responsible_authority}}
@@ -183,8 +182,8 @@
       	<div class="budget">
       	  {{#budget}}
       	  <h3>עלות:</h3>
-      	  <p><span>{{millions}} מיליון </span> /על פני {{year_span}} שנים</p>
-      	  <p>{{description}}</p>
+      	  <p><span>{{millions}} מיליון </span> /על פני {{year_span}}.<br>
+			{{description}}</p>
       	  {{/budget}}
       	</div>
       	<div class="responsible">
@@ -230,7 +229,7 @@
   
   <div class="card-section">
     <div class="timeline horizontal timeline-logic">
-    <p>לוח זמנים</p>
+    <!-- <p>לוח זמנים</p> -->
     <ul>
       {{#timeline}}
       <li>
