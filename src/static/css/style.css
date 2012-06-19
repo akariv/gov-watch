@@ -5959,7 +5959,7 @@ body {
   padding: 4px 0;
   text-indent: 4px;
 }
-#summary a span {
+#summary a > span {
   font-size: 0.4em;
   display: block;
   font-weight: normal;
@@ -5970,6 +5970,15 @@ body {
 }
 #summary a.stuck {
   color: #f0776d;
+}
+#summary a.conflict {
+  color: #f0776d;
+}
+#summary a.conflict:first-letter {
+  color: #6ba688;
+}
+#summary a.conflict span span {
+  color: #6ba688;
 }
 #summary a:hover {
   text-decoration: none;
