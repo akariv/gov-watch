@@ -272,6 +272,18 @@ body {
       color: @bad;
     }
     
+    &.conflict{
+      color: @bad;
+      
+      &:first-letter{
+        color: @good;
+      }
+      
+      span span{
+        color: @good;
+      }
+    }
+    
     &:hover{
       text-decoration: none;
       background: @herotone;

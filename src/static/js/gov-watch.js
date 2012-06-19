@@ -472,7 +472,7 @@
       $(this).find('.timeline-logic .timeline-point.today').attr('data-date', today);
       has_unknowns = false;
       $(this).find(".timeline-logic > ul > li").each(function() {
-        var alt, d, date, day, hour, img, min, month, numeric_date, second, t, time, year, _ref, _ref2;
+        var d, date, day, hour, min, month, numeric_date, second, t, time, year, _ref, _ref2;
         date = $(this).find('.timeline-point:first').attr('data-date');
         date = date.split(' ');
         if (date.length > 1) {
@@ -509,16 +509,18 @@
           if (numeric_date < min_numeric_date) min_numeric_date = numeric_date - 1;
         }
         $(this).attr('data-date-numeric', numeric_date);
-        $(this).find('.timeline-point').attr('data-date-numeric', numeric_date);
-        img = $(this).find('img');
-        alt = img != null ? img.attr('alt') : void 0;
-        if (alt) return img.attr('src', "/profile/" + (slugify(alt)));
+        return $(this).find('.timeline-point').attr('data-date-numeric', numeric_date);
       });
       if (has_unknowns) {
         max_numeric_date += 180;
         $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric', max_numeric_date);
         $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").find('.timeline-point').attr('data-date-numeric', max_numeric_date);
       }
+      $(this).find('img').each(function() {
+        var alt;
+        alt = $(this).attr('alt');
+        if (alt) return $(this).attr('src', "/profile/" + (slugify(alt)));
+      });
       $(this).find(".update-feed > ul > li").tsort({
         attr: 'data-date',
         order: 'desc'
@@ -605,8 +607,8 @@
           last_update_at = i;
         }
         if (today_at === NOT_SET || its_today) {
-          point.find('.implementation-status').addClass("label-" + status);
-          point.find('.implementation-status').html(status_to_hebrew(status));
+          $(this).find('.implementation-status').addClass("label-" + status);
+          $(this).find('.implementation-status').html(status_to_hebrew(status));
           line.addClass("status-" + gov_status);
           if (conflict) point.addClass("conflict");
         }
@@ -661,7 +663,12 @@
           buxa_header.addClass('bad');
         }
       }
-      $(this).attr('data-implementation-status', implementation_status);
+      if (conflict) {
+        $(this).attr('data-implementation-status', "CONFLICT");
+        $(this).addClass("implementation-status-CONFLICT");
+      } else {
+        $(this).attr('data-implementation-status', implementation_status);
+      }
       $(this).addClass("implementation-status-" + implementation_status);
       if (is_good_status(implementation_status)) {
         $(this).addClass("implementation-status-good");
@@ -696,7 +703,7 @@
   };
 
   setup_summary = function() {
-    var data, fixed, implemented, in_progress, irrelevant, news, stuck, total, workaround;
+    var conflict, data, fixed, implemented, in_progress, irrelevant, news, stuck, total, workaround;
     total = $(".item.shown").size();
     stuck = $(".item.shown[data-implementation-status='STUCK']").size();
     news = $(".item.shown[data-implementation-status='NEW']").size();
@@ -704,6 +711,7 @@
     fixed = $(".item.shown[data-implementation-status='FIXED']").size();
     workaround = $(".item.shown[data-implementation-status='WORKAROUND']").size();
     irrelevant = $(".item.shown[data-implementation-status='IRRELEVANT']").size();
+    conflict = $(".item.shown[data-implementation-status='CONFLICT']").size();
     data = {};
     if (total) data.total = total;
     stuck = news + workaround + stuck;
@@ -711,6 +719,7 @@
     implemented = fixed + irrelevant;
     if (implemented) data.implemented = implemented;
     if (in_progress) data.in_progress = in_progress;
+    if (conflict) data.conflict = conflict;
     run_templates("summary", data, "#summary");
     $("#summary .total").click(function() {
       status_filter = null;
@@ -727,8 +736,13 @@
       do_search();
       return false;
     });
-    return $("#summary .in_progress").click(function() {
+    $("#summary .in_progress").click(function() {
       status_filter = ['IN_PROGRESS'];
+      do_search();
+      return false;
+    });
+    return $("#summary .conflict").click(function() {
+      status_filter = ['CONFLICT'];
       do_search();
       return false;
     });
@@ -837,7 +851,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 675
+        lineno: 688
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -881,7 +895,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 697
+          lineno: 710
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -957,7 +971,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 762
+          lineno: 775
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1001,7 +1015,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 789
+          lineno: 802
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1087,7 +1101,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 850
+          lineno: 863
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
