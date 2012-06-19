@@ -46,7 +46,7 @@
     </h2>
     
 	{{#budget}}
-    <div class="budget" title="{{description}}">
+    <div class="budget" rel="tooltip" title="{{description}}">
       <h3>עלות:</h3>
       <p>
         <span>{{millions}} מיליון ִ₪</span>
@@ -77,9 +77,9 @@
     </div>
     
     <div class="tools">
-      <a href="#" class="watch" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}</a>
-      <a href="#" class="linkcount">{{num_links}}</a>
-      <a href="#" class="commentcount" {{/base}}rel="{{slug}}"{{#base}}></a>
+      <a href="#" class="watch" rel="tooltip" title="עקבו אחרי עדכונים להמלצה זו" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}</a>
+      <a href="#" class="linkcount" rel="tooltip" title="{{num_links}} קישורים מצורפים">{{num_links}}</a>
+      <a href="#" class="commentcount" rel="tooltip" title="הצטרפו לדיון" {{/base}}rel="{{slug}}"{{#base}}></a>
     </div>
     
   </div>
@@ -229,7 +229,6 @@
   
   <div class="card-section">
     <div class="timeline horizontal timeline-logic">
-    <!-- <p>לוח זמנים</p> -->
     <ul>
       {{#timeline}}
       <li>
