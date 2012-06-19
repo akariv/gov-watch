@@ -29,7 +29,7 @@ if __name__=="__main__":
               u'base.chapter',
               u'base.chapter_part',
               u'base.subchapter',
-              u'base.subject'
+              u'base.subject',
               u'base.result_metric',
               u'base.recommendation',
               u'base.budget.description',
