@@ -111,8 +111,15 @@
             }
           
           &.start {
-            background-color: @bad;
+            height: 19px;
+            .border-radius(15px);
+            background: @bad url("/static/img/point-start.png") 65% 50%;
+            
+            > div{
+              top: 3px;
+              margin-left: 5px;
             }
+          }
             
           &.gov-status-bad{
             background-position: bottom 0;
