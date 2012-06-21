@@ -8,18 +8,24 @@
     height:100%;
     left:0px;
     
-    > div{
-      //position: absolute;
-      width: 100%;
-      font-size: 15px;
-      color: @carddark;
-      text-align: center;
-      margin: 12px 0 -12px;
+    ul.date-bar{
+      bottom: 0;
+      left: -14px;
+      padding: 0;
+      position: absolute;
       
-      &.date-start{
-        top: 0;
-        bottom: 2px;
-      }
+      li{
+        list-style: none;
+        margin: 0;
+        //width: 100%;
+        font-size: 15px;
+        color: @carddark;
+        text-align: left;
+        //margin: 12px 0 -12px;
+        &:before{
+          content: "-";
+        }
+      } 
     }
 
     > ul {
@@ -27,7 +33,7 @@
       //top: 20px;
       //bottom: 20px;
       list-style: none outside none;
-      margin: 10px 45px;
+      margin: 30px 45px;
       width: 3px;
       //background: @card;
       border: @card solid 5px;

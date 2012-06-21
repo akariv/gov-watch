@@ -85,7 +85,6 @@
   </div>
 
   <div class="timeline timeline-logic">
-  	<div class="date-end">2016</div>
     <ul>
       {{#timeline}}
       <li>
@@ -93,10 +92,10 @@
         <div class="timeline-point milestone {{#completion}}completion{{/completion}}  {{#start}}start{{/start}}" data-date="{{due_date}}">
           <div>
             <div class="point-meta">
-	      <img src="" alt="טרכטנברג">
-	      <small>{{israeli_due_date}}: מתוך הדו"ח</small>
-	      <span class="label implementation-status"></span>
-	    </div>
+	      		<img src="" alt="טרכטנברג">
+	      		<small>{{israeli_due_date}}: מתוך הדו"ח</small>
+	      		<span class="label implementation-status"></span>
+	    	</div>
             <h4>{{milestone_name}}</h4>
 	    <p>{{description}}</p>
 	    
@@ -144,7 +143,15 @@
         <div class="timeline-point today"><div>היום</div></div>
       </li>     
     </ul>
-    <div class="date-start">2011</div>
+  	<div>
+		<ul class="date-bar">
+	  		<li data-date="2016">2016</li>
+			<li data-date="2015">2015</li>
+			<li data-date="2014">2014</li>
+			<li data-date="2013">2013</li>
+			<li data-date="2012">2012</li>
+		</ul>
+	</div>
   </div>
   <div class="footer"></div>
   
