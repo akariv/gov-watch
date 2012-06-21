@@ -362,7 +362,6 @@ setup_timeline = (item_selector, margins=80 ) ->
                 if alt
                         $(this).attr('src',"/profile/#{slugify(alt)}")
 
-
         # Sort by timestamp
         $(this).find(".update-feed > ul > li").tsort({attr:'data-date',order:'desc'})
         $(this).find(".timeline-logic > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
@@ -371,6 +370,19 @@ setup_timeline = (item_selector, margins=80 ) ->
         finish_date = $(this).find(".timeline-logic > ul > li > .milestone:first").attr('data-date')
         finish_date = date_to_hebrew(finish_date)
         $(this).find(".duedate > p").html(finish_date)
+
+        date_bar = $(this).find(".date-bar")
+        if date_bar
+                date_bar.html('')
+                initial_year = (Math.ceil(min_numeric_date/372.0)).toFixed(0)
+                last_year = (Math.floor(max_numeric_date/372.0)).toFixed(0)
+                for y in [initial_year..last_year]
+                        date_bar.prepend("<li>#{y}</li>")
+                pixel_years = ($(this).innerHeight()-margins) / ( (max_numeric_date-min_numeric_date)/372 )
+                common_margin = pixel_years - date_bar.find('li:first').outerHeight()
+                first_margin = (1 - (min_numeric_date % 372)/372) * pixel_years
+                date_bar.find("li").css( "margin-bottom", common_margin )
+                date_bar.find("li:last").css( "margin-bottom", first_margin + 30 )
 
         # Calculate widths and issue's status
         # ---------
@@ -466,8 +478,8 @@ setup_timeline = (item_selector, margins=80 ) ->
                 # for all points up till today (including)
                 if today_at == NOT_SET or its_today
                         # set implementation status to the correct one
-                        $(this).find('.implementation-status').addClass("label-#{status}")
-                        $(this).find('.implementation-status').html(status_to_hebrew(status))
+                        el.find('.implementation-status').addClass("label-#{status}")
+                        el.find('.implementation-status').html(status_to_hebrew(status))
 
                         # set gov-status to the line (this is the line AFTER the point)
                         line.addClass("status-#{gov_status}")
@@ -481,7 +493,8 @@ setup_timeline = (item_selector, margins=80 ) ->
                 el = $(timeline_items[i])
                 line = el.find('.timeline-line:first')
 
-                if (fixed_at != NOT_SET and i <= fixed_at) or i <= today_at
+                #if (fixed_at != NOT_SET and i <= fixed_at) or i <= today_at
+                if i <= today_at
                         line.addClass("future")
                 else
                         line.addClass("past")
@@ -763,6 +776,7 @@ select_item = (slug) ->
     if slug
         $("#summary-header").css('visibility','hidden')
         $("#summary").html('')
+        $("#orderstats").css('display','none')
         $("#sort button").addClass('disabled')
         $("#searchbox").addClass('disabled')
         $("#searchbox").attr('disabled','disabled')
@@ -792,6 +806,7 @@ select_item = (slug) ->
     else
         $("#single-item").html('')
         $("#summary-header").css('visibility','inherit')
+        $("#orderstats").css('display','inherit')
         $("#sort button").removeClass('disabled')
         $("#searchbox").removeClass('disabled')
         $("#searchbox").attr('disabled',null)

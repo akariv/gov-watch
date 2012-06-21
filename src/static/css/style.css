@@ -5507,6 +5507,13 @@ body {
 .well .heading:after {
   clear: both;
 }
+.hero-unit .heading img,
+.well .heading img {
+  float: right;
+  height: auto;
+  width: 110px;
+  margin-left: 10px;
+}
 .hero-unit .heading .btn-inverse,
 .well .heading .btn-inverse {
   background-color: #30343b;
@@ -5633,7 +5640,7 @@ body {
 .hero-unit .row-fluid,
 .well .row-fluid {
   max-width: 1230px;
-  margin: 0 14px;
+  margin: 0 30px 10px;
 }
 .hero-unit h1,
 .well h1,
@@ -5672,7 +5679,7 @@ body {
 }
 .hero-unit .btn-group,
 .well .btn-group {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 .hero-unit .btn-group .btn-inverse,
 .well .btn-group .btn-inverse {
@@ -5817,6 +5824,10 @@ body {
   -webkit-transition: background-color 3s;
   -moz-transition: background-color 3s;
 }
+.content {
+  margin: 0 10px 0 0;
+  padding-left: 0;
+}
 /**** Header ****/
 #search legend {
   padding-left: 0;
@@ -5840,7 +5851,7 @@ body {
   border: 0 none;
   width: 20px;
   height: 20px;
-  margin: -36px 0 0 5px;
+  margin: -36px 0 0 6px;
   overflow: hidden;
   text-indent: -2000%;
   float: left;
@@ -5987,6 +5998,12 @@ body {
 #summary .punct {
   display: none;
 }
+footer {
+  clear: both;
+  margin: 20px auto;
+  text-align: center;
+  padding-top: 20px;
+}
 footer a img {
   height: 20px;
   margin-bottom: -5px;
@@ -6029,6 +6046,16 @@ footer a img {
 }
 #popup-message p {
   font-size: 14px;
+}
+/**** tooltip ****/
+.tooltip {
+  font-size: 18px;
+}
+.tooltip .tooltip-inner {
+  background: #393e46;
+}
+.tooltip.bottom .tooltip-arrow {
+  border-bottom: 5px solid #393e46;
 }
 /**** Item ****/
 .row > [class*="span"] {
@@ -6354,11 +6381,25 @@ footer a img {
   height: 100%;
   left: 0px;
 }
-.timeline > ul {
+.timeline ul.date-bar {
+  bottom: 0;
+  left: -14px;
+  padding: 0;
   position: absolute;
-  top: 20px;
+}
+.timeline ul.date-bar li {
+  list-style: none;
+  margin: 0;
+  font-size: 15px;
+  color: #c4bb91;
+  text-align: left;
+}
+.timeline ul.date-bar li:before {
+  content: "-";
+}
+.timeline > ul {
   list-style: none outside none;
-  margin: 20px 45px;
+  margin: 30px 45px;
   width: 3px;
   border: #fffcd9 solid 5px;
 }
@@ -6459,7 +6500,18 @@ footer a img {
   top: -4px;
 }
 .timeline > ul > li > .timeline-point.start {
-  background-color: #f0776d;
+  height: 19px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  background: #f0776d url("/static/img/point-start.png") 65% 50%;
+}
+.timeline > ul > li > .timeline-point.start > div {
+  top: 3px;
+  margin-left: 5px;
 }
 .timeline > ul > li > .timeline-point.gov-status-bad {
   background-position: bottom 0;
@@ -6538,22 +6590,6 @@ footer a img {
 .timeline > ul > li > .timeline-point > div small {
   padding: 3px;
   font-size: 16px;
-}
-.timeline > ul > li > .timeline-point > div .label {
-  color: #fffcd9;
-  background: #6ba688;
-  display: block;
-  float: left;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1.2em;
-  margin: 3px 4px 0px 3px;
-  padding: 0 3px;
-}
-.timeline > ul > li > .timeline-point > div .label-STUCK,
-.timeline > ul > li > .timeline-point > div .label-WORKAROUND,
-.timeline > ul > li > .timeline-point > div .label-NEW {
-  background: #f0776d;
 }
 .timeline > ul > li > .timeline-point > div h4 {
   background: #e4daac;
@@ -6639,6 +6675,22 @@ footer a img {
   border: none;
 }
 /**** After Hacks ***/
+.label {
+  color: #fffcd9;
+  background: #6ba688;
+  display: block;
+  float: left;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 3px 4px 0px 3px;
+  padding: 0 3px;
+}
+.label-STUCK,
+.label-WORKAROUND,
+.label-NEW {
+  background: #f0776d;
+}
 .implementation-status-FIXED .timeline > ul > li > .timeline-point.today {
   background-color: #6ba688;
 }
@@ -6709,22 +6761,6 @@ footer a img {
 .timeline.horizontal > ul > li > .timeline-point > div small {
   padding: 3px;
   font-size: 16px;
-}
-.timeline.horizontal > ul > li > .timeline-point > div .label {
-  color: #fffcd9;
-  background: #6ba688;
-  display: block;
-  float: left;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1.2em;
-  margin: 3px 4px 0px 3px;
-  padding: 0 3px;
-}
-.timeline.horizontal > ul > li > .timeline-point > div .label-STUCK,
-.timeline.horizontal > ul > li > .timeline-point > div .label-WORKAROUND,
-.timeline.horizontal > ul > li > .timeline-point > div .label-NEW {
-  background: #f0776d;
 }
 .timeline.horizontal > ul > li > .timeline-point > div h4 {
   background: #e4daac;
@@ -6823,6 +6859,20 @@ footer a img {
 .timeline.horizontal > ul > li > .timeline-point.today > div:after {
   border-bottom-color: #f0776d;
   right: 1px;
+}
+.timeline.horizontal > ul > li > .timeline-point.start {
+  width: 19px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  background: #f0776d url("/static/img/point-start.png") 65% 50%;
+}
+.timeline.horizontal > ul > li > .timeline-point.start > div {
+  margin-top: 3px;
+  left: -298px;
 }
 .timeline.horizontal > ul > li > .timeline-point:hover > div {
   display: block;
@@ -7062,13 +7112,42 @@ footer a img {
   display: none;
 }
 .detail-view .update-feed > ul {
-  margin-right: 15px;
+  margin: 0 10px;
 }
 .detail-view .update-feed > ul > li {
   list-style: none;
   padding-bottom: 20px;
   margin-bottom: 20px;
-  background: url("/static/img/hr.png") repeat-x center bottom;
+}
+.detail-view .update-feed > ul > li .point-meta {
+  background: url("/static/img/hr.png");
+  margin-top: 10px;
+  height: 24px;
+}
+.detail-view .update-feed > ul > li .point-meta .label {
+  background: #f0776d;
+  color: #fffcd9;
+  display: block;
+  float: left;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 4px;
+  padding: 0 3px;
+}
+.detail-view .update-feed > ul > li img {
+  border-radius: 5px 5px 5px 5px;
+  float: right;
+  height: auto;
+  margin: 5px 0 0 10px;
+  width: 50px;
+}
+.detail-view .update-feed > ul > li .watch-update img {
+  width: 40px;
+  margin: 5px 5px 0 15px;
+}
+.detail-view .update-feed > ul > li div.update-details {
+  margin-right: 57px;
 }
 .detail-view .update-feed > ul ul {
   margin-right: 15px;
