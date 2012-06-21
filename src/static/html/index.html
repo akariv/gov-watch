@@ -268,17 +268,17 @@
       {{#watch_updates}}
       <li>
         <div class="timeline-point update watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-	  <div>
-	    <div class="point-meta">
-	      <img src="" alt="{{user}}">
-	      <small>{{israeli_update_time}}: {{user}}</small>
-	      <span class="label label-{{implementation_status}} implementation-status"></span>
-	    </div>
-	    <h4>{{implementation_status_name}}</h4>
-	    <p>{{description}}</p>
-	    <p>{{implementation_status_text}}</p>
-	  </div>    
-	</div>    
+		  <div>
+		    <div class="point-meta">
+		      <img src="" alt="{{user}}">
+		      <small>{{israeli_update_time}}: {{user}}</small>
+		      <span class="label label-{{implementation_status}} implementation-status"></span>
+		    </div>
+		    <h4>{{implementation_status_name}}</h4>
+		    <p>{{description}}</p>
+		    <p>{{implementation_status_text}}</p>
+		  </div>    
+		</div>    
         <div class="timeline-line"></div>
       </li>
       {{/watch_updates}}
@@ -297,35 +297,47 @@
       	  
       	  {{#gov_updates}}
       	  <li>
-      	    <div class="timeline-point gov-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-              <p><img src="" alt="הממשלה"> {{israeli_update_time}}: הממשלה</p>
-              <h4><span class="label-{{implementation_status}} implementation-status"></span> </h4>
-              <p>{{description}}</p>
-              <p>{{implementation_status_text}}</p>
+      	  	
+      	    <div class="timeline-point gov-update {{implementation_status}}" data-date="{{update_time}}" data-status="{{implementation_status}}">
+      	    	<div class="point-meta">
+	            	<img src="" alt="הממשלה">
+					<small>{{israeli_update_time}}: הממשלה</small>
+              		<span class="label label-{{implementation_status}} implementation-status"></span>
+                </div>
+                <div class="update-details">
+			    	<h4>{{implementation_status_name}}</h4>
+    	          	<p>{{description}}</p>
+        	      	<p>{{implementation_status_text}}</p>
               {{#links}}
-              <p>קישורים:</p>
-              <ul>
-                <li><a href="{{url}}">{{description}}</a></li>
-              </ul>
+              	<h4>קישורים:</h4>
+	              <ul>
+	                <li><a href="{{url}}">{{description}}</a></li>
+	              </ul>
               {{/links}}
+    	      	</div>
       	    </div>    
       	  </li>
       	  {{/gov_updates}}
       	  
       	  {{#watch_updates}}
       	  <li>
-      	    <div class="timeline-point watch-update" data-date="{{update_time}}" data-status="{{implementation_status}}">
-              <p><img src="" alt="{{user}}"> {{israeli_update_time}}: {{user}}</p>
-      	      <h4><span class="label-{{implementation_status}} implementation-status"></span> </h4>
-      	      <p>{{description}}</p>
-      	      <p>{{implementation_status_text}}</p>
+      	    <div class="timeline-point watch-update {{implementation_status}}" data-date="{{update_time}}" data-status="{{implementation_status}}">
+      	    	<div class="point-meta">
+	            	<img src="" alt="{{user}}">
+					<small>{{israeli_update_time}}: {{user}}</small>
+              		<span class="label label-{{implementation_status}} implementation-status"></span>
+                </div>
+                <div class="update-details">
+			    	<h4>{{implementation_status_name}}</h4>
+    	          	<p>{{description}}</p>
+        	      	<p>{{implementation_status_text}}</p>
                     {{#links}}
-                    <p>קישורים:</p>
+                    <h4>קישורים:</h4>
                     <ul class="update-links">
                       <li><a href="{{url}}">{{description}}</a></li>
                     </ul>
                     {{/links}}
-      	      <small>{{israeli_update_time}}: {{user}}</small>
+    	      	</div>
       	    </div>    
       	  </li>
       	  {{/watch_updates}}
@@ -408,13 +420,14 @@
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit container-fluid expanded" cost="9999999">
       <div class="heading">
-	<h1>דו"ח טרכטנברג</h1>
-	<p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי <a id="show-explanation" class="btn btn-inverse btn-mini">למדו עוד &raquo;</a></p>
+      	<img src="/static/img/trachtenberg-sign.jpg" alt='מעקב דו"ח טרכטנברג'>
+		<h1>דו"ח טרכטנברג</h1>
+		<p>מעקב וביקורת אחרי ישום המלצות דו"ח טרכטנברג בשיתוף השר מיכאל איתן והסדנא לידע ציבורי <a id="show-explanation" class="btn btn-inverse btn-mini">למדו עוד &raquo;</a></p>
       </div>
       
       <div class="row-fluid">  
 	
-		<div class="span4">
+		<div class="span3">
 		  <h3>סינון:</h3>
 		  <form id="searchbar" action="#">
 		    <fieldset id='search'>
@@ -424,26 +437,22 @@
 		  </form>
 		</div>
 		
-		<div id="orderstats" class="span8">
-		   
-			<div>
-			  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
-			  <h3>סידור לפי:</h3>
-			  <div id="sort" class="btn-group" data-toggle="buttons-radio">
-			    <button class="btn btn-inverse" value="original">מקור</button>
-			    <button class="btn btn-inverse" value="budget">עלות</button>
-			    <button class="btn btn-inverse" value="followers">עוקבים</button>
-			    <button class="btn btn-inverse" value="comments">תגובות</button>
-			  </div>
-			</div>
+		<div id="orderstats" class="span">
+		  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+		  <h3>סידור לפי:</h3>
+		  <div id="sort" class="btn-group" data-toggle="buttons-radio">
+		    <button class="btn btn-inverse" value="original">מקור</button>
+		    <button class="btn btn-inverse" value="budget">עלות</button>
+		    <button class="btn btn-inverse" value="followers">עוקבים</button>
+		    <button class="btn btn-inverse" value="comments">תגובות</button>
+		  </div>
+		</div>
 			
-			<div id="stats">
-			  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
-		      <div id="summary" class="summary">
-		      </div>
-		   </div>
-		
-    </div>
+		<div id="stats" class="span">
+		  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
+	      <div id="summary" class="summary">
+	      </div>
+	   </div>
 		
   </div>
 </div>

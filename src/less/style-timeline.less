@@ -197,24 +197,6 @@
             font-size: 16px;
             }
           
-          .label {
-            color: @card;
-            background: @good;
-            display: block;
-            float: left;
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 1.2em;
-            margin: 3px 4px 0px 3px;
-            padding: 0 3px;
-            }
-          
-          .label-STUCK,
-          .label-WORKAROUND,
-          .label-NEW {
-            background: @bad;
-            }
-          
           h4{
             background: @cardshade;
             //border-bottom: @cardshade 2px solid;
@@ -321,6 +303,23 @@
   }
 
 /**** After Hacks ***/
+.label {
+  color: @card;
+  background: @good;
+  display: block;
+  float: left;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 3px 4px 0px 3px;
+  padding: 0 3px;
+}
+.label-STUCK,
+.label-WORKAROUND,
+.label-NEW {
+  background: @bad;
+  }
+
 .implementation-status-FIXED .timeline > ul > li > .timeline-point.today{
   background-color: @good;
   > div{
@@ -398,24 +397,6 @@
           small {
             padding: 3px;
             font-size: 16px;
-            }
-          
-          .label {
-            color: @card;
-            background: @good;
-            display: block;
-            float: left;
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 1.2em;
-            margin: 3px 4px 0px 3px;
-            padding: 0 3px;
-            }
-          
-          .label-STUCK,
-          .label-WORKAROUND,
-          .label-NEW {
-            background: @bad;
             }
           
           h4{

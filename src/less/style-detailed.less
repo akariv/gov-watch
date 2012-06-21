@@ -229,13 +229,47 @@
   .update-feed{
     
     > ul{
-      margin-right: 15px;
+      margin: 0 10px;
       
       > li{
         list-style: none;
         padding-bottom: 20px;
         margin-bottom: 20px;
-        background: url("/static/img/hr.png") repeat-x center bottom;
+        
+        .point-meta{
+          background: url("/static/img/hr.png");
+          margin-top: 10px;
+          height: 24px;
+        
+          .label{
+            background: @bad;
+            color: @card;
+            display: block;
+            float: left;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.2em;
+            margin: 4px;
+            padding: 0 3px;
+          }
+      }
+        
+        img {
+          border-radius: 5px 5px 5px 5px;
+          float: right;
+          height: auto;
+          margin: 5px 0 0 10px;
+          width: 50px;
+        }
+        
+        .watch-update img{
+          width: 40px;
+          margin: 5px 5px 0 15px;
+        }
+        
+        div.update-details {
+          margin-right:57px;
+        }
       }
       
       ul{
