@@ -938,7 +938,7 @@ footer{clear:both;margin:20px auto;text-align:center;padding-top:20px;}footer a 
 .detail-view .status .schedule{border-left:1px solid #847d6b;width:199px;}
 .detail-view .status .current_status{border-top:1px solid #847d6b;padding:5px 0;clear:both;}
 .detail-view .status .result_metric,.detail-view .status .execution_metric{display:none;}
-.detail-view .update-feed>ul{margin:0 10px;}.detail-view .update-feed>ul>li{list-style:none;padding-bottom:20px;margin-bottom:20px;}.detail-view .update-feed>ul>li .point-meta{background:url("/static/img/hr.png");margin-top:10px;height:24px;}.detail-view .update-feed>ul>li .point-meta .label{background:#f0776d;color:#fffcd9;display:block;float:left;font-size:14px;font-weight:normal;line-height:1.2em;margin:4px;padding:0 3px;}
+.detail-view .update-feed>ul{margin:0 10px;}.detail-view .update-feed>ul>li{list-style:none;padding-bottom:20px;margin-bottom:20px;}.detail-view .update-feed>ul>li .point-meta{background:url("/static/img/hr.png");margin-top:10px;height:24px;color:#847d6b;font-size:16px;}.detail-view .update-feed>ul>li .point-meta .label{background:#f0776d;color:#fffcd9;display:block;float:left;font-size:14px;font-weight:normal;line-height:1.2em;margin:4px;padding:0 3px;}
 .detail-view .update-feed>ul>li img{border-radius:5px 5px 5px 5px;float:right;height:auto;margin:5px 0 0 10px;width:50px;}
 .detail-view .update-feed>ul>li .watch-update img{width:40px;margin:5px 5px 0 15px;}
 .detail-view .update-feed>ul>li div.update-details{margin-right:57px;}
