@@ -7123,6 +7123,8 @@ footer a img {
   background: url("/static/img/hr.png");
   margin-top: 10px;
   height: 24px;
+  color: #847d6b;
+  font-size: 16px;
 }
 .detail-view .update-feed > ul > li .point-meta .label {
   background: #f0776d;
