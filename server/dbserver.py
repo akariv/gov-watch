@@ -18,8 +18,8 @@ try:
         sleep(t)
         f()
     Timer = lambda t,f: Greelnet( _timer, t,f )
-except:
-    print "running with native timers"
+except Exception,e:
+    print e,"running with native timers"
     from threading import Timer
     
 
