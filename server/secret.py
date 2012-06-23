@@ -9,7 +9,6 @@ def calc_secret(what):
     return ''.join([ chars[(ord(x) & 0x3f)] for x in  md5.md5(secret+what.encode('utf8')).digest() ])
 
 print calc_secret('gov')
-print calc_secret(u'מושיקו')
 
 if __name__ == "__main__":
     user = sys.argv[1].decode('utf8')

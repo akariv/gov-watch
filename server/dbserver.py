@@ -11,6 +11,17 @@ from redis import Redis
 from secret import calc_secret
 from profiles import profiles
 from slugs import slugify, unslugify
+try:
+    from gevent import Greelnet
+    def _timer(t,f):
+        print "Saving data"
+        sleep(t)
+        f()
+    Timer = lambda t,f: Greelnet( _timer, t,f )
+except:
+    print "running with native timers"
+    from threading import Timer
+    
 
 app = Flask(__name__)
 app.debug = True
@@ -96,6 +107,14 @@ def getitem(slug):
     return Response(response=r.get("slug:%s" % slug), content_type="application/json")
 
 def update_everything(slug):
+    print "updating data"
+    t = Timer(0.1,lambda: _update_everything(slug))
+    t.start()
+    print "updated everything?"
+    
+    
+def _update_everything(slug):
+    print "updating data - for real",slug
     newrec = r.get("slug:%s" % slug)
     newrec = json.loads(newrec)
 
@@ -176,4 +195,16 @@ if __name__=="__main__":
         r.set(key,json.dumps(x,indent=0))
     for profile_name, profile_image in profiles.iteritems():
         r.set("profile:%s" % slugify(profile_name), file('static/img/%s' % profile_image).read())
-    app.run(debug=True)
+
+    try:
+        from gevent import monkey ; monkey.patch_all()
+        from gevent.wsgi import WSGIServer
+
+        http_server = WSGIServer(('', 5000), app)
+        print "note: running with greenlet"
+        http_server.serve_forever()
+
+    except:
+        raise
+        print "note: running without greenlet"
+        app.run(debug=False)
