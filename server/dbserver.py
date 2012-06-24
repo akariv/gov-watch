@@ -12,7 +12,7 @@ from secret import calc_secret
 from profiles import profiles
 from slugs import slugify, unslugify
 try:
-    from gevent import Greelnet
+    from gevent import Greenlet
     def _timer(t,f):
         print "Saving data"
         sleep(t)
@@ -44,7 +44,11 @@ def idx():
         else:
             data = json.loads(r.get('everything'))
             return render_template('all.html', items=data, hashbang=orig_hashbang)
-                        
+
+@app.route('/sitemap')
+def sitemap():
+    data = json.loads(r.get('everything'))
+    return render_template('sitemap.xml',content_type="text/xml",items=data)
 
 @app.route('/edit')
 def edit():
