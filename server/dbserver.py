@@ -12,7 +12,7 @@ from secret import calc_secret
 from profiles import profiles
 from slugs import slugify, unslugify
 try:
-    from gevent import Greenlet
+    from gevent import Greenlet, sleep
     def _timer(t,f):
         print "Saving data"
         sleep(t)
