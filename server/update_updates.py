@@ -54,7 +54,11 @@ if __name__ == "__main__":
                             r = rec
                             for p in parts[:-1]:
                                 r=r[p]
-                            r[parts[-1]]=update.get(title,"").strip()
+                            val = update.get(title,"").strip()
+                            try:
+                                r[parts[-1]]=int(val)
+                            except:
+                                r[parts[-1]]=val
      
     #print json.dumps(data,indent=0)
 
