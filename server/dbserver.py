@@ -17,7 +17,7 @@ try:
         print "Saving data"
         sleep(t)
         f()
-    Timer = lambda t,f: Greelnet( _timer, t,f )
+    Timer = lambda t,f: Greenlet( _timer, t,f )
 except Exception,e:
     print e,"running with native timers"
     from threading import Timer
