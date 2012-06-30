@@ -767,6 +767,7 @@ process_data = ->
     window.onhashchange = onhashchange
     onhashchange()
 
+    await setTimeout((defer _),1000) # Wait a second before loading FB comment counts
     load_fb_comment_count(".item")
 
 ## Item selection
@@ -791,18 +792,19 @@ select_item = (slug) ->
                         $(".detail-view .fb").append("<fb:comments href='#{url}' num_posts='2' width='700'></fb:comments>")
                         if window.FB
                                 FB.XFBML.parse( item.get(0), -> )
+                           window.updateFB = ->
+                        else
+                           window.updateFB = ->
+                                FB.XFBML.parse( item.get(0), -> )
                         break
-
         # Allow DOM to sync
         await setTimeout((defer _),50)
-
         setup_timeline('.detail-view',69)
         setup_subscriptions(".detail-view")
         setup_tags(".detail-view .tags > ul > li")
         setup_tooltips(".detail-view")
         load_fb_comment_count(".detail-view")
-        $('html, body').animate({ scrollTop: 0 }, 0);
-
+        $('html, body').animate({ scrollTop: 0 }, 0)
     else
         $("#single-item").html('')
         $("#summary-header").css('visibility','inherit')
@@ -812,7 +814,6 @@ select_item = (slug) ->
         $("#searchbox").attr('disabled',null)
         $("#clearsearch").removeClass('disabled')
         $("#clearsearch").attr('disabled',null)
-
 
 load_fb_comment_count = (selector) ->
         $("#{selector} .commentcount").each ->

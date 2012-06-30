@@ -56,6 +56,7 @@ if __name__ == "__main__":
                                 r=r[p]
                             val = update.get(title,"").strip()
                             try:
+                                assert(title!='slug')
                                 r[parts[-1]]=int(val)
                             except:
                                 r[parts[-1]]=val

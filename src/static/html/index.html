@@ -504,7 +504,7 @@
 
     <p>
       האתר פותח על ידי מתנדבי הסדנא לידע ציבורי בשיתוף עם השר מיכאל איתן.
-      ארגונים המעוניינים להוסיף את נקודת מבטם לגבי הדו"ח מוזמנים לפנות אלינו.
+      ארגונים המעוניינים להוסיף את נקודת מבטם לגבי הדו&quot;ח מוזמנים לפנות אלינו.
       לשאלות (או אם מצאתם טעות...) אפשר ליצור קשר עם מפתחי האתר בכתובת <a href="mailto:gov.watch.il@gmail.com" target="_blank">gov.watch.il@gmail.com</a>.
     </p>
   </div>
@@ -533,7 +533,6 @@
 <div id="fb-root"></div>
 <!-- JS -->
 <script type='text/javascript' src='static/js/max.js'></script>
-<script type='text/javascript' src='//connect.facebook.net/he_IL/all.js#xfbml=1&appId=161102067336024'></script>
 <script type="text/javascript">
 jQuery(function($){
   if (($.browser.mozilla && parseInt($.browser.version.split('.')[0]) < 12) 
@@ -567,6 +566,26 @@ jQuery(function($){
     }
   }
 });
+</script>
+<script type='text/javascript'>
+ window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '161102067336024', // App ID
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : false // parse XFBML
+    });
+    //window.updateFB();
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/he_IL/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
 </script>
 </body>
 </html>
