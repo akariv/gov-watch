@@ -532,7 +532,7 @@
 
 <div id="fb-root"></div>
 <!-- JS -->
-<script type='text/javascript' src='static/js/max.js'></script>
+<script type='text/javascript' src='static/js/min.js'></script>
 <script type="text/javascript">
 jQuery(function($){
   if (($.browser.mozilla && parseInt($.browser.version.split('.')[0]) < 12) 
@@ -575,7 +575,9 @@ jQuery(function($){
       cookie     : true, // enable cookies to allow the server to access the session
       xfbml      : false // parse XFBML
     });
-    //window.updateFB();
+    if (window.updateFB != 'undefined') {
+       window.updateFB();
+    }
   };
 
   // Load the SDK Asynchronously
