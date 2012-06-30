@@ -575,7 +575,7 @@ jQuery(function($){
       cookie     : true, // enable cookies to allow the server to access the session
       xfbml      : false // parse XFBML
     });
-    if (window.updateFB != 'undefined') {
+    if (typeof window.updateFB !== "undefined") {
        window.updateFB();
     }
   };
