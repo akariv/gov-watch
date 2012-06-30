@@ -766,8 +766,8 @@ process_data = ->
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
     onhashchange()
-
-    await setTimeout((defer _),1000) # Wait a second before loading FB comment counts
+    # Wait a second before loading FB comment counts
+    await setTimeout((defer _),1000)
     load_fb_comment_count(".item")
 
 ## Item selection
@@ -791,7 +791,7 @@ select_item = (slug) ->
                         $(".detail-view .fb").append("<fb:like href='#{url}' send='true' width='700' show_faces='true' action='recommend' font='tahoma'></fb:like>")
                         $(".detail-view .fb").append("<fb:comments href='#{url}' num_posts='2' width='700'></fb:comments>")
                         if window.FB
-                                FB.XFBML.parse( item.get(0), -> )
+                           FB.XFBML.parse( item.get(0), -> )
                            window.updateFB = ->
                         else
                            window.updateFB = ->

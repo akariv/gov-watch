@@ -1373,7 +1373,24 @@ var Mustache = function() {
         });
         window.onhashchange = onhashchange;
         onhashchange();
-        return load_fb_comment_count(".item");
+        (function(__iced_k) {
+          __iced_deferrals = new iced.Deferrals(__iced_k, {
+            parent: ___iced_passed_deferral,
+            filename: 'gov-watch.iced',
+            funcname: 'process_data'
+          });
+          setTimeout((__iced_deferrals.defer({
+            assign_fn: (function() {
+              return function() {
+                return __iced_deferrals.ret = arguments[0];
+              };
+            })(),
+            lineno: 769
+          })), 1000);
+          __iced_deferrals._fulfill();
+        })(function() {
+          return load_fb_comment_count(".item");
+        });
       });
     });
   };
@@ -1401,7 +1418,14 @@ var Mustache = function() {
           url = generate_url(slug);
           $(".detail-view .fb").append("<fb:like href='" + url + "' send='true' width='700' show_faces='true' action='recommend' font='tahoma'></fb:like>");
           $(".detail-view .fb").append("<fb:comments href='" + url + "' num_posts='2' width='700'></fb:comments>");
-          if (window.FB) FB.XFBML.parse(item.get(0), function() {});
+          if (window.FB) {
+            FB.XFBML.parse(item.get(0), function() {});
+            window.updateFB = function() {};
+          } else {
+            window.updateFB = function() {
+              return FB.XFBML.parse(item.get(0), function() {});
+            };
+          }
           break;
         }
       }
@@ -1417,7 +1441,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 796
+          lineno: 800
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1462,7 +1486,7 @@ var Mustache = function() {
               return json = arguments[0];
             };
           })(),
-          lineno: 825
+          lineno: 826
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1547,7 +1571,7 @@ var Mustache = function() {
               return version = arguments[0];
             };
           })(),
-          lineno: 886
+          lineno: 887
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
