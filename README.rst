@@ -4,7 +4,7 @@ A project that helps us track our government.
 
 Usage
 -----
-Currently working with the tracthenberg committee report, the code includes everything you need to get going. Just:
+Currently working with the tracthenberg committee report, the code includes most of what you need to get going. We do assume you have node.js installed. Just::
    
     # Installations
 
@@ -14,33 +14,35 @@ Currently working with the tracthenberg committee report, the code includes ever
     
     $ npm install -g uglify-js
 
-    ### Linux:
+    ### Linux
+    $ sudo apt-get install redis-server libevent-dev
     
-    $ sudo apt-get install redis-server
-    
-    ### Mac:
-    
+    ### Mac
     $ brew install redis
 
-    $ easy_install redis    
+    $ easy_install redis flask gevent
+
+    $ cd gov-watch # root folder of project
 
     $ git submodule init
 
     $ git submodule update
 
+    $ ./get_latest.sh
+ 
     # Build 
     
-    $ cd ~/gov-watch/src/
+    $ cd src/
 
     $ ./build.sh
 
-Then, at will, just run:
+Then, at will, just run::
     
     # Run server
     
-    $ cd ~/gov-watch/server/
+    $ cd gov-watch/server/
 
     $ python dbserver.py
 
-And then pointing your browser to http://127.0.0.1:5000
+And then point your browser to http://127.0.0.1:5000
 
