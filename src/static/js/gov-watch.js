@@ -945,7 +945,7 @@
           return false;
         });
         $("#explanation").modal({
-          'show': explanation_needed
+          'show': true
         });
         window.onhashchange = onhashchange;
         onhashchange();

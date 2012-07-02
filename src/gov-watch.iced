@@ -761,7 +761,7 @@ process_data = ->
     # item click handler
     # $(".item").click -> update_history($(this).attr('rel'))
 
-    $("#explanation").modal({'show':explanation_needed})
+    $("#explanation").modal({'show':true})#explanation_needed})
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
