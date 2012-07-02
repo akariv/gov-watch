@@ -16,6 +16,7 @@ SLUG = 's'
 SEARCHTERM = 't'
 
 status_filter = null
+go_to_comments = false
 
 slugify = (str) ->
         str2 = ""
@@ -531,7 +532,7 @@ setup_timeline = (item_selector, margins=80 ) ->
 
         # current implementation status for buxa
         implementation_status = gov_status
-        if implementation_status != "FIXED" and implementation_status != "IRRELEVANT"
+        if implementation_status != "FIXED" and implementation_status != "IRRELEVANT" and implementation_status != "NEW"
                 if late
                         implementation_status = "STUCK"
         else
@@ -552,8 +553,7 @@ setup_timeline = (item_selector, margins=80 ) ->
                 $(this).addClass("implementation-status-CONFLICT")
         else
                 $(this).attr('data-implementation-status',implementation_status)
-
-        $(this).addClass("implementation-status-#{implementation_status}")
+                $(this).addClass("implementation-status-#{implementation_status}")
 
         if is_good_status(implementation_status)
                 $(this).addClass("implementation-status-good")
@@ -663,6 +663,8 @@ setup_tags = (selector) ->
 
 setup_detailed_links = ->
     $(".item .goto-detail"). click ->
+        if $(this).hasClass("commentcount")
+                go_to_comments = true
         rel = $(this).attr('rel')
         if not rel
                 for p in $(this).parents()
@@ -804,7 +806,18 @@ select_item = (slug) ->
         setup_tags(".detail-view .tags > ul > li")
         setup_tooltips(".detail-view")
         load_fb_comment_count(".detail-view")
-        $('html, body').animate({ scrollTop: 0 }, 0)
+        $("#single-item .commentcount").click ->
+                $('html, body').animate({ scrollTop: $("#single-item .fb").offset().top }, 0)
+                return false
+        $("#single-item .linkcount").click ->
+                $('html, body').animate({ scrollTop: $("#single-item .timeline").offset().top }, 0)
+                return false
+        if go_to_comments
+                scroll_to = $(".fb").offset().top - 300
+        else
+                scroll_to = 0
+        go_to_comments = false
+        $('html, body').animate({ scrollTop: scroll_to }, 0)
     else
         $("#single-item").html('')
         $("#summary-header").css('visibility','inherit')

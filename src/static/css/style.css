@@ -6194,6 +6194,9 @@ footer a img {
   right: 240px;
   text-indent: -200%;
   width: 80px;
+  /*      background: url("/static/img/stamp-late.png");
+    }*/
+
 }
 .item div.stamp.inprogress {
   background: url("/static/img/stamp-inprogress.png");
@@ -6201,14 +6204,12 @@ footer a img {
 .item div.stamp.workaround {
   background: url("/static/img/stamp-workaround.png");
 }
-.item div.stamp.stuck {
+.item div.stamp.stuck,
+.item div.stamp.late {
   background: url("/static/img/stamp-stuck.png");
 }
 .item div.stamp.notstarted {
   background: url("/static/img/stamp-new.png");
-}
-.item div.stamp.late {
-  background: url("/static/img/stamp-stuck.png");
 }
 .item div.stamp:nth-child(odd) {
   right: 200px;
@@ -6882,6 +6883,11 @@ footer a img {
   width: 100%;
   height: 3px;
 }
+.timeline.horizontal > ul > li > .timeline-line.status-IN_PROGRESS,
+.timeline.horizontal > ul > li > .timeline-line.status-FIXED,
+.timeline.horizontal > ul > li > .timeline-line.status-IRRELEVANT {
+  background-color: #6ba688;
+}
 .timeline.horizontal > ul > li > .timeline-line.unreported {
   background-image: url("/static/img/unreported-tile-w.png");
 }
@@ -7014,6 +7020,9 @@ footer a img {
   right: 240px;
   text-indent: -200%;
   width: 80px;
+  /*      background: url("/static/img/stamp-late.png");
+    }*/
+
 }
 .detail-view div.stamp.inprogress {
   background: url("/static/img/stamp-inprogress.png");
@@ -7021,12 +7030,12 @@ footer a img {
 .detail-view div.stamp.workaround {
   background: url("/static/img/stamp-workaround.png");
 }
-.detail-view div.stamp.stuck {
+.detail-view div.stamp.stuck,
+.detail-view div.stamp.late {
   background: url("/static/img/stamp-stuck.png");
 }
-.detail-view div.stamp.late,
 .detail-view div.stamp.notstarted {
-  background: url("/static/img/stamp-late.png");
+  background: url("/static/img/stamp-new.png");
 }
 .detail-view div.stamp:nth-child(even) {
   margin-left: -10px;

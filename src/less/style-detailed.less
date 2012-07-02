@@ -126,14 +126,17 @@
       background: url("/static/img/stamp-workaround.png");
     }
     
-    &.stuck{
+    &.stuck,
+    &.late{
       background: url("/static/img/stamp-stuck.png");
     }
     
-    &.late,
     &.notstarted{
-      background: url("/static/img/stamp-late.png");
+      background: url("/static/img/stamp-new.png");
     }
+
+/*      background: url("/static/img/stamp-late.png");
+    }*/
     
     &:nth-child(even){
       margin-left: -10px;
