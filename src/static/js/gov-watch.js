@@ -569,7 +569,7 @@
       late = false;
       timeline_items = $(this).find(".timeline-logic > ul > li");
       today_date = parseInt($(this).find(".timeline-logic > ul > li .today").attr('data-date-numeric'));
-      last_update = $(this).find(".timeline-logic > ul > li .gov-update:last").attr('data-date-numeric');
+      last_update = $(this).find(".timeline-logic > ul > li .gov-update:first").attr('data-date-numeric');
       if (last_update) {
         last_update = parseInt(last_update);
       } else {
@@ -588,7 +588,7 @@
         line = el.find('.timeline-line:first');
         status = (_ref2 = point.attr('data-status')) != null ? _ref2 : gov_status;
         if (point.hasClass('gov-update')) {
-          conflict = false;
+          conflict_status = null;
           gov_status = status != null ? status : gov_status;
           last_update_at = i;
           if ((fixed_at === NOT_SET) && (gov_status === "FIXED" || gov_status === "IRRELEVANT")) {
@@ -608,10 +608,7 @@
         }
         if (point.hasClass('watch-update')) {
           if (is_good_status(status) !== null) {
-            if (is_good_status(gov_status) !== is_good_status(status)) {
-              conflict = true;
-              conflict_status = status;
-            }
+            conflict_status = status;
             point.addClass("watch-" + status);
             if (is_good_status(status)) {
               point.addClass("watch-status-good");
@@ -628,7 +625,6 @@
           el.find('.implementation-status').addClass("label-" + status);
           el.find('.implementation-status').html(status_to_hebrew(status));
           line.addClass("status-" + gov_status);
-          if (conflict) point.addClass("conflict");
         }
       }
       for (i = _k = _ref3 = timeline_items.size() - 1; _ref3 <= 0 ? _k <= 0 : _k >= 0; i = _ref3 <= 0 ? ++_k : --_k) {
@@ -669,6 +665,11 @@
         if (late) implementation_status = "STUCK";
       } else {
         late = false;
+      }
+      if (conflict_status) {
+        if (is_good_status(implementation_status) !== is_good_status(conflict_status)) {
+          conflict = true;
+        }
       }
       buxa_header = $(this).find('.buxa-header');
       if (conflict) {
@@ -875,7 +876,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 708
+        lineno: 710
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -919,7 +920,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 730
+          lineno: 732
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -964,7 +965,7 @@
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 771
+            lineno: 773
           })), 1000);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1019,7 +1020,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 801
+          lineno: 803
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1081,7 +1082,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 837
+          lineno: 839
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1166,7 +1167,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 898
+          lineno: 900
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

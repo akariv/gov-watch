@@ -414,7 +414,7 @@ setup_timeline = (item_selector, margins=80 ) ->
 
         # check lateness (= no gov update in the last 6 months)
         today_date = parseInt($(this).find(".timeline-logic > ul > li .today").attr('data-date-numeric'))
-        last_update = $(this).find(".timeline-logic > ul > li .gov-update:last").attr('data-date-numeric')
+        last_update = $(this).find(".timeline-logic > ul > li .gov-update:first").attr('data-date-numeric')
         if last_update
                 last_update = parseInt(last_update)
         else
@@ -439,7 +439,7 @@ setup_timeline = (item_selector, margins=80 ) ->
 
                 # gov updates remove conflicts
                 if point.hasClass('gov-update')
-                        conflict = false
+                        conflict_status = null
                         gov_status = status ? gov_status
                         last_update_at = i
 
@@ -463,9 +463,7 @@ setup_timeline = (item_selector, margins=80 ) ->
                 # handle watch updates
                 if point.hasClass('watch-update')
                         if is_good_status(status) != null
-                                if is_good_status(gov_status) != is_good_status(status)
-                                        conflict = true
-                                        conflict_status = status
+                                conflict_status = status
                                 point.addClass("watch-#{status}")
                                 if is_good_status(status)
                                         point.addClass("watch-status-good")
@@ -486,8 +484,8 @@ setup_timeline = (item_selector, margins=80 ) ->
                         line.addClass("status-#{gov_status}")
 
                         # set conflict if needed
-                        if conflict
-                                point.addClass("conflict")
+                        #if conflict
+                        #        point.addClass("conflict")
 
         # Fix line styles between today, last update, and set classes accordingly
         for i in [timeline_items.size()-1..0]
@@ -537,6 +535,10 @@ setup_timeline = (item_selector, margins=80 ) ->
                         implementation_status = "STUCK"
         else
                 late = false
+
+        if conflict_status
+                if is_good_status(implementation_status) != is_good_status(conflict_status)
+                        conflict = true
 
         buxa_header = $(this).find('.buxa-header')
         if conflict
