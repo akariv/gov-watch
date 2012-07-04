@@ -209,6 +209,5 @@ if __name__=="__main__":
         http_server.serve_forever()
 
     except:
-        raise
         print "note: running without greenlet"
         app.run(debug=False)

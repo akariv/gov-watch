@@ -181,8 +181,8 @@ data_callback = (data) ->
         rec.watch_updates = watch_updates
         rec.base.subscribers = rec.subscribers ? 0
 
-        if rec.base.recommendation?.length > 500
-                rec.base.recommendation_shortened = rec.base.recommendation[0..500] + "&nbsp;" +"<a class='goto-detail' rel='#{rec.slug}' href='#'>" + "עוד..." + "</a>"
+        if rec.base.recommendation?.length > 400
+                rec.base.recommendation_shortened = rec.base.recommendation[0..400] + "&nbsp;" +"<a class='goto-detail' rel='#{rec.slug}' href='#'>" + "עוד..." + "</a>"
         else
                 rec.base.recommendation_shortened = rec.base.recommendation
 
@@ -781,8 +781,7 @@ select_item = (slug) ->
         $("#summary").html('')
         $("#orderstats").css('display','none')
         $("#sort button").addClass('disabled')
-        $("#searchbox").addClass('disabled')
-        $("#searchbox").attr('disabled','disabled')
+        $("#searchwidget").css('display','none')
         $("#clearsearch").addClass('disabled')
         $("#clearsearch").attr('disabled','disabled')
         for x in loaded_data
@@ -823,8 +822,7 @@ select_item = (slug) ->
         $("#summary-header").css('visibility','inherit')
         $("#orderstats").css('display','inherit')
         $("#sort button").removeClass('disabled')
-        $("#searchbox").removeClass('disabled')
-        $("#searchbox").attr('disabled',null)
+        $("#searchwidget").css('display','inherit')
         $("#clearsearch").removeClass('disabled')
         $("#clearsearch").attr('disabled',null)
 

@@ -260,8 +260,8 @@
       rec.gov_updates = gov_updates;
       rec.watch_updates = watch_updates;
       rec.base.subscribers = (_ref6 = rec.subscribers) != null ? _ref6 : 0;
-      if (((_ref7 = rec.base.recommendation) != null ? _ref7.length : void 0) > 500) {
-        rec.base.recommendation_shortened = rec.base.recommendation.slice(0, 501) + "&nbsp;" + ("<a class='goto-detail' rel='" + rec.slug + "' href='#'>") + "עוד..." + "</a>";
+      if (((_ref7 = rec.base.recommendation) != null ? _ref7.length : void 0) > 400) {
+        rec.base.recommendation_shortened = rec.base.recommendation.slice(0, 401) + "&nbsp;" + ("<a class='goto-detail' rel='" + rec.slug + "' href='#'>") + "עוד..." + "</a>";
       } else {
         rec.base.recommendation_shortened = rec.base.recommendation;
       }
@@ -985,8 +985,7 @@
       $("#summary").html('');
       $("#orderstats").css('display', 'none');
       $("#sort button").addClass('disabled');
-      $("#searchbox").addClass('disabled');
-      $("#searchbox").attr('disabled', 'disabled');
+      $("#searchwidget").css('display', 'none');
       $("#clearsearch").addClass('disabled');
       $("#clearsearch").attr('disabled', 'disabled');
       for (_i = 0, _len = loaded_data.length; _i < _len; _i++) {
@@ -1020,7 +1019,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 802
+          lineno: 801
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1056,8 +1055,7 @@
       $("#summary-header").css('visibility', 'inherit');
       $("#orderstats").css('display', 'inherit');
       $("#sort button").removeClass('disabled');
-      $("#searchbox").removeClass('disabled');
-      $("#searchbox").attr('disabled', null);
+      $("#searchwidget").css('display', 'inherit');
       $("#clearsearch").removeClass('disabled');
       return __iced_k($("#clearsearch").attr('disabled', null));
     }
@@ -1083,7 +1081,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 839
+          lineno: 837
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1168,7 +1166,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 900
+          lineno: 898
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
