@@ -6869,7 +6869,7 @@ footer a img {
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
-  background: #f0776d url("/static/img/point-start.png") 65% 50%;
+  background: #f0776d url("/static/img/point-start-rtl.png") 35% 50%;
 }
 .timeline.horizontal > ul > li > .timeline-point.start > div {
   margin-top: 3px;
@@ -6893,6 +6893,8 @@ footer a img {
 }
 .timeline.horizontal > ul > li > .timeline-line.future {
   background: none;
+  background-image: none;
+  border: none;
 }
 /**** Detailed view ****/
 .detail-view {

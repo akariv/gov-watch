@@ -781,8 +781,7 @@ select_item = (slug) ->
         $("#summary").html('')
         $("#orderstats").css('display','none')
         $("#sort button").addClass('disabled')
-        $("#searchbox").addClass('disabled')
-        $("#searchbox").attr('disabled','disabled')
+        $("#searchwidget").css('display','none')
         $("#clearsearch").addClass('disabled')
         $("#clearsearch").attr('disabled','disabled')
         for x in loaded_data
@@ -823,8 +822,7 @@ select_item = (slug) ->
         $("#summary-header").css('visibility','inherit')
         $("#orderstats").css('display','inherit')
         $("#sort button").removeClass('disabled')
-        $("#searchbox").removeClass('disabled')
-        $("#searchbox").attr('disabled',null)
+        $("#searchwidget").css('display','inherit')
         $("#clearsearch").removeClass('disabled')
         $("#clearsearch").attr('disabled',null)
 
