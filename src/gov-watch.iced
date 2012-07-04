@@ -181,8 +181,8 @@ data_callback = (data) ->
         rec.watch_updates = watch_updates
         rec.base.subscribers = rec.subscribers ? 0
 
-        if rec.base.recommendation?.length > 500
-                rec.base.recommendation_shortened = rec.base.recommendation[0..500] + "&nbsp;" +"<a class='goto-detail' rel='#{rec.slug}' href='#'>" + "עוד..." + "</a>"
+        if rec.base.recommendation?.length > 400
+                rec.base.recommendation_shortened = rec.base.recommendation[0..400] + "&nbsp;" +"<a class='goto-detail' rel='#{rec.slug}' href='#'>" + "עוד..." + "</a>"
         else
                 rec.base.recommendation_shortened = rec.base.recommendation
 
