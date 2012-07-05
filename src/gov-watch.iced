@@ -273,6 +273,8 @@ run_templates = (template,data,selector) ->
 date_to_hebrew = (date) ->
         date = date.split('/')
         [year,month,day] = (parseInt(d,10) for d in date)
+        if year == 1970
+                return "לא הוגדר"
         month_to_hebrew = (month) ->
                 switch month
                         when 1 then "ינואר"

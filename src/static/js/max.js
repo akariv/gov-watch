@@ -814,6 +814,7 @@ var Mustache = function() {
       }
       return _results;
     })(), year = _ref[0], month = _ref[1], day = _ref[2];
+    if (year === 1970) return "לא הוגדר";
     month_to_hebrew = function(month) {
       switch (month) {
         case 1:
@@ -1325,7 +1326,7 @@ var Mustache = function() {
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 727
+        lineno: 729
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -1369,7 +1370,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 749
+          lineno: 751
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1414,7 +1415,7 @@ var Mustache = function() {
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 790
+            lineno: 792
           })), 1000);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1469,7 +1470,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 820
+          lineno: 822
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1531,7 +1532,7 @@ var Mustache = function() {
               return json = arguments[0];
             };
           })(),
-          lineno: 856
+          lineno: 858
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1620,7 +1621,7 @@ var Mustache = function() {
               return version = arguments[0];
             };
           })(),
-          lineno: 920
+          lineno: 922
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
