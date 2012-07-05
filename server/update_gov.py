@@ -26,18 +26,23 @@ if __name__ == "__main__":
                     found = False
                     max_due_date = '0'
                     for milestone in rec["base"]["timeline"]:
-                        due_date = milestone["due_date"]
+                        due_date = milestone.get("due_date")
+                        if due_date != None:
+                            due_date=due_date.strip()
                         if due_date > max_due_date:
                             max_due_date = due_date
                     for milestone in rec["base"]["timeline"]:
-                        due_date = milestone["due_date"]
+                        due_date = milestone.get("due_date")
+                        if due_date != None:
+                            due_date=due_date.strip()
                         if due_date == u"2011/09/26":
                             found = True
                             milestone["completion"]=False
                             milestone["start"]=True
-                            milestone["links"]=[ {'url':link_to_report, 'description':u'ההמלצה בדו"ח טרכטנברג' } ]
+                            milestone["links"]=[ {'url':link_to_report.strip(), 'description':u'ההמלצה בדו"ח טרכטנברג' } ]
                             milestone["milestone_name"] = u"פרסום הדו\"ח"
                         else:
+                            milestone["links"]=[]
                             if due_date == max_due_date:
                                 milestone["completion"]=True
                                 milestone["start"]=False
@@ -53,21 +58,21 @@ if __name__ == "__main__":
 
                 updates = []
                 for i in [1,2]:
-                    implementation_status = update.get('status%d' % i)
-                    implementation_status_text = update.get('status_explanation%d' % i)
-                    description = update.get('description','')
-                    update_time = update.get('date%d' % i)
+                    implementation_status = update.get('status%d' % i,'').strip()
+                    implementation_status_text = update.get('status_explanation%d' % i,'').strip()
+                    description = update.get('description','').strip()
+                    update_time = update.get('date%d' % i,'').strip()
                     if update_time:
                         update_time = update_time.split('/')
                         update_time = "%s/%s/%s" % ( update_time[2], update_time[1], update_time[0] )
                     links = []
                     for l in [1,2]:
-                        url = update.get("link%d_%d" % (i,l))
-                        ldescription = update.get("link_des%d_%d" % (i,l))
-                        if url:
-                            links.append( {'url':url,'description':description} )            
-                        #print implementation_status, implementation_status_text, description, update_time
-                    if update_time and implementation_status:
+                        url = update.get("link%d_%d" % (i,l),'').strip()
+                        ldescription = update.get("link_des%d_%d" % (i,l),'').strip()
+                        if url != '':
+                            links.append( {'url':url,'description':ldescription} )            
+                    print slug, implementation_status, implementation_status_text, description, update_time
+                    if update_time != '' and implementation_status != '':
                         u = { 'update_time' : update_time,
                               'implementation_status' : implementation_status,
                               'implementation_status_text' : implementation_status_text,
@@ -81,4 +86,4 @@ if __name__ == "__main__":
                             
     #print json.dumps(data,indent=0)
 
-    file('data.json','w').write(json.dumps(data,indent=0))
+    file('data.json','w').write(json.dumps(data,indent=2))

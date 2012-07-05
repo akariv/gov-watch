@@ -127,7 +127,7 @@ def _update_everything(slug):
 
     everything = [ d if d["slug"] != slug else newrec for d in everything ]
 
-    everything = json.dumps(everything,indent=0)
+    everything = json.dumps(everything,indent=2)
     r.set("everything",everything)
 
     f = file('data.json','wb')

@@ -300,6 +300,16 @@ status_to_hebrew = (status) ->
                 when "IRRELEVANT" then return "יישום ההמלצה כבר לא נדרש"
         return ""
 
+status_tooltip_to_hebrew = (status) ->
+        switch status
+                when "NEW" then return "הממשלה החליטה שלא לטפל בהמלצה זו"
+                when "STUCK" then return "ההמלצה בטיפול, אבל יש גורמים חיצוניים שמעכבים אותה"
+                when "IN_PROGRESS" then return "ההמלצה נמצאת בטיפול. הסיבות לכך הן לרוב: חקיקה בכנסת, ועדות הדנות בנושא, או שההמלצה היא חלק מתוכנית חומש"
+                when "FIXED" then return "מדד התפוקה יושם: הצעדים שהממשלה הייתה צריכה לעשות בוצעו"
+                when "WORKAROUND" then return ""
+                when "IRRELEVANT" then return ""
+        return ""
+
 is_good_status = (status) ->
         switch status
                 when "NEW" then return false
@@ -316,6 +326,8 @@ setup_timeline = (item_selector, margins=80 ) ->
     $(item_selector).each ->
 
         horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
+
+        slug = $(this).attr('rel')
 
         # Get today's date
         today = new Date()
@@ -575,12 +587,14 @@ setup_timeline = (item_selector, margins=80 ) ->
         stamp_class = status_to_stamp_class(implementation_status)
         if late
                 stamp_class = 'late'
-        buxa_header.before("<div class='stamp #{stamp_class}'></div>")
+        stamp_tooltip = status_tooltip_to_hebrew(implementation_status)
+        buxa_header.before("<div class='stamp #{stamp_class}' title='#{stamp_tooltip}'></div>")
 
         if conflict
                 stamp = status_to_hebrew(conflict_status)
                 stamp_class = status_to_stamp_class(conflict_status)
-                buxa_header.before("<div class='stamp conflicting #{stamp_class}'></div>")
+                stamp_tooltip = status_tooltip_to_hebrew(conflict_status)
+                buxa_header.before("<div class='stamp conflicting #{stamp_class}'  title='#{stamp_tooltip}'></div>")
 
 setup_summary = ->
         total = $(".item.shown").size()
@@ -840,7 +854,10 @@ load_fb_comment_count = (selector) ->
                             (defer json),
                             "json")
                 h = $(this).html()
-                $(this).html(json[0].commentsbox_count+h)
+                try
+                        $(this).html(json[0].commentsbox_count+h)
+                catch error
+                        console.log("Failed tp parse json:",JSON.stringify(json))
         if selector == ".item"
                 $("#items").isotope( 'updateSortData', $(".item") )
 
@@ -899,17 +916,22 @@ load_data = ->
 $ ->
    try
         await $.get("/api/version",(defer version),"json")
-        current_version = localStorage.version
-        localStorage.version = JSON.stringify(version)
-        if current_version and version != JSON.parse(current_version)
-                # Try to load data from the cache, to make the page load faster
-                loaded_data = JSON.parse(localStorage.data)
-                all_books = JSON.parse(localStorage.all_books)
-                all_tags = JSON.parse(localStorage.all_tags)
-                all_people = JSON.parse(localStorage.all_people)
-                all_subjects = JSON.parse(localStorage.all_subjects)
-                process_data()
-         else
+        try
+                current_version = localStorage.version
+                localStorage.version = JSON.stringify(version)
+                if current_version and version == JSON.parse(current_version)
+                        # Try to load data from the cache, to make the page load faster
+                        loaded_data = JSON.parse(localStorage.data)
+                        all_books = JSON.parse(localStorage.all_books)
+                        all_tags = JSON.parse(localStorage.all_tags)
+                        all_people = JSON.parse(localStorage.all_people)
+                        all_subjects = JSON.parse(localStorage.all_subjects)
+                        process_data()
+                 else
+                        console.log "wrong version "+current_version+" != "+version
+                        load_data()
+        catch error
+                console.log "failed to load data from storage: " + error
                 load_data()
    catch error
         # If we don't succeed, load data immediately

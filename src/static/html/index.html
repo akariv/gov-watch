@@ -315,7 +315,7 @@
       	<ul>
       	  
       	  {{#gov_updates}}
-      	  <li>
+      	  <li data-date="{{update_time}}">
       	  	
       	    <div class="timeline-point gov-update {{implementation_status}}" data-date="{{update_time}}" data-status="{{implementation_status}}">
       	    	<div class="point-meta">
@@ -327,7 +327,7 @@
 			    	<h4>{{implementation_status_name}}</h4>
     	          	<p>{{description}}</p>
         	      	<p>{{implementation_status_text}}</p>
-              	<h4>קישורים:</h4>
+              	<h4>סימוכין:</h4>
                 {{^links}}אין{{/links}}
 	              <ul>
                         {{#links}}
@@ -340,7 +340,7 @@
       	  {{/gov_updates}}
       	  
       	  {{#watch_updates}}
-      	  <li>
+      	  <li data-date="{{update_time}}">
       	    <div class="timeline-point watch-update {{implementation_status}}" data-date="{{update_time}}" data-status="{{implementation_status}}">
       	    	<div class="point-meta">
 	            	<img src="" alt="{{user}}">
@@ -351,7 +351,7 @@
 			    	<h4>{{implementation_status_name}}</h4>
     	          	<p>{{description}}</p>
         	      	<p>{{implementation_status_text}}</p>
-                    <h4>קישורים:</h4>
+                    <h4>סימוכין::</h4>
                     <ul class="update-links">
                       {{^links}}אין{{/links}}
                       {{#links}}
