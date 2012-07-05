@@ -194,11 +194,14 @@ data_callback = (data) ->
 
     # Save to local storage if its available
     if localStorage
-        localStorage.data = JSON.stringify(data)
-        localStorage.all_books = JSON.stringify(all_books)
-        localStorage.all_tags = JSON.stringify(all_tags)
-        localStorage.all_people = JSON.stringify(all_people)
-        localStorage.all_subjects=JSON.stringify(all_subjects)
+        try
+                localStorage.data = JSON.stringify(data)
+                localStorage.all_books = JSON.stringify(all_books)
+                localStorage.all_tags = JSON.stringify(all_tags)
+                localStorage.all_people = JSON.stringify(all_people)
+                localStorage.all_subjects=JSON.stringify(all_subjects)
+        catch error
+                console.log "failed to save to local storage "+error
 
     # process loaded data
     process_data()

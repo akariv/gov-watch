@@ -667,11 +667,15 @@ var Mustache = function() {
     all_subjects = Object.keys(all_subjects);
     all_books = Object.keys(all_books);
     if (localStorage) {
-      localStorage.data = JSON.stringify(data);
-      localStorage.all_books = JSON.stringify(all_books);
-      localStorage.all_tags = JSON.stringify(all_tags);
-      localStorage.all_people = JSON.stringify(all_people);
-      localStorage.all_subjects = JSON.stringify(all_subjects);
+      try {
+        localStorage.data = JSON.stringify(data);
+        localStorage.all_books = JSON.stringify(all_books);
+        localStorage.all_tags = JSON.stringify(all_tags);
+        localStorage.all_people = JSON.stringify(all_people);
+        localStorage.all_subjects = JSON.stringify(all_subjects);
+      } catch (error) {
+        console.log("failed to save to local storage " + error);
+      }
     }
     return process_data();
   };
@@ -1293,7 +1297,7 @@ var Mustache = function() {
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 724
+        lineno: 727
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -1337,7 +1341,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 746
+          lineno: 749
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1382,7 +1386,7 @@ var Mustache = function() {
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 787
+            lineno: 790
           })), 1000);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1437,7 +1441,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 817
+          lineno: 820
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1499,7 +1503,7 @@ var Mustache = function() {
               return json = arguments[0];
             };
           })(),
-          lineno: 853
+          lineno: 856
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1588,7 +1592,7 @@ var Mustache = function() {
               return version = arguments[0];
             };
           })(),
-          lineno: 917
+          lineno: 920
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
