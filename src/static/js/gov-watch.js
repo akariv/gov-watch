@@ -487,7 +487,7 @@
   setup_timeline = function(item_selector, margins) {
     if (margins == null) margins = 80;
     return $(item_selector).each(function() {
-      var NOT_SET, available_size, buxa_header, common_margin, conflict, conflict_status, date_bar, el, finish_date, first_margin, fixed_at, gov_status, has_unknowns, horizontal, i, implementation_status, initial_year, item_margins, its_today, last_percent, last_update, last_update_at, last_year, late, line, margin, max_numeric_date, min_numeric_date, pixel_years, point, size, slug, stamp, stamp_class, stamp_tooltip, status, status_to_stamp_class, timeline_items, today, today_at, today_date, y, _i, _j, _k, _ref, _ref2, _ref3;
+      var NOT_SET, available_size, buxa_header, conflict, conflict_status, el, finish_date, fixed_at, gov_status, has_unknowns, horizontal, i, implementation_status, initial_year, item_margins, its_today, last_percent, last_update, last_update_at, last_year, late, line, margin, max_numeric_date, min_numeric_date, numeric, point, size, slug, stamp, stamp_class, stamp_tooltip, status, status_to_stamp_class, timeline_items, today, today_at, today_date, y, _i, _j, _k, _ref, _ref2, _ref3;
       horizontal = $(this).find('.timeline-logic.horizontal').size() > 0;
       slug = $(this).attr('rel');
       today = new Date();
@@ -541,6 +541,14 @@
         $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric', max_numeric_date);
         $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").find('.timeline-point').attr('data-date-numeric', max_numeric_date);
       }
+      if (!horizontal) {
+        initial_year = (Math.ceil(min_numeric_date / 372.0)).toFixed(0);
+        last_year = (Math.floor(max_numeric_date / 372.0)).toFixed(0);
+        for (y = _i = initial_year; initial_year <= last_year ? _i <= last_year : _i >= last_year; y = initial_year <= last_year ? ++_i : --_i) {
+          numeric = y * 372;
+          $(this).find(".timeline-logic > ul").append("                                <li data-date-numeric='" + numeric + "'>                                        <div class='timeline-line'></div>                                        <div class='timeline-point milestone tick' data-date-numeric='" + numeric + "' data-date='" + y + "/01/01'><div>" + y + "</div></div>                                </li>");
+        }
+      }
       $(this).find('img').each(function() {
         var alt;
         alt = $(this).attr('alt');
@@ -557,20 +565,6 @@
       finish_date = $(this).find(".timeline-logic > ul > li > .milestone:first").attr('data-date');
       finish_date = date_to_hebrew(finish_date);
       $(this).find(".duedate > p").html(finish_date);
-      date_bar = $(this).find(".date-bar");
-      if (date_bar) {
-        date_bar.html('');
-        initial_year = (Math.ceil(min_numeric_date / 372.0)).toFixed(0);
-        last_year = (Math.floor(max_numeric_date / 372.0)).toFixed(0);
-        for (y = _i = initial_year; initial_year <= last_year ? _i <= last_year : _i >= last_year; y = initial_year <= last_year ? ++_i : --_i) {
-          date_bar.prepend("<li>" + y + "</li>");
-        }
-        pixel_years = ($(this).innerHeight() - margins) / ((max_numeric_date - min_numeric_date) / 372);
-        common_margin = pixel_years - date_bar.find('li:first').outerHeight();
-        first_margin = (1 - (min_numeric_date % 372) / 372) * pixel_years;
-        date_bar.find("li").css("margin-bottom", common_margin);
-        date_bar.find("li:last").css("margin-bottom", first_margin + 30);
-      }
       last_percent = 0.0;
       item_margins = 5;
       if (horizontal) {
@@ -902,7 +896,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 729
+        lineno: 740
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -946,7 +940,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 751
+          lineno: 762
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -991,7 +985,7 @@
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 792
+            lineno: 803
           })), 1000);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1046,7 +1040,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 822
+          lineno: 833
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1108,7 +1102,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 858
+          lineno: 869
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1197,7 +1191,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 922
+          lineno: 933
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

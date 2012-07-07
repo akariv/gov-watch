@@ -148,6 +148,22 @@ issue_scheme = {
                                                                          "optional" : True,
                                                                          "title": u'האם זוהי נקודת הסיום של ההמלצה?' }
                                                               },
+                                                              { "name" : "links",
+                                                                "props": { "type" : "arr",
+                                                                           "title": u'קישורים',
+                                                                           "eltype": { "type" : "obj",
+                                                                                       "children" : [ { "name" : "url",
+                                                                                                        "props" : { "type" : "str",
+                                                                                                                    "title": "URL" }
+                                                                                                        },
+                                                                                                      { "name" : "description",
+                                                                                                        "props" : { "type" : "str",
+                                                                                                                    "title": u'תיאור' }
+                                                                                                        },
+                                                                                                      ]
+                                                                                       }
+                                                                           }
+                                                                },
                                                             ]
                                              }
                                 }             

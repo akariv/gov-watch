@@ -374,6 +374,17 @@ setup_timeline = (item_selector, margins=80 ) ->
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").find('.timeline-point').attr('data-date-numeric',max_numeric_date)
 
+        if not horizontal
+                initial_year = (Math.ceil(min_numeric_date/372.0)).toFixed(0)
+                last_year = (Math.floor(max_numeric_date/372.0)).toFixed(0)
+                for y in [initial_year..last_year]
+                        numeric = y*372
+                        $(this).find(".timeline-logic > ul").append("
+                                <li data-date-numeric='#{numeric}'>
+                                        <div class='timeline-line'></div>
+                                        <div class='timeline-point milestone tick' data-date-numeric='#{numeric}' data-date='#{y}/01/01'><div>#{y}</div></div>
+                                </li>")
+
         # profile image
         $(this).find('img').each ->
                 alt = $(this).attr('alt')
@@ -389,18 +400,18 @@ setup_timeline = (item_selector, margins=80 ) ->
         finish_date = date_to_hebrew(finish_date)
         $(this).find(".duedate > p").html(finish_date)
 
-        date_bar = $(this).find(".date-bar")
-        if date_bar
-                date_bar.html('')
-                initial_year = (Math.ceil(min_numeric_date/372.0)).toFixed(0)
-                last_year = (Math.floor(max_numeric_date/372.0)).toFixed(0)
-                for y in [initial_year..last_year]
-                        date_bar.prepend("<li>#{y}</li>")
-                pixel_years = ($(this).innerHeight()-margins) / ( (max_numeric_date-min_numeric_date)/372 )
-                common_margin = pixel_years - date_bar.find('li:first').outerHeight()
-                first_margin = (1 - (min_numeric_date % 372)/372) * pixel_years
-                date_bar.find("li").css( "margin-bottom", common_margin )
-                date_bar.find("li:last").css( "margin-bottom", first_margin + 30 )
+        #date_bar = $(this).find(".date-bar")
+        #if date_bar
+        #        date_bar.html('')
+        #        initial_year = (Math.ceil(min_numeric_date/372.0)).toFixed(0)
+        #        last_year = (Math.floor(max_numeric_date/372.0)).toFixed(0)
+        #        for y in [initial_year..last_year]
+        #                date_bar.prepend("<li>#{y}</li>")
+        #        pixel_years = ($(this).innerHeight()-margins) / ( (max_numeric_date-min_numeric_date)/372 )
+        #        common_margin = pixel_years - date_bar.find('li:first').outerHeight()
+        #        first_margin = (1 - (min_numeric_date % 372)/372) * pixel_years
+        #        date_bar.find("li").css( "margin-bottom", common_margin )
+        #        date_bar.find("li:last").css( "margin-bottom", first_margin + 30 )
 
         # Calculate widths and issue's status
         # ---------

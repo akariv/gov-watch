@@ -189,6 +189,30 @@
                   "type": "bool",
                   "title": "\u05d4\u05d0\u05dd \u05d6\u05d5\u05d4\u05d9 \u05e0\u05e7\u05d5\u05d3\u05ea \u05d4\u05e1\u05d9\u05d5\u05dd \u05e9\u05dc \u05d4\u05d4\u05de\u05dc\u05e6\u05d4?"
                 }
+              }, {
+                "name": "links",
+                "props": {
+                  "type": "arr",
+                  "eltype": {
+                    "type": "obj",
+                    "children": [
+                      {
+                        "name": "url",
+                        "props": {
+                          "type": "str",
+                          "title": "URL"
+                        }
+                      }, {
+                        "name": "description",
+                        "props": {
+                          "type": "str",
+                          "title": "\u05ea\u05d9\u05d0\u05d5\u05e8"
+                        }
+                      }
+                    ]
+                  },
+                  "title": "\u05e7\u05d9\u05e9\u05d5\u05e8\u05d9\u05dd"
+                }
               }
             ],
             "title": "\u05d0\u05d1\u05df \u05d3\u05e8\u05da"
