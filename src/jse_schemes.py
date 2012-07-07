@@ -151,6 +151,7 @@ issue_scheme = {
                                                               { "name" : "links",
                                                                 "props": { "type" : "arr",
                                                                            "title": u'קישורים',
+                                                                           "optional" : True,
                                                                            "eltype": { "type" : "obj",
                                                                                        "children" : [ { "name" : "url",
                                                                                                         "props" : { "type" : "str",
