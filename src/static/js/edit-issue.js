@@ -193,7 +193,7 @@
                 "name": "links",
                 "props": {
                   "type": "arr",
-                  "optional": True,
+                  "optional": true,
                   "eltype": {
                     "type": "obj",
                     "children": [
