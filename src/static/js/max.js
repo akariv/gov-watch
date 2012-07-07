@@ -632,7 +632,7 @@ var Mustache = function() {
   };
 
   data_callback = function(data) {
-    var gov_updates, k, l, num_links, rec, t, tag, u, v, watch_updates, _i, _j, _k, _l, _len, _len2, _len3, _len4, _len5, _m, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;
+    var gov_updates, k, l, num_links, rec, t, tag, u, v, watch_updates, _i, _j, _k, _l, _len, _len2, _len3, _len4, _len5, _m, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
     loaded_data = data;
     all_books = {};
     all_tags = {};
@@ -688,6 +688,18 @@ var Mustache = function() {
         rec.base.recommendation_shortened = rec.base.recommendation.slice(0, 401) + "&nbsp;" + ("<a class='goto-detail' rel='" + rec.slug + "' href='#'>") + "עוד..." + "</a>";
       } else {
         rec.base.recommendation_shortened = rec.base.recommendation;
+      }
+      rec.base.budget.millions_text = "לא פורט על ידי הוועדה";
+      if (((_ref8 = rec.base.budget) != null ? _ref8.millions : void 0) != null) {
+        if (rec.base.budget.millions > 0) {
+          rec.base.budget.millions_text = "" + rec.base.budget.millions + " מיליון ₪";
+        }
+      }
+      rec.base.budget.year_span_text = null;
+      if (((_ref9 = rec.base.budget) != null ? _ref9.year_span : void 0) != null) {
+        if (rec.base.budget.year_span > 0) {
+          rec.base.budget.year_span_text = rec.base.budget.year_span;
+        }
       }
     }
     all_tags = Object.keys(all_tags);
@@ -814,7 +826,7 @@ var Mustache = function() {
       }
       return _results;
     })(), year = _ref[0], month = _ref[1], day = _ref[2];
-    if (year === 1970) return "לא הוגדר";
+    if (year === 1970) return "לא הוגדר על ידי הוועדה";
     month_to_hebrew = function(month) {
       switch (month) {
         case 1:
@@ -1320,7 +1332,7 @@ var Mustache = function() {
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 740
+        lineno: 750
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -1340,7 +1352,7 @@ var Mustache = function() {
             return -parseInt("0" + e.find('.watch').text());
           },
           original: function(e) {
-            return "" + (e.attr('data-chapter')) + "/{e.attr('data-subchapter')}";
+            return "" + (e.attr('data-chapter')) + "/" + (e.attr('data-subchapter')) + "/" + (e.attr('rel'));
           },
           budget: function(e) {
             return -parseInt("0" + e.attr('cost'), 10);
@@ -1364,7 +1376,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 762
+          lineno: 772
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1409,7 +1421,7 @@ var Mustache = function() {
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 803
+            lineno: 813
           })), 1000);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1464,7 +1476,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 833
+          lineno: 843
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1526,7 +1538,7 @@ var Mustache = function() {
               return json = arguments[0];
             };
           })(),
-          lineno: 869
+          lineno: 879
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1615,7 +1627,7 @@ var Mustache = function() {
               return version = arguments[0];
             };
           })(),
-          lineno: 933
+          lineno: 943
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

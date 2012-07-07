@@ -49,8 +49,8 @@
     <div class="budget rel-tooltip" title="{{description}}">
       <h3>עלות:</h3>
       <p>
-        <span>{{millions}} מיליון ִ₪</span>
-        	/על פני {{year_span}} שנים*
+        <span>{{millions_text}}</span>
+        	{{#year_span_text}}/על פני {{year_span}} שנים*{{/year_span_text}}
       </p>
     </div>
     {{/budget}}
@@ -190,7 +190,7 @@
       	<div class="budget">
       	  {{#budget}}
       	  <h3>עלות:</h3>
-      	  <p><span>{{millions}} מיליון ִ₪</span>על פני {{year_span}} שנים<br>
+      	  <p><span>{{millions_text}}</span>{{#year_span_text}}על פני {{year_span_text}} שנים{{/year_span_text}}<br>
 			{{description}}</p>
       	  {{/budget}}
       	</div>
@@ -475,7 +475,7 @@
 		  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
 		  <h3>סידור לפי:</h3>
 		  <div id="sort" class="btn-group" data-toggle="buttons-radio">
-		    <button class="btn btn-inverse" value="original">מקור</button>
+		    <button class="btn btn-inverse" value="original">פרק בדו&quot;ח</button>
 		    <button class="btn btn-inverse" value="budget">עלות</button>
 		    <button class="btn btn-inverse" value="followers">עוקבים</button>
 		    <button class="btn btn-inverse" value="comments">תגובות</button>

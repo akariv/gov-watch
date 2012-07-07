@@ -186,6 +186,16 @@ data_callback = (data) ->
         else
                 rec.base.recommendation_shortened = rec.base.recommendation
 
+        rec.base.budget.millions_text = "לא פורט על ידי הוועדה"
+        if rec.base.budget?.millions?
+                if rec.base.budget.millions > 0
+                        rec.base.budget.millions_text = "#{rec.base.budget.millions} מיליון ₪"
+
+        rec.base.budget.year_span_text = null
+        if rec.base.budget?.year_span?
+                if rec.base.budget.year_span > 0
+                        rec.base.budget.year_span_text = rec.base.budget.year_span
+
     all_tags = Object.keys(all_tags)
     all_people = Object.keys(all_people)
     all_subjects = Object.keys(all_subjects)
@@ -274,7 +284,7 @@ date_to_hebrew = (date) ->
         date = date.split('/')
         [year,month,day] = (parseInt(d,10) for d in date)
         if year == 1970
-                return "לא הוגדר"
+                return "לא הוגדר על ידי הוועדה"
         month_to_hebrew = (month) ->
                 switch month
                         when 1 then "ינואר"
@@ -751,7 +761,7 @@ process_data = ->
         filter: ".shown"
         getSortData :
            followers:  ( e ) -> -parseInt( "0"+e.find('.watch').text() )
-           original :  ( e ) -> "#{e.attr('data-chapter')}/{e.attr('data-subchapter')}"
+           original :  ( e ) -> "#{e.attr('data-chapter')}/#{e.attr('data-subchapter')}/#{e.attr('rel')}"
            budget :  ( e ) ->
                         -parseInt( "0"+e.attr('cost'), 10 )
            comments :  ( e ) ->
