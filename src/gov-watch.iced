@@ -68,6 +68,15 @@ onhashchange = ->
    # read the hash, discard first '#!z='
    fullhash = window.location.hash
 
+   if fullhash == "#about"
+        $("#page").css('display','inherit')
+        $("#container").css('display','none')
+        return
+   else
+        $("#page").css('display','none')
+        $("#container").css('display','inherit')
+
+
    hash = fullhash[4...fullhash.length]
 
    # hash is separated to key=value parts
