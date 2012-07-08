@@ -12,6 +12,7 @@
     <meta property="og:image" content="http://watch.gov.il/static/img/trachtenberg-cover.jpg" />
     <meta property="og:site_name" content="מעקב יישום מסקנות וועדת טרכטנברג" />
     <meta property="fb:admins" content="100000025217694" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
@@ -428,25 +429,32 @@
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
           <a class="brand" href="#">המפקח</a>
-          <ul class="nav" id="books">
-            <li><a href="/static/html/about.html" target="_blank">אודות</a></li>
-             <li class="dropdown">
-               <a href="#"
-                  class="dropdown-toggle"
-                  data-toggle="dropdown">
-                 שותפים
-                 <b class="caret"></b>
-               </a>
-               <ul class="dropdown-menu">
-                 <li><a href="http://www.hasadna.org.il/%D7%94%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%A9%D7%9C%D7%A0%D7%95/%D7%94%D7%9E%D7%A4%D7%A7%D7%97-%D7%94%D7%9B%D7%9C%D7%9C%D7%99-%D7%9E%D7%A2%D7%A7%D7%91-%D7%98%D7%A8%D7%9B%D7%98%D7%A0%D7%91%D7%A8%D7%92/" target="_blank">הסדנא לידע ציבורי</a></li>
-                 <li><a href="http://shituf.gov.il/" target="_blank">השר מיקי איתן</a></li>
-                 <li><a href="http://j14.org.il/spivak/" target="_blank">צוות ספיבק יונה (מכון ון ליר)</a></li>
-                 <li><a href="http://www.nuis.co.il/" target="_blank">התאחדות הסטודנטים</a></li>
-               </ul>
-             </li>
-            <li><a href="mailto:gov.watch.il@gmail.com" target="_blank">צרו קשר</a></li>
-          </ul>
+          <div class="nav-collapse">
+	          <ul class="nav" id="books">
+	            <li><a href="/static/html/about.html" target="_blank">אודות</a></li>
+	             <li class="dropdown">
+	               <a href="#"
+	                  class="dropdown-toggle"
+	                  data-toggle="dropdown">
+	                 שותפים
+	                 <b class="caret"></b>
+	               </a>
+	               <ul class="dropdown-menu">
+	                 <li><a href="http://www.hasadna.org.il/%D7%94%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%A9%D7%9C%D7%A0%D7%95/%D7%94%D7%9E%D7%A4%D7%A7%D7%97-%D7%94%D7%9B%D7%9C%D7%9C%D7%99-%D7%9E%D7%A2%D7%A7%D7%91-%D7%98%D7%A8%D7%9B%D7%98%D7%A0%D7%91%D7%A8%D7%92/" target="_blank">הסדנא לידע ציבורי</a></li>
+	                 <li><a href="http://shituf.gov.il/" target="_blank">השר מיקי איתן</a></li>
+	                 <li><a href="http://j14.org.il/spivak/" target="_blank">צוות ספיבק יונה (מכון ון ליר)</a></li>
+	                 <li><a href="http://www.nuis.co.il/" target="_blank">התאחדות הסטודנטים</a></li>
+	               </ul>
+	             </li>
+	            <li><a href="mailto:gov.watch.il@gmail.com" target="_blank">צרו קשר</a></li>
+	          </ul>
+	         </div>
         </div>
       </div>
     </div>
@@ -456,37 +464,39 @@
       <div class="heading">
       	<img src="/static/img/trachtenberg-sign.jpg" alt='מעקב דו&quot;ח טרכטנברג'>
 		<a href="#"><h1>דו&quot;ח טרכטנברג</h1></a>
-		<p>מעקב וביקורת אחרי ישום המלצות דו&quot;ח טרכטנברג בשיתוף הסדנא לידע ציבורי והשר מיכאל איתן<a id="show-explanation" class="btn btn-inverse btn-mini">למדו עוד &raquo;</a></p>
+		<p>מעקב וביקורת אחרי ישום המלצות דו&quot;ח טרכטנברג בשיתוף הסדנא לידע ציבורי והשר מיכאל איתן <a id="show-explanation" class="btn btn-inverse btn-mini">עוד &raquo;</a></p>
       </div>
       
-      <div class="row-fluid">  
-	
-		<div class="span3" id="searchwidget">
-		  <h3>סינון:</h3>
-		  <form id="searchbar" action="#">
-		    <fieldset id='search'>
-		      <input id="searchbox" class="xlarge" type="text" autocomplete="off" name="xlInput">
-		      <button id="clearsearch">clear</button>
-		    </fieldset>
-		  </form>
-		</div>
-		
-		<div id="orderstats" class="span">
-		  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
-		  <h3>סידור לפי:</h3>
-		  <div id="sort" class="btn-group" data-toggle="buttons-radio">
-		    <button class="btn btn-inverse" value="original">פרק בדו&quot;ח</button>
-		    <button class="btn btn-inverse" value="budget">עלות</button>
-		    <button class="btn btn-inverse" value="followers">עוקבים</button>
-		    <button class="btn btn-inverse" value="comments">תגובות</button>
-		  </div>
-		</div>
+       <div class="filters">
+		 <div class="row-fluid"> 
+			<div class="span3" id="searchwidget">
+			  <h3>סינון:</h3>
+			  <form id="searchbar" action="#">
+			    <fieldset id='search'>
+			      <input id="searchbox" class="xlarge" type="text" autocomplete="off" name="xlInput">
+			      <button id="clearsearch">clear</button>
+			    </fieldset>
+			  </form>
+			</div>
 			
-		<div id="stats" class="span">
-		  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
-	      <div id="summary" class="summary">
-	      </div>
-	   </div>
+			<div id="orderstats" class="span">
+			  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+			  <h3>סידור לפי:</h3>
+			  <div id="sort" class="btn-group" data-toggle="buttons-radio">
+			    <button class="btn btn-inverse" value="original">פרק בדו&quot;ח</button>
+			    <button class="btn btn-inverse" value="budget">עלות</button>
+			    <button class="btn btn-inverse" value="followers">עוקבים</button>
+			    <button class="btn btn-inverse" value="comments">תגובות</button>
+			  </div>
+			</div>
+				
+			<div id="stats" class="span">
+			  <h3 id="summary-header">סיכום התצוגה הנוכחית:</h3>
+		      <div id="summary" class="summary">
+		      </div>
+		   </div>
+		   
+		</div>
 		
   </div>
 </div>

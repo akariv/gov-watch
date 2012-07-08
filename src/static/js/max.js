@@ -605,7 +605,7 @@ var Mustache = function() {
 
   show_watermark = function(show) {
     if (show) {
-      $("#searchbox").val("סינון חופשי של ההמלצות");
+      $("#searchbox").val("סינון חופשי");
     } else {
       if (wm_shown) $("#searchbox").val("");
     }

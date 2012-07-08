@@ -35,8 +35,21 @@ body {
   margin-bottom: 0;
 }
 
-.container-fluid{
-  min-width:570px;
+@media (max-width: 480px) {
+  .container-fluid,
+  .content{
+    max-width:100%;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .row-fluid div{
+    .clearfix();
+  }
+  
+  .isotope{
+    max-width: 100%;
+  }
 }
 
 .hero-unit, .well{
@@ -75,6 +88,9 @@ body {
   
   .row-fluid {
     max-width: 1230px;
+  }
+  
+  .filters{
     margin: 0 30px 10px;
   }
   
@@ -178,11 +194,17 @@ body {
     text-indent: -2000%;
     float: left;
     background: url('/static/img/clear-search.png'); 
-    }
-    
   }
+  
+}
 
-.dropdown-menu{
+@media (max-width: 767px){
+  .row.isotope > .span.isotope-item{
+    margin: 10px 0;
+  }
+}
+
+.hero-unit .dropdown-menu{
   
   margin-right: 5px;
   overflow: hidden;
