@@ -6500,9 +6500,9 @@ footer a img {
   top: -4px;
 }
 .timeline > ul > li > .timeline-point.tick {
-  border: 1px solid #c4bb91;
-  width: 19px;
-  margin: 10px -7px;
+  border: 1px solid #fffcd9;
+  width: 22px;
+  margin: 10px -11px;
   height: 0px;
 }
 .timeline > ul > li > .timeline-point.tick  > div {
