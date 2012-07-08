@@ -111,11 +111,8 @@ a{
       //margin: 23px 0 0;
     }
     
-    .btn-inverse{
-      .buttonBackground(@herotone, darken(#393e46, 10%));
-    }
   }
-  
+    
   h1{
     //float: right;
     //margin-left: 20px;
@@ -168,6 +165,10 @@ a{
       color: #FFFFFF;
     }
   }
+  
+  .btn-inverse{
+    .buttonBackground(@herotone, darken(#393e46, 10%));
+  }
 
   &.explanation {
     //width: 770px;
@@ -205,6 +206,33 @@ a{
 }
 
 /**** Header ****/
+
+#searchwidget{
+  position: relative;
+}
+
+@media (max-width: 979px){
+  #searchwidget{
+    width: 100%;
+  }
+}
+
+#toggle-tags{
+  font-size: 0.8em;
+  background:none;
+  position: absolute;
+  top:7px;
+  left:0;
+  color: lighten(@herotone, 30%);
+  font-weight: normal;
+  &:hover{
+    color: #fff;
+  }
+}
+
+#tag-list{
+  
+}
 
 #search{
   
@@ -276,11 +304,11 @@ a{
   span{
     background: @cardshade;
     border-radius: 3px 0 0 3px;
-    color: white;
+    color: @text;
     font-size: 18px;
     font-weight: 400;
     padding: 0 5px 1px;
-    text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    //text-shadow: 0 0 6px @card;
     
     &:hover{
       text-decoration:none;
@@ -308,7 +336,7 @@ a{
 
 #orderstats{
   >div{
-    float: right;
+    //float: right;
     }
   }
 
@@ -323,7 +351,9 @@ a{
   a{
     font-size: 2em;
     color: white;
-    .makeColumn;
+    width: 60px;
+    float: right;
+    margin-right: 10px;
     .border-radius(3px);
     padding: 4px 0;
     text-indent: 4px;
@@ -344,14 +374,14 @@ a{
     }
     
     &.conflict{
-      color: @bad;
+      color: @good;
       
       &:first-letter{
-        color: @good;
+        color: @bad;
       }
       
       span span{
-        color: @good;
+        color: @bad;
       }
     }
     
