@@ -657,6 +657,7 @@ setup_summary = ->
         if conflict
                 data.conflict = conflict
         run_templates( "summary", data, "#summary" )
+        setup_tooltips("#summary")
 
         $("#summary .total").click ->
                 status_filter = null
