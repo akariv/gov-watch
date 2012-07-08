@@ -218,7 +218,8 @@ a{
   font-size: 0.8em;
   background:none;
   position: absolute;
-  top:7px;
+  top: 6px;
+  padding: 0 3px;
   left:0;
   color: lighten(@herotone, 30%);
   font-weight: normal;
@@ -348,11 +349,10 @@ a{
   a{
     font-size: 2em;
     color: white;
-    width: 60px;
     float: right;
     margin-right: 10px;
     .border-radius(3px);
-    padding: 4px 0;
+    padding: 4px 2px 4px 6px;
     text-indent: 4px;
     
     > span{
@@ -454,10 +454,11 @@ footer{
 
   .tooltip{
     font-size: 18px;
+    &.in{ .opacity(90); }
     .tooltip-inner{
-      background: @herotone;
+      background: lighten(@herotone, 10%);
     }
     &.bottom .tooltip-arrow{
-      border-bottom: 5px solid @herotone; 
+      border-bottom: 5px solid lighten(@herotone, 10%); 
     }
   }
