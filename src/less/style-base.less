@@ -17,6 +17,9 @@
 
 @linkMuted: @gray;
 
+@linkColor: @bad;
+@linkColorHover: darken(@good, 15%);
+
 /**** Fonts ****/
 
 input, button, select, textarea {
@@ -29,6 +32,29 @@ body {
 	direction: rtl;
 	background: url('/static/img/background-grid.png') top right; 
 	
+}
+
+a{
+  color: @good;
+  
+  &:hover{
+    color: darken(@good, 15%);
+    text-decoration: none;
+  }
+}
+
+.implementation-status-good a{
+  color: @good;
+  &:hover{
+    color: darken(@good, 15%);
+  }  
+}
+
+.implementation-status-bad a{
+  color: @bad;
+  &:hover{
+    color: darken(@bad, 15%);
+  }  
 }
 
 .navbar{
@@ -60,6 +86,15 @@ body {
   .border-radius(5px);
   
   .heading{
+    
+    a{
+      color: white;
+      
+      &:hover{
+        color: darken(white, 15%);
+      }
+    }
+    
     .clearfix();
     background: rgba(0,0,0,0.1);
     padding: 14px 30px;
@@ -162,9 +197,11 @@ body {
     -moz-transition: background-color 3s;
 }
 
-.content{
-  margin: 0 10px 0 0;
-  padding-left: 0;
+@media(min-width: 1100px){
+  .content{
+    margin: 0 10px 0 10px;
+    padding-left: 0;
+  }
 }
 
 /**** Header ****/
