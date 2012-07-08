@@ -384,18 +384,18 @@
 *******************************
 -->
 <script type="text/html" name="summary">
-  {{#total}}<a class="total">{{total}} <span>סך הכל</span></a>
+  {{#total}}<a class="total rel-tooltip" title='כלל ההמלצות בדו"ח'>{{total}} <span>סך הכל</span></a>
   {{#implemented}}
-  <a class="implemented">{{implemented}} <span>יושמו</span></a>
+  <a class="implemented rel-tooltip" title='מדד התפוקה יושם: הצעדים שהממשלה הייתה צריכה לעשות בוצעו. עם זאת, הישום אינו מבטיח השגה של מדד התוצאה'>{{implemented}} <span>יושמו</span></a>
   {{/implemented}} 
   {{#in_progress}}
-  <a class="in_progress">{{in_progress}} <span>בטיפול</span></a>
+  <a class="in_progress rel-tooltip" title='ההמלצה נמצאת בטיפול. הסיבות לכך הן לרוב: חקיקה בכנסת, ועדות הדנות בנושא, או שההמלצה היא חלק מתוכנית חומש'>{{in_progress}} <span>בטיפול</span></a>
   {{/in_progress}}
   {{#stuck}}
-  <a class="stuck">{{stuck}} <span>תקועות</span></a>
+  <a class="stuck rel-tooltip" title='או שההמלצה בטיפול, אבל יש גורמים חיצוניים שמעכבים אותה, או שלא התקבל עדכון מטעם הממשלה בחצי השנה האחרונה'>{{stuck}} <span>תקועות</span></a>
   {{/stuck}}
   {{#conflict}}
-  <a class="conflict">{{conflict}} <span><span>בקונ</span>פליקט</span></a>
+  <a class="conflict rel-tooltip" title='קיימת אי הסכמה לגבי הסטטוס בין הגופים העוקבים והממשלה'>{{conflict}} <span><span>בקונ</span>פליקט</span></a>
   {{/conflict}}
   {{/total}}
 </script>
@@ -472,7 +472,7 @@
 			<div class="span3" id="searchwidget">
 			  <h3>סינון:</h3>
 			  <button id="toggle-tags" class="btn btn-mini btn-inverse" data-toggle="collapse" data-target="#tag-list">
-			  	הצג תגיות
+			  	נושאים חמים
 			  </button>
 			  <form id="searchbar" action="#">
 			    <fieldset id='search'>
