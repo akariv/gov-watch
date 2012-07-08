@@ -384,18 +384,18 @@
 *******************************
 -->
 <script type="text/html" name="summary">
-  {{#total}}<a class="total">{{total}} <span>סך ההמלצות</span></a>
+  {{#total}}<a class="total">{{total}} <span>סך הכל</span></a>
   {{#implemented}}
-  <a class="implemented">{{implemented}} <span>בוצעו במלואן</span></a>
+  <a class="implemented">{{implemented}} <span>יושמו</span></a>
   {{/implemented}} 
   {{#in_progress}}
-  <a class="in_progress">{{in_progress}} <span>בתהליך ביצוע</span></a>
+  <a class="in_progress">{{in_progress}} <span>בטיפול</span></a>
   {{/in_progress}}
   {{#stuck}}
-  <a class="stuck">{{stuck}} <span>תקועות בדרך</span></a>
+  <a class="stuck">{{stuck}} <span>תקועות</span></a>
   {{/stuck}}
   {{#conflict}}
-  <a class="conflict">{{conflict}} <span><span>בחוסר</span> הסכמה</span></a>
+  <a class="conflict">{{conflict}} <span><span>בקונ</span>פליקט</span></a>
   {{/conflict}}
   {{/total}}
 </script>
@@ -468,15 +468,28 @@
       </div>
       
        <div class="filters">
-		 <div class="row-fluid"> 
+		 <div class="row"> 
 			<div class="span3" id="searchwidget">
 			  <h3>סינון:</h3>
+			  <button id="toggle-tags" class="btn btn-mini btn-inverse" data-toggle="collapse" data-target="#tag-list">
+			  	הצג תגיות
+			  </button>
 			  <form id="searchbar" action="#">
 			    <fieldset id='search'>
 			      <input id="searchbox" class="xlarge" type="text" autocomplete="off" name="xlInput">
 			      <button id="clearsearch">clear</button>
 			    </fieldset>
 			  </form>
+			 
+		  	  <div id="tag-list" class="collapse">
+		  	  	<ul>
+		  	  		<li class="searchtag"><span>עובדים זרים</span></li>
+		  	  		<li class="searchtag"><span>חרדים</span></li>
+		  	  		<li class="searchtag"><span>חינוך</span></li>
+		  	  		<li class="searchtag"><span>תעסוקה</span></li>
+		  	  		<li class="searchtag"><span>דיור</span></li>
+		  	  	</ul>
+			  </div>
 			</div>
 			
 			<div id="orderstats" class="span">
@@ -515,7 +528,7 @@
       </div>
       
       <footer>
-        <p>חלק מהזכויות שמורות | 2012 <a href='http://www.hasadna.org.il'><img style='align:bottom;' src='static/img/hasadna-badge.png'></a> | <a href="http://shituf.gov.il">יוזמת הממשל הפתוח, השר מיכאל איתן</a> | <a href="/api">ממשק נתונים</a></p>
+        <p>חלק מהזכויות שמורות | 2012 | <a href='http://www.hasadna.org.il'><!-- <img style='align:bottom;' src='static/img/hasadna-badge.png'> -->הסדנא לידע ציבורי</a> | <a href="http://shituf.gov.il">יוזמת הממשל הפתוח, השר מיכאל איתן</a> | <a href="/api">ממשק נתונים</a></p>
       </footer>
 
     </div>
