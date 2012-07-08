@@ -144,6 +144,8 @@ convert_to_israeli_time = (reversed_time) ->
                 date = reversed_time[0]
                 time = null
         date = date.split('/')
+        if date[0] == '1970'
+                return "המועד לא הוגדר על ידי הוועדה"
         date = "#{date[2]}/#{date[1]}/#{date[0]}"
         if time
                 return "#{date} #{time}"
@@ -290,9 +292,10 @@ run_templates = (template,data,selector) ->
     $(selector).html(html)
 
 date_to_hebrew = (date) ->
-        date = date.split('/')
-        [year,month,day] = (parseInt(d,10) for d in date)
-        if year == 1970
+        try
+                date = date.split('/')
+                [year,month,day] = (parseInt(d,10) for d in date)
+        catch error
                 return "לא הוגדר על ידי הוועדה"
         month_to_hebrew = (month) ->
                 switch month
@@ -790,7 +793,7 @@ process_data = ->
     setup_subscription_form()
     setup_subscriptions(".item")
 
-    setup_tags(".item .tags > ul > li, a[data-tag='true']")
+    setup_tags(".item .tags > ul > li, a[data-tag='true'], .searchtag > span")
 
     setup_detailed_links()
 
