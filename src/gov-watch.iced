@@ -309,8 +309,8 @@ status_to_hebrew = (status) ->
         switch status
                 when "NEW" then return "טרם התחיל"
                 when "STUCK" then return "תקוע"
-                when "IN_PROGRESS" then return "בתהליך"
-                when "FIXED" then return "יושם במלואו"
+                when "IN_PROGRESS" then return "בטיפול"
+                when "FIXED" then return "יושם"
                 when "WORKAROUND" then return "יושם חלקית"
                 when "IRRELEVANT" then return "יישום ההמלצה כבר לא נדרש"
         return ""

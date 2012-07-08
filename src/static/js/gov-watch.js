@@ -450,9 +450,9 @@
       case "STUCK":
         return "תקוע";
       case "IN_PROGRESS":
-        return "בתהליך";
+        return "בטיפול";
       case "FIXED":
-        return "יושם במלואו";
+        return "יושם";
       case "WORKAROUND":
         return "יושם חלקית";
       case "IRRELEVANT":
