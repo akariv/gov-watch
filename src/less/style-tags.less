@@ -10,15 +10,16 @@
     list-style: none outside none;
     margin: 0 0 3px 5px;
     padding-right: 13px;
+    overflow: hidden;
     a{
       background-color: @cardshade;
       .border-radius(3px 0 0 3px);
-      padding: 0px 5px 0;
+      padding: 0px 5px 1px;
       color: @card;
       font-weight: 700;
       text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
       &:hover{text-decoration:none;}
     }
-    &:hover{background-position: right bottom; a{background: @carddark;}}
+    &:hover{background-position: right bottom; a{background: @carddark;color: @card;}}
   }
 }
