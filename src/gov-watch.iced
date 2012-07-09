@@ -834,6 +834,7 @@ select_item = (slug) ->
     if slug
         $("#summary-header").css('visibility','hidden')
         $("#summary").html('')
+        $("#backlink").css('display','inherit')
         $("#orderstats").css('display','none')
         $("#sort button").addClass('disabled')
         $("#searchwidget").css('display','none')
@@ -875,6 +876,7 @@ select_item = (slug) ->
     else
         $("#single-item").html('')
         $("#summary-header").css('visibility','inherit')
+        $("#backlink").css('display','none')
         $("#orderstats").css('display','inherit')
         $("#sort button").removeClass('disabled')
         $("#searchwidget").css('display','inherit')
