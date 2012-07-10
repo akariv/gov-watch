@@ -5974,6 +5974,9 @@ a:hover {
   margin-left: 5px;
   padding-right: 15px;
 }
+.searchtag:hover {
+  cursor: pointer;
+}
 .searchtag span {
   background: #e4daac;
   border-radius: 3px 0 0 3px;
@@ -6002,6 +6005,9 @@ a:hover {
   margin-left: 5px;
   padding-right: 15px;
   background: url("/static/img/person-s.png") no-repeat right top;
+}
+.persontag:hover {
+  cursor: pointer;
 }
 .persontag span {
   background: #e4daac;
@@ -6051,6 +6057,9 @@ a:hover {
   font-size: 0.4em;
   display: block;
   font-weight: normal;
+}
+#summary a:hover {
+  cursor: pointer;
 }
 #summary a.implemented,
 #summary a.in_progress {
@@ -7349,6 +7358,7 @@ footer a img {
   list-style: none outside none;
   margin: 0 0 3px 5px;
   padding-right: 13px;
+  overflow: hidden;
 }
 .tags li a {
   background-color: #e4daac;
@@ -7358,7 +7368,7 @@ footer a img {
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
-  padding: 0px 5px 0;
+  padding: 0px 5px 1px;
   color: #fffcd9;
   font-weight: 700;
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
@@ -7371,6 +7381,7 @@ footer a img {
 }
 .tags li:hover a {
   background: #c4bb91;
+  color: #fffcd9;
 }
 /**** Isotope Filtering ****/
 .isotope-item {
