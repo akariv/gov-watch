@@ -137,8 +137,7 @@
   onhashchange = function() {
     var fullhash, hash, key, part, slug, splits, value, _i, _len, _ref;
     fullhash = window.location.hash;
-    if (fullhash === "#about") {
-      $("#page").css('display', 'inherit');
+    if (fullhash === "#about" || fullhash === "#partners") {
       $("#container").css('display', 'none');
       $("#backlink").css('display', 'inherit');
       $("#summary").html('');
@@ -146,6 +145,9 @@
       $("#orderstats").css('display', 'none');
       $("#searchwidget").css('display', 'none');
       $("#backlink").css('display', 'inherit');
+      $("#page").css('display', 'inherit');
+      $("#page div").css('display', 'none');
+      $("#page div" + fullhash).css('display', 'inherit');
       return;
     } else {
       $("#page").css('display', 'none');
@@ -940,7 +942,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 781
+        lineno: 783
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -984,7 +986,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 803
+          lineno: 805
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1013,7 +1015,7 @@
           return false;
         });
         $("#explanation").modal({
-          'show': true
+          'show': explanation_needed
         });
         window.onhashchange = onhashchange;
         onhashchange();
@@ -1029,7 +1031,7 @@
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 844
+            lineno: 846
           })), 1000);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1085,7 +1087,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 875
+          lineno: 877
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1148,7 +1150,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 912
+          lineno: 914
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1237,7 +1239,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 976
+          lineno: 978
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

@@ -68,8 +68,7 @@ onhashchange = ->
    # read the hash, discard first '#!z='
    fullhash = window.location.hash
 
-   if fullhash == "#about"
-        $("#page").css('display','inherit')
+   if fullhash == "#about" || fullhash == "#partners"
         $("#container").css('display','none')
         $("#backlink").css('display','inherit')
         $("#summary").html('')
@@ -77,6 +76,9 @@ onhashchange = ->
         $("#orderstats").css('display','none')
         $("#searchwidget").css('display','none')
         $("#backlink").css('display','inherit')
+        $("#page").css('display','inherit')
+        $("#page div").css('display','none')
+        $("#page div#{fullhash}").css('display','inherit')
         return
    else
         $("#page").css('display','none')
@@ -836,7 +838,7 @@ process_data = ->
     # item click handler
     # $(".item").click -> update_history($(this).attr('rel'))
 
-    $("#explanation").modal({'show':true})#explanation_needed})
+    $("#explanation").modal({'show':explanation_needed})
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange

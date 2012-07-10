@@ -835,7 +835,7 @@ footer{clear:both;margin:20px auto;text-align:center;padding-top:20px;color:#9ca
 .item div.stamp{background:url("/static/img/stamp-done.png");float:left;height:40px;margin:-3px 0 -11px -18px;overflow:hidden;right:240px;text-indent:-200%;width:80px;}.item div.stamp.inprogress{background:url("/static/img/stamp-inprogress.png");}
 .item div.stamp.workaround{background:url("/static/img/stamp-workaround.png");}
 .item div.stamp.stuck,.item div.stamp.late{background:url("/static/img/stamp-stuck.png");}
-.item div.stamp.notstarted{background:url("/static/img/stamp-new.png");}
+.item div.stamp.notstarted{background:url("/static/img/stamp-rejected.png");}
 .item div.stamp:nth-child(odd){right:200px;}
 .item h3{font-family:Arial,Sans;font-size:0.6em;font-weight:normal;color:#847d6b;padding:0 5px;line-height:0.5em;}
 .item p{padding:5px;font-size:18px;}
@@ -935,7 +935,7 @@ footer{clear:both;margin:20px auto;text-align:center;padding-top:20px;color:#9ca
 .detail-view div.stamp{background:url("/static/img/stamp-done.png");float:left;height:40px;margin:-24px 0 -11px 0;overflow:hidden;right:240px;text-indent:-200%;width:80px;}.detail-view div.stamp.inprogress{background:url("/static/img/stamp-inprogress.png");}
 .detail-view div.stamp.workaround{background:url("/static/img/stamp-workaround.png");}
 .detail-view div.stamp.stuck,.detail-view div.stamp.late{background:url("/static/img/stamp-stuck.png");}
-.detail-view div.stamp.notstarted{background:url("/static/img/stamp-new.png");}
+.detail-view div.stamp.notstarted{background:url("/static/img/stamp-rejected.png");}
 .detail-view div.stamp:nth-child(even){margin-left:-10px;}
 .detail-view h3{font-family:Arial,Sans;font-size:0.6em;font-weight:normal;color:#847d6b;padding:0 5px;line-height:0.5em;}
 .detail-view p{padding:5px;font-size:18px;}
@@ -959,6 +959,7 @@ footer{clear:both;margin:20px auto;text-align:center;padding-top:20px;color:#9ca
 #page:after{clear:both;}
 #page h2{margin:50px;}
 #page p{margin:0 50px 20px;}
+#page li{margin:0 70px 20px;}
 @media (min-width:1200px){#page{margin:10px 30px;}}
 #single-item .card-section{background:url("/static/img/card-corners.png") no-repeat,url("/static/img/card-corners.png") no-repeat 0 100%;padding:10px 0;}#single-item .card-section:before,#single-item .card-section:after{background:url("/static/img/card-corners.png") repeat scroll right 0 transparent;content:"";display:block;height:10px;width:14px;float:right;margin:-10px -14px 0 0;}
 #single-item .card-section:after{background-position:right -10px;margin:0px -14px 0 0;}

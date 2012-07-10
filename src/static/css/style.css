@@ -6304,7 +6304,7 @@ footer a img {
   background: url("/static/img/stamp-stuck.png");
 }
 .item div.stamp.notstarted {
-  background: url("/static/img/stamp-new.png");
+  background: url("/static/img/stamp-rejected.png");
 }
 .item div.stamp:nth-child(odd) {
   right: 200px;
@@ -7151,7 +7151,7 @@ footer a img {
   background: url("/static/img/stamp-stuck.png");
 }
 .detail-view div.stamp.notstarted {
-  background: url("/static/img/stamp-new.png");
+  background: url("/static/img/stamp-rejected.png");
 }
 .detail-view div.stamp:nth-child(even) {
   margin-left: -10px;
@@ -7315,6 +7315,9 @@ footer a img {
 }
 #page p {
   margin: 0 50px 20px;
+}
+#page li {
+  margin: 0 70px 20px;
 }
 @media (min-width: 1200px) {
   #page {
