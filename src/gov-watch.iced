@@ -262,6 +262,12 @@ setup_searchbox = ->
         source.push({type:"person",title:person})
     for subject in all_subjects
         source.push({type:"subject",title:subject})
+    $("#clearsearch").click ->
+        search_term = ""
+        ####show_watermark(true)
+        update_history()
+        return false
+    return
     $("#searchbox").typeahead
          source: source
          items: 20
@@ -281,12 +287,6 @@ setup_searchbox = ->
                         "<span class='persontag'><span>#{highlighted_title}</span></span>"
                 else
                         console.log item.type+" "+item.title
-
-    $("#clearsearch").click ->
-        search_term = ""
-        ####show_watermark(true)
-        update_history()
-        return false
 
 run_templates = (template,data,selector) ->
     # This is used to process lists in the data's values.
@@ -978,7 +978,6 @@ $ ->
         await $.get("/api/version",(defer version),"json")
         try
                 current_version = localStorage.version
-                localStorage.version = JSON.stringify(version)
                 if current_version and version == JSON.parse(current_version)
                         # Try to load data from the cache, to make the page load faster
                         loaded_data = JSON.parse(localStorage.data)
@@ -987,6 +986,7 @@ $ ->
                         all_people = JSON.parse(localStorage.all_people)
                         all_subjects = JSON.parse(localStorage.all_subjects)
                         process_data()
+                        localStorage.version = JSON.stringify(version)
                  else
                         console.log "wrong version "+current_version+" != "+version
                         load_data()

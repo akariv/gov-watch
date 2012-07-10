@@ -745,7 +745,13 @@ var Mustache = function() {
         title: subject
       });
     }
-    $("#searchbox").typeahead({
+    $("#clearsearch").click(function() {
+      search_term = "";
+      update_history();
+      return false;
+    });
+    return;
+    return $("#searchbox").typeahead({
       source: source,
       items: 20,
       matcher: function(item) {
@@ -779,11 +785,6 @@ var Mustache = function() {
           return console.log(item.type + " " + item.title);
         }
       }
-    });
-    return $("#clearsearch").click(function() {
-      search_term = "";
-      update_history();
-      return false;
     });
   };
 
