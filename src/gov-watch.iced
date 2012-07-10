@@ -71,11 +71,20 @@ onhashchange = ->
    if fullhash == "#about"
         $("#page").css('display','inherit')
         $("#container").css('display','none')
+        $("#backlink").css('display','inherit')
+        $("#summary").html('')
+        $("#summary-header").css('visibility','hidden')
+        $("#orderstats").css('display','none')
+        $("#searchwidget").css('display','none')
+        $("#backlink").css('display','inherit')
         return
    else
         $("#page").css('display','none')
         $("#container").css('display','inherit')
-
+        $("#searchwidget").css('display','inherit')
+        $("#orderstats").css('display','inherit')
+        $("#summary-header").css('visibility','inherit')
+        $("#backlink").css('display','none')
 
    hash = fullhash[4...fullhash.length]
 
@@ -832,11 +841,12 @@ select_item = (slug) ->
     $('fb\\:comments').remove()
     $('fb\\:like').remove()
     if slug
-        $("#summary-header").css('visibility','hidden')
         $("#summary").html('')
+        $("#summary-header").css('visibility','hidden')
         $("#orderstats").css('display','none')
-        $("#sort button").addClass('disabled')
         $("#searchwidget").css('display','none')
+        $("#backlink").css('display','inherit')
+        $("#sort button").addClass('disabled')
         $("#clearsearch").addClass('disabled')
         $("#clearsearch").attr('disabled','disabled')
         for x in loaded_data
@@ -874,10 +884,11 @@ select_item = (slug) ->
         $('html, body').animate({ scrollTop: scroll_to }, 0)
     else
         $("#single-item").html('')
-        $("#summary-header").css('visibility','inherit')
-        $("#orderstats").css('display','inherit')
         $("#sort button").removeClass('disabled')
         $("#searchwidget").css('display','inherit')
+        $("#orderstats").css('display','inherit')
+        $("#summary-header").css('visibility','inherit')
+        $("#backlink").css('display','none')
         $("#clearsearch").removeClass('disabled')
         $("#clearsearch").attr('disabled',null)
 
