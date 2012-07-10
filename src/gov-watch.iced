@@ -115,7 +115,7 @@ onhashchange = ->
    $("#books li.book[data-book='#{selected_book}']").toggleClass('active', true)
 
    if search_term != ""
-        show_watermark(false)
+        ####show_watermark(false)
         $("#searchbox").val(search_term)
 
    if slug
@@ -240,7 +240,7 @@ initialized = false
 
 ## Sets up the searchbox with the typeahead lookup
 setup_searchbox = ->
-    show_watermark(true)
+    ####show_watermark(true)
     $("#searchbox").change ->
        # handle watermark on the search box
        if wm_shown
@@ -248,11 +248,11 @@ setup_searchbox = ->
        else
             search_term = $("#searchbox").val()
        update_history()
-    $("#searchbox").focus ->
-        show_watermark(false)
-    $("#searchbox").blur ->
-        if $(this).val() == ""
-            show_watermark(true)
+    ####$("#searchbox").focus ->
+        ####show_watermark(false)
+    ####$("#searchbox").blur ->
+        ####if $(this).val() == ""
+            ####show_watermark(true)
     $("#searchbar").submit -> false
 
     source = []
@@ -284,7 +284,7 @@ setup_searchbox = ->
 
     $("#clearsearch").click ->
         search_term = ""
-        show_watermark(true)
+        ####show_watermark(true)
         update_history()
         return false
 
@@ -728,7 +728,7 @@ setup_subscriptions = (selector) ->
 setup_tags = (selector) ->
    $(selector).click ->
         search_term = $(this).text()
-        show_watermark(false)
+        ####show_watermark(false)
         $("#searchbox").val(search_term)
         $("#explanation").modal('hide')
         update_history()

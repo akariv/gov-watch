@@ -570,10 +570,7 @@ var Mustache = function() {
     }
     $("#books li.book").toggleClass('active', false);
     $("#books li.book[data-book='" + selected_book + "']").toggleClass('active', true);
-    if (search_term !== "") {
-      show_watermark(false);
-      $("#searchbox").val(search_term);
-    }
+    if (search_term !== "") $("#searchbox").val(search_term);
     if (slug) {
       selected_slug = slug;
       select_item(selected_slug);
@@ -715,7 +712,6 @@ var Mustache = function() {
 
   setup_searchbox = function() {
     var person, source, subject, tag, _i, _j, _k, _len, _len2, _len3;
-    show_watermark(true);
     $("#searchbox").change(function() {
       if (wm_shown) {
         search_term = "";
@@ -723,12 +719,6 @@ var Mustache = function() {
         search_term = $("#searchbox").val();
       }
       return update_history();
-    });
-    $("#searchbox").focus(function() {
-      return show_watermark(false);
-    });
-    $("#searchbox").blur(function() {
-      if ($(this).val() === "") return show_watermark(true);
     });
     $("#searchbar").submit(function() {
       return false;
@@ -792,7 +782,6 @@ var Mustache = function() {
     });
     return $("#clearsearch").click(function() {
       search_term = "";
-      show_watermark(true);
       update_history();
       return false;
     });
@@ -1263,7 +1252,6 @@ var Mustache = function() {
   setup_tags = function(selector) {
     return $(selector).click(function() {
       search_term = $(this).text();
-      show_watermark(false);
       $("#searchbox").val(search_term);
       $("#explanation").modal('hide');
       update_history();
