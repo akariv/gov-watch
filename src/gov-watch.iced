@@ -68,6 +68,15 @@ onhashchange = ->
    # read the hash, discard first '#!z='
    fullhash = window.location.hash
 
+   if fullhash == "#about"
+        $("#page").css('display','inherit')
+        $("#container").css('display','none')
+        return
+   else
+        $("#page").css('display','none')
+        $("#container").css('display','inherit')
+
+
    hash = fullhash[4...fullhash.length]
 
    # hash is separated to key=value parts
@@ -118,7 +127,7 @@ onhashchange = ->
 wm_shown = false
 show_watermark = (show) ->
     if show
-       $("#searchbox").val("סינון חופשי של ההמלצות")
+       $("#searchbox").val("סינון חופשי")
     else
         if wm_shown
             $("#searchbox").val("")
@@ -135,6 +144,8 @@ convert_to_israeli_time = (reversed_time) ->
                 date = reversed_time[0]
                 time = null
         date = date.split('/')
+        if date[0] == '1970'
+                return "המועד לא הוגדר על ידי הוועדה"
         date = "#{date[2]}/#{date[1]}/#{date[0]}"
         if time
                 return "#{date} #{time}"
@@ -281,9 +292,10 @@ run_templates = (template,data,selector) ->
     $(selector).html(html)
 
 date_to_hebrew = (date) ->
-        date = date.split('/')
-        [year,month,day] = (parseInt(d,10) for d in date)
-        if year == 1970
+        try
+                date = date.split('/')
+                [year,month,day] = (parseInt(d,10) for d in date)
+        catch error
                 return "לא הוגדר על ידי הוועדה"
         month_to_hebrew = (month) ->
                 switch month
@@ -309,8 +321,8 @@ status_to_hebrew = (status) ->
         switch status
                 when "NEW" then return "טרם התחיל"
                 when "STUCK" then return "תקוע"
-                when "IN_PROGRESS" then return "בתהליך"
-                when "FIXED" then return "יושם במלואו"
+                when "IN_PROGRESS" then return "בטיפול"
+                when "FIXED" then return "יושם"
                 when "WORKAROUND" then return "יושם חלקית"
                 when "IRRELEVANT" then return "יישום ההמלצה כבר לא נדרש"
         return ""
@@ -645,6 +657,7 @@ setup_summary = ->
         if conflict
                 data.conflict = conflict
         run_templates( "summary", data, "#summary" )
+        setup_tooltips("#summary")
 
         $("#summary .total").click ->
                 status_filter = null
@@ -781,7 +794,7 @@ process_data = ->
     setup_subscription_form()
     setup_subscriptions(".item")
 
-    setup_tags(".item .tags > ul > li, a[data-tag='true']")
+    setup_tags(".item .tags > ul > li, a[data-tag='true'], .searchtag > span")
 
     setup_detailed_links()
 

@@ -533,6 +533,14 @@ var Mustache = function() {
   onhashchange = function() {
     var fullhash, hash, key, part, slug, splits, value, _i, _len, _ref;
     fullhash = window.location.hash;
+    if (fullhash === "#about") {
+      $("#page").css('display', 'inherit');
+      $("#container").css('display', 'none');
+      return;
+    } else {
+      $("#page").css('display', 'none');
+      $("#container").css('display', 'inherit');
+    }
     hash = fullhash.slice(4, fullhash.length);
     splits = hash.split("_");
     slug = null;
@@ -576,7 +584,7 @@ var Mustache = function() {
 
   show_watermark = function(show) {
     if (show) {
-      $("#searchbox").val("סינון חופשי של ההמלצות");
+      $("#searchbox").val("סינון חופשי");
     } else {
       if (wm_shown) $("#searchbox").val("");
     }
@@ -595,6 +603,7 @@ var Mustache = function() {
       time = null;
     }
     date = date.split('/');
+    if (date[0] === '1970') return "המועד לא הוגדר על ידי הוועדה";
     date = "" + date[2] + "/" + date[1] + "/" + date[0];
     if (time) {
       return "" + date + " " + time;
@@ -788,17 +797,20 @@ var Mustache = function() {
 
   date_to_hebrew = function(date) {
     var d, day, month, month_to_hebrew, year, _ref;
-    date = date.split('/');
-    _ref = (function() {
-      var _i, _len, _results;
-      _results = [];
-      for (_i = 0, _len = date.length; _i < _len; _i++) {
-        d = date[_i];
-        _results.push(parseInt(d, 10));
-      }
-      return _results;
-    })(), year = _ref[0], month = _ref[1], day = _ref[2];
-    if (year === 1970) return "לא הוגדר על ידי הוועדה";
+    try {
+      date = date.split('/');
+      _ref = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = date.length; _i < _len; _i++) {
+          d = date[_i];
+          _results.push(parseInt(d, 10));
+        }
+        return _results;
+      })(), year = _ref[0], month = _ref[1], day = _ref[2];
+    } catch (error) {
+      return "לא הוגדר על ידי הוועדה";
+    }
     month_to_hebrew = function(month) {
       switch (month) {
         case 1:
@@ -845,9 +857,9 @@ var Mustache = function() {
       case "STUCK":
         return "תקוע";
       case "IN_PROGRESS":
-        return "בתהליך";
+        return "בטיפול";
       case "FIXED":
-        return "יושם במלואו";
+        return "יושם";
       case "WORKAROUND":
         return "יושם חלקית";
       case "IRRELEVANT":
@@ -1168,6 +1180,7 @@ var Mustache = function() {
     if (in_progress) data.in_progress = in_progress;
     if (conflict) data.conflict = conflict;
     run_templates("summary", data, "#summary");
+    setup_tooltips("#summary");
     $("#summary .total").click(function() {
       status_filter = null;
       do_search();
@@ -1304,7 +1317,7 @@ var Mustache = function() {
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 750
+        lineno: 763
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -1348,7 +1361,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 772
+          lineno: 785
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1357,7 +1370,7 @@ var Mustache = function() {
         setup_searchbox();
         setup_subscription_form();
         setup_subscriptions(".item");
-        setup_tags(".item .tags > ul > li, a[data-tag='true']");
+        setup_tags(".item .tags > ul > li, a[data-tag='true'], .searchtag > span");
         setup_detailed_links();
         setup_tooltips(".item");
         $("#books li.book a").click(function() {
@@ -1393,7 +1406,7 @@ var Mustache = function() {
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 813
+            lineno: 826
           })), 1000);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1448,7 +1461,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 843
+          lineno: 856
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1510,7 +1523,7 @@ var Mustache = function() {
               return json = arguments[0];
             };
           })(),
-          lineno: 879
+          lineno: 892
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1599,7 +1612,7 @@ var Mustache = function() {
               return version = arguments[0];
             };
           })(),
-          lineno: 943
+          lineno: 956
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

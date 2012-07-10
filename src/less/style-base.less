@@ -31,12 +31,48 @@ body {
 	
 }
 
+a{
+  color: @good;
+  
+  &:hover{
+    color: darken(@good, 15%);
+    text-decoration: none;
+  }
+}
+
+.implementation-status-good a{
+  color: @good;
+  &:hover{
+    color: darken(@good, 15%);
+  }  
+}
+
+.implementation-status-bad a{
+  color: @bad;
+  &:hover{
+    color: darken(@bad, 15%);
+  }  
+}
+
 .navbar{
   margin-bottom: 0;
 }
 
-.container-fluid{
-  min-width:570px;
+@media (max-width: 480px) {
+  .container-fluid,
+  .content{
+    max-width:100%;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .row-fluid div{
+    .clearfix();
+  }
+  
+  .isotope{
+    max-width: 100%;
+  }
 }
 
 .hero-unit, .well{
@@ -47,6 +83,15 @@ body {
   .border-radius(5px);
   
   .heading{
+    
+    a{
+      color: white;
+      
+      &:hover{
+        color: darken(white, 15%);
+      }
+    }
+    
     .clearfix();
     background: rgba(0,0,0,0.1);
     padding: 14px 30px;
@@ -63,11 +108,8 @@ body {
       //margin: 23px 0 0;
     }
     
-    .btn-inverse{
-      .buttonBackground(@herotone, darken(#393e46, 10%));
-    }
   }
-  
+    
   h1{
     //float: right;
     //margin-left: 20px;
@@ -75,6 +117,9 @@ body {
   
   .row-fluid {
     max-width: 1230px;
+  }
+  
+  .filters{
     margin: 0 30px 10px;
   }
   
@@ -117,6 +162,10 @@ body {
       color: #FFFFFF;
     }
   }
+  
+  .btn-inverse{
+    .buttonBackground(@herotone, darken(#393e46, 10%));
+  }
 
   &.explanation {
     //width: 770px;
@@ -146,12 +195,42 @@ body {
     -moz-transition: background-color 3s;
 }
 
-.content{
-  margin: 0 10px 0 0;
-  padding-left: 0;
+@media(min-width: 1100px){
+  .content{
+    margin: 0 10px 0 10px;
+    padding-left: 0;
+  }
 }
 
 /**** Header ****/
+
+#searchwidget{
+  position: relative;
+}
+
+@media (max-width: 979px){
+  #searchwidget{
+    width: 100%;
+  }
+}
+
+#toggle-tags{
+  font-size: 0.8em;
+  background:none;
+  position: absolute;
+  top: 6px;
+  padding: 0 3px;
+  left:0;
+  color: lighten(@herotone, 30%);
+  font-weight: normal;
+  &:hover{
+    color: #fff;
+  }
+}
+
+#tag-list{
+  
+}
 
 #search{
   
@@ -178,11 +257,17 @@ body {
     text-indent: -2000%;
     float: left;
     background: url('/static/img/clear-search.png'); 
-    }
-    
   }
+  
+}
 
-.dropdown-menu{
+@media (max-width: 767px){
+  .row.isotope > .span.isotope-item{
+    margin: 10px 0;
+  }
+}
+
+.hero-unit .dropdown-menu{
   
   margin-right: 5px;
   overflow: hidden;
@@ -217,11 +302,11 @@ body {
   span{
     background: @cardshade;
     border-radius: 3px 0 0 3px;
-    color: white;
+    color: @text;
     font-size: 18px;
     font-weight: 400;
     padding: 0 5px 1px;
-    text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    //text-shadow: 0 0 6px @card;
     
     &:hover{
       text-decoration:none;
@@ -249,7 +334,7 @@ body {
 
 #orderstats{
   >div{
-    float: right;
+    //float: right;
     }
   }
 
@@ -264,9 +349,10 @@ body {
   a{
     font-size: 2em;
     color: white;
-    .makeColumn;
+    float: right;
+    margin-right: 10px;
     .border-radius(3px);
-    padding: 4px 0;
+    padding: 4px 2px 4px 6px;
     text-indent: 4px;
     
     > span{
@@ -285,14 +371,14 @@ body {
     }
     
     &.conflict{
-      color: @bad;
+      color: @good;
       
       &:first-letter{
-        color: @good;
+        color: @bad;
       }
       
       span span{
-        color: @good;
+        color: @bad;
       }
     }
     
@@ -311,6 +397,7 @@ footer{
   margin: 20px auto;
   text-align: center;
   padding-top: 20px;
+  color: lighten(@herotone, 40%);
   
   a img{
     height: 20px;
@@ -367,10 +454,11 @@ footer{
 
   .tooltip{
     font-size: 18px;
+    &.in{ .opacity(90); }
     .tooltip-inner{
-      background: @herotone;
+      background: lighten(@herotone, 10%);
     }
     &.bottom .tooltip-arrow{
-      border-bottom: 5px solid @herotone; 
+      border-bottom: 5px solid lighten(@herotone, 10%); 
     }
   }

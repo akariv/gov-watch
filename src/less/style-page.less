@@ -1,0 +1,23 @@
+/**** Page view ****/
+
+#page{
+  .clearfix();
+  max-width: 760px; //8*@gridColumnWidth + 7*@gridGutterWidth;
+  margin: 10px auto;
+  float: none;
+  background: lighten(@herotone, 70%);
+  padding-bottom: 50px;
+  
+  h2{
+    margin: 50px;
+  }
+  p{
+    margin: 0 50px 20px;
+  }
+} // End #page
+
+@media(min-width:1200px){
+  #page{
+    margin: 10px 30px;
+  }
+}
