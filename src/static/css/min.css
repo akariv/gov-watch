@@ -802,7 +802,7 @@ a{color:#6ba688;}a:hover{color:#4a7b62;text-decoration:none;}
 #summary{margin-left:-14px;margin-right:-14px;font-weight:bold;}#summary a{font-size:2em;color:white;float:right;margin-right:10px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;padding:4px 2px 4px 6px;text-indent:4px;}#summary a>span{font-size:0.4em;display:block;font-weight:normal;}
 #summary a:hover{cursor:pointer;}
 #summary a.implemented,#summary a.in_progress{color:#6ba688;}
-#summary a.stuck{color:#f0776d;}
+#summary a.stuck,#summary a.news{color:#f0776d;}
 #summary a.conflict{color:#6ba688;}#summary a.conflict:first-letter{color:#f0776d;}
 #summary a.conflict span span{color:#f0776d;}
 #summary a:hover{text-decoration:none;background:#393e46;}

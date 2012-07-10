@@ -6065,7 +6065,8 @@ a:hover {
 #summary a.in_progress {
   color: #6ba688;
 }
-#summary a.stuck {
+#summary a.stuck,
+#summary a.news {
   color: #f0776d;
 }
 #summary a.conflict {

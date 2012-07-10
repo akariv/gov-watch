@@ -208,7 +208,7 @@
 
   convert_to_israeli_time = function(reversed_time) {
     var date, time;
-    if (!reversed_time) return reversed_time;
+    if (!reversed_time) return "המועד לא הוגדר על ידי הוועדה";
     reversed_time = reversed_time.split(" ");
     if (reversed_time.length > 1) {
       date = reversed_time[0], time = reversed_time[1];
@@ -425,6 +425,7 @@
     } catch (error) {
       return "לא הוגדר על ידי הוועדה";
     }
+    if (isNaN(year) || isNaN(month)) return "לא הוגדר על ידי הוועדה";
     month_to_hebrew = function(month) {
       switch (month) {
         case 1:
@@ -787,12 +788,14 @@
     conflict = $(".item.shown[data-implementation-status='CONFLICT']").size();
     data = {};
     if (total) data.total = total;
-    stuck = news + workaround + stuck;
+    if (news) data.news = news;
+    stuck = workaround + stuck;
     if (stuck) data.stuck = stuck;
     implemented = fixed + irrelevant;
     if (implemented) data.implemented = implemented;
     if (in_progress) data.in_progress = in_progress;
     if (conflict) data.conflict = conflict;
+    $("#summary").html('');
     run_templates("summary", data, "#summary");
     setup_tooltips("#summary");
     $("#summary .total").click(function() {
@@ -800,8 +803,13 @@
       do_search();
       return false;
     });
+    $("#summary .news").click(function() {
+      status_filter = ['NEW'];
+      do_search();
+      return false;
+    });
     $("#summary .stuck").click(function() {
-      status_filter = ['STUCK', 'NEW', 'WORKAROUND'];
+      status_filter = ['STUCK', 'WORKAROUND'];
       do_search();
       return false;
     });
@@ -886,6 +894,7 @@
   };
 
   setup_tooltips = function(selector) {
+    $("div.tooltip").remove();
     return $("" + selector + " .rel-tooltip").tooltip({
       placement: 'bottom'
     });
@@ -931,7 +940,7 @@
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 772
+        lineno: 782
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -975,7 +984,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 794
+          lineno: 804
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1020,7 +1029,7 @@
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 835
+            lineno: 845
           })), 1000);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1076,7 +1085,7 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 866
+          lineno: 876
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1139,7 +1148,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 903
+          lineno: 913
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1228,7 +1237,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 967
+          lineno: 977
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

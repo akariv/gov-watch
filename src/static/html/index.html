@@ -392,8 +392,11 @@
   <a class="in_progress rel-tooltip" title='ההמלצה נמצאת בטיפול. הסיבות לכך הן לרוב: חקיקה בכנסת, ועדות הדנות בנושא, או שההמלצה היא חלק מתוכנית חומש'>{{in_progress}} <span>בטיפול</span></a>
   {{/in_progress}}
   {{#stuck}}
-  <a class="stuck rel-tooltip" title='או שההמלצה לא אומצה כלל, או שההמלצה בטיפול, אבל יש גורמים חיצוניים שמעכבים אותה, או שלא התקבל עדכון מטעם הממשלה בחצי השנה האחרונה'>{{stuck}} <span>תקועות</span></a>
+  <a class="stuck rel-tooltip" title='ההמלצה בטיפול, אבל יש גורמים חיצוניים שמעכבים אותה, או שלא התקבל עדכון מטעם הממשלה בחצי השנה האחרונה'>{{stuck}} <span>תקועות</span></a>
   {{/stuck}}
+  {{#news}}
+  <a class="news rel-tooltip" title='ההמלצה לא אומצה כלל'>{{news}} <span>לא אומצו</span></a>
+  {{/news}}
   {{#conflict}}
   <a class="conflict rel-tooltip" title='קיימת אי הסכמה לגבי הסטטוס בין הגופים העוקבים והממשלה'>{{conflict}} <span><span>בקונ</span>פליקט</span></a>
   {{/conflict}}

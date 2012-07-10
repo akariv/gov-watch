@@ -145,7 +145,7 @@ show_watermark = (show) ->
 
 convert_to_israeli_time = (reversed_time) ->
         if not reversed_time
-                return reversed_time
+                return "המועד לא הוגדר על ידי הוועדה"
         reversed_time = reversed_time.split(" ")
         if reversed_time.length > 1
                 [date,time] = reversed_time
@@ -305,6 +305,8 @@ date_to_hebrew = (date) ->
                 date = date.split('/')
                 [year,month,day] = (parseInt(d,10) for d in date)
         catch error
+                return "לא הוגדר על ידי הוועדה"
+        if isNaN(year) or isNaN(month)
                 return "לא הוגדר על ידי הוועדה"
         month_to_hebrew = (month) ->
                 switch month
@@ -655,7 +657,9 @@ setup_summary = ->
         data = {}
         if total
                 data.total = total
-        stuck = news + workaround + stuck
+        if news
+                data.news = news
+        stuck = workaround + stuck
         if stuck
                 data.stuck = stuck
         implemented = fixed + irrelevant
@@ -665,6 +669,7 @@ setup_summary = ->
                 data.in_progress = in_progress
         if conflict
                 data.conflict = conflict
+        $("#summary").html('')
         run_templates( "summary", data, "#summary" )
         setup_tooltips("#summary")
 
@@ -672,8 +677,12 @@ setup_summary = ->
                 status_filter = null
                 do_search()
                 return false
+        $("#summary .news").click ->
+                status_filter = ['NEW']
+                do_search()
+                return false
         $("#summary .stuck").click ->
-                status_filter = ['STUCK','NEW','WORKAROUND']
+                status_filter = ['STUCK','WORKAROUND']
                 do_search()
                 return false
         $("#summary .implemented").click ->
@@ -739,6 +748,7 @@ setup_detailed_links = ->
         return false
 
 setup_tooltips = (selector) ->
+        $("div.tooltip").remove()
         $("#{selector} .rel-tooltip").tooltip({placement:'bottom'})
 
 ## Handles the site's data (could be from local storage or freshly loaded)
