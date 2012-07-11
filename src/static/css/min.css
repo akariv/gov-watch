@@ -966,7 +966,7 @@ footer{clear:both;margin:20px auto;text-align:center;padding-top:20px;color:#9ca
 #single-item .card-section:after{background-position:right -10px;margin:0px -14px 0 0;}
 #single-item .card-section>div{background:url("/static/img/card-tile.jpg");margin-right:-14px;}
 #single-item .tags{padding:20px;}
-#backlink{display:inline;margin:5px -110px 0 0;line-height:1.7em;}#backlink a:before{content:"< ";}
+#backlink{margin:5px -110px 0 0;line-height:1.7em;}#backlink a:before{content:"< ";}
 .tags h3{display:none;}
 .tags li{float:right;text-decoration:none;background:url("/static/img/taghead.png") no-repeat right top;font-size:0.7em;height:18px;line-height:18px;list-style:none outside none;margin:0 0 3px 5px;padding-right:13px;overflow:hidden;}.tags li a{background-color:#e4daac;-webkit-border-radius:3px 0 0 3px;-moz-border-radius:3px 0 0 3px;border-radius:3px 0 0 3px;-webkit-border-radius:3px 0 0 3px;-moz-border-radius:3px 0 0 3px;border-radius:3px 0 0 3px;padding:0px 5px 1px;color:#fffcd9;font-weight:700;text-shadow:0 0 6px rgba(0, 0, 0, 0.4);}.tags li a:hover{text-decoration:none;}
 .tags li:hover{background-position:right bottom;}.tags li:hover a{background:#c4bb91;color:#fffcd9;}

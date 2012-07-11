@@ -5466,6 +5466,9 @@ a:hover {
   color: #4a7b62;
   text-decoration: none;
 }
+.navbar .brand {
+  padding: 10px 20px 11px;
+}
 .implementation-status-good a {
   color: #6ba688;
 }
@@ -5938,6 +5941,9 @@ a:hover {
   text-indent: -2000%;
   float: left;
   background: url('/static/img/clear-search.png');
+}
+#search button span {
+  display: none;
 }
 @media (max-width: 767px) {
   .row.isotope > .span.isotope-item {
@@ -7349,6 +7355,13 @@ footer a img {
 }
 #single-item .tags {
   padding: 20px;
+}
+#backlink {
+  margin: 5px -110px 0 0;
+  line-height: 1.7em;
+}
+#backlink a:before {
+  content: "< ";
 }
 .tags h3 {
   display: none;
