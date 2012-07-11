@@ -68,8 +68,7 @@ onhashchange = ->
    # read the hash, discard first '#!z='
    fullhash = window.location.hash
 
-   if fullhash == "#about"
-        $("#page").css('display','inherit')
+   if fullhash == "#about" || fullhash == "#partners"
         $("#container").css('display','none')
         $("#backlink").css('display','inherit')
         $("#summary").html('')
@@ -77,6 +76,9 @@ onhashchange = ->
         $("#orderstats").css('display','none')
         $("#searchwidget").css('display','none')
         $("#backlink").css('display','inherit')
+        $("#page").css('display','inherit')
+        $("#page div").css('display','none')
+        $("#page div#{fullhash}").css('display','inherit')
         return
    else
         $("#page").css('display','none')
@@ -145,7 +147,7 @@ show_watermark = (show) ->
 
 convert_to_israeli_time = (reversed_time) ->
         if not reversed_time
-                return reversed_time
+                return "המועד לא הוגדר על ידי הוועדה"
         reversed_time = reversed_time.split(" ")
         if reversed_time.length > 1
                 [date,time] = reversed_time
@@ -262,6 +264,11 @@ setup_searchbox = ->
         source.push({type:"person",title:person})
     for subject in all_subjects
         source.push({type:"subject",title:subject})
+    $("#clearsearch").click ->
+        search_term = ""
+        show_watermark(true)
+        update_history()
+        return false
     $("#searchbox").typeahead
          source: source
          items: 20
@@ -282,12 +289,6 @@ setup_searchbox = ->
                 else
                         console.log item.type+" "+item.title
 
-    $("#clearsearch").click ->
-        search_term = ""
-        show_watermark(true)
-        update_history()
-        return false
-
 run_templates = (template,data,selector) ->
     # This is used to process lists in the data's values.
     # Lists are srtings separated with ';'
@@ -305,6 +306,8 @@ date_to_hebrew = (date) ->
                 date = date.split('/')
                 [year,month,day] = (parseInt(d,10) for d in date)
         catch error
+                return "לא הוגדר על ידי הוועדה"
+        if isNaN(year) or isNaN(month)
                 return "לא הוגדר על ידי הוועדה"
         month_to_hebrew = (month) ->
                 switch month
@@ -655,7 +658,9 @@ setup_summary = ->
         data = {}
         if total
                 data.total = total
-        stuck = news + workaround + stuck
+        if news
+                data.news = news
+        stuck = workaround + stuck
         if stuck
                 data.stuck = stuck
         implemented = fixed + irrelevant
@@ -665,6 +670,7 @@ setup_summary = ->
                 data.in_progress = in_progress
         if conflict
                 data.conflict = conflict
+        $("#summary").html('')
         run_templates( "summary", data, "#summary" )
         setup_tooltips("#summary")
 
@@ -672,8 +678,12 @@ setup_summary = ->
                 status_filter = null
                 do_search()
                 return false
+        $("#summary .news").click ->
+                status_filter = ['NEW']
+                do_search()
+                return false
         $("#summary .stuck").click ->
-                status_filter = ['STUCK','NEW','WORKAROUND']
+                status_filter = ['STUCK','WORKAROUND']
                 do_search()
                 return false
         $("#summary .implemented").click ->
@@ -739,6 +749,7 @@ setup_detailed_links = ->
         return false
 
 setup_tooltips = (selector) ->
+        $("div.tooltip").remove()
         $("#{selector} .rel-tooltip").tooltip({placement:'bottom'})
 
 ## Handles the site's data (could be from local storage or freshly loaded)
@@ -827,7 +838,7 @@ process_data = ->
     # item click handler
     # $(".item").click -> update_history($(this).attr('rel'))
 
-    $("#explanation").modal({'show':true})#explanation_needed})
+    $("#explanation").modal({'show':explanation_needed})
 
     # handle hash change events, and process current (initial) hash
     window.onhashchange = onhashchange
@@ -968,7 +979,6 @@ $ ->
         await $.get("/api/version",(defer version),"json")
         try
                 current_version = localStorage.version
-                localStorage.version = JSON.stringify(version)
                 if current_version and version == JSON.parse(current_version)
                         # Try to load data from the cache, to make the page load faster
                         loaded_data = JSON.parse(localStorage.data)
@@ -977,6 +987,7 @@ $ ->
                         all_people = JSON.parse(localStorage.all_people)
                         all_subjects = JSON.parse(localStorage.all_subjects)
                         process_data()
+                        localStorage.version = JSON.stringify(version)
                  else
                         console.log "wrong version "+current_version+" != "+version
                         load_data()

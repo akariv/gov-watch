@@ -561,8 +561,7 @@ var Mustache = function() {
   onhashchange = function() {
     var fullhash, hash, key, part, slug, splits, value, _i, _len, _ref;
     fullhash = window.location.hash;
-    if (fullhash === "#about") {
-      $("#page").css('display', 'inherit');
+    if (fullhash === "#about" || fullhash === "#partners") {
       $("#container").css('display', 'none');
       $("#backlink").css('display', 'inherit');
       $("#summary").html('');
@@ -570,6 +569,9 @@ var Mustache = function() {
       $("#orderstats").css('display', 'none');
       $("#searchwidget").css('display', 'none');
       $("#backlink").css('display', 'inherit');
+      $("#page").css('display', 'inherit');
+      $("#page div").css('display', 'none');
+      $("#page div" + fullhash).css('display', 'inherit');
       return;
     } else {
       $("#page").css('display', 'none');
@@ -632,7 +634,7 @@ var Mustache = function() {
 
   convert_to_israeli_time = function(reversed_time) {
     var date, time;
-    if (!reversed_time) return reversed_time;
+    if (!reversed_time) return "המועד לא הוגדר על ידי הוועדה";
     reversed_time = reversed_time.split(" ");
     if (reversed_time.length > 1) {
       date = reversed_time[0], time = reversed_time[1];
@@ -783,7 +785,13 @@ var Mustache = function() {
         title: subject
       });
     }
-    $("#searchbox").typeahead({
+    $("#clearsearch").click(function() {
+      search_term = "";
+      show_watermark(true);
+      update_history();
+      return false;
+    });
+    return $("#searchbox").typeahead({
       source: source,
       items: 20,
       matcher: function(item) {
@@ -818,12 +826,6 @@ var Mustache = function() {
         }
       }
     });
-    return $("#clearsearch").click(function() {
-      search_term = "";
-      show_watermark(true);
-      update_history();
-      return false;
-    });
   };
 
   run_templates = function(template, data, selector) {
@@ -849,6 +851,7 @@ var Mustache = function() {
     } catch (error) {
       return "לא הוגדר על ידי הוועדה";
     }
+    if (isNaN(year) || isNaN(month)) return "לא הוגדר על ידי הוועדה";
     month_to_hebrew = function(month) {
       switch (month) {
         case 1:
@@ -1211,12 +1214,14 @@ var Mustache = function() {
     conflict = $(".item.shown[data-implementation-status='CONFLICT']").size();
     data = {};
     if (total) data.total = total;
-    stuck = news + workaround + stuck;
+    if (news) data.news = news;
+    stuck = workaround + stuck;
     if (stuck) data.stuck = stuck;
     implemented = fixed + irrelevant;
     if (implemented) data.implemented = implemented;
     if (in_progress) data.in_progress = in_progress;
     if (conflict) data.conflict = conflict;
+    $("#summary").html('');
     run_templates("summary", data, "#summary");
     setup_tooltips("#summary");
     $("#summary .total").click(function() {
@@ -1224,8 +1229,13 @@ var Mustache = function() {
       do_search();
       return false;
     });
+    $("#summary .news").click(function() {
+      status_filter = ['NEW'];
+      do_search();
+      return false;
+    });
     $("#summary .stuck").click(function() {
-      status_filter = ['STUCK', 'NEW', 'WORKAROUND'];
+      status_filter = ['STUCK', 'WORKAROUND'];
       do_search();
       return false;
     });
@@ -1310,6 +1320,7 @@ var Mustache = function() {
   };
 
   setup_tooltips = function(selector) {
+    $("div.tooltip").remove();
     return $("" + selector + " .rel-tooltip").tooltip({
       placement: 'bottom'
     });
@@ -1355,7 +1366,7 @@ var Mustache = function() {
             return __iced_deferrals.ret = arguments[0];
           };
         })(),
-        lineno: 772
+        lineno: 783
       })), 50);
       __iced_deferrals._fulfill();
     })(function() {
@@ -1399,7 +1410,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 794
+          lineno: 805
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1428,7 +1439,7 @@ var Mustache = function() {
           return false;
         });
         $("#explanation").modal({
-          'show': true
+          'show': explanation_needed
         });
         window.onhashchange = onhashchange;
         onhashchange();
@@ -1444,7 +1455,7 @@ var Mustache = function() {
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 835
+            lineno: 846
           })), 1000);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1500,7 +1511,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 866
+          lineno: 877
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1563,7 +1574,7 @@ var Mustache = function() {
               return json = arguments[0];
             };
           })(),
-          lineno: 903
+          lineno: 914
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1652,20 +1663,20 @@ var Mustache = function() {
               return version = arguments[0];
             };
           })(),
-          lineno: 967
+          lineno: 978
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
         try {
           current_version = localStorage.version;
-          localStorage.version = JSON.stringify(version);
           if (current_version && version === JSON.parse(current_version)) {
             loaded_data = JSON.parse(localStorage.data);
             all_books = JSON.parse(localStorage.all_books);
             all_tags = JSON.parse(localStorage.all_tags);
             all_people = JSON.parse(localStorage.all_people);
             all_subjects = JSON.parse(localStorage.all_subjects);
-            return process_data();
+            process_data();
+            return localStorage.version = JSON.stringify(version);
           } else {
             console.log("wrong version " + current_version + " != " + version);
             return load_data();
