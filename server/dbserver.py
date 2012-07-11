@@ -112,7 +112,7 @@ def getitem(slug):
 
 @app.route("/comfra/<slug>", methods=['GET'])
 def comment_frame(slug):
-    return render_template('comment_frame.html',content_type="text/html",items={'item':slug})
+    return render_template('comment_frame.html',content_type="text/html",item=slug)
 
 def update_everything(slug):
     print "updating data"
