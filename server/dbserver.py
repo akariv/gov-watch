@@ -110,6 +110,10 @@ def unsubscribe():
 def getitem(slug):
     return Response(response=r.get("slug:%s" % slug), content_type="application/json")
 
+@app.route("/comfra/<slug>", methods=['GET'])
+def comment_frame(slug):
+    return render_template('comment_frame.html',content_type="text/html",items={'item':slug})
+
 def update_everything(slug):
     print "updating data"
     t = Timer(0.1,lambda: _update_everything(slug))
