@@ -749,7 +749,7 @@ setup_detailed_links = ->
         return false
 
 setup_tooltips = (selector) ->
-        selector.find("div.tooltip").remove()
+        $("div.tooltip").remove()
         selector.find(".rel-tooltip").tooltip({placement:'bottom'})
 
 ## Handles the site's data (could be from local storage or freshly loaded)
@@ -763,6 +763,13 @@ process_data = ->
     # Fill contents to the book selection sidebox
     for book in all_books
         $("#books").prepend("<li data-book='#{book}' class='book'><a href='#'>#{book}</a></li>")
+
+    await $.get('/api/fb',null,(defer cc),"json")
+    for i in [0..loaded_data.length-1]
+        rec = loaded_data[i]
+        slug = rec.slug
+        if cc[slug]?
+                loaded_data[i].base.fbcomments = cc[slug]
 
     run_templates( "item", items: loaded_data, "#items" )
 
@@ -817,8 +824,6 @@ process_data = ->
             setup_subscriptions($(this))
             setup_tooltips($(this))
         )
-
-    load_fb_comment_count($(".item"))
 
     # book selection
     $("#books li.book a").click ->
@@ -879,7 +884,6 @@ select_item = (slug) ->
         setup_subscriptions($(".detail-view"))
         setup_tags(".detail-view .tags > ul > li")
         setup_tooltips($(".detail-view"))
-        load_fb_comment_count($(".detail-view"))
         $("#single-item .commentcount").click ->
                 $('html, body').animate({ scrollTop: $("#single-item .fb").offset().top }, 0)
                 return false
@@ -902,24 +906,6 @@ select_item = (slug) ->
         $("#clearsearch").removeClass('disabled')
         $("#clearsearch").attr('disabled',null)
 
-load_fb_comment_count = (selector,item=false) ->
-        selector.find(".commentcount").each ->
-                slug = $(this).attr('rel')
-                await $.get('https://api.facebook.com/method/fql.query',
-                            {
-                              query: "SELECT url,commentsbox_count FROM link_stat WHERE url='#{generate_url(slug)}'",
-                              format: "json"
-                            }
-                            ,
-                            (defer json),
-                            "json")
-                h = $(this).html()
-                try
-                        $(this).html(json[0].commentsbox_count+h)
-                catch error
-                        console.log("Failed tp parse json:",JSON.stringify(json))
-        if item
-                $("#items").isotope( 'updateSortData', $(".item") )
 
 ## Perform search on the site's data
 do_search = ->

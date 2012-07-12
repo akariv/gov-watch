@@ -80,7 +80,7 @@
     <div class="tools">
       <a href="#" class="watch rel-tooltip" title="עקבו אחרי עדכונים להמלצה זו" {{/base}}rel="{{slug}}"{{#base}}>{{subscribers}}</a>
       <a href="#" class="linkcount goto-detail rel-tooltip" title="{{num_links}} קישורים מצורפים">{{num_links}}</a>
-      <a href="#" class="commentcount goto-detail rel-tooltip" title="הצטרפו לדיון" {{/base}}rel="{{slug}}"{{#base}}></a>
+      <a href="#" class="commentcount goto-detail rel-tooltip" title="הצטרפו לדיון" {{/base}}rel="{{slug}}"{{#base}}>{{fbcomments}}</a>
     </div>
     
   </div>
@@ -241,7 +241,7 @@
 	<a href="" class="linkcount">{{num_links}}&nbsp;קישורים</a>
       </div>  
       <div class="span2">
-	<a href="" class="commentcount" {{/base}}rel="{{slug}}"{{#base}}>&nbsp;תגובות</a>
+	<a href="" class="commentcount" {{/base}}rel="{{slug}}"{{#base}}>{{fbcomments}} &nbsp;תגובות</a>
       </div>  
     </div>
   </div>
@@ -688,7 +688,7 @@
 
 <div id="fb-root"></div>
 <!-- JS -->
-<script type='text/javascript' src='static/js/min.js'></script>
+<script type='text/javascript' src='static/js/max.js'></script>
 <script type="text/javascript">
 jQuery(function($){
   if (($.browser.mozilla && parseInt($.browser.version.split('.')[0]) < 12) 
