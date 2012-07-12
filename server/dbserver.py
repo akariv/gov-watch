@@ -34,7 +34,7 @@ def idx():
         return Response(file('static/html/index.html').read())
     else:
         if ('googlebot' not in request.user_agent.string.lower()) and ('facebook' not in request.user_agent.string.lower()):
-            return redirect('/%s' % orig_hashbang )
+            return redirect('/#!%s' % orig_hashbang )
         orig_hashbang = urllib.unquote(orig_hashbang)
         hashbang = orig_hashbang[2:].split('_')
         hashbang = [ x.split(':') for x in hashbang ]
