@@ -33,8 +33,6 @@ def idx():
     if not orig_hashbang:
         return Response(file('static/html/index.html').read())
     else:
-        if ('googlebot' not in request.user_agent.string.lower()) and ('facebook' not in request.user_agent.string.lower()):
-            return redirect('/%s' % hashbang )
         orig_hashbang = urllib.unquote(orig_hashbang)
         hashbang = orig_hashbang[2:].split('_')
         hashbang = [ x.split(':') for x in hashbang ]
@@ -212,4 +210,4 @@ if __name__=="__main__":
 
     except:
         print "note: running without greenlet"
-        app.run(debug=False)
+        app.run(debug=True,host='0.0.0.0')
