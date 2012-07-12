@@ -359,8 +359,7 @@ is_good_status = (status) ->
                 when "IRRELEVANT" then return true
         return null
 
-
-setup_timeline = (item_selector, margins=80 ) ->
+setup_timeline_initial = (item_selector, margins=80 ) ->
     # Setup timeline after all elements have reached their required size
     item_selector.each ->
 
@@ -408,6 +407,9 @@ setup_timeline = (item_selector, margins=80 ) ->
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").find('.timeline-point').attr('data-date-numeric',max_numeric_date)
 
+        $(this).find(".timeline-logic").attr('data-max-numeric-date',max_numeric_date)
+        $(this).find(".timeline-logic").attr('data-min-numeric-date',min_numeric_date)
+
         if not horizontal
                 initial_year = (Math.ceil(min_numeric_date/372.0)).toFixed(0)
                 last_year = (Math.floor(max_numeric_date/372.0)).toFixed(0)
@@ -419,52 +421,9 @@ setup_timeline = (item_selector, margins=80 ) ->
                                         <div class='timeline-point milestone tick' data-date-numeric='#{numeric}' data-date='#{y}/01/01'><div>#{y}</div></div>
                                 </li>")
 
-        # profile image
-        $(this).find('img').each ->
-                alt = $(this).attr('alt')
-                if alt
-                        $(this).attr('src',"/profile/#{slugify(alt)}")
-
         # Sort by timestamp
         $(this).find(".update-feed > ul > li").tsort({attr:'data-date',order:'desc'})
         $(this).find(".timeline-logic > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
-
-        # Finish date handling
-        finish_date = $(this).find(".timeline-logic > ul > li > .milestone:first").attr('data-date')
-        finish_date = date_to_hebrew(finish_date)
-        $(this).find(".duedate > p").html(finish_date)
-
-        #date_bar = $(this).find(".date-bar")
-        #if date_bar
-        #        date_bar.html('')
-        #        initial_year = (Math.ceil(min_numeric_date/372.0)).toFixed(0)
-        #        last_year = (Math.floor(max_numeric_date/372.0)).toFixed(0)
-        #        for y in [initial_year..last_year]
-        #                date_bar.prepend("<li>#{y}</li>")
-        #        pixel_years = ($(this).innerHeight()-margins) / ( (max_numeric_date-min_numeric_date)/372 )
-        #        common_margin = pixel_years - date_bar.find('li:first').outerHeight()
-        #        first_margin = (1 - (min_numeric_date % 372)/372) * pixel_years
-        #        date_bar.find("li").css( "margin-bottom", common_margin )
-        #        date_bar.find("li:last").css( "margin-bottom", first_margin + 30 )
-
-        # Calculate widths and issue's status
-        # ---------
-
-        # All kinds of measurements
-        last_percent = 0.0
-        item_margins = 5
-        if horizontal
-                size = $(this).innerWidth() - margins
-        else
-                size = $(this).innerHeight() - margins
-        available_size = size
-        $(this).find(".timeline-logic > ul > li .timeline-point").each( ->
-                if horizontal
-                        available_size = available_size - $(this).outerWidth() - item_margins
-                else
-                        available_size = available_size - $(this).outerHeight() - item_margins
-                )
-        margin = 0
 
         # initial government status and related variables
         gov_status = 'NEW'
@@ -562,34 +521,6 @@ setup_timeline = (item_selector, margins=80 ) ->
                         if i <= last_update_at
                                 line.addClass("unreported")
 
-        # iterate over items and set size
-        $(this).find(".timeline-logic > ul > li").each( ->
-                point = $(this).find('.timeline-point:first')
-                line = $(this).find('.timeline-line:first')
-
-                date = parseInt($(this).attr('data-date-numeric'))
-
-                percent = (max_numeric_date - date) / (max_numeric_date - min_numeric_date)
-                if horizontal
-                        point_size = point.outerWidth() + item_margins
-                else
-                        point_size = point.outerHeight() + item_margins
-
-                item_size = available_size * (percent - last_percent) + point_size
-                if horizontal
-                        $(this).css('width',item_size)
-                        $(this).css('left',margin)
-                else
-                        $(this).css('height',item_size)
-                        $(this).css('top',margin)
-
-                last_percent = percent
-                margin = margin + item_size
-        )
-
-        # remove first line (which appears AFTER the last milestone / point)
-        $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
-
         # current implementation status for buxa
         implementation_status = gov_status
         if implementation_status != "FIXED" and implementation_status != "IRRELEVANT" and implementation_status != "NEW"
@@ -645,6 +576,75 @@ setup_timeline = (item_selector, margins=80 ) ->
                 stamp_class = status_to_stamp_class(conflict_status)
                 stamp_tooltip = status_tooltip_to_hebrew(conflict_status)
                 buxa_header.before("<div class='stamp conflicting #{stamp_class}'  title='#{stamp_tooltip}'></div>")
+
+setup_timeline_visual = (item_selector, margins=80 ) ->
+
+    horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
+
+    # Setup timeline after all elements have reached their required size
+    item_selector.each ->
+
+        # Process dates & convert to numeric
+        max_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-max-numeric-date'))
+        min_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-min-numeric-date'))
+
+        # profile image
+        $(this).find('img').each ->
+                alt = $(this).attr('alt')
+                if alt
+                        $(this).attr('src',"/profile/#{slugify(alt)}")
+
+        # Finish date handling
+        finish_date = $(this).find(".timeline-logic > ul > li > .milestone:first").attr('data-date')
+        finish_date = date_to_hebrew(finish_date)
+        $(this).find(".duedate > p").html(finish_date)
+
+        # Calculate widths and issue's status
+        # ---------
+
+        # All kinds of measurements
+        last_percent = 0.0
+        item_margins = 5
+        if horizontal
+                size = $(this).innerWidth() - margins
+        else
+                size = $(this).innerHeight() - margins
+        available_size = size
+        $(this).find(".timeline-logic > ul > li .timeline-point").each( ->
+                if horizontal
+                        available_size = available_size - $(this).outerWidth() - item_margins
+                else
+                        available_size = available_size - $(this).outerHeight() - item_margins
+                )
+        margin = 0
+
+        # iterate over items and set size
+        $(this).find(".timeline-logic > ul > li").each( ->
+                point = $(this).find('.timeline-point:first')
+                line = $(this).find('.timeline-line:first')
+
+                date = parseInt($(this).attr('data-date-numeric'))
+
+                percent = (max_numeric_date - date) / (max_numeric_date - min_numeric_date)
+                if horizontal
+                        point_size = point.outerWidth() + item_margins
+                else
+                        point_size = point.outerHeight() + item_margins
+
+                item_size = available_size * (percent - last_percent) + point_size
+                if horizontal
+                        $(this).css('width',item_size)
+                        $(this).css('left',margin)
+                else
+                        $(this).css('height',item_size)
+                        $(this).css('top',margin)
+
+                last_percent = percent
+                margin = margin + item_size
+        )
+
+        # remove first line (which appears AFTER the last milestone / point)
+        $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
 
 setup_summary = ->
         total = $(".item.shown").size()
@@ -819,11 +819,13 @@ process_data = ->
     setup_detailed_links()
 
     $(".item").one('inview', ->
-            setup_timeline($(this))
+            setup_timeline_visual($(this))
             $(this).css('visibility','inherit')
             setup_subscriptions($(this))
             setup_tooltips($(this))
         )
+
+    setup_timeline_initial($(".item"))
 
     # book selection
     $("#books li.book a").click ->
