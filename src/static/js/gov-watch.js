@@ -1131,7 +1131,8 @@
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
-        setup_timeline($('.detail-view'), 69);
+        setup_timeline_initial($('.detail-view'), 69);
+        setup_timeline_visual($('.detail-view'), 69);
         setup_subscriptions($(".detail-view"));
         setup_tags(".detail-view .tags > ul > li");
         setup_tooltips($(".detail-view"));
@@ -1241,7 +1242,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 969
+          lineno: 970
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {

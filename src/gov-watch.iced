@@ -886,7 +886,8 @@ select_item = (slug) ->
                         break
         # Allow DOM to sync
         await setTimeout((defer _),50)
-        setup_timeline($('.detail-view'),69)
+        setup_timeline_initial($('.detail-view'),69)
+        setup_timeline_visual($('.detail-view'),69)
         setup_subscriptions($(".detail-view"))
         setup_tags(".detail-view .tags > ul > li")
         setup_tooltips($(".detail-view"))
