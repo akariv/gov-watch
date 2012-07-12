@@ -5937,6 +5937,7 @@ a:hover {
   width: 20px;
   height: 20px;
   margin: -36px 0 0 6px;
+  padding: 0;
   overflow: hidden;
   text-indent: -2000%;
   float: left;
@@ -7379,6 +7380,7 @@ footer a img {
   overflow: hidden;
 }
 .tags li a {
+  display: block;
   background-color: #e4daac;
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
