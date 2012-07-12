@@ -34,7 +34,7 @@ def idx():
         return Response(file('static/html/index.html').read())
     else:
         if ('googlebot' not in request.user_agent.string.lower()) and ('facebook' not in request.user_agent.string.lower()):
-            return redirect('/%s' % hashbang )
+            return redirect('/%s' % orig_hashbang )
         orig_hashbang = urllib.unquote(orig_hashbang)
         hashbang = orig_hashbang[2:].split('_')
         hashbang = [ x.split(':') for x in hashbang ]
@@ -63,6 +63,12 @@ def update():
 @app.route('/list')
 def list():
     return Response(file('static/html/edit-list.html').read())
+
+@app.route('/api/fb')
+def fb():
+    resp = make_response(Response(response=r.get("fbcomments"), content_type="application/json"))
+    resp.cache_control.no_cache = True
+    return resp
 
 @app.route('/api')
 def listall():
