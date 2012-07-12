@@ -362,7 +362,7 @@ is_good_status = (status) ->
 
 setup_timeline = (item_selector, margins=80 ) ->
     # Setup timeline after all elements have reached their required size
-    $(item_selector).each ->
+    item_selector.each ->
 
         horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
 
@@ -672,7 +672,7 @@ setup_summary = ->
                 data.conflict = conflict
         $("#summary").html('')
         run_templates( "summary", data, "#summary" )
-        setup_tooltips("#summary")
+        setup_tooltips($("#summary"))
 
         $("#summary .total").click ->
                 status_filter = null
@@ -717,7 +717,7 @@ setup_subscription_form = ->
         return false
 
 setup_subscriptions = (selector) ->
-        $("#{selector} .watch").click ->
+        selector.find(".watch").click ->
                 rel = $(this).attr('rel')
                 $("#subscribe_email").attr('data-slug',rel)
                 $("#subscribe_form").attr('action',"/subscribe/#{rel}")
@@ -749,8 +749,8 @@ setup_detailed_links = ->
         return false
 
 setup_tooltips = (selector) ->
-        $("div.tooltip").remove()
-        $("#{selector} .rel-tooltip").tooltip({placement:'bottom'})
+        selector.find("div.tooltip").remove()
+        selector.find(".rel-tooltip").tooltip({placement:'bottom'})
 
 ## Handles the site's data (could be from local storage or freshly loaded)
 process_data = ->
@@ -806,20 +806,19 @@ process_data = ->
     # Let isotope do its magic
     await setTimeout((defer _),50)
 
-    setup_timeline(".item")
-
-    $(".item").css('visibility','inherit')
-
-    setup_searchbox()
-
     setup_subscription_form()
-    setup_subscriptions(".item")
-
+    setup_searchbox()
     setup_tags(".item .tags > ul > li, a[data-tag='true'], .searchtag > span")
-
     setup_detailed_links()
 
-    setup_tooltips(".item")
+    $(".item").one('inview', ->
+            setup_timeline($(this))
+            $(this).css('visibility','inherit')
+            setup_subscriptions($(this))
+            setup_tooltips($(this))
+        )
+
+    load_fb_comment_count($(".item"))
 
     # book selection
     $("#books li.book a").click ->
@@ -846,7 +845,6 @@ process_data = ->
     onhashchange()
     # Wait a second before loading FB comment counts
     await setTimeout((defer _),1000)
-    load_fb_comment_count(".item")
 
 ## Item selection
 select_item = (slug) ->
@@ -877,11 +875,11 @@ select_item = (slug) ->
                         break
         # Allow DOM to sync
         await setTimeout((defer _),50)
-        setup_timeline('.detail-view',69)
-        setup_subscriptions(".detail-view")
+        setup_timeline($('.detail-view'),69)
+        setup_subscriptions($(".detail-view"))
         setup_tags(".detail-view .tags > ul > li")
-        setup_tooltips(".detail-view")
-        load_fb_comment_count(".detail-view")
+        setup_tooltips($(".detail-view"))
+        load_fb_comment_count($(".detail-view"))
         $("#single-item .commentcount").click ->
                 $('html, body').animate({ scrollTop: $("#single-item .fb").offset().top }, 0)
                 return false
@@ -904,8 +902,8 @@ select_item = (slug) ->
         $("#clearsearch").removeClass('disabled')
         $("#clearsearch").attr('disabled',null)
 
-load_fb_comment_count = (selector) ->
-        $("#{selector} .commentcount").each ->
+load_fb_comment_count = (selector,item=false) ->
+        selector.find(".commentcount").each ->
                 slug = $(this).attr('rel')
                 await $.get('https://api.facebook.com/method/fql.query',
                             {
@@ -920,7 +918,7 @@ load_fb_comment_count = (selector) ->
                         $(this).html(json[0].commentsbox_count+h)
                 catch error
                         console.log("Failed tp parse json:",JSON.stringify(json))
-        if selector == ".item"
+        if item
                 $("#items").isotope( 'updateSortData', $(".item") )
 
 ## Perform search on the site's data

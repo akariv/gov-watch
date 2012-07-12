@@ -523,7 +523,7 @@
 
   setup_timeline = function(item_selector, margins) {
     if (margins == null) margins = 80;
-    return $(item_selector).each(function() {
+    return item_selector.each(function() {
       var NOT_SET, available_size, buxa_header, conflict, conflict_status, el, finish_date, fixed_at, gov_status, has_unknowns, horizontal, i, implementation_status, initial_year, item_margins, its_today, last_percent, last_update, last_update_at, last_year, late, line, margin, max_numeric_date, min_numeric_date, numeric, point, size, slug, stamp, stamp_class, stamp_tooltip, status, status_to_stamp_class, timeline_items, today, today_at, today_date, y, _i, _j, _k, _ref, _ref2, _ref3;
       horizontal = $(this).find('.timeline-logic.horizontal').size() > 0;
       slug = $(this).attr('rel');
@@ -799,7 +799,7 @@
     if (conflict) data.conflict = conflict;
     $("#summary").html('');
     run_templates("summary", data, "#summary");
-    setup_tooltips("#summary");
+    setup_tooltips($("#summary"));
     $("#summary .total").click(function() {
       status_filter = null;
       do_search();
@@ -855,7 +855,7 @@
   };
 
   setup_subscriptions = function(selector) {
-    return $("" + selector + " .watch").click(function() {
+    return selector.find(".watch").click(function() {
       var rel;
       rel = $(this).attr('rel');
       $("#subscribe_email").attr('data-slug', rel);
@@ -896,8 +896,8 @@
   };
 
   setup_tooltips = function(selector) {
-    $("div.tooltip").remove();
-    return $("" + selector + " .rel-tooltip").tooltip({
+    selector.find("div.tooltip").remove();
+    return selector.find(".rel-tooltip").tooltip({
       placement: 'bottom'
     });
   };
@@ -991,14 +991,17 @@
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
-        setup_timeline(".item");
-        $(".item").css('visibility', 'inherit');
-        setup_searchbox();
         setup_subscription_form();
-        setup_subscriptions(".item");
+        setup_searchbox();
         setup_tags(".item .tags > ul > li, a[data-tag='true'], .searchtag > span");
         setup_detailed_links();
-        setup_tooltips(".item");
+        $(".item").one('inview', function() {
+          setup_timeline($(this));
+          $(this).css('visibility', 'inherit');
+          setup_subscriptions($(this));
+          return setup_tooltips($(this));
+        });
+        load_fb_comment_count($(".item"));
         $("#books li.book a").click(function() {
           selected_book = $(this).html();
           update_history();
@@ -1020,24 +1023,20 @@
         });
         window.onhashchange = onhashchange;
         onhashchange();
-        (function(__iced_k) {
-          __iced_deferrals = new iced.Deferrals(__iced_k, {
-            parent: ___iced_passed_deferral,
-            filename: 'gov-watch.iced',
-            funcname: 'process_data'
-          });
-          setTimeout((__iced_deferrals.defer({
-            assign_fn: (function() {
-              return function() {
-                return __iced_deferrals.ret = arguments[0];
-              };
-            })(),
-            lineno: 847
-          })), 1000);
-          __iced_deferrals._fulfill();
-        })(function() {
-          return load_fb_comment_count(".item");
+        __iced_deferrals = new iced.Deferrals(__iced_k, {
+          parent: ___iced_passed_deferral,
+          filename: 'gov-watch.iced',
+          funcname: 'process_data'
         });
+        setTimeout((__iced_deferrals.defer({
+          assign_fn: (function() {
+            return function() {
+              return __iced_deferrals.ret = arguments[0];
+            };
+          })(),
+          lineno: 846
+        })), 1000);
+        __iced_deferrals._fulfill();
       });
     });
   };
@@ -1088,15 +1087,15 @@
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 878
+          lineno: 876
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
-        setup_timeline('.detail-view', 69);
-        setup_subscriptions(".detail-view");
+        setup_timeline($('.detail-view'), 69);
+        setup_subscriptions($(".detail-view"));
         setup_tags(".detail-view .tags > ul > li");
-        setup_tooltips(".detail-view");
-        load_fb_comment_count(".detail-view");
+        setup_tooltips($(".detail-view"));
+        load_fb_comment_count($(".detail-view"));
         $("#single-item .commentcount").click(function() {
           $('html, body').animate({
             scrollTop: $("#single-item .fb").offset().top
@@ -1131,8 +1130,9 @@
     }
   };
 
-  load_fb_comment_count = function(selector) {
-    $("" + selector + " .commentcount").each(function() {
+  load_fb_comment_count = function(selector, item) {
+    if (item == null) item = false;
+    selector.find(".commentcount").each(function() {
       var h, json, slug, ___iced_passed_deferral, __iced_deferrals,
         _this = this;
       ___iced_passed_deferral = iced.findDeferral(arguments);
@@ -1151,7 +1151,7 @@
               return json = arguments[0];
             };
           })(),
-          lineno: 915
+          lineno: 913
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1163,9 +1163,7 @@
         }
       });
     });
-    if (selector === ".item") {
-      return $("#items").isotope('updateSortData', $(".item"));
-    }
+    if (item) return $("#items").isotope('updateSortData', $(".item"));
   };
 
   do_search = function() {
@@ -1240,7 +1238,7 @@
               return version = arguments[0];
             };
           })(),
-          lineno: 979
+          lineno: 977
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
