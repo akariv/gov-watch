@@ -792,6 +792,7 @@ process_data = ->
         layoutMode : 'masonry'
         transformsEnabled: false
         filter: ".shown"
+        animationEngine: "css"
         getSortData :
            followers:  ( e ) -> -parseInt( "0"+e.find('.watch').text() )
            original :  ( e ) -> "#{e.attr('data-chapter')}/#{e.attr('data-subchapter')}/#{e.attr('rel')}"
