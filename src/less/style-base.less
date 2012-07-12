@@ -40,6 +40,10 @@ a{
   }
 }
 
+.navbar .brand{
+  padding: 10px 20px 11px;
+}
+
 .implementation-status-good a{
   color: @good;
   &:hover{
@@ -256,7 +260,10 @@ a{
     overflow: hidden;
     text-indent: -2000%;
     float: left;
-    background: url('/static/img/clear-search.png'); 
+    background: url('/static/img/clear-search.png');
+    span{
+      display: none;
+    } 
   }
   
 }

@@ -70,12 +70,12 @@ onhashchange = ->
 
    if fullhash == "#about" || fullhash == "#partners"
         $("#container").css('display','none')
-        $("#backlink").css('display','inherit')
+        $("#backlink").css('display','inline')
         $("#summary").html('')
         $("#summary-header").css('visibility','hidden')
         $("#orderstats").css('display','none')
         $("#searchwidget").css('display','none')
-        $("#backlink").css('display','inherit')
+        $("#backlink").css('display','inline')
         $("#page").css('display','inherit')
         $("#page div").css('display','none')
         $("#page div#{fullhash}").css('display','inherit')
@@ -857,7 +857,7 @@ select_item = (slug) ->
         $("#summary-header").css('visibility','hidden')
         $("#orderstats").css('display','none')
         $("#searchwidget").css('display','none')
-        $("#backlink").css('display','inherit')
+        $("#backlink").css('display','inline')
         $("#sort button").addClass('disabled')
         $("#clearsearch").addClass('disabled')
         $("#clearsearch").attr('disabled','disabled')
