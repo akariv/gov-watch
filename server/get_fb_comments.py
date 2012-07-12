@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# encoding: utf8
+
 import urllib, urllib2
 from redis import Redis
 from slugs import slugify, unslugify

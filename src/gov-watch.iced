@@ -249,6 +249,7 @@ setup_searchbox = ->
             search_term = ""
        else
             search_term = $("#searchbox").val()
+       status_filter = null
        update_history()
     $("#searchbox").focus ->
         show_watermark(false)
@@ -267,6 +268,7 @@ setup_searchbox = ->
     $("#clearsearch").click ->
         search_term = ""
         show_watermark(true)
+        status_filter = null
         update_history()
         return false
     $("#searchbox").typeahead
@@ -277,6 +279,7 @@ setup_searchbox = ->
          itemfrom: (query) -> {type:"subject", title:query}
          selected: (val) ->
                 search_term = val
+                status_filter = null
                 update_history()
          highlighter: (item) ->
                 highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
@@ -732,6 +735,7 @@ setup_tags = (selector) ->
         show_watermark(false)
         $("#searchbox").val(search_term)
         $("#explanation").modal('hide')
+        status_filter = null
         update_history()
         return false
 
@@ -978,6 +982,7 @@ $ ->
                  else
                         console.log "wrong version "+current_version+" != "+version
                         load_data()
+                        localStorage.version = JSON.stringify(version)
         catch error
                 console.log "failed to load data from storage: " + error
                 load_data()
