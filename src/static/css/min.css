@@ -972,11 +972,6 @@ footer{clear:both;margin:20px auto;text-align:center;padding-top:20px;color:#9ca
 .tags li:hover{background-position:right bottom;}.tags li:hover a{background:#c4bb91;color:#fffcd9;}
 .isotope-item{z-index:2;}
 .isotope-hidden.isotope-item{pointer-events:none;z-index:1;}
-.isotope,.isotope .isotope-item{-webkit-transition-duration:0.8s;-moz-transition-duration:0.8s;-o-transition-duration:0.8s;transition-duration:0.8s;}
-.isotope{-webkit-transition-property:height, width;-moz-transition-property:height, width;-o-transition-property:height, width;transition-property:height, width;}
-.isotope .isotope-item{-webkit-transition-property:-webkit-transform,opacity;-moz-transition-property:-moz-transform,opacity;-o-transition-property:top, left, opacity;transition-property:transform, opacity;}
-.isotope .isotope-item{-webkit-transition-property:right,top,-webkit-transform,opacity;-moz-transition-property:right,top,-moz-transform,opacity;-o-transition-property:right,top,-o-transform,opacity;transition-property:right, top, transform, opacity;}
-.isotope.no-transition,.isotope.no-transition .isotope-item,.isotope .isotope-item.no-transition{-webkit-transition-duration:0s;-moz-transition-duration:0s;-o-transition-duration:0s;transition-duration:0s;}
 .isotope-item{z-index:2;}
 .isotope-hidden.isotope-item{pointer-events:none;z-index:1;}
 .modal{width:800px;margin-left:-400px;}
