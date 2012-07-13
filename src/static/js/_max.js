@@ -1133,11 +1133,10 @@ var Mustache = function() {
   };
 
   setup_timeline_visual = function(item_selector, margins) {
-    var horizontal;
     if (margins == null) margins = 80;
-    horizontal = $(this).find('.timeline-logic.horizontal').size() > 0;
     return item_selector.each(function() {
-      var available_size, finish_date, item_margins, last_percent, margin, max_numeric_date, min_numeric_date, size;
+      var available_size, finish_date, horizontal, item_margins, last_percent, margin, max_numeric_date, min_numeric_date, size;
+      horizontal = $(this).find('.timeline-logic.horizontal').size() > 0;
       max_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-max-numeric-date'));
       min_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-min-numeric-date'));
       $(this).find('img').each(function() {

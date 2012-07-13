@@ -582,10 +582,10 @@ setup_timeline_initial = (item_selector, margins=80 ) ->
 
 setup_timeline_visual = (item_selector, margins=80 ) ->
 
-    horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
-
     # Setup timeline after all elements have reached their required size
     item_selector.each ->
+
+        horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
 
         # Process dates & convert to numeric
         max_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-max-numeric-date'))
