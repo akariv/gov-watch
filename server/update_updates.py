@@ -5,18 +5,18 @@ import csv
 import json
 
 update_urls = [ 
-    {
-        'url': 'https://docs.google.com/spreadsheet/pub?key=0AurnydTPSIgUdGN2T2NHVTZDV1pNMmJZMnhOOGYyVmc&single=true&gid=0&output=csv',
-        'name' : u'התאחדות הסטודנטים'
-        }, 
+#    {
+#        'url': 'https://docs.google.com/spreadsheet/pub?key=0AurnydTPSIgUdGN2T2NHVTZDV1pNMmJZMnhOOGYyVmc&single=true&gid=0&output=csv',
+#        'name' : u'התאחדות הסטודנטים'
+#        }, 
     {
         'url': 'https://docs.google.com/spreadsheet/pub?key=0AurnydTPSIgUdFB3V2Z2VlRCd2RNcXVULXdZX3J4Wnc&single=true&gid=0&output=csv',
         'name' : u'צוות ספיבק/יונה (מכון ון-ליר)'
         },
-    {
-        'url': 'https://docs.google.com/spreadsheet/pub?key=0AurnydTPSIgUdE9BbHR4ZEVCa2JkWV9EZW5sUW1aQ0E&single=true&gid=0&output=csv',
-        'name' : None
-        },
+#    {
+#        'url': 'https://docs.google.com/spreadsheet/pub?key=0AurnydTPSIgUdE9BbHR4ZEVCa2JkWV9EZW5sUW1aQ0E&single=true&gid=0&output=csv',
+#        'name' : None
+#        },
     ]
                 
 
@@ -63,4 +63,4 @@ if __name__ == "__main__":
      
     #print json.dumps(data,indent=0)
 
-    file('data.json','w').write(json.dumps(data,indent=0))
+    file('data.json','w').write(json.dumps(data,indent=2))
