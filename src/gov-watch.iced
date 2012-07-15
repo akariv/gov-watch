@@ -225,7 +225,7 @@ data_callback = (data) ->
     all_books = Object.keys(all_books)
 
     # Save to local storage if its available
-    if localStorage
+    if localStorageEnabled
         try
                 localStorage.data = JSON.stringify(data)
                 localStorage.all_books = JSON.stringify(all_books)
@@ -237,6 +237,17 @@ data_callback = (data) ->
 
     # process loaded data
     process_data()
+
+localStorageEnabled = ->
+    fail=uid=null
+    try
+       uid = "GOV-WATCH-canary";
+       window.localStorage.setItem(uid, uid);
+       fail = window.localStorage.getItem(uid) != uid;
+       window.localStorage.removeItem(uid);
+       return fail;
+    catch e
+        return false
 
 initialized = false
 
@@ -772,19 +783,19 @@ process_data = ->
     for i in [0..loaded_data.length-1]
         rec = loaded_data[i]
         slug = rec.slug
-        if cc[slug]?
+        if cc? && cc[slug]?
                 loaded_data[i].base.fbcomments = cc[slug]
 
     run_templates( "item", items: loaded_data, "#items" )
 
     # Explanation unit
     explanation_needed = true
-    if localStorage?.explained?
+    if localStorageEnabled and localStorage.explained?
         explanation_needed = false
 
     $("#explanation .close").click ->
-        localStorage?.explained = true
-        $("#explanation").modal('hide')
+        if localStorageEnabled and localStorage.explained? and localStorage.explained
+            $("#explanation").modal('hide')
         return false
 
     $("#show-explanation").click ->
