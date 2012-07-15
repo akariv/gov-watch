@@ -783,7 +783,7 @@ process_data = ->
     for i in [0..loaded_data.length-1]
         rec = loaded_data[i]
         slug = rec.slug
-        if cc[slug]?
+        if cc? && cc[slug]?
                 loaded_data[i].base.fbcomments = cc[slug]
 
     run_templates( "item", items: loaded_data, "#items" )
