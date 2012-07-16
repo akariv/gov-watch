@@ -877,7 +877,7 @@ select_item = (slug) ->
                         url = generate_url(slug)
                         $(".detail-view .int_deb").html("""
                             <iframe src="/comfra/#{slug}" id="comfra_#{slug}" style="width: 100%; margin: 5px;" frameborder="0"
-                                    onload="var x=this;window.setInterval(function(){x.height=(x.contentWindow.document.body.scrollHeight)+'px';},1000)"
+                                    onload="var x=this;window.setInterval(function(){x.height=$(x.contentWindow.document.body).css('height');},1000)"
                             ></iframe>
                             """)
                         break
