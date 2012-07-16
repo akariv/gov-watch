@@ -225,7 +225,7 @@ data_callback = (data) ->
     all_books = Object.keys(all_books)
 
     # Save to local storage if its available
-    if localStorageEnabled
+    if localStorageEnabled()
         try
                 localStorage.data = JSON.stringify(data)
                 localStorage.all_books = JSON.stringify(all_books)
@@ -241,11 +241,11 @@ data_callback = (data) ->
 localStorageEnabled = ->
     fail=uid=null
     try
-       uid = "GOV-WATCH-canary";
-       window.localStorage.setItem(uid, uid);
-       fail = window.localStorage.getItem(uid) != uid;
-       window.localStorage.removeItem(uid);
-       return fail;
+       uid = "GOV-WATCH-canary"
+       window.localStorage.setItem(uid, uid)
+       fail = window.localStorage.getItem(uid) != uid
+       window.localStorage.removeItem(uid)
+       return fail
     catch e
         return false
 
@@ -790,11 +790,12 @@ process_data = ->
 
     # Explanation unit
     explanation_needed = true
-    if localStorageEnabled and localStorage.explained?
+    if localStorageEnabled() and localStorage.explained?
         explanation_needed = false
 
     $("#explanation .close").click ->
-        if localStorageEnabled and localStorage.explained? and localStorage.explained
+        if localStorageEnabled()
+            localStorage.explained = true
             $("#explanation").modal('hide')
         return false
 
