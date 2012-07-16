@@ -70,12 +70,12 @@ onhashchange = ->
 
    if fullhash == "#about" || fullhash == "#partners"
         $("#container").css('display','none')
-        $("#backlink").css('display','inherit')
+        $("#backlink").css('display','inline')
         $("#summary").html('')
         $("#summary-header").css('visibility','hidden')
         $("#orderstats").css('display','none')
         $("#searchwidget").css('display','none')
-        $("#backlink").css('display','inherit')
+        $("#backlink").css('display','inline')
         $("#page").css('display','inherit')
         $("#page div").css('display','none')
         $("#page div#{fullhash}").css('display','inherit')
@@ -249,6 +249,7 @@ setup_searchbox = ->
             search_term = ""
        else
             search_term = $("#searchbox").val()
+       status_filter = null
        update_history()
     $("#searchbox").focus ->
         show_watermark(false)
@@ -267,6 +268,7 @@ setup_searchbox = ->
     $("#clearsearch").click ->
         search_term = ""
         show_watermark(true)
+        status_filter = null
         update_history()
         return false
     $("#searchbox").typeahead
@@ -277,6 +279,7 @@ setup_searchbox = ->
          itemfrom: (query) -> {type:"subject", title:query}
          selected: (val) ->
                 search_term = val
+                status_filter = null
                 update_history()
          highlighter: (item) ->
                 highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
@@ -359,10 +362,9 @@ is_good_status = (status) ->
                 when "IRRELEVANT" then return true
         return null
 
-
-setup_timeline = (item_selector, margins=80 ) ->
+setup_timeline_initial = (item_selector, margins=80 ) ->
     # Setup timeline after all elements have reached their required size
-    $(item_selector).each ->
+    item_selector.each ->
 
         horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
 
@@ -408,6 +410,9 @@ setup_timeline = (item_selector, margins=80 ) ->
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").attr('data-date-numeric',max_numeric_date)
                 $(this).find(".timeline-logic > ul > li[data-date-numeric='xxx']").find('.timeline-point').attr('data-date-numeric',max_numeric_date)
 
+        $(this).find(".timeline-logic").attr('data-max-numeric-date',max_numeric_date)
+        $(this).find(".timeline-logic").attr('data-min-numeric-date',min_numeric_date)
+
         if not horizontal
                 initial_year = (Math.ceil(min_numeric_date/372.0)).toFixed(0)
                 last_year = (Math.floor(max_numeric_date/372.0)).toFixed(0)
@@ -419,52 +424,9 @@ setup_timeline = (item_selector, margins=80 ) ->
                                         <div class='timeline-point milestone tick' data-date-numeric='#{numeric}' data-date='#{y}/01/01'><div>#{y}</div></div>
                                 </li>")
 
-        # profile image
-        $(this).find('img').each ->
-                alt = $(this).attr('alt')
-                if alt
-                        $(this).attr('src',"/profile/#{slugify(alt)}")
-
         # Sort by timestamp
         $(this).find(".update-feed > ul > li").tsort({attr:'data-date',order:'desc'})
         $(this).find(".timeline-logic > ul > li").tsort({attr:'data-date-numeric',order:'desc'})
-
-        # Finish date handling
-        finish_date = $(this).find(".timeline-logic > ul > li > .milestone:first").attr('data-date')
-        finish_date = date_to_hebrew(finish_date)
-        $(this).find(".duedate > p").html(finish_date)
-
-        #date_bar = $(this).find(".date-bar")
-        #if date_bar
-        #        date_bar.html('')
-        #        initial_year = (Math.ceil(min_numeric_date/372.0)).toFixed(0)
-        #        last_year = (Math.floor(max_numeric_date/372.0)).toFixed(0)
-        #        for y in [initial_year..last_year]
-        #                date_bar.prepend("<li>#{y}</li>")
-        #        pixel_years = ($(this).innerHeight()-margins) / ( (max_numeric_date-min_numeric_date)/372 )
-        #        common_margin = pixel_years - date_bar.find('li:first').outerHeight()
-        #        first_margin = (1 - (min_numeric_date % 372)/372) * pixel_years
-        #        date_bar.find("li").css( "margin-bottom", common_margin )
-        #        date_bar.find("li:last").css( "margin-bottom", first_margin + 30 )
-
-        # Calculate widths and issue's status
-        # ---------
-
-        # All kinds of measurements
-        last_percent = 0.0
-        item_margins = 5
-        if horizontal
-                size = $(this).innerWidth() - margins
-        else
-                size = $(this).innerHeight() - margins
-        available_size = size
-        $(this).find(".timeline-logic > ul > li .timeline-point").each( ->
-                if horizontal
-                        available_size = available_size - $(this).outerWidth() - item_margins
-                else
-                        available_size = available_size - $(this).outerHeight() - item_margins
-                )
-        margin = 0
 
         # initial government status and related variables
         gov_status = 'NEW'
@@ -562,34 +524,6 @@ setup_timeline = (item_selector, margins=80 ) ->
                         if i <= last_update_at
                                 line.addClass("unreported")
 
-        # iterate over items and set size
-        $(this).find(".timeline-logic > ul > li").each( ->
-                point = $(this).find('.timeline-point:first')
-                line = $(this).find('.timeline-line:first')
-
-                date = parseInt($(this).attr('data-date-numeric'))
-
-                percent = (max_numeric_date - date) / (max_numeric_date - min_numeric_date)
-                if horizontal
-                        point_size = point.outerWidth() + item_margins
-                else
-                        point_size = point.outerHeight() + item_margins
-
-                item_size = available_size * (percent - last_percent) + point_size
-                if horizontal
-                        $(this).css('width',item_size)
-                        $(this).css('left',margin)
-                else
-                        $(this).css('height',item_size)
-                        $(this).css('top',margin)
-
-                last_percent = percent
-                margin = margin + item_size
-        )
-
-        # remove first line (which appears AFTER the last milestone / point)
-        $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
-
         # current implementation status for buxa
         implementation_status = gov_status
         if implementation_status != "FIXED" and implementation_status != "IRRELEVANT" and implementation_status != "NEW"
@@ -646,6 +580,75 @@ setup_timeline = (item_selector, margins=80 ) ->
                 stamp_tooltip = status_tooltip_to_hebrew(conflict_status)
                 buxa_header.before("<div class='stamp conflicting #{stamp_class}'  title='#{stamp_tooltip}'></div>")
 
+setup_timeline_visual = (item_selector, margins=80 ) ->
+
+    # Setup timeline after all elements have reached their required size
+    item_selector.each ->
+
+        horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
+
+        # Process dates & convert to numeric
+        max_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-max-numeric-date'))
+        min_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-min-numeric-date'))
+
+        # profile image
+        $(this).find('img').each ->
+                alt = $(this).attr('alt')
+                if alt
+                        $(this).attr('src',"/profile/#{slugify(alt)}")
+
+        # Finish date handling
+        finish_date = $(this).find(".timeline-logic > ul > li > .milestone:first").attr('data-date')
+        finish_date = date_to_hebrew(finish_date)
+        $(this).find(".duedate > p").html(finish_date)
+
+        # Calculate widths and issue's status
+        # ---------
+
+        # All kinds of measurements
+        last_percent = 0.0
+        item_margins = 5
+        if horizontal
+                size = $(this).innerWidth() - margins
+        else
+                size = $(this).innerHeight() - margins
+        available_size = size
+        $(this).find(".timeline-logic > ul > li .timeline-point").each( ->
+                if horizontal
+                        available_size = available_size - $(this).outerWidth() - item_margins
+                else
+                        available_size = available_size - $(this).outerHeight() - item_margins
+                )
+        margin = 0
+
+        # iterate over items and set size
+        $(this).find(".timeline-logic > ul > li").each( ->
+                point = $(this).find('.timeline-point:first')
+                line = $(this).find('.timeline-line:first')
+
+                date = parseInt($(this).attr('data-date-numeric'))
+
+                percent = (max_numeric_date - date) / (max_numeric_date - min_numeric_date)
+                if horizontal
+                        point_size = point.outerWidth() + item_margins
+                else
+                        point_size = point.outerHeight() + item_margins
+
+                item_size = available_size * (percent - last_percent) + point_size
+                if horizontal
+                        $(this).css('width',item_size)
+                        $(this).css('left',margin)
+                else
+                        $(this).css('height',item_size)
+                        $(this).css('top',margin)
+
+                last_percent = percent
+                margin = margin + item_size
+        )
+
+        # remove first line (which appears AFTER the last milestone / point)
+        $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
+
 setup_summary = ->
         total = $(".item.shown").size()
         stuck = $(".item.shown[data-implementation-status='STUCK']").size()
@@ -672,7 +675,7 @@ setup_summary = ->
                 data.conflict = conflict
         $("#summary").html('')
         run_templates( "summary", data, "#summary" )
-        setup_tooltips("#summary")
+        setup_tooltips($("#summary"))
 
         $("#summary .total").click ->
                 status_filter = null
@@ -717,7 +720,7 @@ setup_subscription_form = ->
         return false
 
 setup_subscriptions = (selector) ->
-        $("#{selector} .watch").click ->
+        selector.find(".watch").click ->
                 rel = $(this).attr('rel')
                 $("#subscribe_email").attr('data-slug',rel)
                 $("#subscribe_form").attr('action',"/subscribe/#{rel}")
@@ -732,6 +735,7 @@ setup_tags = (selector) ->
         show_watermark(false)
         $("#searchbox").val(search_term)
         $("#explanation").modal('hide')
+        status_filter = null
         update_history()
         return false
 
@@ -750,7 +754,7 @@ setup_detailed_links = ->
 
 setup_tooltips = (selector) ->
         $("div.tooltip").remove()
-        $("#{selector} .rel-tooltip").tooltip({placement:'bottom'})
+        selector.find(".rel-tooltip").tooltip({placement:'bottom'})
 
 ## Handles the site's data (could be from local storage or freshly loaded)
 process_data = ->
@@ -763,6 +767,13 @@ process_data = ->
     # Fill contents to the book selection sidebox
     for book in all_books
         $("#books").prepend("<li data-book='#{book}' class='book'><a href='#'>#{book}</a></li>")
+
+    await $.get('/api/fb',null,(defer cc),"json")
+    for i in [0..loaded_data.length-1]
+        rec = loaded_data[i]
+        slug = rec.slug
+        if cc[slug]?
+                loaded_data[i].base.fbcomments = cc[slug]
 
     run_templates( "item", items: loaded_data, "#items" )
 
@@ -792,6 +803,7 @@ process_data = ->
         layoutMode : 'masonry'
         transformsEnabled: false
         filter: ".shown"
+        animationEngine: "css"
         getSortData :
            followers:  ( e ) -> -parseInt( "0"+e.find('.watch').text() )
            original :  ( e ) -> "#{e.attr('data-chapter')}/#{e.attr('data-subchapter')}/#{e.attr('rel')}"
@@ -805,20 +817,19 @@ process_data = ->
     # Let isotope do its magic
     await setTimeout((defer _),50)
 
-    setup_timeline(".item")
-
-    $(".item").css('visibility','inherit')
-
-    setup_searchbox()
-
     setup_subscription_form()
-    setup_subscriptions(".item")
-
+    setup_searchbox()
     setup_tags(".item .tags > ul > li, a[data-tag='true'], .searchtag > span")
-
     setup_detailed_links()
 
-    setup_tooltips(".item")
+    $(".item").one('inview', ->
+            setup_timeline_visual($(this))
+            $(this).css('visibility','inherit')
+            setup_subscriptions($(this))
+            setup_tooltips($(this))
+        )
+
+    setup_timeline_initial($(".item"))
 
     # book selection
     $("#books li.book a").click ->
@@ -845,7 +856,6 @@ process_data = ->
     onhashchange()
     # Wait a second before loading FB comment counts
     await setTimeout((defer _),1000)
-    #load_fb_comment_count(".item")
 
 ## Item selection
 select_item = (slug) ->
@@ -856,7 +866,7 @@ select_item = (slug) ->
         $("#summary-header").css('visibility','hidden')
         $("#orderstats").css('display','none')
         $("#searchwidget").css('display','none')
-        $("#backlink").css('display','inherit')
+        $("#backlink").css('display','inline')
         $("#sort button").addClass('disabled')
         $("#clearsearch").addClass('disabled')
         $("#clearsearch").attr('disabled','disabled')
@@ -873,11 +883,11 @@ select_item = (slug) ->
                         break
         # Allow DOM to sync
         await setTimeout((defer _),50)
-        setup_timeline('.detail-view',69)
-        setup_subscriptions(".detail-view")
+        setup_timeline_initial($('.detail-view'),69)
+        setup_timeline_visual($('.detail-view'),69)
+        setup_subscriptions($(".detail-view"))
         setup_tags(".detail-view .tags > ul > li")
-        setup_tooltips(".detail-view")
-        #load_fb_comment_count(".detail-view")
+        setup_tooltips($(".detail-view"))
         $("#single-item .commentcount").click ->
                 #$('html, body').animate({ scrollTop: $("#single-item .fb").offset().top }, 0)
                 $('html, body').animate({ scrollTop: $("#single-item .int_deb").offset().top }, 0)
@@ -902,24 +912,6 @@ select_item = (slug) ->
         $("#clearsearch").removeClass('disabled')
         $("#clearsearch").attr('disabled',null)
 
-load_fb_comment_count = (selector) ->
-        $("#{selector} .commentcount").each ->
-                slug = $(this).attr('rel')
-                await $.get('https://api.facebook.com/method/fql.query',
-                            {
-                              query: "SELECT url,commentsbox_count FROM link_stat WHERE url='#{generate_url(slug)}'",
-                              format: "json"
-                            }
-                            ,
-                            (defer json),
-                            "json")
-                h = $(this).html()
-                try
-                        $(this).html(json[0].commentsbox_count+h)
-                catch error
-                        console.log("Failed tp parse json:",JSON.stringify(json))
-        if selector == ".item"
-                $("#items").isotope( 'updateSortData', $(".item") )
 
 ## Perform search on the site's data
 do_search = ->
@@ -990,6 +982,7 @@ $ ->
                  else
                         console.log "wrong version "+current_version+" != "+version
                         load_data()
+                        localStorage.version = JSON.stringify(version)
         catch error
                 console.log "failed to load data from storage: " + error
                 load_data()

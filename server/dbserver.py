@@ -62,6 +62,12 @@ def update():
 def list():
     return Response(file('static/html/edit-list.html').read())
 
+@app.route('/api/fb')
+def fb():
+    resp = make_response(Response(response=r.get("fbcomments"), content_type="application/json"))
+    resp.cache_control.no_cache = True
+    return resp
+
 @app.route('/api')
 def listall():
     resp = make_response(Response(response=r.get("everything"), content_type="application/json"))
@@ -214,4 +220,4 @@ if __name__=="__main__":
 
     except:
         print "note: running without greenlet"
-        app.run(debug=False)
+        app.run(host="0.0.0.0",debug=True)
