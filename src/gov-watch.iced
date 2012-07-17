@@ -249,6 +249,7 @@ setup_searchbox = ->
             search_term = ""
        else
             search_term = $("#searchbox").val()
+       status_filter = null
        update_history()
     $("#searchbox").focus ->
         show_watermark(false)
@@ -267,6 +268,7 @@ setup_searchbox = ->
     $("#clearsearch").click ->
         search_term = ""
         show_watermark(true)
+        status_filter = null
         update_history()
         return false
     $("#searchbox").typeahead
@@ -277,6 +279,7 @@ setup_searchbox = ->
          itemfrom: (query) -> {type:"subject", title:query}
          selected: (val) ->
                 search_term = val
+                status_filter = null
                 update_history()
          highlighter: (item) ->
                 highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
@@ -579,10 +582,10 @@ setup_timeline_initial = (item_selector, margins=80 ) ->
 
 setup_timeline_visual = (item_selector, margins=80 ) ->
 
-    horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
-
     # Setup timeline after all elements have reached their required size
     item_selector.each ->
+
+        horizontal = $(this).find('.timeline-logic.horizontal').size() > 0
 
         # Process dates & convert to numeric
         max_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-max-numeric-date'))
@@ -732,6 +735,7 @@ setup_tags = (selector) ->
         show_watermark(false)
         $("#searchbox").val(search_term)
         $("#explanation").modal('hide')
+        status_filter = null
         update_history()
         return false
 
@@ -882,7 +886,8 @@ select_item = (slug) ->
                         break
         # Allow DOM to sync
         await setTimeout((defer _),50)
-        setup_timeline($('.detail-view'),69)
+        setup_timeline_initial($('.detail-view'),69)
+        setup_timeline_visual($('.detail-view'),69)
         setup_subscriptions($(".detail-view"))
         setup_tags(".detail-view .tags > ul > li")
         setup_tooltips($(".detail-view"))
@@ -978,6 +983,7 @@ $ ->
                  else
                         console.log "wrong version "+current_version+" != "+version
                         load_data()
+                        localStorage.version = JSON.stringify(version)
         catch error
                 console.log "failed to load data from storage: " + error
                 load_data()

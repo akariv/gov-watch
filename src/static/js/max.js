@@ -754,6 +754,7 @@ var Mustache = function() {
       } else {
         search_term = $("#searchbox").val();
       }
+      status_filter = null;
       return update_history();
     });
     $("#searchbox").focus(function() {
@@ -790,6 +791,7 @@ var Mustache = function() {
     $("#clearsearch").click(function() {
       search_term = "";
       show_watermark(true);
+      status_filter = null;
       update_history();
       return false;
     });
@@ -810,6 +812,7 @@ var Mustache = function() {
       },
       selected: function(val) {
         search_term = val;
+        status_filter = null;
         return update_history();
       },
       highlighter: function(item) {
@@ -1160,11 +1163,10 @@ var Mustache = function() {
   };
 
   setup_timeline_visual = function(item_selector, margins) {
-    var horizontal;
     if (margins == null) margins = 80;
-    horizontal = $(this).find('.timeline-logic.horizontal').size() > 0;
     return item_selector.each(function() {
-      var available_size, finish_date, item_margins, last_percent, margin, max_numeric_date, min_numeric_date, size;
+      var available_size, finish_date, horizontal, item_margins, last_percent, margin, max_numeric_date, min_numeric_date, size;
+      horizontal = $(this).find('.timeline-logic.horizontal').size() > 0;
       max_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-max-numeric-date'));
       min_numeric_date = parseInt($(this).find('.timeline-logic').attr('data-min-numeric-date'));
       $(this).find('img').each(function() {
@@ -1311,6 +1313,7 @@ var Mustache = function() {
       show_watermark(false);
       $("#searchbox").val(search_term);
       $("#explanation").modal('hide');
+      status_filter = null;
       update_history();
       return false;
     });
@@ -1363,7 +1366,7 @@ var Mustache = function() {
             return cc = arguments[0];
           };
         })(),
-        lineno: 766
+        lineno: 770
       })), "json");
       __iced_deferrals._fulfill();
     })(function() {
@@ -1403,7 +1406,7 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 790
+          lineno: 794
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
@@ -1448,7 +1451,7 @@ var Mustache = function() {
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 813
+            lineno: 817
           })), 50);
           __iced_deferrals._fulfill();
         })(function() {
@@ -1495,7 +1498,7 @@ var Mustache = function() {
                 return __iced_deferrals.ret = arguments[0];
               };
             })(),
-            lineno: 853
+            lineno: 857
           })), 1000);
           __iced_deferrals._fulfill();
         });
@@ -1549,11 +1552,12 @@ var Mustache = function() {
               return __iced_deferrals.ret = arguments[0];
             };
           })(),
-          lineno: 883
+          lineno: 887
         })), 50);
         __iced_deferrals._fulfill();
       })(function() {
-        setup_timeline($('.detail-view'), 69);
+        setup_timeline_initial($('.detail-view'), 69);
+        setup_timeline_visual($('.detail-view'), 69);
         setup_subscriptions($(".detail-view"));
         setup_tags(".detail-view .tags > ul > li");
         setup_tooltips($(".detail-view"));
@@ -1663,7 +1667,7 @@ var Mustache = function() {
               return version = arguments[0];
             };
           })(),
-          lineno: 965
+          lineno: 970
         })), "json");
         __iced_deferrals._fulfill();
       })(function() {
@@ -1679,7 +1683,8 @@ var Mustache = function() {
             return localStorage.version = JSON.stringify(version);
           } else {
             console.log("wrong version " + current_version + " != " + version);
-            return load_data();
+            load_data();
+            return localStorage.version = JSON.stringify(version);
           }
         } catch (error) {
           console.log("failed to load data from storage: " + error);
