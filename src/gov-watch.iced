@@ -245,7 +245,7 @@ localStorageEnabled = ->
        window.localStorage.setItem(uid, uid)
        fail = window.localStorage.getItem(uid) != uid
        window.localStorage.removeItem(uid)
-       return fail
+       return !fail
     catch e
         return false
 
@@ -776,8 +776,10 @@ process_data = ->
     initialized = true
 
     # Fill contents to the book selection sidebox
+    all_books.reverse()
     for book in all_books
         $("#books").prepend("<li data-book='#{book}' class='book'><a href='#'>#{book}</a></li>")
+    all_books.reverse()
 
     await $.get('/api/fb',null,(defer cc),"json")
     for i in [0..loaded_data.length-1]
@@ -900,6 +902,10 @@ select_item = (slug) ->
         await setTimeout((defer _),50)
         setup_timeline_initial($('.detail-view'),69)
         setup_timeline_visual($('.detail-view'),69)
+        $('.detail-view').resize( ->
+                setup_timeline_initial($('.detail-view'),69)
+                setup_timeline_visual($('.detail-view'),69)
+        )
         setup_subscriptions($(".detail-view"))
         setup_tags(".detail-view .tags > ul > li")
         setup_tooltips($(".detail-view"))
