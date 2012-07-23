@@ -782,11 +782,16 @@ process_data = ->
     all_books.reverse()
 
     await $.get('/api/fb',null,(defer cc),"json")
+    await $.get('/api/id',null,(defer idcc),"json")
     for i in [0..loaded_data.length-1]
         rec = loaded_data[i]
         slug = rec.slug
         if cc? && cc[slug]?
                 loaded_data[i].base.fbcomments = cc[slug]
+        if idcc? && idcc[slug]?
+                loaded_data[i].base.idcomments = idcc[slug]
+        else if idcc?
+                loaded_data[i].base.idcomments = 0
 
     run_templates( "item", items: loaded_data, "#items" )
 
