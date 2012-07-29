@@ -440,38 +440,46 @@
           </a>
           <a class="brand" href="#">מעקב:</a>
           <div class="nav-collapse">
-	          <ul class="nav" id="books">
-	            <li class="dropdown">
-	              <a href="#"
-	                 class="dropdown-toggle"
-	                 data-toggle="dropdown">
-	                אודות
-	                <b class="caret"></b>
-	              </a>
-	              <ul class="dropdown-menu">
-	                <li><a href="#about">אתר המעקב</a></li>
-	                <li><a href="#about">דו&quot;ח טרכטנברג</a></li>
-	                <li><a href="#about">אופן המעקב</a></li>
-	                <li><a href="#about">צוות האתר</a></li>
-	              </ul>
-	            </li>
-	            <li class="dropdown">
-	              <a href="#"
-	                 class="dropdown-toggle"
-	                 data-toggle="dropdown">
-	                שותפים
-	                <b class="caret"></b>
-	              </a>
-	              <ul class="dropdown-menu">
-	                <li><a href="#partners">הסדנא לידע ציבורי</a></li>
-	                <li><a href="#partners">השר מיכאל איתן</a></li>
-	                <li><a href="#partners">צוות ספיבק יונה (מכון ון ליר)</a></li>
-	                <li><a href="#partners">התאחדות הסטודנטים</a></li>
-	              </ul>
-	            </li>
-	          </ul>
-	         </div>
-        </div>
+	    <ul class="nav" id="books">
+	      <li class="dropdown">
+	        <a href="#"
+	           class="dropdown-toggle"
+	           data-toggle="dropdown">
+	          אודות
+	          <b class="caret"></b>
+	        </a>
+	        <ul class="dropdown-menu">
+	          <li><a href="#about">אתר המעקב</a></li>
+	          <li><a href="#about">דו&quot;ח טרכטנברג</a></li>
+	          <li><a href="#about">אופן המעקב</a></li>
+	          <li><a href="#about">צוות האתר</a></li>
+	        </ul>
+	      </li>
+	      <li class="dropdown">
+	        <a href="#"
+	           class="dropdown-toggle"
+	           data-toggle="dropdown">
+	          שותפים
+	          <b class="caret"></b>
+	        </a>
+	        <ul class="dropdown-menu">
+	          <li><a href="#partners">הסדנא לידע ציבורי</a></li>
+	          <li><a href="#partners">השר מיכאל איתן</a></li>
+	          <li><a href="#partners">צוות ספיבק יונה (מכון ון ליר)</a></li>
+	          <li><a href="#partners">התאחדות הסטודנטים</a></li>
+	        </ul>
+	      </li>
+	    </ul>
+	  </div>
+          <div class="pull-left" style="margin-top:9px">
+            <div class="g-plusone" data-size="medium" data-href="http://watch.gov.il"></div>
+          </div>
+          <div class="pull-left"  style="margin-top:9px;margin-right:20px;">
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gov.watch.il" data-text="מעקב: טרכטנברג" data-lang="he" data-hashtags="טרכטנברג">ציוץ</a>
+          </div>
+          <div class="fb-like pull-left" style="margin-top:5px;" data-href="http://watch.gov.il" data-send="false" data-layout="button_count" data-width="50" data-show-faces="false" data-font="arial">
+          </div> 
+       </div>
       </div>
     </div>
     
@@ -691,7 +699,7 @@
 
 <div id="fb-root"></div>
 <!-- JS -->
-<script type='text/javascript' src='static/js/min.js'></script>
+<script type='text/javascript' src='static/js/max.js'></script>
 <script type="text/javascript">
 jQuery(function($){
   if (($.browser.mozilla && parseInt($.browser.version.split('.')[0]) < 12) 
@@ -732,14 +740,14 @@ jQuery(function($){
       appId      : '161102067336024', // App ID
       status     : true, // check login status
       cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : false // parse XFBML
+      xfbml      : true // parse XFBML
     });
     if (typeof window.updateFB !== "undefined") {
        window.updateFB();
     }
   };
 
-  // Load the SDK Asynchronously
+  // Load the FB SDK Asynchronously
   (function(d){
      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
      if (d.getElementById(id)) {return;}
@@ -747,6 +755,19 @@ jQuery(function($){
      js.src = "//connect.facebook.net/he_IL/all.js";
      ref.parentNode.insertBefore(js, ref);
    }(document));
+
+  // Load the Twitter thing
+ !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+  // Load the GPlus thing
+  window.___gcfg = {lang: 'iw'};
+
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+
 </script>
 </body>
 </html>
