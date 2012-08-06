@@ -894,6 +894,14 @@ select_item = (slug) ->
                         item = run_templates( "single-item", x, "#single-item" )
                         set_title( x.base.book+": "+x.base.subject )
                         url = generate_url(slug)
+                        $(".detail-view .fb").append("<fb:like href='#{url}' send='true' width='700' show_faces='true' action='recommend' font='tahoma'></fb:like>")
+                        $(".detail-view .fb").append("<fb:comments href='#{url}' num_posts='2' width='700'></fb:comments>")
+                        if window.FB
+                           FB.XFBML.parse( item.get(0), -> )
+                           window.updateFB = ->
+                        else
+                           window.updateFB = ->
+                                FB.XFBML.parse( item.get(0), -> )
                         $(".detail-view .int_deb").html("""
                             <iframe src="/comfra/#{slug}" id="comfra_#{slug}" style="width: 100%; margin: 5px;" frameborder="0"
                                     onload="var x=this;window.setInterval(function(){x.height=$(x.contentWindow.document.body).css('height');},1000)"
@@ -912,15 +920,15 @@ select_item = (slug) ->
         setup_tags(".detail-view .tags > ul > li")
         setup_tooltips($(".detail-view"))
         $("#single-item .commentcount").click ->
-                #$('html, body').animate({ scrollTop: $("#single-item .fb").offset().top }, 0)
-                $('html, body').animate({ scrollTop: $("#single-item .int_deb").offset().top }, 0)
+                $('html, body').animate({ scrollTop: $("#single-item .fb").offset().top }, 0)
+                #$('html, body').animate({ scrollTop: $("#single-item .int_deb").offset().top }, 0)
                 return false
         $("#single-item .linkcount").click ->
                 $('html, body').animate({ scrollTop: $("#single-item .timeline").offset().top }, 0)
                 return false
         if go_to_comments
-                #scroll_to = $(".fb").offset().top - 300
-                scroll_to = $(".int_deb").offset().top - 300
+                scroll_to = $(".fb").offset().top - 300
+                #scroll_to = $(".int_deb").offset().top - 300
         else
                 scroll_to = 0
         go_to_comments = false
