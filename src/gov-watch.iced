@@ -347,7 +347,7 @@ status_to_hebrew = (status) ->
         switch status
                 when "NEW" then return "טרם התחיל"
                 when "STUCK" then return "תקוע"
-                when "IN_PROGRESS" then return "בטיפול"
+                when "IN_PROGRESS" then return "בתהליך"
                 when "FIXED" then return "יושם"
                 when "WORKAROUND" then return "יושם חלקית"
                 when "IRRELEVANT" then return "יישום ההמלצה כבר לא נדרש"
@@ -356,8 +356,8 @@ status_to_hebrew = (status) ->
 status_tooltip_to_hebrew = (status) ->
         switch status
                 when "NEW" then return "הממשלה החליטה שלא לטפל בהמלצה זו"
-                when "STUCK" then return "ההמלצה בטיפול, אבל יש גורמים חיצוניים שמעכבים אותה"
-                when "IN_PROGRESS" then return "ההמלצה נמצאת בטיפול. הסיבות לכך הן לרוב: חקיקה בכנסת, ועדות הדנות בנושא, או שההמלצה היא חלק מתוכנית חומש"
+                when "STUCK" then return "ישנם גורמים שמעכבים את ההצעה בתהליך"
+                when "IN_PROGRESS" then return "ההמלצה טרם יושמה אך נמצאת בטיפול. הסיבות לכך הן לרוב: חקיקה בכנסת, ועדות הדנות בנושא, או שההמלצה היא חלק מתוכנית חומש"
                 when "FIXED" then return "מדד התפוקה יושם: הצעדים שהממשלה הייתה צריכה לעשות בוצעו"
                 when "WORKAROUND" then return ""
                 when "IRRELEVANT" then return ""
