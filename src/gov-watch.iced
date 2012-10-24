@@ -18,6 +18,15 @@ SEARCHTERM = 't'
 status_filter = null
 go_to_comments = false
 
+
+Object.keys = Object.keys || (o) ->
+    result = [];
+    for name of o
+        if o.hasOwnProperty(name)
+            result.push(name)    
+    result
+
+
 slugify = (str) ->
         str2 = ""
         if str == ""
@@ -60,7 +69,7 @@ update_history = (slug) ->
     window.location.hash = generate_hash( selected_book, search_term, slug )
 
 set_title = (title) ->
-        $("title").html(title)
+    document.title = title
 
 ## Process page hash changes
 onhashchange = ->
