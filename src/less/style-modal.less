@@ -1,9 +1,16 @@
+/**** Vars ****/
+@modalSubscribeWidht: 340px;
+@modalSubscribeMinHeight: 300px;
+@modalSubscribeMaxHeight: 500px;
+
+/**** Styles ****/
+
 .modal {
   width: 800px;
   margin-left: -400px;
 }
 
-@media (max-width:820px){
+@media (max-width:820px) {
   .modal {
     margin-left: 5%;
     margin-right: 5%;
@@ -12,10 +19,10 @@
   }
 }
 
-.modal-header{
+.modal-header {
   background: lighten(@herotone, 10%);
 
-  h3{
+  h3 {
     font-size: 1.3em;
     color: #fff;
     font-weight: normal;
@@ -27,13 +34,26 @@
   }
 }
 
-.modal-body{
-  ul{
+.modal-body {
+  ul {
     margin-right: 20px;
   }
 }
 
-#subscribe{
-  width: 340px;
-  margin-left: -170px;
+#subscribe {
+  position: fixed;
+  top: 50%;
+  right: auto;
+  left: 50%;
+  width: @modalSubscribeWidht;
+  min-height: @modalSubscribeMinHeight;
+  max-height: @modalSubscribeMaxHeight;
+  margin-left: -@modalSubscribeWidht / 2;
+  margin-top: -@modalSubscribeMinHeight / 2;
+}
+
+@media (max-width: 480px) {
+  .modal-header .close {
+    padding: 0 5px;
+  }
 }
