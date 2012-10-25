@@ -19,6 +19,19 @@ status_filter = null
 go_to_comments = false
 
 
+# only run when the substr function is broken
+if 'ab'.substr(-1) != 'b'
+    String.prototype.substr = ((substr) ->
+        return (start, length) ->
+            # did we get a negative start, calculate how much it is from the beginning of the string
+            if start < 0
+                start = this.length + start
+
+            # call the original function
+            return substr.call(this, start, length)
+    )(String.prototype.substr)
+
+
 Object.keys = Object.keys || (o) ->
     result = [];
     for name of o
