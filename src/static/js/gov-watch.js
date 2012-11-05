@@ -3,6 +3,19 @@
   var BOOK, SEARCHTERM, SLUG, all_books, all_people, all_subjects, all_tags, convert_to_israeli_time, data_callback, date_to_hebrew, do_search, generate_hash, generate_url, go_to_comments, iced, initialized, is_good_status, load_data, loaded_data, localStorageEnabled, onhashchange, pad, process_data, run_templates, search_term, select_item, selected_book, selected_slug, set_title, setup_detailed_links, setup_searchbox, setup_subscription_form, setup_subscriptions, setup_summary, setup_tags, setup_timeline_initial, setup_timeline_visual, setup_tooltips, show_watermark, skip_overview, slugify, status_filter, status_to_hebrew, status_tooltip_to_hebrew, unslugify, update_history, wm_shown, __iced_k,
     __slice = [].slice;
 
+    Object.keys = Object.keys || function(o) {
+        var result = [];
+        for(var name in o) {
+            if (o.hasOwnProperty(name))
+                result.push(name);
+        }
+        return result;
+    };
+
+    console.log = console.log  || function(o) {
+        alert(o);
+    };
+
   iced = {
     Deferrals: (function() {
 

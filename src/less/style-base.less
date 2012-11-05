@@ -81,6 +81,7 @@ a{
 
 .hero-unit, .well{
   background: rgba(0, 0, 0, 0.3);
+  background: url('/static/img/30-000000.png') repeat;    // IE
   padding: 0;
   color: #DDD;
   
@@ -98,6 +99,7 @@ a{
     
     .clearfix();
     background: rgba(0,0,0,0.1);
+    background: url('/static/img/10-000000.png') repeat;    // IE
     padding: 14px 30px;
     margin-bottom: 10px;
     
@@ -237,7 +239,11 @@ a{
 }
 
 #search{
-  
+
+  position: relative;
+  overflow: hidden;
+  padding-left: 33px;
+
   legend{
     padding-left:0;
   }
@@ -246,22 +252,25 @@ a{
     width: 100%;
     /*display: table;*/
     font-size: 22px;
-    padding: 7px 0;
+    padding: 7px 0 7px 30px;
     text-indent: 10px;
     height: 20px;
     float: right;
     .border-radius(25px);
   }
   
-  button{
+  a{
+    position: absolute;
+    left: 10px;
+    top: 8px;
     border: 0 none;
     width: 20px; height: 20px;
-    margin: -36px 0 0 6px;
+    margin: 0;
     padding: 0;
     overflow: hidden;
     text-indent: -2000%;
-    float: left;
     background: url('/static/img/clear-search.png');
+    cursor: pointer;
     span{
       display: none;
     } 
@@ -312,8 +321,11 @@ a{
   }
   
   span{
+    display: inline-block;
     background: @cardshade;
-    border-radius: 3px 0 0 3px;
+    //border-radius: 3px 0 0 3px;
+    .border-radius(3px 0 0 3px);
+    direction: ltr; // fix IE
     color: @text;
     font-size: 18px;
     font-weight: 400;
@@ -322,8 +334,8 @@ a{
     
     &:hover{
       text-decoration:none;
-      }
     }
+  }
   
   &:hover{background-position: right bottom; a{background: @carddark;}}
   }
@@ -399,7 +411,7 @@ a{
       }
     }
     
-    &:hover{
+    &:hover, &.active{
       text-decoration: none;
       background: @herotone;
     }
@@ -479,3 +491,50 @@ footer{
       border-bottom: 5px solid lighten(@herotone, 10%); 
     }
   }
+
+/**** .nav-collapse.collapse ****/
+@media (min-width: 980px) {
+  .nav-collapse.collapse {
+    overflow: visible !important;
+  }
+}
+
+/**** sc-buttons-pull ****/
+.sc-buttons-pull {
+  position: relative;
+  width: 310px;
+  height: 20px;
+  margin-top: 9px;
+
+  .sc-like-button {
+    position: absolute;
+    top: 0;
+
+    &.google-like-button {
+      left: -20px;
+    }
+    &.twitter-like-button {
+      left: 45px;
+    }
+    &.fb-like-button {
+      left: 185px;
+      max-width: 100px;
+      top: -4px;
+    }
+  }
+}
+
+/**** facebook iframes ****/
+.fb_iframe_widget iframe {
+  position: static !important;
+}
+
+/**** items-not-found ****/
+#items-not-found {
+  text-align: center;
+
+  span {
+    color: #fff;
+    font-size: 36px;
+  }
+}
