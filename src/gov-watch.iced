@@ -78,19 +78,32 @@ generate_url = (slug) ->
 
 ## Change page's hash - this is the way we keep (and update) our current state
 update_history = (slug) ->
-    await setTimeout((defer _),0)
+    #await setTimeout((defer _),0)
     window.location.hash = generate_hash( selected_book, search_term, slug )
 
 set_title = (title) ->
     document.title = title
+
+set_scroll_top = (el) ->
+    # scroll without animation
+    $('html, body').scrollTop( $(el).offset().top )
+    # scroll with animate (500 ms)
+    # $('html, body').animate({scrollTop: $(el).offset().top}, 500)
 
 ## Process page hash changes
 onhashchange = ->
 
    # read the hash, discard first '#!z='
    fullhash = window.location.hash
+   menuItems = $('#books li')
+   menuItems.removeClass('active')
+   if fullhash.match(/^#about/g) || fullhash.match(/^#partners/g)
+        # select about or partners menu item
+        # $("a[href='#{fullhash}']", menuItems).parents('li').addClass('active') # select root and current item
+        $("a[href='#{fullhash}']", menuItems).closest('.dropdown').addClass('active') # select root item only
 
-   if fullhash == "#about" || fullhash == "#partners"
+        # show page content
+        pageId = fullhash.replace(/-\d$/, '')
         $("#container").css('display','none')
         $("#backlink").css('display','inline')
         $("#summary").html('')
@@ -100,9 +113,13 @@ onhashchange = ->
         $("#backlink").css('display','inline')
         $("#page").css('display','inherit')
         $("#page div").css('display','none')
-        $("#page div#{fullhash}").css('display','inherit')
+
+        page = $("#page div#{pageId}")
+        page.css('display','inherit')
+        set_scroll_top( $("h2#{fullhash}-title", page) )
         return
    else
+        # show page content
         $("#page").css('display','none')
         $("#container").css('display','inherit')
         $("#searchwidget").css('display','inherit')
@@ -298,22 +315,25 @@ setup_searchbox = ->
         source.push({type:"person",title:person})
     for subject in all_subjects
         source.push({type:"subject",title:subject})
+
     $("#clearsearch").click ->
         search_term = ""
         show_watermark(true)
         status_filter = null
         update_history()
         return false
+
     $("#searchbox").typeahead
          source: source
          items: 20
-         matcher: (item) -> ~item.title.indexOf(this.query)
+         matcher: (item) -> ~item.title.toLowerCase().indexOf(this.query.toLowerCase())
          valueof: (item) -> item.title
          itemfrom: (query) -> {type:"subject", title:query}
          selected: (val) ->
                 search_term = val
                 status_filter = null
                 update_history()
+         sorter: (items) -> items
          highlighter: (item) ->
                 highlighted_title = item.title.replace( new RegExp('(' + this.query + ')', 'ig'), ($1, match) -> '<strong>' + match + '</strong>' )
                 if item.type == "subject"
@@ -682,6 +702,12 @@ setup_timeline_visual = (item_selector, margins=80 ) ->
         # remove first line (which appears AFTER the last milestone / point)
         $(this).find(".timeline-logic > ul > li:first > .timeline-line").remove()
 
+select_filter_item = (el) ->
+    $item = $(el)
+    $all_items = $item.parent().children()
+    $all_items.removeClass('active')
+    $item.addClass('active')
+
 setup_summary = ->
         total = $(".item.shown").size()
         stuck = $(".item.shown[data-implementation-status='STUCK']").size()
@@ -710,29 +736,36 @@ setup_summary = ->
         run_templates( "summary", data, "#summary" )
         setup_tooltips($("#summary"))
 
+        select_filter_item($("#summary .total"))
         $("#summary .total").click ->
                 status_filter = null
                 do_search()
+                select_filter_item($("#summary .total"))
                 return false
         $("#summary .news").click ->
                 status_filter = ['NEW']
                 do_search()
+                select_filter_item($("#summary .news"))
                 return false
         $("#summary .stuck").click ->
                 status_filter = ['STUCK','WORKAROUND']
                 do_search()
+                select_filter_item($("#summary .stuck"))
                 return false
         $("#summary .implemented").click ->
                 status_filter = ['FIXED','IRRELEVANT']
                 do_search()
+                select_filter_item($("#summary .implemented"))
                 return false
         $("#summary .in_progress").click ->
                 status_filter = ['IN_PROGRESS']
                 do_search()
+                select_filter_item($("#summary .in_progress"))
                 return false
         $("#summary .conflict").click ->
                 status_filter = ['CONFLICT']
                 do_search()
+                select_filter_item($("#summary .conflict"))
                 return false
 
 setup_subscription_form = ->
@@ -932,10 +965,10 @@ select_item = (slug) ->
         setup_tags(".detail-view .tags > ul > li")
         setup_tooltips($(".detail-view"))
         $("#single-item .commentcount").click ->
-                $('html, body').animate({ scrollTop: $("#single-item .fb").offset().top }, 0)
+                set_scroll_top( $("#single-item .fb") )
                 return false
         $("#single-item .linkcount").click ->
-                $('html, body').animate({ scrollTop: $("#single-item .timeline").offset().top }, 0)
+                set_scroll_top( $("#single-item .timeline") )
                 return false
         if go_to_comments
                 scroll_to = $(".fb").offset().top - 300
@@ -956,6 +989,8 @@ select_item = (slug) ->
 
 ## Perform search on the site's data
 do_search = ->
+    # count of showing element
+    show_count = 0
 
     # we're searching using a regular expression
     re = RegExp(search_term,"ig")
@@ -982,11 +1017,14 @@ do_search = ->
 
         # should_show determines if the item should be shown in the search
         should_show = should_show and ((selected_book == "") or (rec.book == selected_book)) and (not selected_slug)
+        should_show && show_count++
 
         # the 'shown' class is applied to the relevant items
         $(".item[rel=#{slug}]").toggleClass("shown",should_show)
 
     setup_summary()
+
+    $('#items-not-found').toggleClass('hidden', show_count != 0)
 
     if status_filter
         class_filter = [ ".shown.implementation-status-#{st}" for st in status_filter ]

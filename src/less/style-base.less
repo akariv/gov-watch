@@ -259,7 +259,7 @@ a{
     .border-radius(25px);
   }
   
-  button{
+  a{
     position: absolute;
     left: 10px;
     top: 8px;
@@ -270,6 +270,7 @@ a{
     overflow: hidden;
     text-indent: -2000%;
     background: url('/static/img/clear-search.png');
+    cursor: pointer;
     span{
       display: none;
     } 
@@ -410,7 +411,7 @@ a{
       }
     }
     
-    &:hover{
+    &:hover, &.active{
       text-decoration: none;
       background: @herotone;
     }
@@ -526,4 +527,14 @@ footer{
 /**** facebook iframes ****/
 .fb_iframe_widget iframe {
   position: static !important;
+}
+
+/**** items-not-found ****/
+#items-not-found {
+  text-align: center;
+
+  span {
+    color: #fff;
+    font-size: 36px;
+  }
 }
