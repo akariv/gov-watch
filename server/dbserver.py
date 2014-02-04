@@ -68,6 +68,19 @@ def fb():
     resp.cache_control.no_cache = True
     return resp
 
+@app.route('/api/id/commented/<slug>', methods=['POST'])
+def api_id_commented(slug):
+    new_count = r.hincrby("idcomments", slug, 1)
+    resp = make_response(Response(response={slug:new_count}, content_type="application/json"))
+    resp.cache_control.no_cache = True
+    return resp
+
+@app.route('/api/id')
+def api_id():
+    resp = make_response(Response(response=json.dumps(r.hgetall("idcomments")), content_type="application/json"))
+    resp.cache_control.no_cache = True
+    return resp
+
 @app.route('/api')
 def listall():
     resp = make_response(Response(response=r.get("everything"), content_type="application/json"))
@@ -115,6 +128,10 @@ def unsubscribe():
 @app.route("/api/<slug>", methods=['GET'])
 def getitem(slug):
     return Response(response=r.get("slug:%s" % slug), content_type="application/json")
+
+@app.route("/comfra/<slug>", methods=['GET'])
+def comment_frame(slug):
+    return render_template('comment_frame.html',content_type="text/html",item=slug)
 
 def update_everything(slug):
     print "updating data"

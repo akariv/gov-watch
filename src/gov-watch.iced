@@ -782,11 +782,16 @@ process_data = ->
     all_books.reverse()
 
     await $.get('/api/fb',null,(defer cc),"json")
+    await $.get('/api/id',null,(defer idcc),"json")
     for i in [0..loaded_data.length-1]
         rec = loaded_data[i]
         slug = rec.slug
         if cc? && cc[slug]?
                 loaded_data[i].base.fbcomments = cc[slug]
+        if idcc? && idcc[slug]?
+                loaded_data[i].base.idcomments = idcc[slug]
+        else if idcc?
+                loaded_data[i].base.idcomments = 0
 
     run_templates( "item", items: loaded_data, "#items" )
 
@@ -897,6 +902,11 @@ select_item = (slug) ->
                         else
                            window.updateFB = ->
                                 FB.XFBML.parse( item.get(0), -> )
+                        $(".detail-view .int_deb").html("""
+                            <iframe src="/comfra/#{slug}" id="comfra_#{slug}" style="width: 100%; margin: 5px;" frameborder="0"
+                                    onload="var x=this;window.setInterval(function(){x.height=$(x.contentWindow.document.body).css('height');},1000)"
+                            ></iframe>
+                            """)
                         break
         # Allow DOM to sync
         await setTimeout((defer _),50)
@@ -911,12 +921,14 @@ select_item = (slug) ->
         setup_tooltips($(".detail-view"))
         $("#single-item .commentcount").click ->
                 $('html, body').animate({ scrollTop: $("#single-item .fb").offset().top }, 0)
+                #$('html, body').animate({ scrollTop: $("#single-item .int_deb").offset().top }, 0)
                 return false
         $("#single-item .linkcount").click ->
                 $('html, body').animate({ scrollTop: $("#single-item .timeline").offset().top }, 0)
                 return false
         if go_to_comments
                 scroll_to = $(".fb").offset().top - 300
+                #scroll_to = $(".int_deb").offset().top - 300
         else
                 scroll_to = 0
         go_to_comments = false
